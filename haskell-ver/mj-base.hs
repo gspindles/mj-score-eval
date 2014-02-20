@@ -142,6 +142,32 @@ isHonor = or . zipWith id [isWind, isDragon] . repeat
 isEdge :: Tile -> Bool
 isEdge = or . zipWith id [isTerminal, isHonor] . repeat
 
+isGreen :: Tile -> Bool
+isGreen a = elem a [ Bamboo Two
+                   , Bamboo Three
+                   , Bamboo Four
+                   , Bamboo Six
+                   , Bamboo Eight
+                   , Dragon Green
+                   ]
+
+isRed :: Tile -> Bool
+isRed a = elem a [ Bamboo One
+                 , Bamboo Five
+                 , Bamboo Seven
+                 , Bamboo Nine
+                 , Dragon Red
+                 ]
+
+isWhite :: Tile -> Bool
+isWhite a = elem a [ Coin Eight
+                   , Wind East
+                   , Wind South
+                   , Wind West
+                   , Wind North
+                   , Dragon White
+                   ]
+
 isFlower :: Tile -> Bool
 isFlower (Flower _) = True
 isFlower _          = False
@@ -164,7 +190,7 @@ data Meld = Chow Tile Tile Tile
 instance Show Meld where
   show = showMeld
 
--- for now, assumes the melds are already valid
+-- for now, assume the melds are already valid
 showMeld :: Meld -> String
 showMeld (Chow (Coin a) (Coin b) (Coin c)) =
   "Chow " ++ (showMeldHelper [a, b, c]) ++ " Coins"
