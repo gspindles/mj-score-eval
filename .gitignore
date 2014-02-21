@@ -1,0 +1,6 @@
+.gitconfig
+
+# ghc compiled stuff
+*.hi
+*.o
+
