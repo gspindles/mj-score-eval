@@ -98,8 +98,8 @@ allTiles = regularTiles ++ bonusTiles
 mjset :: [Tile]
 mjset = (concat . map (take 4 . repeat) $ regularTiles) ++ bonusTiles
 
-wall :: [Tile]
-wall = fst $ fisherYates (mkStdGen 148) mjset
+wall :: Int -> [Tile]
+wall a = fst $ fisherYates (mkStdGen a) mjset
 
 isCoin :: Tile -> Bool
 isCoin (Coin _) = True
