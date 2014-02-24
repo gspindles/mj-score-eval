@@ -37,6 +37,7 @@ def get_wall():
 ###################
 ### Conversions ###
 ###################
+
 def to_string(tile):
     return fst(tile) + str( snd(tile) )
 
@@ -45,9 +46,11 @@ def read_tile(tile):
         return (tile[0], int( tile[1]) )
 
 
+
 ###########################
 ### Queries about Tiles ###
 ###########################
+
 def is_coin(tile):
     if fst(tile) == 'C':
         return True
