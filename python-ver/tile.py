@@ -1,4 +1,8 @@
-import random
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from random import shuffle
+from util import repeat
 
 ########################
 ### Data Definitions ###
@@ -23,10 +27,7 @@ bonus_tiles = (
 def get_wall():
     w = []
     for t in regular_tiles:
-        w.append(t)
-        w.append(t)
-        w.append(t)
-        w.append(t)
+        w += repeat(t, 4)
     for t in bonus_tiles:
         w.append(t)
     random.shuffle(w)
@@ -137,16 +138,3 @@ def fst(tile):
 
 def snd(tile):
     return tile[1]
-
-def map_func(func, list):
-    l = []
-    for i in list:
-        l.append( func(i) )
-    return l
-
-def filter_func(func, list):
-    l = []
-    for i in list:
-        if func(i):
-            l.append(i)
-    return l
