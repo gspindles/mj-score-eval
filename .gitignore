@@ -3,4 +3,6 @@
 # ghc compiled stuff
 *.hi
 *.o
+*.pyc
+__pycache__
 
