@@ -39,7 +39,7 @@ def get_wall():
 ### Conversions ###
 ###################
 
-def to_string(tile):
+def show_tile(tile):
     return fst(tile) + str( snd(tile) )
 
 def read_tile(tile):
@@ -68,17 +68,17 @@ def is_character(tile):
     return False
 
 def is_suit(tile):
-    return isCoin(tile) or isBamboo(tile) or isCharacter(tile)
+    return is_coin(tile) or is_bamboo(tile) or is_character(tile)
 
 def is_simple(tile):
-    if isSuit(tile):
+    if is_suit(tile):
         s = snd(tile)
         if s > 1 and s < 9:
             return True
     return False
 
 def is_terminal(tile):
-    if isSuit(tile):
+    if is_suit(tile):
         s = snd(tile)
         if s == 1 or s == 9:
             return True
@@ -95,10 +95,10 @@ def is_dragon(tile):
     return False
 
 def is_honor(tile):
-    return isWind(tile) or isDragon(tile)
+    return is_wind(tile) or is_dragon(tile)
 
-def is_Edge(tile):
-    return isTerminal(tile) or isHonor(tile)
+def is_edge(tile):
+    return is_terminal(tile) or is_honor(tile)
 
 def is_flower(tile):
     if fst(tile) == 'F':
@@ -113,7 +113,7 @@ def is_season(tile):
 # could probably check if tile is in bonus_tile too
 # but that seems way more comparisons than just looking at the suit
 def is_bonus(tile):
-    return isFlower(tile) or isSeason(tile)
+    return is_flower(tile) or is_season(tile)
 
 def is_green(tile):
     green = [('B', 2), ('B', 3), ('B', 4), ('B', 6), ('B', 8), ('D', 2)]
@@ -138,3 +138,15 @@ def fst(tile):
 
 def snd(tile):
     return tile[1]
+
+def succ(tile):
+    if is_suit(tile):
+        if snd(tile) < 9:
+            return (fst(tile), snd(tile) + 1)
+    return None
+
+def pred(tile):
+    if is_suit(tile):
+        if snd(tile) > 1:
+            return (fst(tile), snd(tile) - 1)
+    return None
