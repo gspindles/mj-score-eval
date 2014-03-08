@@ -70,23 +70,3 @@ def fold_func(func, init, list):
     for i in list:
         sum = func(sum, i)
     return sum
-
-# quick sort taking the head of the list as pivot
-# sorts the elements of the list by a compare function
-def sort_by(compare, list):
-    if   len(list) == 0:
-        return = []
-    elif len(list) == 1:
-        return list
-    elif len(list) == 2:
-        if compare(list[0], list[1]) == 1:
-            return list[-len(list) + 1, 0]
-        return list
-    else:
-        head    = list[0]
-        tail    = list[1:]
-        less    = [l for l in tail if compare(head, l) == -1]
-        greater = [l for l in tail if compare(head, l) == 1]
-        equal   = [l for l in tail if compare(head, l) == 0]
-        return  sort_by(compare, less) + equal + sort_by(compare, greater)
-

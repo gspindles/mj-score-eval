@@ -9,7 +9,14 @@ import maybe
 ### Class Definition ###
 ########################
 
-class hand:
+h = [ ('C', 7), ('C', 8), ('C', 9)
+    , ('W', 1), ('W', 1), ('W', 1)
+    , ('K', 1), ('K', 2), ('K', 3)
+    , ('B', 4), ('B', 5), ('B', 6)
+    , ('D', 1), ('D', 1)
+    ]
+
+class Hand:
     
     _tiles = None
 
@@ -20,6 +27,9 @@ class hand:
     @property
     def tiles(self):
         return self._tiles
+
+def sort_hand(hand):
+    return Hand( sorted(hand.tiles, cmp=tile.compare) )
 
 def is_chow(tiles):
     if len(tiles) == 3:

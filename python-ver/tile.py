@@ -30,8 +30,7 @@ def get_wall():
         w += repeat(t, 4)
     for t in bonus_tiles:
         w.append(t)
-    random.shuffle(w)
-    return w
+    return random.shuffle(w)
 
 
 
@@ -45,6 +44,26 @@ def show_tile(tile):
 def read_tile(tile):
     if len(tile) == 2:
         return (tile[0], int( tile[1] ) )
+
+rank = { 'C': 10
+       , 'B': 20
+       , 'K': 30
+       , 'W': 40
+       , 'D': 50
+       , 'F': 60
+       , 'S': 70
+       , 'A': 80
+       }
+
+def get_rank(tile):
+    return rank[ fst(tile) ] + snd(tile)
+
+def compare(tile1, tile2):
+    if get_rank(tile1) < get_rank(tile2):
+        return -1
+    elif get_rank(tile1) > get_rank(tile2):
+        return 1
+    return 0
 
 
 
