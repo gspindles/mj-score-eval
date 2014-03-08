@@ -14,3 +14,5 @@ s = f.sort_by(t.compare, w)
 # check if sorting is correct
 l = f.map_func(t.get_rank, s)
 
+wr = f.flatten( f.map_func(lambda x: f.repeat(x,4), t.regular_tiles) )
+wr = f.fold_func(f._cons, wr, t.bonus_tiles)
