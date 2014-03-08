@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from random import shuffle
-from util import repeat
+from fp     import repeat
 
 ########################
 ### Data Definitions ###
@@ -27,11 +27,11 @@ bonus_tiles = (
 def get_wall():
     w = []
     for t in regular_tiles:
-        w += repeat(t, 4)
+        w = w + repeat(t, 4)
     for t in bonus_tiles:
         w.append(t)
-    return random.shuffle(w)
-
+    shuffle(w)
+    return w
 
 
 ###################
