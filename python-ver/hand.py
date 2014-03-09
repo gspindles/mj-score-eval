@@ -59,3 +59,8 @@ def is_meld(tiles):
 
 def score(hand):
     pass
+
+category = {
+      'basic'
+    , 'chow'
+    }
