@@ -5,7 +5,7 @@
 ### Binary operations ###
 #########################
 
-# reimplement library operators as binary functions
+# reimplementation of library operators as binary functions
 
 def _or(obj1, obj2):
     return obj1 or obj2
@@ -25,11 +25,21 @@ def _mult(num1, num2):
 def _pow(num1, num2):
     return num1 ^ num2
 
+def _cons(list, item):
+    return list + [item]
 
 
 ###########################
 ### Utilities functions ###
 ###########################
+
+def reverse_func(list):
+    if list == []:
+        return []
+    else:
+        head   = list[0]
+        tail   = list[1:]
+        return reverse_func(tail) + head
 
 def repeat(obj, n):
     l = []
@@ -71,22 +81,26 @@ def fold_func(func, init, list):
         sum = func(sum, i)
     return sum
 
+
 # quick sort taking the head of the list as pivot
 # sorts the elements of the list by a compare function
+# hand has 13 to max of 18 tiles, max of 22 if playing TW
+# shouldn't have to worry about performance
 def sort_by(compare, list):
-    if   len(list) == 0:
-        return = []
-    elif len(list) == 1:
+    if len(list) == 1:
         return list
     elif len(list) == 2:
         if compare(list[0], list[1]) == 1:
-            return list[-len(list) + 1, 0]
+            return [list[1], list[0]]
         return list
-    else:
+    elif len(list) > 2:
         head    = list[0]
         tail    = list[1:]
-        less    = [l for l in tail if compare(head, l) == -1]
-        greater = [l for l in tail if compare(head, l) == 1]
+        less    = [l for l in tail if compare(head, l) == 1]
+        greater = [l for l in tail if compare(head, l) == -1]
         equal   = [l for l in tail if compare(head, l) == 0]
-        return  sort_by(compare, less) + equal + sort_by(compare, greater)
+        unite   = sort_by(compare, less) + equal + [head] + sort_by(compare, greater)
+        return unite
+    else:
+        return []
 

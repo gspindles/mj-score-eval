@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import tile
-import util
+import fp
 import maybe
 
 ########################
@@ -17,7 +17,7 @@ h = [ ('C', 7), ('C', 8), ('C', 9)
     ]
 
 class Hand:
-    
+
     _tiles = None
 
     def __init__(self, tiles):
@@ -59,3 +59,8 @@ def is_meld(tiles):
 
 def score(hand):
     pass
+
+category = {
+      'basic'
+    , 'chow'
+    }
