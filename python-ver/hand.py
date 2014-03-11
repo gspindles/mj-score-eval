@@ -17,13 +17,14 @@ h1 = [ ('C', 7), ('C', 8), ('C', 9)
      ]
 
 
-h2 = { concealed: [ [ ('B', 4), ('B', 5), ('B', 6) ]
-                  , [ ('D', 1), ('D', 1) ]
-                  ]
-     , melted: [ [ ('C', 7), ('C', 8), ('C', 9) ]
-               , [ ('W', 1), ('W', 1), ('W', 1) ]
-               , [ ('K', 1), ('K', 2), ('K', 3) ]
-               ]
+h2 = { 'concealed': [ [ ('B', 4), ('B', 5), ('B', 6) ]
+                    , [ ('D', 1), ('D', 1) ]
+                    ]
+     , 'melded': [ [ ('C', 7), ('C', 8), ('C', 9) ]
+                 , [ ('W', 1), ('W', 1), ('W', 1) ]
+                 , [ ('K', 1), ('K', 2), ('K', 3) ]
+                 ]
+     , 'bonus': [ ('F', 1), ('S', 2) ]
      }
 
 
@@ -32,11 +33,13 @@ class Hand:
 
     _concealed = None
     _melted    = None
+    _bonus     = None
 
-    def __init__(self, concealed, melted):
+    def __init__(self, concealed, melted, bonus):
         if tiles is not None:
             self._concealed = concealed
             self._melted    = melted
+            self._bonus     = bonus
 
     @property
     def concealed(self):
@@ -45,6 +48,16 @@ class Hand:
     @property
     def melded(self):
         return self._melted
+
+    @property
+    def bonus(self):
+        return self._bonus
+
+    def as_dict(self):
+        return { 'concealed': self._concealed
+               , 'melted'   : self._melted
+               , 'bonus'    : self._bonus
+               }
 
 def sort_hand(hand):
     return Hand( sorted(hand.tiles, cmp=tile.compare) )
@@ -90,7 +103,7 @@ def is_meld(tiles):
 # for now, assumes all the hand is a dictionary with concealed and melted
 # with both keys containing list of tiles
 
-def flatten_hand(hand):
+def get_melds(hand):
     return [c for c in hand['concealed']] + [m for m in hand['melted']]
 
 
@@ -231,7 +244,7 @@ def is_big_boundless_mountain(hand):
 	pass
 
 
-def is_mixed-lesser_terminals(hand):
+def is_mixed_lesser_terminals(hand):
 	pass
 
 
