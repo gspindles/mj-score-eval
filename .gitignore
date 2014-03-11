@@ -3,6 +3,13 @@
 # ghc compiled stuff
 *.hi
 *.o
+
+# python
 *.pyc
 __pycache__
 
+# freaking windows
+*.db
+
+# document files are no-no, pdf ok
+*.docx

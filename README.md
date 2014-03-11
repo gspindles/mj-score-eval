@@ -24,7 +24,7 @@ The hand contains 4 sequences; no triplets/kong.
 A regular hand which is concealed, without melding any exposed sets before winning. Winning on discard is okay. Concealed kong are okay.
 
 
-#### 1.4 Seft Drawn (自摸) : 5
+#### 1.4 Self Drawn (自摸) : 5
 self drawn the winning tile to complete the hand.
 
 
@@ -146,7 +146,7 @@ The hand consists entirely of number tiles in one suit, plus honor tiles.
 The hand consists entirely of number tiles in one suit.
 
 
-#### 6.2.1 Little Dragon Club (一色雙龍會) : 100 -> 175
+#### 6.2.1 Small Dragon Club (一色雙龍會) : 100
 The hand consists of the pattern 123-123-789-789-55 in a suit.
 
 #### 6.2.2 Big Dragon Club (清天龍會) : 400
@@ -158,18 +158,18 @@ A 9-way call hand, with "1112345678999" in one suit in your hand, and winning on
 
 
 
-### 7.0 Terminals
+### 7.0 Terminal Tiles
 
 Terminals are the 1 and 9 number tiles.
 The Greater patterns consist of terminal tiles only, while the Lesser patterns include also "123" and "789" sequences.
 
-#### 7.1.1 Two-Tailed Terminal Sequence (老少配) : 5
+#### 7.1.1 Two-Tailed Terminal Sequences (老少配) : 5
 A sequece of 123 and 789 in the same suit.
 
-#### 7.1.2 Two-Tailed Terminal Triplet (老少副) : 10
+#### 7.1.2 Two-Tailed Terminal Triplets (老少副) : 10
 A triplet/kong of 1s and 9s in the same suit.
 
-#### 7.1.3 Little Boundless Mountain (小山滿) : 320
+#### 7.1.3 Small Boundless Mountain (小山滿) : 320
 Pure one-suit hand satisfying pure lesser terminals, using up only six terminals of one suit.
 Example: 123, 123, 789, 789, 11
 Example: 123, 123, 123, 789, 99
@@ -202,18 +202,18 @@ Example: 1索 1索 1索﹐ 9萬 9萬 9萬﹐ 1筒 1筒 1筒﹐ 9筒 9筒 9筒﹐
 #### 8.1.1 Dragon Pung (箭刻) : 10 per set
 A triplet/kong of a dragon tile.
 
-#### 3.1.2 Small Three Dragons (小三元) : 40 -> 60
+#### 3.1.2 Small Three Dragons (小三元) : 60
 Two triplet/kong of Dragons, plus a pair of Dragons as the eyes.
 Example: 白 白 白﹐ 中 中 中﹐ 發 發(eyes)
 (This hand always includes two Dragon triplets, so it scores at least 40+10+10=60 points.)
 
-#### 3.1.3 Big Three Dragons (大三元) : 130 -> 60
+#### 3.1.3 Big Three Dragons (大三元) : 160
 Three triplet/kong of Dragons.
 白 白 白﹐ 發 發 發﹐ 中 中 中
 (This hand always includes three Dragon triplets, so it scores at least 130+10+10+10=160 points.)
 
 
-#### 8.2.1 Seat Wind (門風) : 10 per set
+#### 8.2.1 Seat Wind (門風) : 10
 A triplet/kong of Seat Wind (your own Wind).
 Note: in Zung Jung the Prevailing Wind is not recognized.
 
@@ -256,7 +256,7 @@ The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
 #### 9.1.3 Grant Chariot (大車輪) : 400
 Seven shifted pairs from 2 to 8 of the coin suit.
 
-#### 9.1.4 Grant Chariot (大竹林) : 400
+#### 9.1.4 Bamboo Forest (大竹林) : 400
 Seven shifted pairs from 2 to 8 of the bamboo suit.
 
 #### 9.1.5 Numerous Neighbors (大數隣) : 400
@@ -325,12 +325,11 @@ Does not count if East has made a concealed kong.
 
 ### 13.0 Bonus Tiles
 
-#### 13.1.1 Improper Flower/Season (偏花) : 2 per tile
+#### 13.1.1 Non-seat Flower/Season (偏花) : 2 per tile
 A flower/season tile which is not proper to one's seat.
 
-#### 13.1.2 Proper Flower/Season (正花) : 4 per tile
+#### 13.1.2 Seat Flower/Season (正花) : 4 per tile
 A flower/season tile which is proper to one's seat.
-
 
 Upon drawing the last flower/season to complete a flower/season kong, player only draw one extra tile.  Player does NOT draw two tiles from the tail wall (one from flower and one from declaring kong).
 
@@ -340,6 +339,5 @@ A complete set of all 4 Flower tiles.
 #### 13.2.2 Four Seasons (齊四季) : 10 -> 15
 A complete set of all 4 Season tiles.
 
-
-#### 13.3 All Flowers (八仙過海) : 50 -> 100
-Gathering all flowers and seasons to instantly win the game.  If a player has 7 of the bonus tile and another player draws the last remaining bonus, then the first said player can steal and win.
+#### 13.3 All Flowers (八仙過海) : 80 -> 100
+Gathering all flowers and seasons to instantly win the game.  If a player has 7 of the bonus tile and another player draws the last remaining bonus tile, then the first said player can steal and win.

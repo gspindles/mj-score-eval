@@ -121,7 +121,7 @@ def is_concealed_hand(hand):
     pass
 
 
-def is_seft_drawn(hand):
+def is_self_drawn(hand):
     pass
 
 
@@ -216,7 +216,7 @@ def is_pure_one_suit(hand):
 	pass
 
 
-def is_little_dragon_club(hand):
+def is_small_dragon_club(hand):
 	pass
 
 def is_big_dragon_club(hand):
@@ -228,16 +228,16 @@ def is_nine_gates(hand):
 	pass
 
 
-### 7.0 Terminals
-def is_two_tailed_terminal_sequence(hand):
+### 7.0 Terminal Tiles
+
+def is_two_tailed_terminal_sequences(hand):
+	pass
+
+def is_two_tailed_terminal_triplets(hand):
 	pass
 
 
-def is_two_tailed_terminal_triplet(hand):
-	pass
-
-
-def is_little_boundless_mountain(hand):
+def is_small_boundless_mountain(hand):
 	pass
 
 def is_big_boundless_mountain(hand):
@@ -306,7 +306,7 @@ def is_seven_shifted_pairs(hand):
 def is_grant_chariot(hand):
 	pass
 
-def is_grant_chariot(hand):
+def is_bamboo_forest(hand):
 	pass
 
 def is_numerous_neighbors(hand):
@@ -334,6 +334,7 @@ def is_thirteen_terminals(hand):
 
 
 ### 12.0 Incidental bonuses
+
 def is_final_draw(hand):
 	pass
 
@@ -352,7 +353,6 @@ def is_robbing_kong(hand):
 	pass
 
 
-
 def is_blessing_of_heaven(hand):
 	return 150
 
@@ -362,10 +362,10 @@ def is_blessing_of_earth(hand):
 
 ### 13.0 Bonus Tiles
 
-def is_improper_flower(hand):
+def is_non_seat_flower(hand):
 	return 2
 
-def is_proper_flower(hand):
+def is_seat_flower(hand):
 	return 4
 
 
