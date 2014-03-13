@@ -103,4 +103,3 @@ def sort_by(compare, list):
         return unite
     else:
         return []
-

@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import tile
-import fp
-import maybe
+import tile as t
+import fp   as f
 
 ########################
 ### Class Definition ###
@@ -27,18 +26,28 @@ h2 = { 'concealed': [ [ ('B', 4), ('B', 5), ('B', 6) ]
      , 'bonus': [ ('F', 1), ('S', 2) ]
      }
 
+h_A_seq = { 'concealed': [ [ ('B', 4), ('B', 5), ('B', 6) ]
+                         , [ ('D', 1), ('D', 1) ]
+                         ]
+          , 'melded': [ [ ('C', 7), ('C', 8), ('C', 9) ]
+                      , [ ('B', 2), ('B', 3), ('B', 4) ]
+                      , [ ('K', 1), ('K', 2), ('K', 3) ]
+                      ]
+          , 'bonus': [ ('F', 1), ('S', 2) ]
+          }
+
 
 # leave this for now, should just delete it later since we are not doing OO
 class Hand:
 
     _concealed = None
-    _melted    = None
+    _melded    = None
     _bonus     = None
 
-    def __init__(self, concealed, melted, bonus):
+    def __init__(self, concealed, melded, bonus):
         if tiles is not None:
             self._concealed = concealed
-            self._melted    = melted
+            self._melded    = melded
             self._bonus     = bonus
 
     @property
@@ -47,37 +56,79 @@ class Hand:
 
     @property
     def melded(self):
-        return self._melted
+        return self._melded
 
     @property
     def bonus(self):
         return self._bonus
 
     def as_dict(self):
-        return { 'concealed': self._concealed
-               , 'melted'   : self._melted
-               , 'bonus'    : self._bonus
+        return { 'concealed' : self._concealed
+               , 'melded'    : self._melded
+               , 'bonus'     : self._bonus
                }
 
-def sort_hand(hand):
-    return Hand( sorted(hand.tiles, cmp=tile.compare) )
+# def sort_hand(hand):
+#     return Hand( sorted(hand.tiles, cmp=tile.compare) )
 
+def sort_tiles(tiles):
+    return f.sort_by(t.compare, tiles)
 
 
 #############
 ### Melds ###
 #############
 
+
+# only checks if its a 3 or 4 set to distinguish it from eyes
+def is_meld(tiles):
+    return 3 <= len(tiles) <= 4
+
+def is_terminal_meld(tiles):
+    pass
+
+def is_honor_meld(tiles):
+    pass
+
 def is_chow(tiles):
     if len(tiles) == 3:
-        return True
+        meld = sort_tiles(tiles)
+        suits = f.map_func(t.fst, meld)
+        if suits[0] == suits[1] == suits[2]:
+            values = f.map_func(t.snd, meld)
+            if values[0] + 2 == values[1] + 1 == values[2]:
+                return True
     return False
+
+def is_terminal_chow(tiles):
+    if len(tiles) == 3:
+        meld = sort_tiles(tiles)
+        suits = f.map_func(t.fst, meld)
+        if suits[0] == suits[1] == suits[2]:
+            values = f.map_func(t.snd, meld)
+            if values[0] + 2 == values[1] + 1 == values[2]:
+                if values[0] == 1 or values[2] == 3:
+                    return True
+    return False
+
+def is_simple_chow(tiles):
+    if len(tiles) == 3:
+        meld = sort_tiles(tiles)
+        suits = f.map_func(t.fst, meld)
+        if suits[0] == suits[1] == suits[2]:
+            values = f.map_func(t.snd, meld)
+            if values[0] + 2 == values[1] + 1 == values[2]:
+                if values[0] != 1 or values[2] != 9:
+                    return True
+    return False
+
 
 def is_pung(tiles):
     if len(tiles) == 3:
         if tiles[0] == tiles[1] == tiles[2]:
             return True
     return False
+
 
 def is_kong(tiles):
     if len(tiles) == 4:
@@ -91,30 +142,31 @@ def is_eye(tiles):
             return True
     return False
 
-def is_meld(tiles):
-    return is_chow(tiles) or is_pung(tiles) or is_kong(tiles)
-
 
 
 ########################
 ### Hand evaluations ###
 ########################
 
-# for now, assumes all the hand is a dictionary with concealed and melted
+# for now, assumes all the hand is a dictionary with concealed and melded
 # with both keys containing list of tiles
 
 def get_melds(hand):
-    return [c for c in hand['concealed']] + [m for m in hand['melted']]
+    return [c for c in hand['concealed']] + [m for m in hand['melded']]
 
 
 ### 1.0 Trivial Patterns
 
+# chicken is only when your hand satisfies no other patterns aside form bonus tiles
 def is_chicken(hand):
-    pass
+    return 1
 
 
 def is_all_sequences(hand):
-    pass
+    melds = f.map_func(sort_tiles, f.filter(is_meld, get_melds(hand)) )
+    if f.and_func( f.map_func(is_chow, melds) ):
+        return 5
+    return 0
 
 
 def is_concealed_hand(hand):

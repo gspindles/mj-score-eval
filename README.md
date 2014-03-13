@@ -12,7 +12,7 @@ The scoring is based on the [Zung Jung scoring system](http://home.netvigator.co
 ### 1.0 Trivial Patterns
 
 #### 1.1 Chicken Hand (雞和) : 1
-Basic winning hand that doesn't satisfy any patterns.
+Basic winning hand that doesn't satisfy any patterns aside from having bonus tiles.
 
 
 #### 1.2 All Sequences (平和) : 5
