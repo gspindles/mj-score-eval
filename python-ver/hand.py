@@ -129,8 +129,15 @@ def is_pung(tiles):
             return True
     return False
 
+def is_terminal_pung(tiles):
+    if len(tiles) == 3:
+        if tiles[0] == tiles[1] == tile[2]:
+            if f.or_func( f.map_func(t.is_edge, tiles) ):
+                return True
+    return False
 
-def is_kong(tiles):
+
+is_ is_kong(tiles):
     if len(tiles) == 4:
         if tiles[0] == tiles[1] == tiles[2] == tiles[3]:
             return True
