@@ -100,44 +100,13 @@ def is_chow(tiles):
                 return True
     return False
 
-def is_terminal_chow(tiles):
-    if len(tiles) == 3:
-        meld = sort_tiles(tiles)
-        suits = f.map_func(t.fst, meld)
-        if suits[0] == suits[1] == suits[2]:
-            values = f.map_func(t.snd, meld)
-            if values[0] + 2 == values[1] + 1 == values[2]:
-                if values[0] == 1 or values[2] == 3:
-                    return True
-    return False
-
-def is_simple_chow(tiles):
-    if len(tiles) == 3:
-        meld = sort_tiles(tiles)
-        suits = f.map_func(t.fst, meld)
-        if suits[0] == suits[1] == suits[2]:
-            values = f.map_func(t.snd, meld)
-            if values[0] + 2 == values[1] + 1 == values[2]:
-                if values[0] != 1 or values[2] != 9:
-                    return True
-    return False
-
-
 def is_pung(tiles):
     if len(tiles) == 3:
         if tiles[0] == tiles[1] == tiles[2]:
             return True
     return False
 
-def is_terminal_pung(tiles):
-    if len(tiles) == 3:
-        if tiles[0] == tiles[1] == tile[2]:
-            if f.or_func( f.map_func(t.is_edge, tiles) ):
-                return True
-    return False
-
-
-is_ is_kong(tiles):
+def is_kong(tiles):
     if len(tiles) == 4:
         if tiles[0] == tiles[1] == tiles[2] == tiles[3]:
             return True
@@ -149,6 +118,14 @@ def is_eye(tiles):
             return True
     return False
 
+def has_terminal(tiles):
+    return f.or_func( f.map_func(t.is_term, tiles) )
+
+def has_honor(tiles):
+    return f.or_func( f.map_func(t.is_honor, tiles) )
+
+def is_outside(tiles):
+    return has_terminal(tiles) or has_honor(tiles)
 
 
 ########################
@@ -193,7 +170,7 @@ def is_all_types(hand):
 
 
 def is_illegal_call(hand):
-    pass
+    return -30
 
 
 ### 2.0 Identical Sets
@@ -208,7 +185,10 @@ def is_three_identical_sequences(hand):
     pass
 
 def is_four_identical_sequences(hand):
-    pass
+    melds = f.map_func(sort_tiles, f.filter(is_meld, get_melds(hands)) )
+    if melds[0] == melds[1] == melds[2] == melds[3]:
+        return 480
+    return 0
 
 
 ### 3.0 Triplets and Kong ###
