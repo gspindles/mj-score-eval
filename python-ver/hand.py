@@ -4,48 +4,6 @@
 import tile as t
 import fp   as f
 
-################
-### Examples ###
-################
-
-h1 = [ ('C', 7), ('C', 8), ('C', 9)
-     , ('W', 1), ('W', 1), ('W', 1)
-     , ('K', 1), ('K', 2), ('K', 3)
-     , ('B', 4), ('B', 5), ('B', 6)
-     , ('D', 1), ('D', 1)
-     ]
-
-
-h2 = { 'concealed': [ [ ('B', 4), ('B', 5), ('B', 6) ]
-                    , [ ('D', 1) ]
-                    ]
-     , 'melded': [ [ ('C', 7), ('C', 8), ('C', 9) ]
-                 , [ ('W', 1), ('W', 1), ('W', 1) ]
-                 , [ ('K', 1), ('K', 2), ('K', 3) ]
-                 ]
-     , 'bonus': [ ('F', 1), ('S', 2) ]
-     , 'last' : ('D', 1)
-     }
-
-h_A_seq = { 'held' : [ ('D', 1) ]
-          , 'concealed': [ [ ('B', 4), ('B', 5), ('B', 6) ] ]
-          , 'melded': [ [ ('C', 7), ('C', 8), ('C', 9) ]
-                      , [ ('B', 2), ('B', 3), ('B', 4) ]
-                      , [ ('K', 1), ('K', 2), ('K', 3) ]
-                      ]
-          , 'bonus': [ ('F', 1), ('S', 2) ]
-          , 'last' : ('D', 1)
-          }
-
-h_kong = { 'held' : [ ('D', 1) ]
-          , 'concealed': [ [ ('B', 4), ('B', 4), ('B', 4), ('B', 4) ] ]
-          , 'melded': [ [ ('C', 7), ('C', 8), ('C', 9) ]
-                      , [ ('B', 2), ('B', 3), ('B', 4) ]
-                      , [ ('K', 1), ('K', 2), ('K', 3) ]
-                      ]
-          , 'bonus': [ ('F', 1), ('S', 2) ]
-          , 'last' : ('D', 1)
-          }
 
 
 ########################
@@ -216,7 +174,7 @@ def is_chicken(hand):
     return 1
 
 
-def is_all_sequences(hand):
+def is_all_chows(hand):
     melds = f.map_func(sort_tiles, f.filter(is_meld, get_melds(hand)) )
     if f.and_func( f.map_func(is_chow, melds) ):
         return 5
@@ -233,7 +191,7 @@ def is_self_drawn(hand):
     pass
 
 
-def is_no_terminals(hand):
+def is_all_simples(hand):
     pass
 
 
@@ -247,16 +205,16 @@ def is_illegal_call(hand):
 
 ### 2.0 Identical Sets
 
-def is_two_identical_sequences(hand):
+def is_two_identical_chows(hand):
     pass
 
-def is_two_identical_sequences_twice(hand):
+def is_two_identical_chows_twice(hand):
     pass
 
-def is_three_identical_sequences(hand):
+def is_three_identical_chows(hand):
     pass
 
-def is_four_identical_sequences(hand):
+def is_four_identical_chows(hand):
     melds = f.map_func(sort_tiles, f.filter(is_meld, get_melds(hands)) )
     if melds[0] == melds[1] == melds[2] == melds[3]:
         return 480
@@ -265,41 +223,41 @@ def is_four_identical_sequences(hand):
 
 ### 3.0 Triplets and Kong ###
 
-def is_all_triplets(hand):
+def is_all_pungs(hand):
     pass
 
-def is_two_concealed_triplets(hand):
+def is_two_concealed_pungs(hand):
     pass
 
-def is_three_concealed_triplets(hand):
+def is_three_concealed_pungs(hand):
     pass
 
-def is_four_concealed_triplets(hand):
+def is_four_concealed_pungs(hand):
     pass
 
 
 def is_one_kong(hand):
     pass
 
-def is_two_kong(hand):
+def is_two_kongs(hand):
     pass
 
-def is_three_kong(hand):
+def is_three_kongs(hand):
     pass
 
-def is_four_kong(hand):
+def is_four_kongs(hand):
     pass
 
 
 ### 4.0 Similar Sets
 
-def is_three_similar_sequences(hand):
+def is_three_similar_chows(hand):
     pass
 
-def is_small_three_similar_triplets(hand):
+def is_small_three_similar_pungs(hand):
     pass
 
-def is_three_similar_triplets(hand):
+def is_three_similar_pungs(hand):
     pass
 
 
@@ -308,10 +266,10 @@ def is_three_similar_triplets(hand):
 def is_nine_tile_straight(hand):
     pass
 
-def is_three_consecutive_triplets(hand):
+def is_three_consecutive_pungs(hand):
     pass
 
-def is_four_consecutive_triplets(hand):
+def is_four_consecutive_pungs(hand):
     pass
 
 def is_three_mothers(hand):
@@ -341,10 +299,10 @@ def is_nine_gates(hand):
 
 ### 7.0 Terminal Tiles
 
-def is_two_tailed_terminal_sequences(hand):
+def is_two_tailed_terminal_chows(hand):
 	pass
 
-def is_two_tailed_terminal_triplets(hand):
+def is_two_tailed_terminal_pungs(hand):
 	pass
 
 
@@ -374,16 +332,16 @@ def is_pure_greater_terminals(hand):
 def is_dragon_pung(hand):
 	pass
 
-
-def is_small_three_dragons(hand):
-	pass
-
-def is_big_three_dragons(hand):
-	pass
-
-
 def is_seat_wind(hand):
 	pass
+
+
+def is_small_three_dragons(hand):
+    pass
+
+def is_big_three_dragons(hand):
+    pass
+
 
 def is_small_three_winds(hand):
 	pass
@@ -398,10 +356,10 @@ def is_big_four_winds(hand):
 	pass
 
 
-def is_all_honors(hand):
+def is_all_honor_pungs(hand):
 	pass
 
-def is_seven_lucky_stars(hand):
+def is_all_honor_pairs(hand):
 	pass
 
 
@@ -440,52 +398,52 @@ def is_all_blue(hand):
 
 ### 11.0 Irregular Hands
 
-def is_thirteen_terminals(hand):
-    outsides = [ ('C', 1), ('C', 9), ('B', 1), ('B', 9), ('K', 1), ('K', 9)
-               , ('W', 1), ('W', 2), ('W', 3), ('W', 4), ('D', 1), ('D', 2), ('D', 3)
-               ]
-    l = hand['held'] + hand['last']
+def is_thirteen_orphans(hand):
+    l = hand['held'] + [ hand['last'] ]
     # need to check all thirteen terminal tiles are in the hand
-    # and no other tiles are in the hand
-    count = len( f.filter(lambda x: x == True, f.map_func(lambda x: f._in(l, x), outsides) ) )
-
-    return 155
-
+    all_outsides_are_in = f.and_func( f.map_func(lambda x: f._elem(l, x), t.edge_tiles) )
+    # and that no other tiles exists in the hand
+    # pigeonhole principle: 14 tiles fitting into 13 slots, one must be repeated
+    are_all_outsides = f.and_func( f.map_func(lambda x: f._elem(t.edge_tiles, x), l) )
+    if all_outsides_are_in and are_all_outsides:
+        return 160
+    else:
+        return 0
 
 
 ### 12.0 Incidental bonuses
 
-def is_final_draw(hand):
-	pass
+def is_final_draw():
+	return 10
 
 
-def is_final_discard(hand):
-	pass
+def is_final_discard():
+	return 10
 
 
-def is_win_on_kong(hand):
-	pass
+def is_win_on_kong():
+	return 10
 
-def is_win_on_bonus(hand):
-	pass
+def is_win_on_bonus():
+	return 10
 
-def is_robbing_kong(hand):
-	pass
+def is_robbing_kong():
+	return 10
 
 
-def is_blessing_of_heaven(hand):
-	return 150
+def is_blessing_of_heaven():
+	return 155
 
-def is_blessing_of_earth(hand):
-	return 150
+def is_blessing_of_earth():
+	return 155
 
 
 ### 13.0 Bonus Tiles
 
-def is_non_seat_flower(hand):
+def is_non_seat_flower():
 	return 2
 
-def is_seat_flower(hand):
+def is_seat_flower():
 	return 4
 
 
