@@ -3,7 +3,7 @@
 
 import tile as t
 import fp   as f
-
+from   sets import Set
 
 
 ########################
@@ -91,6 +91,7 @@ def to_dict(tiles):
             d[s] = 1
     return d
 
+
 # initially, everything is in hand['concealed']
 # as soon as they meld, then the melded tiles forms a list of tiles appended to hand['melded']
 # flowers and season goes to hand['bonus']
@@ -167,6 +168,7 @@ def get_melds(hand):
     return [c for c in hand['concealed']] + [m for m in hand['melded']]
 
 
+
 ### 1.0 Trivial Patterns
 
 # chicken is only when your hand satisfies no other patterns aside form bonus tiles
@@ -221,7 +223,8 @@ def is_four_identical_chows(hand):
     return 0
 
 
-### 3.0 Triplets and Kong ###
+
+### 3.0 Pungs and Kongs
 
 def is_all_pungs(hand):
     pass
@@ -249,16 +252,19 @@ def is_four_kongs(hand):
     pass
 
 
+
 ### 4.0 Similar Sets
 
 def is_three_similar_chows(hand):
     pass
+
 
 def is_small_three_similar_pungs(hand):
     pass
 
 def is_three_similar_pungs(hand):
     pass
+
 
 
 ### 5.0 Consecutive Sets
@@ -274,6 +280,7 @@ def is_four_consecutive_pungs(hand):
 
 def is_three_mothers(hand):
     pass
+
 
 
 ### 6.0 Suit Patterns
@@ -292,9 +299,9 @@ def is_big_dragon_club(hand):
 	pass
 
 
-
 def is_nine_gates(hand):
 	pass
+
 
 
 ### 7.0 Terminal Tiles
@@ -325,6 +332,7 @@ def is_mixed_greater_germinals(hand):
 
 def is_pure_greater_terminals(hand):
 	pass
+
 
 
 ### 8.0 Honor Tiles
@@ -363,11 +371,15 @@ def is_all_honor_pairs(hand):
 	pass
 
 
+
 ### 9.0 Seven Pairs
 
 def is_seven_pairs(hand):
-	pass
-
+    d = to_dict( hand['held'] + [ hand['last'] ] )
+    if len(d) == 7:
+        if f.and_func( f.map_func(lambda x: x == 2, d.values()) ):
+            return 30
+    return 0
 
 def is_seven_shifted_pairs(hand):
 	pass
@@ -380,6 +392,7 @@ def is_bamboo_forest(hand):
 
 def is_numerous_neighbors(hand):
 	pass
+
 
 
 ### 10.0 Color Hands
@@ -396,19 +409,20 @@ def is_all_blue(hand):
 	pass
 
 
+
 ### 11.0 Irregular Hands
 
 def is_thirteen_orphans(hand):
-    l = hand['held'] + [ hand['last'] ]
     # need to check all thirteen terminal tiles are in the hand
-    all_outsides_are_in = f.and_func( f.map_func(lambda x: f._elem(l, x), t.edge_tiles) )
     # and that no other tiles exists in the hand
     # pigeonhole principle: 14 tiles fitting into 13 slots, one must be repeated
-    are_all_outsides = f.and_func( f.map_func(lambda x: f._elem(t.edge_tiles, x), l) )
-    if all_outsides_are_in and are_all_outsides:
+    h = Set( hand['held'] + [ hand['last'] ] )
+    s = Set(t.edge_tiles)
+    if h.issubset(s) and s.issubset(h):
         return 160
     else:
         return 0
+
 
 
 ### 12.0 Incidental bonuses
@@ -436,6 +450,7 @@ def is_blessing_of_heaven():
 
 def is_blessing_of_earth():
 	return 155
+
 
 
 ### 13.0 Bonus Tiles
