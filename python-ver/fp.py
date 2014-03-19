@@ -28,6 +28,10 @@ def _pow(num1, num2):
 def _cons(list, item):
     return list + [item]
 
+def _elem(list, item):
+    return item in list
+
+
 
 ###########################
 ### Utilities functions ###
@@ -80,7 +84,6 @@ def fold_func(func, init, list):
     for i in list:
         sum = func(sum, i)
     return sum
-
 
 # quick sort taking the head of the list as pivot
 # sorts the elements of the list by a compare function

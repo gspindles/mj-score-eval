@@ -4,9 +4,9 @@
 import tile as t
 import fp   as f
 
-########################
-### Class Definition ###
-########################
+################
+### Examples ###
+################
 
 h1 = [ ('C', 7), ('C', 8), ('C', 9)
      , ('W', 1), ('W', 1), ('W', 1)
@@ -17,25 +17,49 @@ h1 = [ ('C', 7), ('C', 8), ('C', 9)
 
 
 h2 = { 'concealed': [ [ ('B', 4), ('B', 5), ('B', 6) ]
-                    , [ ('D', 1), ('D', 1) ]
+                    , [ ('D', 1) ]
                     ]
      , 'melded': [ [ ('C', 7), ('C', 8), ('C', 9) ]
                  , [ ('W', 1), ('W', 1), ('W', 1) ]
                  , [ ('K', 1), ('K', 2), ('K', 3) ]
                  ]
      , 'bonus': [ ('F', 1), ('S', 2) ]
+     , 'last' : ('D', 1)
      }
 
-h_A_seq = { 'concealed': [ [ ('B', 4), ('B', 5), ('B', 6) ]
-                         , [ ('D', 1), ('D', 1) ]
-                         ]
+h_A_seq = { 'held' : [ ('D', 1) ]
+          , 'concealed': [ [ ('B', 4), ('B', 5), ('B', 6) ] ]
           , 'melded': [ [ ('C', 7), ('C', 8), ('C', 9) ]
                       , [ ('B', 2), ('B', 3), ('B', 4) ]
                       , [ ('K', 1), ('K', 2), ('K', 3) ]
                       ]
           , 'bonus': [ ('F', 1), ('S', 2) ]
+          , 'last' : ('D', 1)
           }
 
+h_kong = { 'held' : [ ('D', 1) ]
+          , 'concealed': [ [ ('B', 4), ('B', 4), ('B', 4), ('B', 4) ] ]
+          , 'melded': [ [ ('C', 7), ('C', 8), ('C', 9) ]
+                      , [ ('B', 2), ('B', 3), ('B', 4) ]
+                      , [ ('K', 1), ('K', 2), ('K', 3) ]
+                      ]
+          , 'bonus': [ ('F', 1), ('S', 2) ]
+          , 'last' : ('D', 1)
+          }
+
+
+########################
+### Class Definition ###
+########################
+
+# Definition:
+# A meld is a list of 3 or 4 (kong) tiles that make up a chow, pung, or kong
+# A hand is a dictionary consisting of 5 key value pairs
+#     'held'      : is a list of tiles currently holding on hand
+#     'concealed' : is concealed melds
+#     'melded'    : is a list of melds
+#     'bonus'     : is a list of flowers and seasons
+#     'last'      : is the last winning tile
 
 # leave this for now, should just delete it later since we are not doing OO
 class Hand:
@@ -71,14 +95,58 @@ class Hand:
 # def sort_hand(hand):
 #     return Hand( sorted(hand.tiles, cmp=tile.compare) )
 
+
+
+######################################
+### Hand Conversions and Utilities ###
+######################################
+
 def sort_tiles(tiles):
     return f.sort_by(t.compare, tiles)
+
+def get_str_rep(tiles):
+    return f.map_func(t.show_tile, tiles)
+
+# assumes hand['concealed'] is a list of tile rather than a list of meld
+# this is used mainly to check for seven pairs and thirteen orphans
+# so it is used before hand['concealed'] becomes a list of melds
+def to_list(hand):
+    l = []
+    for t in hand['concealed']:
+        l.append(t)
+    # technically, hand['melded'] should be None or [] at this point
+    # but doing this just in case, for completeness sake
+    if hand.has_key('melded'):
+        if hand['melded'] != None:
+            for m in hand['melded']:
+                for t in m:
+                    l.append(t)
+    return l
+
+def to_dict(tiles):
+    d = {}
+    for tile in tiles:
+        s = t.show_tile(tile)
+        if d.has_key(s):
+            d[s] += 1
+        else:
+            d[s] = 1
+    return d
+
+# initially, everything is in hand['concealed']
+# as soon as they meld, then the melded tiles forms a list of tiles appended to hand['melded']
+# flowers and season goes to hand['bonus']
+# as for winning tile, the associated meld is treated as 'concealed', unless it's the eye
+# so during gameplay, we first have to convert the hand dictionary to list
+# to check for seven pairs or thirteen orphans before proceeding to evaluated as a normal hand
+def get_score(hand):
+    sum = 0
+    return sum
 
 
 #############
 ### Melds ###
 #############
-
 
 # only checks if its a 3 or 4 set to distinguish it from eyes
 def is_meld(tiles):
@@ -128,8 +196,10 @@ def is_outside(tiles):
     return has_terminal(tiles) or has_honor(tiles)
 
 
+
+
 ########################
-### Hand evaluations ###
+### Hand Evaluations ###
 ########################
 
 # for now, assumes all the hand is a dictionary with concealed and melded
@@ -154,7 +224,9 @@ def is_all_sequences(hand):
 
 
 def is_concealed_hand(hand):
-    pass
+    if hand['melded'] == [] and len(hand['held']) == 13 and 12 <= len(to_dict(hand['held'])) <= 13:
+        return True
+    return False
 
 
 def is_self_drawn(hand):
@@ -369,7 +441,16 @@ def is_all_blue(hand):
 ### 11.0 Irregular Hands
 
 def is_thirteen_terminals(hand):
-    pass
+    outsides = [ ('C', 1), ('C', 9), ('B', 1), ('B', 9), ('K', 1), ('K', 9)
+               , ('W', 1), ('W', 2), ('W', 3), ('W', 4), ('D', 1), ('D', 2), ('D', 3)
+               ]
+    l = hand['held'] + hand['last']
+    # need to check all thirteen terminal tiles are in the hand
+    # and no other tiles are in the hand
+    count = len( f.filter(lambda x: x == True, f.map_func(lambda x: f._in(l, x), outsides) ) )
+
+    return 155
+
 
 
 ### 12.0 Incidental bonuses
