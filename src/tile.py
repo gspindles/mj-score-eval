@@ -8,6 +8,8 @@ from fp     import repeat #, flatten, map_func, fold_func, _cons
 ### Data Definitions ###
 ########################
 
+tile_types = ['C', 'B', 'K', 'W', 'D', 'F', 'S', 'A']
+
 coin_tiles = ( ('C', 1), ('C', 2), ('C', 3), ('C', 4), ('C', 5)
              , ('C', 6), ('C', 7), ('C', 8), ('C', 9)
              )
@@ -27,6 +29,8 @@ dragon_tiles = ( ('D', 1), ('D', 2), ('D', 3) )
 flower_tiles = ( ('F', 1), ('F', 2), ('F', 3), ('F', 4) )
 
 season_tiles = ( ('S', 1), ('S', 2), ('S', 3), ('S', 4) )
+
+animal_tiles = ( ('A', 1), ('A', 2), ('A', 3), ('A', 4) )
 
 regular_tiles = coin_tiles + bamboo_tiles + character_tiles + wind_tiles + dragon_tiles
 
@@ -148,10 +152,15 @@ def is_season(tile):
         return True
     return False
 
+def is_animal(tile):
+    if fst(tile) == 'A':
+        return True
+    return False
+
 # could probably check if tile is in bonus_tile too
 # but that seems way more comparisons than just looking at the suit
 def is_bonus(tile):
-    return is_flower(tile) or is_season(tile)
+    return is_flower(tile) or is_season(tile) or is_animal(tile)
 
 def is_green(tile):
     green = [('B', 2), ('B', 3), ('B', 4), ('B', 6), ('B', 8), ('D', 2)]

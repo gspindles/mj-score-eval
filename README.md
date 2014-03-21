@@ -254,13 +254,13 @@ Example: 2索 2索﹐ 6萬 6萬﹐ 1筒 1筒﹐ 7筒 7筒﹐ 白 白﹐ 西 西�
 #### 9.1.2 Seven Shifted Pairs (連七對) : 320
 The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
 
-#### 9.1.3 Grant Chariot (大車輪) : 400
+#### 9.1.3 Grand Chariot (大車輪) : 400
 Seven shifted pairs from 2 to 8 of the coin suit.
 
 #### 9.1.4 Bamboo Forest (大竹林) : 400
 Seven shifted pairs from 2 to 8 of the bamboo suit.
 
-#### 9.1.5 Numerous Neighbors (大數隣) : 400
+#### 9.1.5 Number Neighborhood (大數隣) : 400
 Seven shifted pairs from 2 to 8 of the character suit.
 
 

@@ -22,15 +22,23 @@ from   sets import Set
 # leave this for now, should just delete it later since we are not doing OO
 class Hand:
 
-    _concealed = None
-    _melded    = None
-    _bonus     = None
+    _held      = []
+    _concealed = []
+    _melded    = []
+    _last      = None
+    _bonus     = []
 
-    def __init__(self, concealed, melded, bonus):
+    def __init__(self, held, concealed, melded, last, bonus):
         if tiles is not None:
+            self._held      = held
             self._concealed = concealed
             self._melded    = melded
+            self._last      = last
             self._bonus     = bonus
+
+    @property
+    def held(self):
+        return self._held
 
     @property
     def concealed(self):
@@ -41,12 +49,18 @@ class Hand:
         return self._melded
 
     @property
+    def last(self):
+        return self._last
+
+    @property
     def bonus(self):
         return self._bonus
 
     def as_dict(self):
-        return { 'concealed' : self._concealed
+        return { 'held'      : self._held
+               , 'concealed' : self._concealed
                , 'melded'    : self._melded
+               , 'last'      : self._last
                , 'bonus'     : self._bonus
                }
 
@@ -289,59 +303,59 @@ def is_mixed_one_suit(hand):
     pass
 
 def is_pure_one_suit(hand):
-	pass
+    pass
 
 
 def is_small_dragon_club(hand):
-	pass
+    pass
 
 def is_big_dragon_club(hand):
-	pass
+    pass
 
 
 def is_nine_gates(hand):
-	pass
+    pass
 
 
 
 ### 7.0 Terminal Tiles
 
 def is_two_tailed_terminal_chows(hand):
-	pass
+    pass
 
 def is_two_tailed_terminal_pungs(hand):
-	pass
+    pass
 
 
 def is_small_boundless_mountain(hand):
-	pass
+    pass
 
 def is_big_boundless_mountain(hand):
-	pass
+    pass
 
 
 def is_mixed_lesser_terminals(hand):
-	pass
+    pass
 
 
 def is_pure_lesser_terminals(hand):
-	pass
+    pass
 
 def is_mixed_greater_germinals(hand):
-	pass
+    pass
 
 def is_pure_greater_terminals(hand):
-	pass
+    pass
 
 
 
 ### 8.0 Honor Tiles
 
 def is_dragon_pung(hand):
-	pass
+    pass
 
 def is_seat_wind(hand):
-	pass
+    pass
 
 
 def is_small_three_dragons(hand):
@@ -352,61 +366,82 @@ def is_big_three_dragons(hand):
 
 
 def is_small_three_winds(hand):
-	pass
+    pass
 
 def is_big_three_winds(hand):
-	pass
+    pass
 
 def is_small_four_winds(hand):
-	pass
+    pass
 
 def is_big_four_winds(hand):
-	pass
+    pass
 
 
 def is_all_honor_pungs(hand):
-	pass
+    pass
 
 def is_all_honor_pairs(hand):
-	pass
+    if is_seven_pairs(hand) > 0:
+        ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
+        honors = [tile for tile in t.honor_tiles]
+        if ts == honors:
+            return 480
+    return 0
 
 
 
 ### 9.0 Seven Pairs
 
 def is_seven_pairs(hand):
-    d = to_dict( hand['held'] + [ hand['last'] ] )
+    d = to_dict( hand['held'] + [hand['last']] )
     if len(d) == 7:
         if f.and_func( f.map_func(lambda x: x == 2, d.values()) ):
             return 30
     return 0
 
 def is_seven_shifted_pairs(hand):
-	pass
+    if is_seven_pairs(hand) > 0:
+        ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
+        suit = t.fst(ts[0])
+        if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
+            values = f.map_func(t.snd, ts)
+            if values == range(1,8) or values == range(3,10):
+                return 320
+    return 0
 
-def is_grant_chariot(hand):
-	pass
+def is_grand_chariot(hand):
+    return is_seven_shifted_simple_pairs(hand, t.tile_types[0])
 
 def is_bamboo_forest(hand):
-	pass
+    return is_seven_shifted_simple_pairs(hand, t.tile_types[1])
 
-def is_numerous_neighbors(hand):
-	pass
+def is_number_neighborhood(hand):
+    return is_seven_shifted_simple_pairs(hand, t.tile_types[2])
+
+def is_seven_shifted_simple_pairs(hand, suit):
+    if is_seven_pairs(hand) > 0:
+        ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
+        if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
+            values = f.map_func(t.snd, ts)
+            if values == range(2,9):
+                return 400
+    return 0
 
 
 
 ### 10.0 Color Hands
 
 def is_all_green(hand):
-	pass
+    pass
 
 
 def is_all_red(hand):
-	pass
+    pass
 
 
 def is_all_blue(hand):
-	pass
+    pass
 
 
 
@@ -416,7 +451,7 @@ def is_thirteen_orphans(hand):
     # need to check all thirteen terminal tiles are in the hand
     # and that no other tiles exists in the hand
     # pigeonhole principle: 14 tiles fitting into 13 slots, one must be repeated
-    h = Set( hand['held'] + [ hand['last'] ] )
+    h = Set( hand['held'] + [hand['last']] )
     s = Set(t.edge_tiles)
     if h.issubset(s) and s.issubset(h):
         return 160
@@ -428,47 +463,47 @@ def is_thirteen_orphans(hand):
 ### 12.0 Incidental bonuses
 
 def is_final_draw():
-	return 10
+    return 10
 
 
 def is_final_discard():
-	return 10
+    return 10
 
 
 def is_win_on_kong():
-	return 10
+    return 10
 
 def is_win_on_bonus():
-	return 10
+    return 10
 
 def is_robbing_kong():
-	return 10
+    return 10
 
 
 def is_blessing_of_heaven():
-	return 155
+    return 155
 
 def is_blessing_of_earth():
-	return 155
+    return 155
 
 
 
 ### 13.0 Bonus Tiles
 
 def is_non_seat_flower():
-	return 2
+    return 2
 
 def is_seat_flower():
-	return 4
+    return 4
 
 
 
 def is_four_flowers(hand):
-	pass
+    pass
 
 def is_four_seasons(hand):
-	pass
+    pass
 
 
 def is_all_flowers(hand):
-	pass
+    pass
