@@ -382,7 +382,7 @@ def is_all_honor_pungs(hand):
     pass
 
 def is_all_honor_pairs(hand):
-    if is_seven_pairs(hand) > 0:
+    if is_seven_unique_pairs(hand) > 0:
         ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
         honors = [tile for tile in t.honor_tiles]
         if ts == honors:
@@ -398,10 +398,26 @@ def is_seven_pairs(hand):
     if len(d) == 7:
         if f.and_func( f.map_func(lambda x: x == 2, d.values()) ):
             return 30
+    if len(d) == 6:
+        if sorted(d.values()) == [2, 2, 2, 2, 2, 4]:
+            return 30
+    if len(d) == 5:
+        if sorted(d.values()) == [2, 2, 2, 4, 4]:
+            return 30
+    if len(d) == 4:
+        if sorted(d.values()) == [2, 4, 4, 4]:
+            return 30
+    return 0
+
+def is_seven_unique_pairs(hand):
+    d = to_dict( hand['held'] + [hand['last']] )
+    if len(d) == 7:
+        if f.and_func( f.map_func(lambda x: x == 2, d.values()) ):
+            return 30
     return 0
 
 def is_seven_shifted_pairs(hand):
-    if is_seven_pairs(hand) > 0:
+    if is_seven_unique_pairs(hand) > 0:
         ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
         suit = t.fst(ts[0])
         if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
@@ -420,7 +436,7 @@ def is_number_neighborhood(hand):
     return is_seven_shifted_simple_pairs(hand, t.tile_types[2])
 
 def is_seven_shifted_simple_pairs(hand, suit):
-    if is_seven_pairs(hand) > 0:
+    if is_seven_unique_pairs(hand) > 0:
         ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
         if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
             values = f.map_func(t.snd, ts)
