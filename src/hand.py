@@ -83,14 +83,13 @@ class Hand:
 def figure_out_hand(hand):
     l = []
     if is_thirteen_orphans(hand):
-        l.append(("Thirdteen Orphan", 160))
+        l.append(s.thirteen_orphans)
     if is_seven_pairs(hand):
-        pass
-    else:
+        l.append(s.seven_pairs)
     return l
 
 def get_score(hands):
-    if hands != []
+    if len(hands) > 0:
         values = f.map_func(t.snd, hands)
         return f.fold_func(f.add_, 0, values)
     return 0
@@ -211,14 +210,14 @@ def is_outside(tiles):
 
 # chicken is only when your hand satisfies no other patterns aside form bonus tiles
 def is_chicken(hand):
-    return 1
+    pass
 
 
 def is_all_chows(hand):
     melds = f.map_func(sort_tiles, f.filter(is_meld, get_melds(hand)) )
     if f.and_func( f.map_func(is_chow, melds) ):
-        return 5
-    return 0
+        return True
+    return False
 
 
 def is_concealed_hand(hand):
@@ -240,54 +239,82 @@ def is_all_types(hand):
 
 
 def is_illegal_call(hand):
-    return -30
+    pass
 
 
 ### 2.0 Identical Sets
 
 def is_two_identical_chows(hand):
-    pass
+    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    if len(d) == 3:
+        if sorted(d.values()) == [1,1,2]:
+            return True
+    return False
 
 def is_two_identical_chows_twice(hand):
-    pass
+    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    if len(d) == 2:
+        if d.values() == [2,2]:
+            return True
+    return False
 
 def is_three_identical_chows(hand):
-    pass
+    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    if len(d) == 2:
+        if sorted(d.values()) == [1,3]:
+            return True
+    return False
 
 def is_four_identical_chows(hand):
-    melds = f.map_func(sort_tiles, f.filter(is_meld, get_melds(hands)) )
-    if melds[0] == melds[1] == melds[2] == melds[3]:
-        return 480
-    return 0
+    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    if len(d) == 1:
+        if d.values() == [4]:
+            return True
+    return False
 
 
 
 ### 3.0 Pungs and Kongs
 
 def is_all_pungs(hand):
-    pass
+    if f.map(is_pung, get_melds(hands)):
+        return True
+    return False
+
 
 def is_two_concealed_pungs(hand):
-    pass
+    return _is_x_concealed_pungs(hand, 2)
 
 def is_three_concealed_pungs(hand):
-    pass
+    return _is_x_concealed_pungs(hand, 3)
 
 def is_four_concealed_pungs(hand):
-    pass
+    return _is_x_concealed_pungs(hand, 4)
+
+def _is_x_concealed_pungs(hand, x):
+    ps = f.filter(is_pung, hand['concealed'])
+        if len(ps) == x:
+            return True
+    return False
 
 
 def is_one_kong(hand):
-    pass
+    return _is_x_kongs(hand, 1)
 
 def is_two_kongs(hand):
-    pass
+    return _is_x_kongs(hand, 2)
 
 def is_three_kongs(hand):
-    pass
+    return _is_x_kongs(hand, 3)
 
 def is_four_kongs(hand):
-    pass
+    return _is_x_kongs(hand, 4)
+
+def _is_x_kongs(hand, x):
+    ks = f.filter(is_kong, get_melds(hand))
+    if len(ks) == x:
+        return True
+    return False
 
 
 

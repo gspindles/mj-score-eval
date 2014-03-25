@@ -17,9 +17,9 @@ illegal_hand = ("Illegal Hand", "詐和", -30)
 
 
 
-### 2.0 Identical Sets
+### 2.0 Identical Chows
 
-identical_chow           = ("Identical Chow", "一般高", 10)
+two_identical_chow       = ("Identical Chow", "一般高", 10)
 two_identical_chow_twice = ("Two Identical Chows Twice", "兩般高", 60)
 three_identical_chows    = ("Three Identical Chows", "一色三同順", 120)
 four_identical_chows     = ("Four Identical Chows", "一色四同順", 480)
