@@ -277,7 +277,7 @@ def is_four_identical_chows(hand):
 ### 3.0 Pungs and Kongs
 
 def is_all_pungs(hand):
-    if f.map(is_pung, get_melds(hands)):
+    if f.and_func( f.map_func(lambda x: is_pung(x) or is_kong(x), get_melds(hand)) ):
         return True
     return False
 
@@ -292,9 +292,9 @@ def is_four_concealed_pungs(hand):
     return _is_x_concealed_pungs(hand, 4)
 
 def _is_x_concealed_pungs(hand, x):
-    ps = f.filter(is_pung, hand['concealed'])
-        if len(ps) == x:
-            return True
+    ps = f.filter_func(lambda x: is_pung(x) or is_kong(x), hand['concealed'])
+    if len(ps) == x:
+        return True
     return False
 
 
@@ -311,7 +311,7 @@ def is_four_kongs(hand):
     return _is_x_kongs(hand, 4)
 
 def _is_x_kongs(hand, x):
-    ks = f.filter(is_kong, get_melds(hand))
+    ks = f.filter_func(is_kong, get_melds(hand))
     if len(ks) == x:
         return True
     return False
@@ -426,11 +426,18 @@ def is_small_four_winds(hand):
     pass
 
 def is_big_four_winds(hand):
-    pass
+    melds = get_melds(hand)
+    if f.and_func(f.map_func(is_honor_meld, melds)):
+        if f.and_func(f.map_func(t.is_wind, f.flatten(melds))):
+            return True
+    return False
 
 
 def is_all_honor_pungs(hand):
-    pass
+    if f.and_func(f.map_func(is_honor_meld, get_melds(hand))):
+        return True
+    return False 
+
 
 def is_all_honor_pairs(hand):
     if _is_seven_unique_pairs(hand) > 0:
