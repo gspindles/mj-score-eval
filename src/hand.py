@@ -1,9 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
-import tile as t
-import fp   as f
-from   sets import Set
+import tile  as t
+import fp    as f
+import score as s
+from   sets  import Set
+
 
 
 ########################
@@ -16,8 +18,9 @@ from   sets import Set
 #     'held'      : is a list of tiles currently holding on hand
 #     'concealed' : is concealed melds
 #     'melded'    : is a list of melds
-#     'bonus'     : is a list of flowers and seasons
+#     'eye'       : is a pair of tiles
 #     'last'      : is the last winning tile
+#     'bonus'     : is a list of flowers and seasons
 
 # leave this for now, should just delete it later since we are not doing OO
 class Hand:
@@ -25,14 +28,16 @@ class Hand:
     _held      = []
     _concealed = []
     _melded    = []
+    _eye       = []
     _last      = None
     _bonus     = []
 
-    def __init__(self, held, concealed, melded, last, bonus):
+    def __init__(self, held, concealed, melded, eye, last, bonus):
         if tiles is not None:
             self._held      = held
             self._concealed = concealed
             self._melded    = melded
+            self._eye       = eye
             self._last      = last
             self._bonus     = bonus
 
@@ -49,6 +54,10 @@ class Hand:
         return self._melded
 
     @property
+    def eye(self):
+        return self._eye
+
+    @property
     def last(self):
         return self._last
 
@@ -60,13 +69,31 @@ class Hand:
         return { 'held'      : self._held
                , 'concealed' : self._concealed
                , 'melded'    : self._melded
+               , 'eye'       : self._eye
                , 'last'      : self._last
                , 'bonus'     : self._bonus
                }
 
-# def sort_hand(hand):
-#     return Hand( sorted(hand.tiles, cmp=tile.compare) )
+# initially, everything is in hand['held']
+# as soon as melding takes place, the melded tiles are appended to hand['melded']
+# flowers and season goes to hand['bonus']
+# as for winning tile, the associated meld is treated as 'melded'
+# so during gameplay, we first have to convert the hand dictionary to list
+# to check for seven pairs or thirteen orphans before proceeding to evaluated as a normal hand
+def figure_out_hand(hand):
+    l = []
+    if is_thirteen_orphans(hand):
+        l.append(("Thirdteen Orphan", 160))
+    if is_seven_pairs(hand):
+        pass
+    else:
+    return l
 
+def get_score(hands):
+    if hands != []
+        values = f.map_func(t.snd, hands)
+        return f.fold_func(f.add_, 0, values)
+    return 0
 
 
 ######################################
@@ -79,20 +106,28 @@ def sort_tiles(tiles):
 def get_str_rep(tiles):
     return f.map_func(t.show_tile, tiles)
 
-# assumes hand['concealed'] is a list of tile rather than a list of meld
-# this is used mainly to check for seven pairs and thirteen orphans
-# so it is used before hand['concealed'] becomes a list of melds
+def join_str_rep(tiles):
+    return f.fold_func(f.add_, "", get_str_rep(tiles))
+
 def to_list(hand):
     l = []
-    for t in hand['concealed']:
-        l.append(t)
-    # technically, hand['melded'] should be None or [] at this point
-    # but doing this just in case, for completeness sake
-    if hand.has_key('melded'):
-        if hand['melded'] != None:
-            for m in hand['melded']:
-                for t in m:
-                    l.append(t)
+    if hand['concealed'] != None or hand['concealed'] != []:
+        for m in hand['concealed']:
+            for t in m:
+                l.append(t)
+    if hand['melded'] != None or hand['melded'] != []:
+        for m in hand['melded']:
+            for t in m:
+                l.append(t)
+    if hand['held'] != None or hand['held'] != []:
+        for t in hand['held']:
+            l.append(t)
+    if hand['eye'] != None or hand['eye'] != []:
+        for t in hand['eye']:
+            l.append(t)
+    else:
+        if hand['last'] != None:
+            l.append(hand['last'])
     return l
 
 def to_dict(tiles):
@@ -105,31 +140,14 @@ def to_dict(tiles):
             d[s] = 1
     return d
 
+def get_melds(hand):
+    return [c for c in hand['concealed']] + [m for m in hand['melded']]
 
-# initially, everything is in hand['concealed']
-# as soon as they meld, then the melded tiles forms a list of tiles appended to hand['melded']
-# flowers and season goes to hand['bonus']
-# as for winning tile, the associated meld is treated as 'concealed', unless it's the eye
-# so during gameplay, we first have to convert the hand dictionary to list
-# to check for seven pairs or thirteen orphans before proceeding to evaluated as a normal hand
-def get_score(hand):
-    sum = 0
-    return sum
 
 
 #############
 ### Melds ###
 #############
-
-# only checks if its a 3 or 4 set to distinguish it from eyes
-def is_meld(tiles):
-    return 3 <= len(tiles) <= 4
-
-def is_terminal_meld(tiles):
-    pass
-
-def is_honor_meld(tiles):
-    pass
 
 def is_chow(tiles):
     if len(tiles) == 3:
@@ -159,27 +177,33 @@ def is_eye(tiles):
             return True
     return False
 
+def is_terminal_meld(tiles):
+    if is_chow(tiles) or is_pung(tiles) or is_kong(tiles):
+        meld = sort_tiles(tiles)
+        if t.is_terminal(meld[0]) or t.is_terminal(meld[2]):
+            return True
+    return False
+
+def is_honor_meld(tiles):
+    if is_pung(tiles) or is_kong(tiles):
+        if t.is_honor(tiles[0]):
+            return True
+    return False
+
 def has_terminal(tiles):
-    return f.or_func( f.map_func(t.is_term, tiles) )
+    return f.or_func(f.map_func(t.is_term, tiles))
 
 def has_honor(tiles):
-    return f.or_func( f.map_func(t.is_honor, tiles) )
+    return f.or_func(f.map_func(t.is_honor, tiles))
 
 def is_outside(tiles):
     return has_terminal(tiles) or has_honor(tiles)
 
 
 
-
 ########################
 ### Hand Evaluations ###
 ########################
-
-# for now, assumes all the hand is a dictionary with concealed and melded
-# with both keys containing list of tiles
-
-def get_melds(hand):
-    return [c for c in hand['concealed']] + [m for m in hand['melded']]
 
 
 
@@ -198,7 +222,7 @@ def is_all_chows(hand):
 
 
 def is_concealed_hand(hand):
-    if hand['melded'] == [] and len(hand['held']) == 13 and 12 <= len(to_dict(hand['held'])) <= 13:
+    if hand['melded'] == []:
         return True
     return False
 
@@ -382,7 +406,7 @@ def is_all_honor_pungs(hand):
     pass
 
 def is_all_honor_pairs(hand):
-    if is_seven_unique_pairs(hand) > 0:
+    if _is_seven_unique_pairs(hand) > 0:
         ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
         honors = [tile for tile in t.honor_tiles]
         if ts == honors:
@@ -409,7 +433,7 @@ def is_seven_pairs(hand):
             return 30
     return 0
 
-def is_seven_unique_pairs(hand):
+def _is_seven_unique_pairs(hand):
     d = to_dict( hand['held'] + [hand['last']] )
     if len(d) == 7:
         if f.and_func( f.map_func(lambda x: x == 2, d.values()) ):
@@ -417,7 +441,7 @@ def is_seven_unique_pairs(hand):
     return 0
 
 def is_seven_shifted_pairs(hand):
-    if is_seven_unique_pairs(hand) > 0:
+    if _is_seven_unique_pairs(hand) > 0:
         ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
         suit = t.fst(ts[0])
         if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
@@ -427,16 +451,16 @@ def is_seven_shifted_pairs(hand):
     return 0
 
 def is_grand_chariot(hand):
-    return is_seven_shifted_simple_pairs(hand, t.tile_types[0])
+    return _is_seven_shifted_simple_pairs(hand, t.tile_types[0])
 
 def is_bamboo_forest(hand):
-    return is_seven_shifted_simple_pairs(hand, t.tile_types[1])
+    return _is_seven_shifted_simple_pairs(hand, t.tile_types[1])
 
 def is_number_neighborhood(hand):
-    return is_seven_shifted_simple_pairs(hand, t.tile_types[2])
+    return _is_seven_shifted_simple_pairs(hand, t.tile_types[2])
 
-def is_seven_shifted_simple_pairs(hand, suit):
-    if is_seven_unique_pairs(hand) > 0:
+def _is_seven_shifted_simple_pairs(hand, suit):
+    if _is_seven_unique_pairs(hand) > 0:
         ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
         if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
             values = f.map_func(t.snd, ts)

@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
 from random import shuffle
-from fp     import repeat #, flatten, map_func, fold_func, _cons
+from fp     import repeat #, flatten, map_func, fold_func, cons_
 
 ########################
 ### Data Definitions ###
@@ -51,7 +51,7 @@ def get_wall():
         w.append(t)
     # doing it with fp would look like:
     # w = flatten( map_func(lambda x: repeat(x,4), regular_tiles) )
-    # w = fold_func(_cons, w, bonus_tiles)
+    # w = fold_func(cons_, w, bonus_tiles)
     # but that would just be "unpythonic"
     shuffle(w)
     return w

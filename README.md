@@ -198,41 +198,40 @@ Example: 1索 1索 1索﹐ 9萬 9萬 9萬﹐ 1筒 1筒 1筒﹐ 9筒 9筒 9筒﹐
 
 ### 8.0 Honor Tiles
 
-#### 8.1.1 Dragon Pung (箭刻) : 10 per set
-A triplet/kongs of a dragon tile.
-
-#### 8.1.2 Seat Wind (門風) : 10
+#### 8.1.1 Seat Wind (門風) : 10
 A triplet/kongs of Seat Wind (your own Wind).
 Note: in Zung Jung the Prevailing Wind is not recognized.
 
+#### 8.1.2 Dragon Pung (箭刻) : 10 per set
+A triplet/kongs of a dragon tile.
 
-#### 8.2.1 Small Three Dragons (小三元) : 40 -> 60
+
+#### 8.2.1 Small Three Winds (小三風) : 30
+Two triplet/kongs of Winds, plus a pair of Winds as the eyes.
+Example: 西 西 西﹐ 北 北 北﹐ 東 東(eyes)
+
+#### 8.2.2 Big Three Winds (大三風) : 120
+Three triplet/kongs of Winds.
+Example: 東 東 東﹐ 南 南 南﹐ 北 北 北
+
+#### 8.2.3 Small Four Winds (小四喜) : 320
+Three triplet/kongs of Winds, plus a pair of Winds as the eyes.
+Example: 東 東 東﹐ 西 西 西﹐ 北 北 北﹐ 南 南(eyes)
+
+#### 8.2.4 Big Four Winds (大四喜) : 400
+Four triplet/kongs of Winds.
+東 東 東﹐ 南 南 南﹐ 西 西 西﹐ 北 北 北
+
+
+#### 8.3.1 Small Three Dragons (小三元) : 40 -> 60
 Two triplet/kongs of Dragons, plus a pair of Dragons as the eyes.
 Example: 白 白 白﹐ 中 中 中﹐ 發 發(eyes)
 (This hand always includes two Dragon Pungs, so it scores at least 40+10+10=60 points.)
 
-#### 8.2.2 Big Three Dragons (大三元) : 130 -> 160
+#### 8.3.2 Big Three Dragons (大三元) : 130 -> 160
 Three triplet/kongs of Dragons.
 白 白 白﹐ 發 發 發﹐ 中 中 中
 (This hand always includes three Dragon Pungs, so it scores at least 130+10+10+10=160 points.)
-
-
-
-#### 8.3.1 Small Three Winds (小三風) : 30
-Two triplet/kongs of Winds, plus a pair of Winds as the eyes.
-Example: 西 西 西﹐ 北 北 北﹐ 東 東(eyes)
-
-#### 8.3.2 Big Three Winds (大三風) : 120
-Three triplet/kongs of Winds.
-Example: 東 東 東﹐ 南 南 南﹐ 北 北 北
-
-#### 8.3.3 Small Four Winds (小四喜) : 320
-Three triplet/kongs of Winds, plus a pair of Winds as the eyes.
-Example: 東 東 東﹐ 西 西 西﹐ 北 北 北﹐ 南 南(eyes)
-
-#### 8.3.4 Big Four Winds (大四喜) : 400
-Four triplet/kongs of Winds.
-東 東 東﹐ 南 南 南﹐ 西 西 西﹐ 北 北 北
 
 
 #### 8.4.1 All Honor Pungs (字一色) : 320
@@ -326,19 +325,25 @@ Does not count if East has made a concealed kongs.
 
 ### 13.0 Bonus Tiles
 
-#### 13.1.1 Non-seat Flower/Season (偏花) : 2 per tile
-A flower/season tile which is not proper to one's seat.
+#### 13.1.1 Non-seat Flower (偏花) : 2 per tile
+A flower tile which is not proper to one's seat.
 
-#### 13.1.2 Seat Flower/Season (正花) : 4 per tile
-A flower/season tile which is proper to one's seat.
+#### 13.1.2 Non-seat Season (偏季) : 2 per tile
+A season tile which is not proper to one's seat.
+
+#### 13.1.3 Seat Flower (正花) : 4 per tile
+A flower tile which is proper to one's seat.
+
+#### 13.1.4 Seat Season (正季) : 4 per tile
+A season tile which is proper to one's seat.
 
 Upon drawing the last flower/season to complete a flower/season kongs, player only draw one extra tile.  Player does NOT draw two tiles from the tail wall (one from flower and one from declaring kongs).
 
-#### 13.2.1 Four Flowers (齊四花) : 10 -> 15
+#### 13.2.1 Four Flowers (齊四花) : 10 -> 25
 A complete set of all 4 Flower tiles.
 
-#### 13.2.2 Four Seasons (齊四季) : 10 -> 15
+#### 13.2.2 Four Seasons (齊四季) : 10 -> 25
 A complete set of all 4 Season tiles.
 
-#### 13.3 All Flowers (八仙過海) : 80 -> 100
+#### 13.3 All Bonus Tiles (八仙過海) : 50 -> 100
 Gathering all flowers and seasons to instantly win the game.  If a player has 7 of the bonus tile and another player draws the last remaining bonus tile, then the first said player can steal and win.

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
 #########################
@@ -7,28 +7,28 @@
 
 # reimplementation of library operators as binary functions
 
-def _or(obj1, obj2):
+def or_(obj1, obj2):
     return obj1 or obj2
 
-def _and(obj1, obj2):
+def and_(obj1, obj2):
     return obj1 and obj2
 
-def _not(obj):
+def not_(obj):
     return not obj
 
-def _add(num1, num2):
+def add_(num1, num2):
     return num1 + num2
 
-def _mult(num1, num2):
+def mult_(num1, num2):
     return num1 * num2
 
-def _pow(num1, num2):
+def pow_(num1, num2):
     return num1 ^ num2
 
-def _cons(list, item):
+def cons_(list, item):
     return list + [item]
 
-def _elem(list, item):
+def elem_(list, item):
     return item in list
 
 
@@ -37,13 +37,13 @@ def _elem(list, item):
 ### Utilities functions ###
 ###########################
 
-def reverse_func(list):
+def reverse_(list):
     if list == []:
         return []
     else:
         head   = list[0]
         tail   = list[1:]
-        return reverse_func(tail) + head
+        return reverse_(tail) + head
 
 def repeat(obj, n):
     l = []
@@ -61,10 +61,10 @@ def flatten(list):
 
 # assumes the list contains only booleans
 def or_func(list):
-    return fold_func(_or, False, list)
+    return fold_func(or_, False, list)
 
 def and_func(list):
-    return fold_func(_and, True, list)
+    return fold_func(and_, True, list)
 
 def map_func(func, list):
     l = []
