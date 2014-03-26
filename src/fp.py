@@ -1,6 +1,13 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
+### fp.py implements a variety of functional programming styled functions to
+### making coding easier and faster.  Yes there are python defaults from
+### itertools but they returns objects rather than plain list so this feels
+### sipmler.
+
+
+
 #########################
 ### Binary operations ###
 #########################

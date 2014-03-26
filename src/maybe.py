@@ -3,6 +3,10 @@
 
 # http://code.activestate.com/recipes/577248-maybe-pattern/
 
+### Maybe (Haskell) implentation in Python.  Don't have a real use for this yet
+
+
+
 NOVALUE = object()
 
 class Maybe(object):

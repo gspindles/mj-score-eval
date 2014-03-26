@@ -1,9 +1,18 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
+### tests.py for now contains a list of exmple hands to be converted and
+### evaluated
+
 import tile as t
 import fp   as f
 import hand as h
+
+
+
+#############
+### Stuff ###
+#############
 
 # make a wall
 w = []

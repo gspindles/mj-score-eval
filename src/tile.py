@@ -1,8 +1,13 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
+### tile.py defines the tile structure and provides functions that queries
+### about the tile return a boolean vaule
+
 from random import shuffle
 from fp     import repeat #, flatten, map_func, fold_func, cons_
+
+
 
 ########################
 ### Data Definitions ###
@@ -55,6 +60,7 @@ def get_wall():
     # but that would just be "unpythonic"
     shuffle(w)
     return w
+
 
 
 ###################

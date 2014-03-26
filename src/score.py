@@ -1,152 +1,406 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
-#####################
-### Scoring table ###
-#####################
+### score.py takes in a list of melds that is calcalated from hand.py.  From
+### this list, score.py will produce the list of patterns the hand satisfies. In a
+### sense, hend.py do all the grunt work while scope.py just match the patterns
+### and assign values.
 
-### Trivial Patterns
-
-chicken      = ("Chicken Hand", "雞和", 1)
-all_chow     = ("All Chow", "平和", 5)
-concealed    = ("Concealed Hand", "門前清", 5)
-self_drawn   = ("Self Drawn", "自摸", 5)
-all_simple   = ("All Simple", "斷么九", 5)
-all_type     = ("All Types", "五門齊", 10)
-illegal_hand = ("Illegal Hand", "詐和", -30)
+import hand  as h
+import tile  as t
+import fp    as f
+import chart as c
 
 
 
-### 2.0 Identical Chows
+#########################
+### Utility Functions ###
+#########################
 
-two_identical_chow       = ("Identical Chow", "一般高", 10)
-two_identical_chow_twice = ("Two Identical Chows Twice", "兩般高", 60)
-three_identical_chows    = ("Three Identical Chows", "一色三同順", 120)
-four_identical_chows     = ("Four Identical Chows", "一色四同順", 480)
+def get_str_rep(tiles):
+    return f.map_func(t.show_tile, tiles)
+
+def join_str_rep(tiles):
+    return f.fold_func(f.add_, "", get_str_rep(tiles))
+
+
+
+########################
+### Hand Evaluations ###
+########################
+
+### 1.0 Trivial Patterns
+
+# chicken is only when your hand satisfies no other patterns aside form bonus tiles
+def is_chicken(hand):
+    pass
+
+
+def is_all_chows(hand):
+    melds = f.map_func(sort_tiles, f.filter(is_meld, get_melds(hand)) )
+    if f.and_func( f.map_func(is_chow, melds) ):
+        return True
+    return False
+
+
+def is_concealed_hand(hand):
+    if hand['melded'] == []:
+        return True
+    return False
+
+
+def is_self_drawn(hand):
+    pass
+
+
+def is_all_simples(hand):
+    pass
+
+
+def is_all_types(hand):
+    pass
+
+
+def is_illegal_call(hand):
+    pass
+
+
+### 2.0 Identical Sets
+
+def is_two_identical_chows(hand):
+    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    if len(d) == 3:
+        if sorted(d.values()) == [1,1,2]:
+            return True
+    return False
+
+def is_two_identical_chows_twice(hand):
+    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    if len(d) == 2:
+        if d.values() == [2,2]:
+            return True
+    return False
+
+def is_three_identical_chows(hand):
+    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    if len(d) == 2:
+        if sorted(d.values()) == [1,3]:
+            return True
+    return False
+
+def is_four_identical_chows(hand):
+    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    if len(d) == 1:
+        if d.values() == [4]:
+            return True
+    return False
 
 
 
 ### 3.0 Pungs and Kongs
 
-all_pung              = ("All Pungs", "對對和", 30)
-two_concealed_pungs   = ("Two Concealed Pungs", "二暗刻", 5)
-three_concealed_pungs = ("Three Concealed Pungs", "三暗刻", 30)
-four_concealed_pungs  = ("Four Concealed Pungs", "四暗刻", 125)
+def is_all_pungs(hand):
+    if f.and_func( f.map_func(lambda x: is_pung(x) or is_kong(x), get_melds(hand)) ):
+        return True
+    return False
 
-one_kong   = ("One Kong", "一槓", 5)
-two_kong   = ("Two Kongs", "兩槓", 20)
-three_kong = ("Three Kongs", "三槓", 120)
-four_kong  = ("Four Kongs", "四槓", 480)
+
+def is_two_concealed_pungs(hand):
+    return _is_x_concealed_pungs(hand, 2)
+
+def is_three_concealed_pungs(hand):
+    return _is_x_concealed_pungs(hand, 3)
+
+def is_four_concealed_pungs(hand):
+    return _is_x_concealed_pungs(hand, 4)
+
+def _is_x_concealed_pungs(hand, x):
+    ps = f.filter_func(lambda x: is_pung(x) or is_kong(x), hand['concealed'])
+    if len(ps) == x:
+        return True
+    return False
+
+
+def is_one_kong(hand):
+    return _is_x_kongs(hand, 1)
+
+def is_two_kongs(hand):
+    return _is_x_kongs(hand, 2)
+
+def is_three_kongs(hand):
+    return _is_x_kongs(hand, 3)
+
+def is_four_kongs(hand):
+    return _is_x_kongs(hand, 4)
+
+def _is_x_kongs(hand, x):
+    ks = f.filter_func(is_kong, get_melds(hand))
+    if len(ks) == x:
+        return True
+    return False
 
 
 
 ### 4.0 Similar Sets
 
-three_similar_chows = ("Three Similar Chows", "三色同順", 35)
-
-small_three_similar_pungs = ("Small Three Similar Pungs", "三色小同刻", 30)
-three_similar_pungs       = ("Three Similar Pungs", "三色同刻", 120)
+def is_three_similar_chows(hand):
+    pass
 
 
+def is_small_three_similar_pungs(hand):
+    pass
 
-### 5.0 Consecutive Sets ####
+def is_three_similar_pungs(hand):
+    pass
 
-nine_tile_straight = ("Nine-Tile Straight", "一氣通貫", 40)
 
-three_consecutive_pungs = ("Three Consecutive Pungs", "三連刻", 100)
-four_consecutive_pings  = ("Four Consecutive Pungs", "四連刻", 200)
-three_mothers           = ("Three Mothers", "三娘教子", 400)
+
+### 5.0 Consecutive Sets
+
+def is_nine_tile_straight(hand):
+    pass
+
+def is_three_consecutive_pungs(hand):
+    pass
+
+def is_four_consecutive_pungs(hand):
+    pass
+
+def is_three_mothers(hand):
+    pass
 
 
 
 ### 6.0 Suit Patterns
 
-mixed_one_suit      = ("Mixed One-Suit", "混一色", 40)
-pure_one_suit       = ("Pure One-Suit", "清一色", 80)
-small_terminal_club = ("Small Terminal Club", "一色雙龍會", 100)
-big_terminal_club   = ("Big Terminal Club", "清天龍會", 320)
+def is_mixed_one_suit(hand):
+    pass
 
-nine_gates = ("Nine Gates", "九蓮寶燈", 480)
+def is_pure_one_suit(hand):
+    pass
+
+
+def is_small_dragon_club(hand):
+    pass
+
+def is_big_dragon_club(hand):
+    pass
+
+
+def is_nine_gates(hand):
+    pass
 
 
 
 ### 7.0 Terminal Tiles
 
-two_tailed_terminal_chow = ("Two-Tailed Terminal Chows", "老少配", 5)
-two_tailed_terminal_pung = ("Two-Tailed Terminal Pungs", "老少副", 15)
-small_mountain           = ("Small Mountain", "小山滿", 320)
-big_mountain             = ("Big Mountain", "大山滿", 400)
+def is_two_tailed_terminal_chows(hand):
+    pass
 
-mixed_lesser_terminal  = ("Mixed Lesser Terminals", "混全帶么", 40)
-pure_lesser_terminal   = ("Pure Lesser Terminals", "純全帶么", 50)
-mixed_greater_terminal = ("Mixed Greater Terminals", "混么九", 100)
-pure_greater_terminal  = ("Pure Greater Terminals", "清么九", 400)
+def is_two_tailed_terminal_pungs(hand):
+    pass
+
+
+def is_small_boundless_mountain(hand):
+    pass
+
+def is_big_boundless_mountain(hand):
+    pass
+
+
+def is_mixed_lesser_terminals(hand):
+    pass
+
+
+def is_pure_lesser_terminals(hand):
+    pass
+
+def is_mixed_greater_germinals(hand):
+    pass
+
+def is_pure_greater_terminals(hand):
+    pass
 
 
 
 ### 8.0 Honor Tiles
 
-dragon_pung = ("Dragon Pung", "箭刻", 10)
-seat_wind   = ("Seat Wind", "門風", 10)
+def is_dragon_pung(hand):
+    pass
 
-small_three_winds = ("Small Three Winds", "小三風", 30)
-big_three_winds   = ("Big Three Winds", "大三風", 120)
-small_four_winds  = ("Small Four Winds", "小四喜", 320)
-big_four_winds    = ("Big Four Winds", "大四喜", 400)
+def is_seat_wind(hand):
+    pass
 
-small_three_dragons = ("Small Three Dragons", "小三元", 40)
-big_three_dragons   = ("Big Three Dragons", "大三元", 130)
 
-all_honor_pungs = ("All Honor Pungs", "字一色", 320)
-all_honor_pairs = ("All Honor Pairs", "大七星", 480)
+def is_small_three_dragons(hand):
+    pass
+
+def is_big_three_dragons(hand):
+    pass
+
+
+def is_small_three_winds(hand):
+    pass
+
+def is_big_three_winds(hand):
+    pass
+
+def is_small_four_winds(hand):
+    pass
+
+def is_big_four_winds(hand):
+    melds = get_melds(hand)
+    if f.and_func(f.map_func(is_honor_meld, melds)):
+        if f.and_func(f.map_func(t.is_wind, f.flatten(melds))):
+            return True
+    return False
+
+
+def is_all_honor_pungs(hand):
+    if f.and_func(f.map_func(is_honor_meld, get_melds(hand))):
+        return True
+    return False 
+
+
+def is_all_honor_pairs(hand):
+    if _is_seven_unique_pairs(hand) > 0:
+        ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
+        honors = [tile for tile in t.honor_tiles]
+        if ts == honors:
+            return 480
+    return 0
 
 
 
 ### 9.0 Seven Pairs
 
-seven_pairs         = ("Seven Pairs", "七對子", 30)
-seven_shifted_pairs = ("Seven Shifted Pairs", "連七對", 320)
-grand_chariot       = ("Grand Chariot", "大車輪", 400)
-bamboo_forest       = ("Bamboo Forest", "大竹林", 400)
-number_neighborhood = ("Number Neighborhood", "大數隣", 400)
+def is_seven_pairs(hand):
+    d = to_dict( hand['held'] + [hand['last']] )
+    if len(d) == 7:
+        if f.and_func( f.map_func(lambda x: x == 2, d.values()) ):
+            return 30
+    if len(d) == 6:
+        if sorted(d.values()) == [2, 2, 2, 2, 2, 4]:
+            return 30
+    if len(d) == 5:
+        if sorted(d.values()) == [2, 2, 2, 4, 4]:
+            return 30
+    if len(d) == 4:
+        if sorted(d.values()) == [2, 4, 4, 4]:
+            return 30
+    return 0
+
+def _is_seven_unique_pairs(hand):
+    d = to_dict( hand['held'] + [hand['last']] )
+    if len(d) == 7:
+        if f.and_func( f.map_func(lambda x: x == 2, d.values()) ):
+            return 30
+    return 0
+
+def is_seven_shifted_pairs(hand):
+    if _is_seven_unique_pairs(hand) > 0:
+        ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
+        suit = t.fst(ts[0])
+        if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
+            values = f.map_func(t.snd, ts)
+            if values == range(1,8) or values == range(3,10):
+                return 320
+    return 0
+
+def is_grand_chariot(hand):
+    return _is_seven_shifted_simple_pairs(hand, t.tile_types[0])
+
+def is_bamboo_forest(hand):
+    return _is_seven_shifted_simple_pairs(hand, t.tile_types[1])
+
+def is_number_neighborhood(hand):
+    return _is_seven_shifted_simple_pairs(hand, t.tile_types[2])
+
+def _is_seven_shifted_simple_pairs(hand, suit):
+    if _is_seven_unique_pairs(hand) > 0:
+        ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
+        if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
+            values = f.map_func(t.snd, ts)
+            if values == range(2,9):
+                return 400
+    return 0
 
 
 
 ### 10.0 Color Hands
 
-all_green = ("All Green", "緑一色", 400)
-all_red   = ("All Red", "紅孔雀", 480)
-all_blue  = ("All Blue", "藍一色", 400)
+def is_all_green(hand):
+    pass
+
+
+def is_all_red(hand):
+    pass
+
+
+def is_all_blue(hand):
+    pass
 
 
 
 ### 11.0 Irregular Hands
 
-thirteen_orphans = ("Thirteen Orphans", "十三么九", 160)
+def is_thirteen_orphans(hand):
+    # need to check all thirteen terminal tiles are in the hand
+    # and that no other tiles exists in the hand
+    # pigeonhole principle: 14 tiles fitting into 13 slots, one must be repeated
+    h = Set( hand['held'] + [hand['last']] )
+    s = Set(t.edge_tiles)
+    if h.issubset(s) and s.issubset(h):
+        return 160
+    else:
+        return 0
 
 
 
 ### 12.0 Incidental bonuses
 
-final_draw    = ("Final Draw", "海底撈月", 10)
-final_discard = ("Final Discard", "河底撈魚", 10)
+def is_final_draw():
+    return 10
 
-win_on_kong       = ("Win on Kong", "嶺上開花", 10)
-win_on_bonus_tile = ("Win on Bonus Tile", "花上自摸", 10)
 
-robbing_a_kong = ("Robbing a Kongs", "搶槓", 10)
+def is_final_discard():
+    return 10
 
-blessing_of_heaven = ("Blessing of Heaven", "天和", 155)
-blessing_of_earth  = ("Blessing of Earth", "地和", 155)
+
+def is_win_on_kong():
+    return 10
+
+def is_win_on_bonus():
+    return 10
+
+def is_robbing_kong():
+    return 10
+
+
+def is_blessing_of_heaven():
+    return 155
+
+def is_blessing_of_earth():
+    return 155
 
 
 
 ### 13.0 Bonus Tiles
 
-non_seat_flower = ("Non-seat Flower", "偏花", 2)
-non_seat_season = ("Non-seat Season", "偏季", 2)
-seat_flower     = ("Seat Flower", "正花", 4)
-seat_season     = ("Seat Season", "正季", 4)
-four_flowers    = ("Four Flowers", "齊四花", 10)
-four_seasons    = ("Four Seasons", "齊四季", 10)
-all_bonus_tiles = ("All Bonus Tiles", "八仙過海", 50)
+def is_non_seat_flower():
+    return 2
+
+def is_seat_flower():
+    return 4
+
+
+
+def is_four_flowers(hand):
+    pass
+
+def is_four_seasons(hand):
+    pass
+
+
+def is_all_flowers(hand):
+    pass
