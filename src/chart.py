@@ -12,6 +12,11 @@
 ### Scoring table ###
 #####################
 
+# for when pattern is not satisfied
+nothing = ()
+
+
+
 ### Trivial Patterns
 
 chicken      = ("Chicken Hand", "雞和", 1)

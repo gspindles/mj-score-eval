@@ -34,6 +34,7 @@ from   sets import Set
 # t is for terminal
 # d is for dragon
 # w is for wind
+# b is for bonus (flowers, seasons, north[3ma], animals)
 
 def figure_out_hand(hand):
     l = []

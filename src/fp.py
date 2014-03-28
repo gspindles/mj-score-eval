@@ -44,6 +44,12 @@ def elem_(list, item):
 ### Utilities functions ###
 ###########################
 
+def id_(x):
+    return x
+
+def compose(f, g):
+    return lambda x: f( g(x) )
+
 def reverse_(list):
     if list == []:
         return []
@@ -91,6 +97,10 @@ def fold_func(func, init, list):
     for i in list:
         sum = func(sum, i)
     return sum
+
+def compose_func(funcs, x):
+    fs = fold_func(conpose, id_, funcs)
+    return fs(x)
 
 # quick sort taking the head of the list as pivot
 # sorts the elements of the list by a compare function
