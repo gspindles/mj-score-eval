@@ -13,15 +13,61 @@ import chart as c
 
 
 
+##############################
+### Meld Related Functions ###
+##############################
+
+# m is for melded
+# n is for concealed
+# c is for chow
+# p is for pung
+# k is for kong
+# e is for eye
+# s is for simple
+# t is for terminal
+# w is for wind
+# d is for dragon
+
+def is_melded():
+    pass
+
+def is_concealed():
+    pass
+
+def is_chow():
+    pass
+
+def is_pung():
+    pass
+
+def is_kong():
+    pass
+
+def is_eye():
+    pass
+
+def is_simple():
+    pass
+
+def is_terminal():
+    pass
+
+def is_wind():
+    pass
+
+def is_dragon():
+    pass
+
+
 #########################
 ### Utility Functions ###
 #########################
 
-def get_str_rep(tiles):
-    return f.map_func(t.show_tile, tiles)
+def get_str_rep(meld):
+    return f.map_func(t.show_tile, t.snd(meld))
 
-def join_str_rep(tiles):
-    return f.fold_func(f.add_, "", get_str_rep(tiles))
+def join_str_rep(meld):
+    return f.fold_func(f.add_, "", get_str_rep(meld))
 
 
 
@@ -259,7 +305,7 @@ def is_big_four_winds(hand):
 def is_all_honor_pungs(hand):
     if f.and_func(f.map_func(is_honor_meld, get_melds(hand))):
         return True
-    return False 
+    return False
 
 
 def is_all_honor_pairs(hand):

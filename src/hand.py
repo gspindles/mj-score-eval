@@ -23,6 +23,18 @@ from   sets import Set
 # as for winning tile, the associated meld is treated as 'melded'
 # so during gameplay, we first have to convert the hand dictionary to list
 # to check for seven pairs or thirteen orphans before proceeding to evaluated as a normal hand
+
+# m is for melded
+# n is for concealed
+# c is for chow
+# p is for pung
+# k is for kong
+# e is for eye
+# s is for simple
+# t is for terminal
+# d is for dragon
+# w is for wind
+
 def figure_out_hand(hand):
     l = []
     if is_thirteen_orphans(hand):
