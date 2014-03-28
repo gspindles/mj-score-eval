@@ -28,6 +28,7 @@ wr = f.flatten( f.map_func(lambda x: f.repeat(x,4), t.regular_tiles) )
 wr = f.fold_func(f.cons_, wr, t.bonus_tiles)
 
 
+
 ################
 ### Examples ###
 ################

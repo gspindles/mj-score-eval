@@ -30,7 +30,6 @@ import chart as c
 # b is for bonus (flowers, seasons, north[3ma], animals)
 
 
-
 # basic building blocks
 
 def _is_melded(meld):
@@ -93,6 +92,9 @@ def _is_dragon_pung(meld):
 
 def _is_honor_pung(meld):
     return _is_pung(meld) and (_is_wind(meld) or _is_dragon(meld))
+
+def _is_concealed_pung(meld):
+    return _is_pung(meld) and _is_concealed(meld)
 
 def _is_simple_meld(meld):
     return _is_chow(meld) or _is_simple_pung(meld)
@@ -166,7 +168,7 @@ def _is_chicken():
     return c.chicken
 
 def _is_all_chows(hand):
-    if f.and_func(_is_chow, _get_melds(hand))
+    if f.and_func(f.map_func(_is_chow, _get_melds(hand)))
         return c.all_chow
     return c.nothing
 
@@ -180,18 +182,18 @@ def _is_self_drawn(hand):
 
 # works for both 4 meld and eye, or seven pairs
 def _is_all_simples(hand):
-    if f.and_func(_is_simple, get_melds(hand) + _get_eyes(hand)):
+    if f.and_func(_is_simple, _get_melds(hand) + _get_eyes(hand)):
         return c._is_all_simples
     return c.nothing
 
 
 def _is_all_types(hand):
     tiles = _get_tiles(hand)
-    has_coin      = f.or_func(t.is_coin, tiles)
-    has_bamboo    = f.or_func(t.is_bamboo, tiles)
-    has_character = f.or_func(t.is_character, tiles)
-    has_wind      = f.or_func(t.is_wind, tiles)
-    has_dragon    = f.or_func(t.is_dragon, tiles)
+    has_coin      = f.or_func(f.map_func(t.is_coin, tiles))
+    has_bamboo    = f.or_func(f.map_func(t.is_bamboo, tiles))
+    has_character = f.or_func(f.map_func(t.is_character, tiles))
+    has_wind      = f.or_func(f.map_func(t.is_wind, tiles))
+    has_dragon    = f.or_func(f.map_func(t.is_dragon, tiles))
     if has_coin and has_bamboo and has_character and has_wind and has_dragon:
         return c.all_type
     return c.nothing
@@ -204,28 +206,28 @@ def _is_illegal_call(hand):
 ### 2.0 Identical Sets
 
 def _is_two_identical_chows(hand):
-    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    d = to_dict( f.map_func(join_str_rep, _get_melds(hand)) )
     if len(d) == 3:
         if sorted(d.values()) == [1,1,2]:
             return True
     return False
 
 def _is_two_identical_chows_twice(hand):
-    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    d = to_dict( f.map_func(join_str_rep, _get_melds(hand)) )
     if len(d) == 2:
         if d.values() == [2,2]:
             return True
     return False
 
 def _is_three_identical_chows(hand):
-    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    d = to_dict( f.map_func(join_str_rep, _get_melds(hand)) )
     if len(d) == 2:
         if sorted(d.values()) == [1,3]:
             return True
     return False
 
 def _is_four_identical_chows(hand):
-    d = to_dict( f.map_func(join_str_rep, get_melds(hand)) )
+    d = to_dict( f.map_func(join_str_rep, _get_melds(hand)) )
     if len(d) == 1:
         if d.values() == [4]:
             return True
@@ -236,44 +238,47 @@ def _is_four_identical_chows(hand):
 ### 3.0 Pungs and Kongs
 
 def _is_all_pungs(hand):
-    if f.and_func( f.map_func(lambda x: is_pung(x) or is_kong(x), get_melds(hand)) ):
-        return True
-    return False
+    if f.and_func(f.map_func(is_pung, _get_melds(hand))):
+        return c.all_pungs
+    return c.nothing
 
 
 def _is_two_concealed_pungs(hand):
-    return _is_x_concealed_pungs(hand, 2)
+    if f.count_with(_is_concealed_pung, _get_melds(hand)) == 2:
+        return c.two_concealed_pungs
+    return c.nothing
 
 def _is_three_concealed_pungs(hand):
-    return _is_x_concealed_pungs(hand, 3)
+    if f.count_with(_is_concealed_pung, _get_melds(hand) ) == 3:
+        return c.three_concealed_pungs
+    return c.nothing
 
 def _is_four_concealed_pungs(hand):
-    return _is_x_concealed_pungs(hand, 4)
+    if f.count_with(_is_concealed_pung, _get_melds(hand)) == 4:
+        return c.four_concealed_pungs
+    return c.nothing
 
-def _is_x_concealed_pungs(hand, x):
-    ps = f.filter_func(lambda x: is_pung(x) or is_kong(x), hand['concealed'])
-    if len(ps) == x:
-        return True
-    return False
 
 
 def _is_one_kong(hand):
-    return _is_x_kongs(hand, 1)
+    if f.count_with(_is_kong, _get_melds(hand)) == 1:
+        return c.one_kongs
+    return c.nothing
 
 def _is_two_kongs(hand):
-    return _is_x_kongs(hand, 2)
+    if f.count_with(_is_kong, _get_melds(hand)) == 2:
+        return c.two_kongs
+    return c.nothing2
 
 def _is_three_kongs(hand):
-    return _is_x_kongs(hand, 3)
+    if f.count_with(_is_kong, _get_melds(hand)) == 3:
+        return c.three_kongs
+    return c.nothing
 
 def _is_four_kongs(hand):
-    return _is_x_kongs(hand, 4)
-
-def _is_x_kongs(hand, x):
-    ks = f.filter_func(is_kong, get_melds(hand))
-    if len(ks) == x:
-        return True
-    return False
+    if f.count_with(_is_kong, _get_melds(hand)) == 4:
+        return c.four_kongs
+    return c.nothing
 
 
 
@@ -385,7 +390,7 @@ def _is_small_four_winds(hand):
     pass
 
 def _is_big_four_winds(hand):
-    melds = get_melds(hand)
+    melds = _get_melds(hand)
     if f.and_func(f.map_func(is_honor_meld, melds)):
         if f.and_func(f.map_func(t.is_wind, f.flatten(melds))):
             return True
@@ -393,7 +398,7 @@ def _is_big_four_winds(hand):
 
 
 def _is_all_honor_pungs(hand):
-    if f.and_func(f.map_func(is_honor_meld, get_melds(hand))):
+    if f.and_func(f.map_func(is_honor_meld, _get_melds(hand))):
         return True
     return False
 

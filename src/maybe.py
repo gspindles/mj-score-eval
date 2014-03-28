@@ -3,17 +3,17 @@
 
 # http://code.activestate.com/recipes/577248-maybe-pattern/
 
-### Maybe (Haskell) implentation in Python.  Don't have a real use for this yet
+### Maybe (Haskell) implementation in Python.  Don't have a real use for this yet
 
 
 
 NOVALUE = object()
 
 class Maybe(object):
-    
+
     _has_value = False
     _value     = None
-    
+
     def __init__(self, value):
         if value is not NOVALUE:
             self._has_value = True

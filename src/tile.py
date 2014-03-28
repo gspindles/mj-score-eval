@@ -4,8 +4,8 @@
 ### tile.py defines the tile structure and provides functions that queries
 ### about the tile return a boolean vaule
 
+import fp as f
 from random import shuffle
-from fp     import repeat #, flatten, map_func, fold_func, cons_
 
 
 
@@ -49,15 +49,8 @@ honor_tiles = wind_tiles + dragon_tiles
 edge_tiles = terminal_tiles + honor_tiles
 
 def get_wall():
-    w = []
-    for t in regular_tiles:
-        w = w + repeat(t, 4)
-    for t in bonus_tiles:
-        w.append(t)
-    # doing it with fp would look like:
-    # w = flatten( map_func(lambda x: repeat(x,4), regular_tiles) )
-    # w = fold_func(cons_, w, bonus_tiles)
-    # but that would just be "unpythonic"
+    w = f.flatten(f.map_func(lambda x: f.repeat(x,4), regular_tiles))
+    w = f.fold_func(f.cons_, w, bonus_tiles)
     shuffle(w)
     return w
 
@@ -85,7 +78,7 @@ rank = { 'C': 10
        }
 
 def get_rank(tile):
-    return rank[ fst(tile) ] + snd(tile)
+    return rank[fst(tile)] + snd(tile)
 
 def compare(tile1, tile2):
     if get_rank(tile1) < get_rank(tile2):

@@ -20,7 +20,7 @@ nothing = ()
 ### Trivial Patterns
 
 chicken      = ("Chicken Hand", "雞和", 1)
-all_chow     = ("All Chow", "平和", 5)
+all_chows    = ("All Chow", "平和", 5)
 concealed    = ("Concealed Hand", "門前清", 5)
 self_drawn   = ("Self Drawn", "自摸", 5)
 all_simple   = ("All Simple", "斷么九", 5)
@@ -40,15 +40,15 @@ four_identical_chows     = ("Four Identical Chows", "一色四同順", 480)
 
 ### 3.0 Pungs and Kongs
 
-all_pung              = ("All Pungs", "對對和", 30)
+all_pungs             = ("All Pungs", "對對和", 30)
 two_concealed_pungs   = ("Two Concealed Pungs", "二暗刻", 5)
 three_concealed_pungs = ("Three Concealed Pungs", "三暗刻", 30)
 four_concealed_pungs  = ("Four Concealed Pungs", "四暗刻", 125)
 
-one_kong   = ("One Kong", "一槓", 5)
-two_kong   = ("Two Kongs", "兩槓", 20)
-three_kong = ("Three Kongs", "三槓", 120)
-four_kong  = ("Four Kongs", "四槓", 480)
+one_kong    = ("One Kong", "一槓", 5)
+two_kongs   = ("Two Kongs", "兩槓", 20)
+three_kongs = ("Three Kongs", "三槓", 120)
+four_kongs  = ("Four Kongs", "四槓", 480)
 
 
 

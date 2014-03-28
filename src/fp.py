@@ -32,11 +32,11 @@ def mult_(num1, num2):
 def pow_(num1, num2):
     return num1 ^ num2
 
-def cons_(list, item):
-    return list + [item]
+def cons_(ls, item):
+    return ls + [item]
 
-def elem_(list, item):
-    return item in list
+def elem_(ls, item):
+    return item in ls
 
 
 
@@ -50,12 +50,12 @@ def id_(x):
 def compose(f, g):
     return lambda x: f( g(x) )
 
-def reverse_(list):
-    if list == []:
+def reverse_(ls):
+    if ls == []:
         return []
     else:
-        head   = list[0]
-        tail   = list[1:]
+        head   = ls[0]
+        tail   = ls[1:]
         return reverse_(tail) + head
 
 def repeat(obj, n):
@@ -65,57 +65,74 @@ def repeat(obj, n):
     return l
 
 # assumes all items in the list are iterable
-def flatten(list):
+def flatten(ls):
     l = []
-    for i in list:
+    for i in ls:
         for j in i:
             l.append(j)
     return l
 
 # assumes the list contains only booleans
-def or_func(list):
-    return fold_func(or_, False, list)
+def or_func(ls):
+    return fold_func(or_, False, ls)
 
-def and_func(list):
-    return fold_func(and_, True, list)
+def and_func(ls):
+    return fold_func(and_, True, ls)
 
-def map_func(func, list):
+def map_func(func, ls):
     l = []
-    for i in list:
+    for i in ls:
         l.append( func(i) )
     return l
 
-def filter_func(func, list):
+def filter_func(pred, ls):
     l = []
-    for i in list:
-        if func(i):
+    for i in ls:
+        if pred(i):
             l.append(i)
     return l
 
-def fold_func(func, init, list):
+def fold_func(func, init, ls):
     sum = init
-    for i in list:
+    for i in ls:
         sum = func(sum, i)
     return sum
 
 def compose_func(funcs, x):
-    fs = fold_func(conpose, id_, funcs)
-    return fs(x)
+    f = fold_func(conpose, id_, funcs)
+    return f(x)
+
+def count_with(pred, ls):
+    return len(filter_func(lambda x: pred(x) == True, ls))
+
+def zip_(l1, l2):
+    l = []
+    length = min(len(l1), len(l2))
+    for i in range(0, length+1):
+        l.append((l1[i], l2[i]))
+    return l
+
+def zip_with(func, l1, l2):
+    l = []
+    length = min(len(l1), len(l2))
+    for i in range(0, length+1):
+        l.append(func(l1[i], l2[i]))
+    return l
 
 # quick sort taking the head of the list as pivot
 # sorts the elements of the list by a compare function
 # hand has 13 to max of 18 tiles, max of 22 if playing TW
 # shouldn't have to worry about performance
-def sort_by(compare, list):
-    if len(list) == 1:
-        return list
-    elif len(list) == 2:
-        if compare(list[0], list[1]) == 1:
-            return [list[1], list[0]]
-        return list
-    elif len(list) > 2:
-        head    = list[0]
-        tail    = list[1:]
+def sort_with(compare, ls):
+    if len(ls) == 1:
+        return ls
+    elif len(ls) == 2:
+        if compare(ls[0], ls[1]) == 1:
+            return [ls[1], ls[0]]
+        return ls
+    elif len(ls) > 2:
+        head    = ls[0]
+        tail    = ls[1:]
         less    = [l for l in tail if compare(head, l) == 1]
         greater = [l for l in tail if compare(head, l) == -1]
         equal   = [l for l in tail if compare(head, l) == 0]
