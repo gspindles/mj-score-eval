@@ -205,32 +205,32 @@ def _is_illegal_call(hand):
 ### 2.0 Identical Sets
 
 def _is_two_identical_chows(hand):
-    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)) )
+    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)))
     if len(d) == 3:
         if sorted(d.values()) == [1,1,2]:
             return c.two_identical_chows
     return c.nothing
 
 def _is_two_identical_chows_twice(hand):
-    d = to_dict( f.map_func(join_str_rep, _get_melds(hand)) )
+    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)))
     if len(d) == 2:
         if d.values() == [2,2]:
-            return True
-    return False
+            return c.two_identical_chows_twice
+    return c.nothing
 
 def _is_three_identical_chows(hand):
-    d = to_dict( f.map_func(join_str_rep, _get_melds(hand)) )
+    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)))
     if len(d) == 2:
         if sorted(d.values()) == [1,3]:
-            return True
-    return False
+            return c.three_identical_chows
+    return c.nothing
 
 def _is_four_identical_chows(hand):
-    d = to_dict( f.map_func(join_str_rep, _get_melds(hand)) )
+    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)))
     if len(d) == 1:
         if d.values() == [4]:
-            return True
-    return False
+            return c.four_identical_chows
+    return c.nothing
 
 
 
@@ -267,7 +267,7 @@ def _is_one_kong(hand):
 def _is_two_kongs(hand):
     if f.count_with(_is_kong, _get_melds(hand)) == 2:
         return c.two_kongs
-    return c.nothing2
+    return c.nothing
 
 def _is_three_kongs(hand):
     if f.count_with(_is_kong, _get_melds(hand)) == 3:
