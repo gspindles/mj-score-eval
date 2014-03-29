@@ -99,7 +99,7 @@ def fold_func(func, init, ls):
     return sum
 
 def compose_func(funcs, x):
-    f = fold_func(conpose, id_, funcs)
+    f = fold_func(compose, id_, funcs)
     return f(x)
 
 def count_with(pred, ls):
@@ -108,14 +108,14 @@ def count_with(pred, ls):
 def zip_(l1, l2):
     l = []
     length = min(len(l1), len(l2))
-    for i in range(0, length+1):
+    for i in range(0, length):
         l.append((l1[i], l2[i]))
     return l
 
 def zip_with(func, l1, l2):
     l = []
     length = min(len(l1), len(l2))
-    for i in range(0, length+1):
+    for i in range(0, length):
         l.append(func(l1[i], l2[i]))
     return l
 
@@ -136,7 +136,7 @@ def sort_with(compare, ls):
         less    = [l for l in tail if compare(head, l) == 1]
         greater = [l for l in tail if compare(head, l) == -1]
         equal   = [l for l in tail if compare(head, l) == 0]
-        unite   = sort_by(compare, less) + equal + [head] + sort_by(compare, greater)
+        unite   = sort_with(compare, less) + equal + [head] + sort_with(compare, greater)
         return unite
     else:
         return []

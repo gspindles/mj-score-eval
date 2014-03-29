@@ -19,7 +19,7 @@ w = []
 w = t.get_wall()
 
 # sort the wall
-s = f.sort_by(t.compare, w)
+s = f.sort_with(t.compare, w)
 
 # check if sorting is correct
 l = f.map_func(t.get_rank, s)

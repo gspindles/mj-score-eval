@@ -168,7 +168,7 @@ def _is_chicken():
     return c.chicken
 
 def _is_all_chows(hand):
-    if f.and_func(f.map_func(_is_chow, _get_melds(hand)))
+    if f.and_func(f.map_func(_is_chow, _get_melds(hand))):
         return c.all_chow
     return c.nothing
 
@@ -185,7 +185,6 @@ def _is_all_simples(hand):
     if f.and_func(_is_simple, _get_melds(hand) + _get_eyes(hand)):
         return c._is_all_simples
     return c.nothing
-
 
 def _is_all_types(hand):
     tiles = _get_tiles(hand)
@@ -206,11 +205,11 @@ def _is_illegal_call(hand):
 ### 2.0 Identical Sets
 
 def _is_two_identical_chows(hand):
-    d = to_dict( f.map_func(join_str_rep, _get_melds(hand)) )
+    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)) )
     if len(d) == 3:
         if sorted(d.values()) == [1,1,2]:
-            return True
-    return False
+            return c.two_identical_chows
+    return c.nothing
 
 def _is_two_identical_chows_twice(hand):
     d = to_dict( f.map_func(join_str_rep, _get_melds(hand)) )
