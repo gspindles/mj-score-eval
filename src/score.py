@@ -389,35 +389,35 @@ def _is_small_four_winds(hand):
     pass
 
 def _is_big_four_winds(hand):
-    melds = _get_melds(hand)
-    if f.and_func(f.map_func(is_honor_meld, melds)):
-        if f.and_func(f.map_func(t.is_wind, f.flatten(melds))):
-            return True
-    return False
+    if f.and_func(f.map_func(is_wind_pung, _get_melds(hand))):
+        return c.big_four_winds
+    return c.nothing
 
 
 def _is_all_honor_pungs(hand):
-    if f.and_func(f.map_func(is_honor_meld, _get_melds(hand))):
-        return True
-    return False
+    if f.and_func(f.map_func(is_honor_pung, _get_melds(hand))):
+        if f.and_func(_is_honor_eye, _get_eyes(hand)):
+            return c.all_honor_pungs
+    return c.nothing
 
 
 def _is_all_honor_pairs(hand):
-    if _is_seven_unique_pairs(hand) > 0:
-        ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
+    es = f.map_func(t.snd, _get_eyes(hands))
+    if len(h.to_dict(es)) == 7:
+        ts = h.sort_tiles([tile for tile in Set(es)])
         honors = [tile for tile in t.honor_tiles]
         if ts == honors:
-            return 480
-    return 0
+            return c.all_honor_pairs
+    return c.nothing
 
 
 
 ### 9.0 Seven Pairs
 
 def _is_seven_pairs(hand):
-    d = to_dict( hand['held'] + [hand['last']] )
+    d = to_dict(f.map_func(t.snd, _get_eyes(hands)))
     if len(d) == 7:
-        if f.and_func( f.map_func(lambda x: x == 2, d.values()) ):
+        if f.and_func(f.map_func(lambda x: x == 2, d.values())):
             return 30
     if len(d) == 6:
         if sorted(d.values()) == [2, 2, 2, 2, 2, 4]:
@@ -430,40 +430,40 @@ def _is_seven_pairs(hand):
             return 30
     return 0
 
-def _is_seven_unique_pairs(hand):
-    d = to_dict( hand['held'] + [hand['last']] )
-    if len(d) == 7:
-        if f.and_func( f.map_func(lambda x: x == 2, d.values()) ):
-            return 30
-    return 0
-
 def _is_seven_shifted_pairs(hand):
-    if _is_seven_unique_pairs(hand) > 0:
-        ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
-        suit = t.fst(ts[0])
-        if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
-            values = f.map_func(t.snd, ts)
-            if values == range(1,8) or values == range(3,10):
-                return 320
-    return 0
+    es = f.map_func(t.snd, _get_eyes(hands))
+    if len(h.to_dict(es)) == 7:
+        ts = f.map_func(t.snd, h.sort_tiles([tile for tile in Set(es)]))
+        if ts == range(1, 8) or ts == range(3, 10):
+                return c.seven_shifted_pairs
+    return c.nothing
 
 def _is_grand_chariot(hand):
-    return _is_seven_shifted_simple_pairs(hand, t.tile_types[0])
+    es = f.map_func(t.snd, _get_eyes(hands))
+    if len(h.to_dict(es)) == 7:
+        ts = h.sort_tiles([tile for tile in Set(es)])
+        if f.and_func(f.map_func(lambda x: t.fst(x) == t.tile_types[1], ts)):
+            if f.map_func(t.snd, ts) == range(2, 9):
+                return c.grand_chariot
+    return c.nothing
 
 def _is_bamboo_forest(hand):
-    return _is_seven_shifted_simple_pairs(hand, t.tile_types[1])
+    es = f.map_func(t.snd, _get_eyes(hands))
+    if len(h.to_dict(es)) == 7:
+        ts = h.sort_tiles([tile for tile in Set(es)])
+        if f.and_func(f.map_func(lambda x: t.fst(x) == t.tile_types[1], ts)):
+            if f.map_func(t.snd, ts) == range(2, 9):
+                return c.bamboo_forest
+    return c.nothing
 
 def _is_number_neighborhood(hand):
-    return _is_seven_shifted_simple_pairs(hand, t.tile_types[2])
-
-def _is_seven_shifted_simple_pairs(hand, suit):
-    if _is_seven_unique_pairs(hand) > 0:
-        ts = sort_tiles( [tile for tile in Set( hand['held'] + [hand['last']] )] )
-        if f.and_func( f.map_func(lambda x: t.fst(x) == suit, ts) ):
-            values = f.map_func(t.snd, ts)
-            if values == range(2,9):
-                return 400
-    return 0
+    es = f.map_func(t.snd, _get_eyes(hands))
+    if len(h.to_dict(es)) == 7:
+        ts = h.sort_tiles([tile for tile in Set(es)])
+        if f.and_func(f.map_func(lambda x: t.fst(x) == t.tile_types[2], ts)):
+            if f.map_func(t.snd, ts) == range(2, 9):
+                return c.number_neighborhood
+    return c.nothing
 
 
 
