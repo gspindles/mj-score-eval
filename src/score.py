@@ -322,8 +322,11 @@ def _is_mixed_one_suit(hand):
     pass
 
 def _is_pure_one_suit(hand):
-    pass
-
+    ts = [t for m in _get_melds(hand) + _get_eyes(hand) for t in m]
+    s = Set(f.map_func(t.fst, ts))
+    if len(s) == 1:
+        return c.pure_one_suit
+    return c.nothing
 
 def _is_small_dragon_club(hand):
     pass
@@ -347,24 +350,44 @@ def _is_two_tailed_terminal_pungs(hand):
 
 
 def _is_small_boundless_mountain(hand):
-    pass
+    if _is_pure_one_suit(hand) and _is_pure_lesser_terminals(hand):
+        ts = [t for m in _get_melds(hand) for t in m if t._is_terminal(t)]
+        if len(ls) == 6:
+            return c.small_boundless_mountain
+    return c.nothing
 
 def _is_big_boundless_mountain(hand):
-    pass
+    if _is_pure_one_suit(hand) and _is_pure_lesser_terminals(hand):
+        ts = [t for m in _get_melds(hand) for t in m if t._is_terminal(t)]
+        if len(ls) == 8:
+            return c.big_boundless_mountain
+    return c.nothing
 
 
 def _is_mixed_lesser_terminals(hand):
-    pass
+    if f.and_func(f.map_func(_is_outside_meld, _get_melds(hand))):
+        if _is_outside_eye(_get_eyes(hand)):
+            return c.mixed_lesser_terminals
+    return c.nothing
 
 
 def _is_pure_lesser_terminals(hand):
-    pass
+    if f.and_func(f.map_func(_is_terminal_meld, _get_melds(hands))):
+        if _is_terminal_eye(_get_eyes(hand)):
+            return c.pure_lesser_terminals
+    return c.nothing
 
 def _is_mixed_greater_germinals(hand):
-    pass
+    if f.and_func(f.map_func(_is_outside_pung, _get_melds(hands))):
+        if _is_outside_eye(_get_eyes(hand)):
+            return c.mixed_greater_terminals
+    return c.nothing
 
 def _is_pure_greater_terminals(hand):
-    pass
+    if f.and_func(f.map_func(_is_terminal_pung, _get_melds(hands))):
+        if _is_terminal_eye(_get_eyes(hand)):
+            return c.pure_greater_terminals
+    return c.nothing
 
 
 
@@ -539,7 +562,7 @@ def _is_thirteen_orphans(hand):
     if h.issubset(s) and s.issubset(h):
         return c.thirteen_orphans
     return c.nothing
-
+    # save this for now, change it later
 
 
 ### 12.0 Incidental bonuses

@@ -84,15 +84,15 @@ nine_gates = ("Nine Gates", "九蓮寶燈", 480)
 
 ### 7.0 Terminal Tiles
 
-two_tailed_terminal_chow = ("Two-Tailed Terminal Chows", "老少配", 5)
-two_tailed_terminal_pung = ("Two-Tailed Terminal Pungs", "老少副", 15)
-small_mountain           = ("Small Mountain", "小山滿", 320)
-big_mountain             = ("Big Mountain", "大山滿", 400)
+two_tailed_terminal_chows = ("Two-Tailed Terminal Chows", "老少配", 5)
+two_tailed_terminal_pungs = ("Two-Tailed Terminal Pungs", "老少副", 15)
+small_boundless_mountain  = ("Small Mountain", "小山滿", 320)
+big_boundless_mountain    = ("Big Mountain", "大山滿", 400)
 
-mixed_lesser_terminal  = ("Mixed Lesser Terminals", "混全帶么", 40)
-pure_lesser_terminal   = ("Pure Lesser Terminals", "純全帶么", 50)
-mixed_greater_terminal = ("Mixed Greater Terminals", "混么九", 100)
-pure_greater_terminal  = ("Pure Greater Terminals", "清么九", 400)
+mixed_lesser_terminals  = ("Mixed Lesser Terminals", "混全帶么", 40)
+pure_lesser_terminals   = ("Pure Lesser Terminals", "純全帶么", 50)
+mixed_greater_terminals = ("Mixed Greater Terminals", "混么九", 100)
+pure_greater_terminals  = ("Pure Greater Terminals", "清么九", 400)
 
 
 

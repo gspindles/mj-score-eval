@@ -235,7 +235,7 @@ h_9_tile_straight = \
 
 
 
-h_3_consecutive_pung = \
+h_3_consecutive_pungs = \
     [ ('n', 'p', 's'), [('B', 4), ('B', 4), ('B', 4)])
     , ('m', 'p', 's'), [('B', 5), ('B', 5), ('B', 5)])
     , ('m', 'p', 's'), [('B', 6), ('B', 6), ('B', 6)])
@@ -243,7 +243,7 @@ h_3_consecutive_pung = \
     , ('n', 'e', 'w'), [('W', 4), ('W', 4)])
     ]
 
-h_4_consecutive_pung = \
+h_4_consecutive_pungs = \
     [ ('n', 'p', 's'), [('B', 4), ('B', 4), ('B', 4)])
     , ('m', 'p', 's'), [('B', 5), ('B', 5), ('B', 5)])
     , ('m', 'p', 's'), [('B', 6), ('B', 6), ('B', 6)])
@@ -312,7 +312,7 @@ h_nine_gates = \
 
 
 ### 7.0 Terminal Tiles
-h_two_tailed_terminal_chow = \
+h_two_tailed_terminal_chows = \
     [ ('n', 'p', 's'), [('C', 3), ('C', 3), ('C', 3)])
     , ('n', 'c', 't'), [('B', 1), ('B', 2), ('B', 3)])
     , ('m', 'c', 't'), [('B', 7), ('B', 8), ('B', 9)])
@@ -320,7 +320,7 @@ h_two_tailed_terminal_chow = \
     , ('n', 'e', 'w'), [('W', 4), ('W', 4)])
     ]
 
-h_two_tailed_terminal_pung = \
+h_two_tailed_terminal_pungs = \
     [ ('n', 'p', 's'), [('C', 3), ('C', 3), ('C', 3)])
     , ('n', 'p', 't'), [('B', 1), ('B', 1), ('B', 1)])
     , ('m', 'p', 't'), [('B', 9), ('B', 9), ('B', 9)])
@@ -362,7 +362,7 @@ h_big_mountain_2 = \
 
 
 
-h_mixed_lesser_terminal  = \
+h_mixed_lesser_terminals  = \
     [ ('n', 'c', 't'), [('B', 1), ('B', 2), ('B', 3)])
     , ('m', 'p', 't'), [('C', 1), ('C', 1), ('C', 1)])
     , ('m', 'c', 't'), [('K', 7), ('K', 8), ('K', 9)])
@@ -370,7 +370,7 @@ h_mixed_lesser_terminal  = \
     , ('n', 'e', 'w'), [('W', 1), ('W', 1)])
     ]
 
-h_pure_lesser_terminal   = \
+h_pure_lesser_terminals   = \
     [ ('n', 'c', 't'), [('B', 1), ('B', 2), ('B', 3)])
     , ('m', 'p', 't'), [('C', 1), ('C', 1), ('C', 1)])
     , ('m', 'c', 't'), [('K', 7), ('K', 8), ('K', 9)])
@@ -378,7 +378,7 @@ h_pure_lesser_terminal   = \
     , ('n', 'e', 't'), [('K', 1), ('K', 1)])
     ]
 
-h_mixed_greater_terminal = \
+h_mixed_greater_terminals = \
     [ ('n', 'p', 't'), [('K', 1), ('K', 1), ('K', 1)])
     , ('m', 'p', 't'), [('C', 9), ('C', 9), ('C', 9)])
     , ('m', 'p', 't'), [('B', 9), ('B', 9), ('B', 9)])
@@ -386,7 +386,7 @@ h_mixed_greater_terminal = \
     , ('n', 'e', 'w'), [('W', 1), ('W', 1)])
     ]
 
-h_pure_greater_terminal  = \
+h_pure_greater_terminals  = \
     [ ('n', 'p', 't'), [('C', 1), ('C', 1), ('C', 1)])
     , ('m', 'p', 't'), [('C', 9), ('C', 9), ('C', 9)])
     , ('m', 'p', 't'), [('B', 1), ('B', 1), ('B', 1)])
