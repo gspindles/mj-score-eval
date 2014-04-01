@@ -328,11 +328,19 @@ def _is_pure_one_suit(hand):
         return c.pure_one_suit
     return c.nothing
 
-def _is_small_dragon_club(hand):
-    pass
+def _is_small_terminal_club(hand):
+    ts = [t for m in _get_melds(hand) + _get_eyes(hand) for t in m]
+    s = sorted(f.map_func(t.snd, ts))
+    if s == [1, 1, 2, 2, 3, 3, 5, 5, 7, 7, 8, 8, 9, 9]:
+        return c.small_terminal_club
+    return c.nothing
 
-def _is_big_dragon_club(hand):
-    pass
+def _is_big_terminal_club(hand):
+    ts = [t for m in _get_melds(hand) + _get_eyes(hand) for t in m]
+    s = sorted(f.map_func(t.snd, ts))
+    if s == [1, 1, 1, 1, 2, 3, 5, 5, 7, 8, 9, 9, 9, 9]:
+        return c.big_terminal_club
+    return c.nothing
 
 
 def _is_nine_gates(hand):
