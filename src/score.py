@@ -188,12 +188,12 @@ def _is_all_simples(hand):
     return c.nothing
 
 def _is_all_types(hand):
-    tiles = _get_tiles(hand)
-    has_coin      = f.or_func(f.map_func(t.is_coin, tiles))
-    has_bamboo    = f.or_func(f.map_func(t.is_bamboo, tiles))
-    has_character = f.or_func(f.map_func(t.is_character, tiles))
-    has_wind      = f.or_func(f.map_func(t.is_wind, tiles))
-    has_dragon    = f.or_func(f.map_func(t.is_dragon, tiles))
+    ts = _get_tiles(hand)
+    has_coin      = f.or_func(f.map_func(t.is_coin, ts))
+    has_bamboo    = f.or_func(f.map_func(t.is_bamboo, ts))
+    has_character = f.or_func(f.map_func(t.is_character, ts))
+    has_wind      = f.or_func(f.map_func(t.is_wind, ts))
+    has_dragon    = f.or_func(f.map_func(t.is_dragon, ts))
     if has_coin and has_bamboo and has_character and has_wind and has_dragon:
         return c.all_type
     return c.nothing
@@ -206,28 +206,32 @@ def _is_illegal_call(hand):
 ### 2.0 Identical Sets
 
 def _is_two_identical_chows(hand):
-    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)))
+    lfunc = lambda x: _join_str_rep(t.snd(x))
+    d = to_dict(f.map_func(lf, _get_melds(hand)))
     if len(d) == 3:
         if sorted(d.values()) == [1,1,2]:
             return c.two_identical_chows
     return c.nothing
 
 def _is_two_identical_chows_twice(hand):
-    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)))
+    lfunc = lambda x: _join_str_rep(t.snd(x))
+    d = to_dict(f.map_func(lfunc, _get_melds(hand)))
     if len(d) == 2:
         if d.values() == [2,2]:
             return c.two_identical_chows_twice
     return c.nothing
 
 def _is_three_identical_chows(hand):
-    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)))
+    lfunc = lambda x: _join_str_rep(t.snd(x))
+    d = to_dict(f.map_func(lfunc, _get_melds(hand)))
     if len(d) == 2:
         if sorted(d.values()) == [1,3]:
             return c.three_identical_chows
     return c.nothing
 
 def _is_four_identical_chows(hand):
-    d = to_dict(f.map_func(lambda x: _join_str_rep(t.snd(x)), _get_melds(hand)))
+    lfunc = lambda x: _join_str_rep(t.snd(x))
+    d = to_dict(f.map_func(lfunc, _get_melds(hand)))
     if len(d) == 1:
         if d.values() == [4]:
             return c.four_identical_chows
@@ -401,7 +405,6 @@ def _is_all_honor_pungs(hand):
             return c.all_honor_pungs
     return c.nothing
 
-
 def _is_all_honor_pairs(hand):
     es = f.map_func(t.snd, _get_eyes(hands))
     if len(h.to_dict(es)) == 7:
@@ -443,7 +446,8 @@ def _is_grand_chariot(hand):
     es = f.map_func(t.snd, _get_eyes(hands))
     if len(h.to_dict(es)) == 7:
         ts = h.sort_tiles([tile for tile in Set(es)])
-        if f.and_func(f.map_func(lambda x: t.fst(x) == t.tile_types[1], ts)):
+        lfunc = lambda x: t.fst(x) == t.tile_types[0]
+        if f.and_func(f.map_func(lfunc, ts)):
             if f.map_func(t.snd, ts) == range(2, 9):
                 return c.grand_chariot
     return c.nothing
@@ -452,7 +456,8 @@ def _is_bamboo_forest(hand):
     es = f.map_func(t.snd, _get_eyes(hands))
     if len(h.to_dict(es)) == 7:
         ts = h.sort_tiles([tile for tile in Set(es)])
-        if f.and_func(f.map_func(lambda x: t.fst(x) == t.tile_types[1], ts)):
+        lfunc = lambda x: t.fst(x) == t.tile_types[1]
+        if f.and_func(f.map_func(lfunc, ts)):
             if f.map_func(t.snd, ts) == range(2, 9):
                 return c.bamboo_forest
     return c.nothing
@@ -461,7 +466,8 @@ def _is_number_neighborhood(hand):
     es = f.map_func(t.snd, _get_eyes(hands))
     if len(h.to_dict(es)) == 7:
         ts = h.sort_tiles([tile for tile in Set(es)])
-        if f.and_func(f.map_func(lambda x: t.fst(x) == t.tile_types[2], ts)):
+        lfunc = lambda x: t.fst(x) == t.tile_types[2]
+        if f.and_func(f.map_func(lfunc, ts)):
             if f.map_func(t.snd, ts) == range(2, 9):
                 return c.number_neighborhood
     return c.nothing
@@ -471,15 +477,27 @@ def _is_number_neighborhood(hand):
 ### 10.0 Color Hands
 
 def _is_all_green(hand):
-    pass
+    ms = _get_melds(hand)
+    lfunc = lambda m: f.and_func(f.map_func(t.is_green, m))
+    if f.and_func(f.map_func(lfunc, ms)):
+        return c.all_green
+    return c.nothing
 
 
 def _is_all_red(hand):
-    pass
+    ms = _get_melds(hand)
+    lfunc = lambda m: f.and_func(f.map_func(t.is_red, m))
+    if f.and_func(f.map_func(lfunc, ms)):
+        return c.all_red
+    return c.nothing
 
 
 def _is_all_blue(hand):
-    pass
+    ms = _get_melds(hand)
+    lfunc = lambda m: f.and_func(f.map_func(t.is_blue, m))
+    if f.and_func(f.map_func(lfunc, ms)):
+        return c.all_blue
+    return c.nothing
 
 
 
@@ -492,56 +510,85 @@ def _is_thirteen_orphans(hand):
     h = Set( hand['held'] + [hand['last']] )
     s = Set(t.edge_tiles)
     if h.issubset(s) and s.issubset(h):
-        return 160
-    else:
-        return 0
+        return c.thirteen_orphans
+    return c.nothing
 
 
 
 ### 12.0 Incidental bonuses
 
 def _is_final_draw():
-    return 10
+    return c.final_draw
 
 
 def _is_final_discard():
-    return 10
+    return c.final_discard
 
 
 def _is_win_on_kong():
-    return 10
+    return c.win_on_kong
 
 def _is_win_on_bonus():
-    return 10
+    return c.win_on_bonus_tile
 
-def _is_robbing_kong():
-    return 10
+def _is_robbing_a_kong():
+    return c.robbing_a_kong
 
 
 def _is_blessing_of_heaven():
-    return 155
+    return c.blessing_of_heaven
 
 def _is_blessing_of_earth():
-    return 155
+    return c.blessing_of_earth
 
 
 
 ### 13.0 Bonus Tiles
 
-def _is_non_seat_flower():
-    return 2
+def _is_non_seat_flower(hand, seat):
+    fs = f.filter_func(t.is_flower, _get_bonus(hand))
+    nsfs = [f for f in fs if f != t.flower_tiles[seat]]
+    if len(nsfs) > 0:
+        return (c.non_seat_flower[0], c.non_seat_flower[1], c.non_seat_flower * len(nsfs))
+    return c.nothing
 
-def _is_seat_flower():
-    return 4
+def _is_non_seat_season(hand, seat):
+    ss = f.filter_func(t.is_season, _get_bonus(hand))
+    nsss = [s for s in ss if s != t.season_tiles[seat]]
+    if len(nsss) > 0:
+        return (c.non_seat_season[0], c.non_seat_season[1], c.non_seat_season * len(nsss))
+    return c.nothing
+
+def _is_seat_flower(hand, seat):
+    fs = f.filter_func(t.is_flower, _get_bonus(hand))
+    if t.flower_tiles[seat] in fs
+        return c.seat_flower
+    return c.nothing
+
+def _is_seat_season(hand, seat):
+    ss = f.filter_func(t.is_season, _get_bonus(hand))
+    if t.season_tiles[seat] in ss
+        return c.seat_season
+    return c.nothing
 
 
 
 def _is_four_flowers(hand):
-    pass
+    fs = f.filter_func(t.is_flower, _get_bonus(hand))
+    if len(fs) == 4:
+        return c.all_flowers
+    return c.nothing
 
 def _is_four_seasons(hand):
-    pass
+    ss = f.filter_func(t.is_season, _get_bonus(hand))
+    if len(ss) == 4:
+        return c.all_seasons
+    return c.nothing
+
 
 
 def _is_all_flowers(hand):
-    pass
+    bs = _get_bonus(hand)
+    if len(bs) == 8:
+        return c.all_bonus_tiles
+    return c.nothing

@@ -116,7 +116,8 @@ all_honor_pairs = ("All Honor Pairs", "大七星", 480)
 
 ### 9.0 Seven Pairs
 
-seven_pairs         = ("Seven Pairs", "七對子", 30)
+seven_pairs = ("Seven Pairs", "七對子", 30)
+
 seven_shifted_pairs = ("Seven Shifted Pairs", "連七對", 320)
 grand_chariot       = ("Grand Chariot", "大車輪", 400)
 bamboo_forest       = ("Bamboo Forest", "大竹林", 400)
@@ -159,6 +160,8 @@ non_seat_flower = ("Non-seat Flower", "偏花", 2)
 non_seat_season = ("Non-seat Season", "偏季", 2)
 seat_flower     = ("Seat Flower", "正花", 4)
 seat_season     = ("Seat Season", "正季", 4)
-four_flowers    = ("Four Flowers", "齊四花", 10)
-four_seasons    = ("Four Seasons", "齊四季", 10)
+
+four_flowers = ("Four Flowers", "齊四花", 10)
+four_seasons = ("Four Seasons", "齊四季", 10)
+
 all_bonus_tiles = ("All Bonus Tiles", "八仙過海", 50)
