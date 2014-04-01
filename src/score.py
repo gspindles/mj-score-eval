@@ -371,31 +371,58 @@ def _is_pure_greater_terminals(hand):
 ### 8.0 Honor Tiles
 
 def _is_dragon_pung(hand):
-    pass
+    dps = f.filter_func(_is_dragon_pung, _get_melds(hand))
+    if len(dps) > 0:
+        return (c.dragon_pung[0], c.dragon_pung[1], c.dragon_pung[2] * len(dps))
+    return c.nothing
 
-def _is_seat_wind(hand):
-    pass
-
-
-def _is_small_three_dragons(hand):
-    pass
-
-def _is_big_three_dragons(hand):
-    pass
+def _is_seat_wind(hand, seat):
+    wps = f.filter_func(_is_wind_pung, _get_melds(hand))
+    wts = f.map_func(t.fst, wps)
+    if t.wind_tile[seat] in wts:
+        return c.seat_wind
+    return c.nothing
 
 
 def _is_small_three_winds(hand):
-    pass
+    wps = f.filter_func(_is_wind_pung, _get_melds(hand))
+    if len(wps) == 2:
+        if _is_wind_eye(_get_eyes(hand)):
+            return c.small_three_wind
+    return c.nothing
 
 def _is_big_three_winds(hand):
-    pass
+    wps = f.filter_func(_is_wind_pung, _get_melds(hand))
+    if len(wps) == 3:
+        if not _is_wind_eye(_get_eyes(hand)):
+            return c.big_three_winds
+    return c.nothing
+
 
 def _is_small_four_winds(hand):
-    pass
+    wps = f.filter_func(_is_wind_pung, _get_melds(hand))
+    if len(wps) == 3:
+        if _is_wind_eye(_get_eyes(hand)):
+            return c.small_four_winds
+    return c.nothing
 
 def _is_big_four_winds(hand):
     if f.and_func(f.map_func(is_wind_pung, _get_melds(hand))):
         return c.big_four_winds
+    return c.nothing
+
+
+def _is_small_three_dragons(hand):
+    dps = f.filter_func(_is_dragon_pung, _get_melds(hand))
+    if len(dps) == 2:
+        if _is_dragon_eye(_get_eyes(hand)):
+            return c.small_three_dragons
+    return c.nothing
+
+def _is_big_three_dragons(hand):
+    dps = f.filter_func(_is_dragon_pung, _get_melds(hand))
+    if len(dps) == 3:
+        return c.big_three_dragons
     return c.nothing
 
 
@@ -549,14 +576,14 @@ def _is_non_seat_flower(hand, seat):
     fs = f.filter_func(t.is_flower, _get_bonus(hand))
     nsfs = [f for f in fs if f != t.flower_tiles[seat]]
     if len(nsfs) > 0:
-        return (c.non_seat_flower[0], c.non_seat_flower[1], c.non_seat_flower * len(nsfs))
+        return (c.non_seat_flower[0], c.non_seat_flower[1], c.non_seat_flower[2] * len(nsfs))
     return c.nothing
 
 def _is_non_seat_season(hand, seat):
     ss = f.filter_func(t.is_season, _get_bonus(hand))
     nsss = [s for s in ss if s != t.season_tiles[seat]]
     if len(nsss) > 0:
-        return (c.non_seat_season[0], c.non_seat_season[1], c.non_seat_season * len(nsss))
+        return (c.non_seat_season[0], c.non_seat_season[1], c.non_seat_season[2] * len(nsss))
     return c.nothing
 
 def _is_seat_flower(hand, seat):
