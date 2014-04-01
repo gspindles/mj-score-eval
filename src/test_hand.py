@@ -46,7 +46,7 @@ h_chicken = { 'held' : [('W', 3)]
             , 'bonus' : [('F', 1)]
             }
 
-h_all_seqs = { 'held': [('D', 1)]
+h_all_chows = { 'held': [('D', 1)]
              , 'concealed': [ [('B', 4), ('B', 5), ('B', 6)] ]
              , 'melded': [ [('C', 7), ('C', 8), ('C', 9)]
                          , [('B', 2), ('B', 3), ('B', 4)]
@@ -234,7 +234,7 @@ h_4_kongs = { 'held' : [('D', 1)]
 
 ### 4.0 Similar Sets
 
-h_similar_seqs = { 'held': [('D', 1)]
+h_similar_chows = { 'held': [('D', 1)]
                  , 'concealed': [ [('B', 4), ('B', 5), ('B', 6)] ]
                  , 'melded': [ [('C', 4), ('C', 5), ('C', 6)]
                              , [('B', 2), ('B', 2), ('B', 2)]
