@@ -28,7 +28,8 @@ import chart as c
 # w is for wind
 # d is for dragon
 # b is for bonus (flowers, seasons, north[3ma], animals)
-
+# h is for special hands (mainly nine gates and 13 orphans)
+# l is for leftover (mainly for 8 bonus tiles)
 
 # basic building blocks
 

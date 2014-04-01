@@ -37,6 +37,8 @@ from   sets  import Set
 # d is for dragon
 # w is for wind
 # b is for bonus (flowers, seasons, north[3ma], animals)
+# h is for special hands (mainly nine gates and 13 orphans)
+# l is for leftover (mainly for 8 bonus tiles)
 
 
 def figure_out_hand(hand):
