@@ -15,7 +15,7 @@ import examples_score as es
 
 def print_(r):
     if r:
-        print r[0] + ' : ' + r[1] + ' : ' + str(r[2])
+        print r[0] + ' : ' + str(r[2])# + ' : ' + str(r[2])
     else:
         print r[0] + ' : failed'
 
@@ -27,7 +27,8 @@ print_(s._is_chicken())
 print_(s._is_all_chows(es.h_all_chows))
 print_(s._is_concealed_hand(es.h_concealed))
 print_(s._is_self_drawn())
-print_(s._is_all_simples(es.h_all_simples))
+print_(s._is_all_simples(es.h_all_simples_1))
+print_(s._is_all_simples(es.h_all_simples_2))
 print_(s._is_all_types(es.h_all_types))
 print_(s._is_illegal_call())
 
@@ -82,8 +83,10 @@ print_(s._is_four_kongs(es.h_4_kongs))
 
 ### 6.0 Suit Patterns
 
-# print_(s._is_mixed_one_suit(es.h_mixed_1_suit))
-print_(s._is_pure_one_suit(es.h_pure_1_suit))
+# print_(s._is_mixed_one_suit(es.h_mixed_1_suit_1))
+# print_(s._is_mixed_one_suit(es.h_mixed_1_suit_2))
+print_(s._is_pure_one_suit(es.h_pure_1_suit_1))
+print_(s._is_pure_one_suit(es.h_pure_1_suit_2))
 print_(s._is_little_terminal_club(es.h_little_terminal_club))
 print_(s._is_big_terminal_club(es.h_big_terminal_club))
 
@@ -96,23 +99,25 @@ print_(s._is_big_terminal_club(es.h_big_terminal_club))
 
 # print_(s._is_two_tailed_terminal_chows(es.h_two_tailed_terminal_chows))
 # print_(s._is_two_tailed_terminal_pungs(es.h_two_tailed_terminal_pungs))
-print_(s._is_little_boundless_mountain(es.h_little_mountain_1))
-print_(s._is_little_boundless_mountain(es.h_little_mountain_2))
-print_(s._is_big_boundless_mountain(es.h_big_mountain_1))
-print_(s._is_big_boundless_mountaini(es.h_big_mountain_2))
+print_(s._is_little_boundless_mountain(es.h_little_boundless_mountain_1))
+print_(s._is_little_boundless_mountain(es.h_little_boundless_mountain_2))
+print_(s._is_big_boundless_mountain(es.h_big_boundless_mountain_1))
+print_(s._is_big_boundless_mountain(es.h_big_boundless_mountain_2))
 
 
 print_(s._is_mixed_lesser_terminals(es.h_mixed_lesser_terminals))
 print_(s._is_pure_lesser_terminals(es.h_pure_lesser_terminals))
-print_(s._is_mixed_greater_terminals(es.h_mixed_greater_terminals))
-print_(s._is_pure_greater_terminels(es.h_pure_greater_terminals))
+print_(s._is_mixed_greater_terminals(es.h_mixed_greater_terminals_1))
+print_(s._is_mixed_greater_terminals(es.h_mixed_greater_terminals_2))
+print_(s._is_pure_greater_terminals(es.h_pure_greater_terminals_1))
+print_(s._is_pure_greater_terminals(es.h_pure_greater_terminals_2))
 
 
 
 ### 8.0 Honor Tiles
 
-print_(s._is_dragon_pung(es.h_dragon_pungs))
-print_(s._is_seat_wind(es.h_seat_wind, 0))
+# print_(s._is_dragon_pung(es.h_dragon_pungs))
+# print_(s._is_seat_wind(es.h_seat_wind, 0))
 
 
 print_(s._is_little_three_winds(es.h_little_3_winds))
@@ -121,11 +126,12 @@ print_(s._is_little_four_winds(es.h_little_4_winds))
 print_(s._is_big_four_winds(es.h_big_4_winds))
 
 
-print_(s._is_little_three_dragons(es.h_little_3_dragons))
-print_(s._is_big_three_dragons(es.h_big_3_dragons))
+# print_(s._is_little_three_dragons(es.h_little_3_dragons))
+# print_(s._is_big_three_dragons(es.h_big_3_dragons))
 
 
-print_(s._is_all_honor_pungs(es.h_all_honor_pungs))
+print_(s._is_all_honors(es.h_all_honors_1))
+print_(s._is_all_honors(es.h_all_honors_2))
 print_(s._is_all_honor_pairs(es.h_all_honor_pairs))
 
 
@@ -138,8 +144,8 @@ print_(s._is_seven_pairs(es.h_7_pairs_3))
 print_(s._is_seven_pairs(es.h_7_pairs_4))
 
 
-print_(s._is_seven_shifted_pungs(es.h_7_shifted_pairs_1))
-print_(s._is_seven_shifted_pungs(es.h_7_shifted_pairs_2))
+print_(s._is_seven_shifted_pairs(es.h_7_shifted_pairs_1))
+print_(s._is_seven_shifted_pairs(es.h_7_shifted_pairs_2))
 print_(s._is_grand_chariot(es.h_grand_chariot))
 print_(s._is_bamboo_forest(es.h_bamboo_forest))
 print_(s._is_number_neighborhood(es.h_number_neighborhood))
@@ -156,7 +162,7 @@ print_(s._is_all_blue(es.h_all_blue))
 
 ### 11.0 Irregular Hands
 
-print_(s._is_thirdteen_orphans(es.h_13_orphans))
+# print_(s._is_thirdteen_orphans(es.h_13_orphans))
 
 
 
