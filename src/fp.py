@@ -38,6 +38,8 @@ def cons_(ls, item):
 def elem_(ls, item):
     return item in ls
 
+def equal_(obj1, obj2):
+    return obj1 == obj2
 
 
 ###########################

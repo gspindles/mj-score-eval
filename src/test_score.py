@@ -15,7 +15,7 @@ import examples_score as es
 
 def print_(r):
     if r:
-        print r[0] + ' : ' + str(r[2])# + ' : ' + str(r[2])
+        print r[0] + ' : ' + r[1] + ' : ' + str(r[2])
     else:
         print r[0] + ' : failed'
 
@@ -116,8 +116,8 @@ print_(s._is_pure_greater_terminals(es.h_pure_greater_terminals_2))
 
 ### 8.0 Honor Tiles
 
-# print_(s._is_dragon_pung(es.h_dragon_pungs))
-# print_(s._is_seat_wind(es.h_seat_wind, 0))
+print_(s._is_dragon_pung_hand(es.h_dragon_pung))
+print_(s._is_seat_wind(es.h_seat_wind, 0))
 
 
 print_(s._is_little_three_winds(es.h_little_3_winds))
@@ -126,8 +126,8 @@ print_(s._is_little_four_winds(es.h_little_4_winds))
 print_(s._is_big_four_winds(es.h_big_4_winds))
 
 
-# print_(s._is_little_three_dragons(es.h_little_3_dragons))
-# print_(s._is_big_three_dragons(es.h_big_3_dragons))
+print_(s._is_little_three_dragons(es.h_little_3_dragons))
+print_(s._is_big_three_dragons(es.h_big_3_dragons))
 
 
 print_(s._is_all_honors(es.h_all_honors_1))

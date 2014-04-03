@@ -423,7 +423,7 @@ def _is_pure_greater_terminals(hand):
 
 ### 8.0 Honor Tiles
 
-def _is_dragon_pung(hand):
+def _is_dragon_pung_hand(hand):
     dps = f.filter_func(_is_dragon_pung, _get_melds(hand))
     if len(dps) > 0:
         return (c.dragon_pung[0], c.dragon_pung[1], c.dragon_pung[2] * len(dps))
@@ -431,8 +431,8 @@ def _is_dragon_pung(hand):
 
 def _is_seat_wind(hand, seat):
     wps = f.filter_func(_is_wind_pung, _get_melds(hand))
-    wts = f.map_func(t.fst, wps)
-    if t.wind_tiles[seat + 1] in wts:
+    wts = f.flatten(f.map_func(t.snd, wps))
+    if t.wind_tiles[seat] in wts:
         return c.seat_wind
     return c.nothing
 
@@ -468,7 +468,7 @@ def _is_big_four_winds(hand):
 def _is_little_three_dragons(hand):
     dps = f.filter_func(_is_dragon_pung, _get_melds(hand))
     if len(dps) == 2:
-        if _is_dragon_eye(_get_eyes(hand)):
+        if _is_dragon_eye(_get_eyes(hand)[0]):
             return c.little_three_dragons
     return c.nothing
 
