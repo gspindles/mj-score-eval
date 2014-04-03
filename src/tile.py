@@ -61,11 +61,11 @@ def get_wall():
 ###################
 
 def show_tile(tile):
-    return fst(tile) + str( snd(tile) )
+    return fst(tile) + str(snd(tile))
 
 def read_tile(tile):
     if len(tile) == 2:
-        return (tile[0], int( tile[1] ) )
+        return (tile[0], int(tile[1]))
 
 rank = { 'C': 10
        , 'B': 20

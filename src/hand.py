@@ -85,16 +85,6 @@ def to_list(hand):
             l.append(hand['last'])
     return l
 
-def to_dict(tiles):
-    d = {}
-    for tile in tiles:
-        s = t.show_tile(tile)
-        if d.has_key(s):
-            d[s] += 1
-        else:
-            d[s] = 1
-    return d
-
 def get_melds(hand):
     return [c for c in hand['concealed']] + [m for m in hand['melded']]
 

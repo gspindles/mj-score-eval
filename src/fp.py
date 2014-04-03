@@ -66,11 +66,7 @@ def repeat(obj, n):
 
 # assumes all items in the list are iterable
 def flatten(ls):
-    l = []
-    for i in ls:
-        for j in i:
-            l.append(j)
-    return l
+    return [i for s in ls for i in s]
 
 # assumes the list contains only booleans
 def or_func(ls):

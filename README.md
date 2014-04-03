@@ -103,7 +103,7 @@ Three Chows in the same numbers across three different suits.
 Example: 3筒 4筒 5筒﹐ 3索 4索 5索﹐ 3萬 4萬 5萬
 
 
-#### 4.2.1 Small Three Similar Pungs (三色小同刻) : 30
+#### 4.2.1 Little Three Similar Pungs (三色小同刻) : 30
 Two Pungs/kongs in the same number in two different suits, and the eye pair in the same number in the third suit.
 Example: 4筒 4筒 4筒﹐ 4萬 4萬 4萬﹐ 4索 4索(eye)
 
@@ -145,7 +145,7 @@ The hand consists entirely of number tiles in one suit, plus honor tiles.
 #### 6.1.2 Pure One-Suit (清一色) : 80
 The hand consists entirely of number tiles in one suit.
 
-#### 6.1.3 Small Terminal Club (一色雙龍會) : 100
+#### 6.1.3 Little Terminal Club (一色雙龍會) : 100
 The hand consists of the pattern 123-123-789-789-55 in a suit.
 
 #### 6.1.4 Big Terminal Club (清天龍會) : 320
@@ -168,7 +168,7 @@ A sequece of 123 and 789 in the same suit.
 #### 7.1.2 Two-Tailed Terminal Pungs (老少副) : 15
 A triplet/kongs of 1s and 9s in the same suit.
 
-#### 7.1.3 Small Mountain (小山滿) : 320
+#### 7.1.3 Little Mountain (小山滿) : 320
 Pure one-suit hand satisfying pure lesser terminals, using up only six terminals of one suit.
 Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 7筒 8筒 9筒, 1筒 1筒
 Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 9筒 9筒
@@ -206,7 +206,7 @@ Note: in Zung Jung the Prevailing Wind is not recognized.
 A triplet/kongs of a dragon tile.
 
 
-#### 8.2.1 Small Three Winds (小三風) : 30
+#### 8.2.1 Little Three Winds (小三風) : 30
 Two triplet/kongs of Winds, plus a pair of Winds as the eyes.
 Example: 西 西 西﹐ 北 北 北﹐ 東 東(eyes)
 
@@ -214,7 +214,7 @@ Example: 西 西 西﹐ 北 北 北﹐ 東 東(eyes)
 Three triplet/kongs of Winds.
 Example: 東 東 東﹐ 南 南 南﹐ 北 北 北
 
-#### 8.2.3 Small Four Winds (小四喜) : 320
+#### 8.2.3 Little Four Winds (小四喜) : 320
 Three triplet/kongs of Winds, plus a pair of Winds as the eyes.
 Example: 東 東 東﹐ 西 西 西﹐ 北 北 北﹐ 南 南(eyes)
 
@@ -223,7 +223,7 @@ Four triplet/kongs of Winds.
 東 東 東﹐ 南 南 南﹐ 西 西 西﹐ 北 北 北
 
 
-#### 8.3.1 Small Three Dragons (小三元) : 40 -> 60
+#### 8.3.1 Little Three Dragons (小三元) : 40 -> 60
 Two triplet/kongs of Dragons, plus a pair of Dragons as the eyes.
 Example: 白 白 白﹐ 中 中 中﹐ 發 發(eyes)
 (This hand always includes two Dragon Pungs, so it scores at least 40+10+10=60 points.)
@@ -310,7 +310,7 @@ Self-draw win on a "supplement" tile after drawing a bonus tile.
 
 
 #### 12.3 Robbing a Kongs (搶槓) : 10
-Winning by robbing a kongs (when another player makes a "small exposed kongs").
+Winning by robbing a kongs (when another player makes a "Little exposed kongs").
 
 
 #### 12.4.1 Blessing of Heaven (天和) : 155
