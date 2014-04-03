@@ -56,7 +56,7 @@ four_kongs  = ('Four Kongs', u'四槓', 480)
 
 three_similar_chows = ('Three Similar Chows', u'三色同順', 35)
 
-small_three_similar_pungs = ('Small Three Similar Pungs', u'三色小同刻', 30)
+little_three_similar_pungs = ('little Three Similar Pungs', u'三色小同刻', 30)
 three_similar_pungs       = ('Three Similar Pungs', u'三色同刻', 120)
 
 
@@ -75,7 +75,7 @@ three_mothers           = ('Three Mothers', u'三娘教子', 400)
 
 mixed_one_suit      = ('Mixed One-Suit', u'混一色', 40)
 pure_one_suit       = ('Pure One-Suit', u'清一色', 80)
-small_terminal_club = ('Small Terminal Club', u'一色雙龍會', 100)
+little_terminal_club = ('little Terminal Club', u'一色雙龍會', 100)
 big_terminal_club   = ('Big Terminal Club', u'清天龍會', 320)
 
 nine_gates = ('Nine Gates', u'九蓮寶燈', 480)
@@ -86,7 +86,7 @@ nine_gates = ('Nine Gates', u'九蓮寶燈', 480)
 
 two_tailed_terminal_chows = ('Two-Tailed Terminal Chows', u'老少配', 5)
 two_tailed_terminal_pungs = ('Two-Tailed Terminal Pungs', u'老少副', 15)
-small_boundless_mountain  = ('Small Mountain', u'小山滿', 320)
+little_boundless_mountain  = ('little Mountain', u'小山滿', 320)
 big_boundless_mountain    = ('Big Mountain', u'大山滿', 400)
 
 mixed_lesser_terminals  = ('Mixed Lesser Terminals', u'混全帶么', 40)
@@ -101,12 +101,12 @@ pure_greater_terminals  = ('Pure Greater Terminals', u'清么九', 400)
 dragon_pung = ('Dragon Pung', u'箭刻', 10)
 seat_wind   = ('Seat Wind', u'門風', 10)
 
-small_three_winds = ('Small Three Winds', u'小三風', 30)
+little_three_winds = ('little Three Winds', u'小三風', 30)
 big_three_winds   = ('Big Three Winds', u'大三風', 120)
-small_four_winds  = ('Small Four Winds', u'小四喜', 320)
+little_four_winds  = ('little Four Winds', u'小四喜', 320)
 big_four_winds    = ('Big Four Winds', u'大四喜', 400)
 
-small_three_dragons = ('Small Three Dragons', u'小三元', 40)
+little_three_dragons = ('little Three Dragons', u'小三元', 40)
 big_three_dragons   = ('Big Three Dragons', u'大三元', 130)
 
 all_honor_pungs = ('All Honor Pungs', u'字一色', 320)

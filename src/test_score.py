@@ -36,15 +36,15 @@ print_(s._is_illegal_call())
 ### 2.0 Identical Chows
 
 print_(s._is_two_identical_chows(es.h_2_id_chows))
-print_(s._is_two_identicel_chows_twice(es.h_2_id_chows_2x))
-print_(s._is_three_identical_chows(_es.h_3_id_chows))
+print_(s._is_two_identical_chows_twice(es.h_2_id_chows_2x))
+print_(s._is_three_identical_chows(es.h_3_id_chows))
 print_(s._is_four_identical_chows(es.h_4_id_chows))
 
 
 
 # 3.0 Pungs and Kongs
 
-print_(s._is_all_pung(es.h_all_pungs))
+print_(s._is_all_pungs(es.h_all_pungs))
 
 
 print_(s._is_two_concealed_pungs(es.h_2_concealed_pungs))
@@ -61,41 +61,41 @@ print_(s._is_four_kongs(es.h_4_kongs))
 
 ### 4.0 Similar Sets
 
-print_(s._is_three_similar_chows(es.h_similar_chows))
+# print_(s._is_three_similar_chows(es.h_similar_chows))
 
 
-print_(s._is_little_three_similar_pungs(es.h_little_similar_pungs))
-print_(s._is_three_similar_pungs(es.h_similar_pungs))
+# print_(s._is_little_three_similar_pungs(es.h_little_similar_pungs))
+# print_(s._is_three_similar_pungs(es.h_similar_pungs))
 
 
 
 ### 5.0 Consecutive Sets
 
-print_(s._is_nine_tile_straight(es.h_9_tile_straight))
+# print_(s._is_nine_tile_straight(es.h_9_tile_straight))
 
 
-print_(s._is_three_consecutive_pungs(es.h_3_consecutive_pungs))
-print_(s._is_four_consecutive_pungs(es.h_4_consecutive_pungs))
-print_(s._is_three_mothers(es.h_3_mothers))
+# print_(s._is_three_consecutive_pungs(es.h_3_consecutive_pungs))
+# print_(s._is_four_consecutive_pungs(es.h_4_consecutive_pungs))
+# print_(s._is_three_mothers(es.h_3_mothers))
 
 
 
 ### 6.0 Suit Patterns
 
-print_(s._is_mixed_one_suit(es.h_mixed_1_suit))
+# print_(s._is_mixed_one_suit(es.h_mixed_1_suit))
 print_(s._is_pure_one_suit(es.h_pure_1_suit))
 print_(s._is_little_terminal_club(es.h_little_terminal_club))
 print_(s._is_big_terminal_club(es.h_big_terminal_club))
 
 
-print_(s._is_nine_gates(es.h_nine_gates))
+# print_(s._is_nine_gates(es.h_nine_gates))
 
 
 
 ### 7.0 Terinal Tiles
 
-print_(s._is_two_tailed_terminal_chows(es.h_two_tailed_terminal_chows))
-print_(s._is_two_tailed_terminal_pungs(es.h_two_tailed_terminal_pungs))
+# print_(s._is_two_tailed_terminal_chows(es.h_two_tailed_terminal_chows))
+# print_(s._is_two_tailed_terminal_pungs(es.h_two_tailed_terminal_pungs))
 print_(s._is_little_boundless_mountain(es.h_little_mountain_1))
 print_(s._is_little_boundless_mountain(es.h_little_mountain_2))
 print_(s._is_big_boundless_mountain(es.h_big_mountain_1))

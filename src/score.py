@@ -10,7 +10,7 @@ import hand  as h
 import tile  as t
 import fp    as f
 import chart as c
-
+from sets import Set
 
 
 ##############################
@@ -252,7 +252,7 @@ def _is_four_identical_chows(hand):
 ### 3.0 Pungs and Kongs
 
 def _is_all_pungs(hand):
-    if f.and_func(f.map_func(is_pung, _get_melds(hand))):
+    if f.and_func(f.map_func(_is_pung, _get_melds(hand))):
         return c.all_pungs
     return c.nothing
 
@@ -276,7 +276,7 @@ def _is_four_concealed_pungs(hand):
 
 def _is_one_kong(hand):
     if f.count_with(_is_kong, _get_melds(hand)) == 1:
-        return c.one_kongs
+        return c.one_kong
     return c.nothing
 
 def _is_two_kongs(hand):
@@ -332,21 +332,21 @@ def _is_mixed_one_suit(hand):
     pass
 
 def _is_pure_one_suit(hand):
-    ts = [t for m in _get_melds(hand) + _get_eyes(hand) for t in m]
+    ts = f.flatten(f.map_func(t.snd, _get_melds(hand) + _get_eyes(hand)))
     s = Set(f.map_func(t.fst, ts))
     if len(s) == 1:
         return c.pure_one_suit
     return c.nothing
 
 def _is_little_terminal_club(hand):
-    ts = [t for m in _get_melds(hand) + _get_eyes(hand) for t in m]
+    ts = f.flatten(f.map_func(t.snd, _get_melds(hand) + _get_eyes(hand)))
     s = sorted(f.map_func(t.snd, ts))
     if s == [1, 1, 2, 2, 3, 3, 5, 5, 7, 7, 8, 8, 9, 9]:
         return c.little_terminal_club
     return c.nothing
 
 def _is_big_terminal_club(hand):
-    ts = [t for m in _get_melds(hand) + _get_eyes(hand) for t in m]
+    ts = f.flatten(f.map_func(t.snd, _get_melds(hand) + _get_eyes(hand)))
     s = sorted(f.map_func(t.snd, ts))
     if s == [1, 1, 1, 1, 2, 3, 5, 5, 7, 8, 9, 9, 9, 9]:
         return c.big_terminal_club
@@ -363,21 +363,25 @@ def _is_nine_gates(hand):
 def _is_two_tailed_terminal_chows(hand):
     pass
 
+
 def _is_two_tailed_terminal_pungs(hand):
     pass
 
 
+
 def _is_little_boundless_mountain(hand):
     if _is_pure_one_suit(hand) and _is_pure_lesser_terminals(hand):
-        ts = [t for m in _get_melds(hand) for t in m if t._is_terminal(t)]
-        if len(ls) == 6:
+        ts = f.f.flatten(f.map_func(t.snd, _get_melds(hand)))
+        tts = f.filter(t._is_terminal, ms)
+        if len(tts) == 6:
             return c.little_boundless_mountain
     return c.nothing
 
 def _is_big_boundless_mountain(hand):
     if _is_pure_one_suit(hand) and _is_pure_lesser_terminals(hand):
-        ts = [t for m in _get_melds(hand) for t in m if t._is_terminal(t)]
-        if len(ls) == 8:
+        ts = f.f.flatten(f.map_func(t.snd, _get_melds(hand)))
+        tts = f.filter(t._is_terminal, ms)
+        if len(tts) == 8:
             return c.big_boundless_mountain
     return c.nothing
 
@@ -390,19 +394,19 @@ def _is_mixed_lesser_terminals(hand):
 
 
 def _is_pure_lesser_terminals(hand):
-    if f.and_func(f.map_func(_is_terminal_meld, _get_melds(hands))):
+    if f.and_func(f.map_func(_is_terminal_meld, _get_melds(hand))):
         if _is_terminal_eye(_get_eyes(hand)):
             return c.pure_lesser_terminals
     return c.nothing
 
 def _is_mixed_greater_germinals(hand):
-    if f.and_func(f.map_func(_is_outside_pung, _get_melds(hands))):
+    if f.and_func(f.map_func(_is_outside_pung, _get_melds(hand))):
         if _is_outside_eye(_get_eyes(hand)):
             return c.mixed_greater_terminals
     return c.nothing
 
 def _is_pure_greater_terminals(hand):
-    if f.and_func(f.map_func(_is_terminal_pung, _get_melds(hands))):
+    if f.and_func(f.map_func(_is_terminal_pung, _get_melds(hand))):
         if _is_terminal_eye(_get_eyes(hand)):
             return c.pure_greater_terminals
     return c.nothing
