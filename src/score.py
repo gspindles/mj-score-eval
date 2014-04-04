@@ -23,13 +23,17 @@ from sets import Set
 # p is for pung
 # k is for kong
 # e is for eye
-# s is for simple
-# t is for terminal
-# w is for wind
-# d is for dragon
-# b is for bonus (flowers, seasons, north[3ma], animals)
 # h is for special hands (mainly nine gates and 13 orphans)
 # l is for leftover (mainly for 8 bonus tiles)
+
+# C is for coin
+# B is for bamboo
+# K is for character
+# W is for wind
+# D is for dragon
+# S is for simple
+# T is for terminal
+# b is for bonus (flowers, seasons, north[3ma], animals)
 
 # basic building blocks
 
@@ -51,17 +55,27 @@ def _is_kong(meld):
 def _is_eye(meld):
     return 'e' in t.fst(meld)
 
-def _is_simple(meld):
-    return 's' in t.fst(meld)
 
-def _is_terminal(meld):
-    return 't' in t.fst(meld)
+def _is_coin(meld):
+    return 'C' in t.fst(meld)
+
+def _is_bamboo(meld):
+    return 'B' in t.fst(meld)
+
+def _is_character(meld):
+    return 'K' in t.fst(meld)
 
 def _is_wind(meld):
-    return 'w' in t.fst(meld)
+    return 'W' in t.fst(meld)
 
 def _is_dragon(meld):
-    return 'd' in t.fst(meld)
+    return 'D' in t.fst(meld)
+
+def _is_simple(meld):
+    return 'S' in t.fst(meld)
+
+def _is_terminal(meld):
+    return 'T' in t.fst(meld)
 
 def _is_bonus(meld):
     return 'b' in t.fst(meld)
@@ -72,6 +86,9 @@ def _is_bonus(meld):
 
 def _is_meld(meld):
     return _is_chow(meld) or _is_pung(meld) or _is_kong(meld)
+
+def _is_suit_meld(meld):
+    return _is_coin(meld) or _is_bamboo(meld) or _is_character(meld)
 
 def _is_simple_chow(meld):
     return _is_chow(meld) and _is_simple(meld)

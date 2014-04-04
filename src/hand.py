@@ -32,13 +32,17 @@ from   sets  import Set
 # p is for pung
 # k is for kong
 # e is for eye
-# s is for simple
-# t is for terminal
-# d is for dragon
-# w is for wind
-# b is for bonus (flowers, seasons, north[3ma], animals)
 # h is for special hands (mainly nine gates and 13 orphans)
 # l is for leftover (mainly for 8 bonus tiles)
+
+# C is for coin
+# B is for bamboo
+# K is for character
+# D is for dragon
+# W is for wind
+# S is for simple
+# T is for terminal
+# b is for bonus (flowers, seasons, north[3ma], animals)
 
 
 def figure_out_hand(hand):
