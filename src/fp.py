@@ -138,3 +138,13 @@ def sort_with(compare, ls):
         return unite
     else:
         return []
+
+def to_dict_with(func, ls):
+    d = {}
+    for l in ls:
+        k = func(l)
+        if d.has_key(k):
+            d[k] += 1
+        else:
+            d[k] = 1
+    return d

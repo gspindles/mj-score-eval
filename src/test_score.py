@@ -15,9 +15,10 @@ import examples_score as es
 
 def print_(r):
     if r:
-        print r[0] + ' : ' + r[1] + ' : ' + str(r[2])
+        # print r[0] + ' : ' + r[1] + ' : ' + str(r[2])
+        print r[0] + ' : ' + str(r[2])
     else:
-        print r[0] + ' : failed'
+        print 'FAILED'
 
 
 
@@ -62,11 +63,11 @@ print_(s._is_four_kongs(es.h_4_kongs))
 
 ### 4.0 Similar Sets
 
-# print_(s._is_three_similar_chows(es.h_similar_chows))
+print_(s._is_three_similar_chows(es.h_3_similar_chows))
 
 
-# print_(s._is_little_three_similar_pungs(es.h_little_similar_pungs))
-# print_(s._is_three_similar_pungs(es.h_similar_pungs))
+print_(s._is_little_three_similar_pungs(es.h_little_3_similar_pungs))
+print_(s._is_three_similar_pungs(es.h_3_similar_pungs))
 
 
 

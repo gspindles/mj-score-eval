@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 ### score.py takes in a list of melds that is calcalated from hand.py.  From
-### this list, score.py will produce the list of patterns the hand satisfies. In a
-### sense, hend.py do all the grunt work while scope.py just match the patterns
-### and assign values.
+### this list, score.py will produce the list of patterns the hand satisfies.
+### In a sense, hend.py do all the grunt work while scope.py just match the
+### patterns and assign values.
 
 import hand  as h
 import tile  as t
@@ -190,38 +190,17 @@ def _get_tiles(hand):
 ### Utility Functions ###
 #########################
 
-def _get_str_rep(meld):
-    return f.map_func(t.show_tile, t.snd(meld))
+def _meld_str_rep(meld):
+    str_reps = f.map_func(t.show_tile, t.snd(meld))
+    return f.fold_func(f.add_, "", str_reps)
 
-def _join_str_rep(meld):
-    return f.fold_func(f.add_, "", _get_str_rep(meld))
-
-def _make_str_rep(meld):
+def _tile_num_rep(meld):
     mvals = f.map_func(t.snd, t.snd(meld))
     if 3 <= len(mvals) <= 4: # treat kong as pung
         return str(mvals[0]) + str(mvals[1]) + str(mvals[2])
     if len(mvals) == 2: # for eye? Necessary?
         return str(mvals[0]) + str(mvals[1])
 
-def to_dict_melds(melds):
-    d = {}
-    for m in melds:
-        k = _join_str_rep(m)
-        if d.has_key(k):
-            d[k] += 1
-        else:
-            d[k] = 1
-    return d
-
-def to_dict_tiles(tiles):
-    d = {}
-    for m in tiles:
-        k = t.show_tile(m)
-        if d.has_key(k):
-            d[k] += 1
-        else:
-            d[k] = 1
-    return d
 
 
 ########################
@@ -276,28 +255,28 @@ def _is_illegal_call():
 ### 2.0 Identical Sets
 
 def _is_two_identical_chows(hand):
-    d = _to_dict_melds(_get_melds(hand))
+    d = f.to_dict_with(_meld_str_rep, _get_melds(hand))
     if len(d) == 3:
         if sorted(d.values()) == [1,1,2]:
             return c.two_identical_chows
     return c.nothing
 
 def _is_two_identical_chows_twice(hand):
-    d = _to_dict_melds(_get_melds(hand))
+    d = f.to_dict_with(_meld_str_rep, _get_melds(hand))
     if len(d) == 2:
         if d.values() == [2,2]:
             return c.two_identical_chows_twice
     return c.nothing
 
 def _is_three_identical_chows(hand):
-    d = _to_dict_melds(_get_melds(hand))
+    d = f.to_dict_with(_meld_str_rep, _get_melds(hand))
     if len(d) == 2:
         if sorted(d.values()) == [1,3]:
             return c.three_identical_chows
     return c.nothing
 
 def _is_four_identical_chows(hand):
-    d = _to_dict_melds(_get_melds(hand))
+    d = f.to_dict_with(_meld_str_rep, _get_melds(hand))
     if len(d) == 1:
         if d.values() == [4]:
             return c.four_identical_chows
@@ -362,13 +341,9 @@ def _is_three_similar_chows(hand):
     if has_coin and has_bamboo and has_character:
         # chows of all three types are present, then one is repeated
         # so pick one that has one meld only and that should determine the sequence
-        mvalues = f.map_func(_make_str_rep, ms)
-        d = {}
-        for m in mvalues:
-            if d.has_key(m):
-                d[m] += 1
-            else:
-                d[m] = 1
+        d = f.to_dict_with(_tile_num_rep, ms)
+        if len(d) == 1:
+            return c.three_similar_chows
         if len(d) == 2:
             if sorted(d.values()) == [1, 3]:
                 return c.three_similar_chows
@@ -376,10 +351,31 @@ def _is_three_similar_chows(hand):
 
 
 def _is_little_three_similar_pungs(hand):
-    pass
+    if len(_get_eyes(hand)) == 1:
+        # no need to check for suit because we only have 4 of each tiles
+        val = t.snd(t.fst(t.snd(_get_eyes(hand)[0])))
+        val_pung_str = f.fold_func(f.add_, '', f.repeat(str(val), 3))
+        d = f.to_dict_with(_tile_num_rep, _get_melds(hand))
+        if d.has_key(val_pung_str):
+            if d[val_pung_str] == 2:
+                return c.little_three_similar_pungs
+    return c.nothing
 
 def _is_three_similar_pungs(hand):
-    pass
+    ms = _get_melds(hand)
+    has_coin = f.or_func(f.map_func(_is_coin_pung, ms))
+    has_bamboo = f.or_func(f.map_func(_is_bamboo_pung, ms))
+    has_character = f.or_func(f.map_func(_is_character_pung, ms))
+    if has_coin and has_bamboo and has_character:
+        # chows of all three types are present, then one is repeated
+        # so pick one that has one meld only and that should determine the sequence
+        d = f.to_dict_with(_tile_num_rep, ms)
+        if len(d) == 1:
+            return c.three_similar_pungs
+        if len(d) == 2:
+            if sorted(d.values()) == [1, 3]:
+                return c.three_similar_pungs
+    return c.nothing
 
 
 
@@ -564,7 +560,7 @@ def _is_all_honor_pairs(hand):
 ### 9.0 Seven Pairs
 
 def _is_seven_pairs(hand):
-    d = to_dict_tiles(f.flatten(f.map_func(t.snd, _get_eyes(hand))))
+    d = f.to_dict_with(t.show_tile, f.flatten(f.map_func(t.snd, _get_eyes(hand))))
     if len(d) == 7:
         if d.values() == f.repeat(2, 7):
             return c.seven_pairs
