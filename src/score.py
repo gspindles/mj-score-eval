@@ -90,6 +90,30 @@ def _is_meld(meld):
 def _is_suit_meld(meld):
     return _is_coin(meld) or _is_bamboo(meld) or _is_character(meld)
 
+def _is_suit_chow(meld):
+    return _is_chow(meld) and _is_suit_meld(meld)
+
+def _is_suit_pung(meld):
+    return _is_pung(meld) and _is_suit_meld(meld)
+
+def _is_coin_chow(meld):
+    return _is_chow(meld) and _is_coin(meld)
+
+def _is_bamboo_chow(meld):
+    return _is_chow(meld) and _is_bamboo(meld)
+
+def _is_character_chow(meld):
+    return _is_chow(meld) and _is_character(meld)
+
+def _is_coin_pung(meld):
+    return _is_pung(meld) and _is_coin(meld)
+
+def _is_bamboo_pung(meld):
+    return _is_pung(meld) and _is_bamboo(meld)
+
+def _is_character_pung(meld):
+    return _is_pung(meld) and _is_character(meld)
+
 def _is_simple_chow(meld):
     return _is_chow(meld) and _is_simple(meld)
 
@@ -172,6 +196,13 @@ def _get_str_rep(meld):
 def _join_str_rep(meld):
     return f.fold_func(f.add_, "", _get_str_rep(meld))
 
+def _make_str_rep(meld):
+    mvals = f.map_func(t.snd, t.snd(meld))
+    if 3 <= len(mvals) <= 4: # treat kong as pung
+        return str(mvals[0]) + str(mvals[1]) + str(mvals[2])
+    if len(mvals) == 2: # for eye? Necessary?
+        return str(mvals[0]) + str(mvals[1])
+
 def to_dict_melds(melds):
     d = {}
     for m in melds:
@@ -185,7 +216,7 @@ def to_dict_melds(melds):
 def to_dict_tiles(tiles):
     d = {}
     for m in tiles:
-        k = t.fst(m)
+        k = t.show_tile(m)
         if d.has_key(k):
             d[k] += 1
         else:
@@ -245,28 +276,28 @@ def _is_illegal_call():
 ### 2.0 Identical Sets
 
 def _is_two_identical_chows(hand):
-    d = to_dict_melds(_get_melds(hand))
+    d = _to_dict_melds(_get_melds(hand))
     if len(d) == 3:
         if sorted(d.values()) == [1,1,2]:
             return c.two_identical_chows
     return c.nothing
 
 def _is_two_identical_chows_twice(hand):
-    d = to_dict_melds(_get_melds(hand))
+    d = _to_dict_melds(_get_melds(hand))
     if len(d) == 2:
         if d.values() == [2,2]:
             return c.two_identical_chows_twice
     return c.nothing
 
 def _is_three_identical_chows(hand):
-    d = to_dict_melds(_get_melds(hand))
+    d = _to_dict_melds(_get_melds(hand))
     if len(d) == 2:
         if sorted(d.values()) == [1,3]:
             return c.three_identical_chows
     return c.nothing
 
 def _is_four_identical_chows(hand):
-    d = to_dict_melds(_get_melds(hand))
+    d = _to_dict_melds(_get_melds(hand))
     if len(d) == 1:
         if d.values() == [4]:
             return c.four_identical_chows
@@ -324,7 +355,24 @@ def _is_four_kongs(hand):
 ### 4.0 Similar Sets
 
 def _is_three_similar_chows(hand):
-    pass
+    ms = _get_melds(hand)
+    has_coin = f.or_func(f.map_func(_is_coin_chow, ms))
+    has_bamboo = f.or_func(f.map_func(_is_bamboo_chow, ms))
+    has_character = f.or_func(f.map_func(_is_character_chow, ms))
+    if has_coin and has_bamboo and has_character:
+        # chows of all three types are present, then one is repeated
+        # so pick one that has one meld only and that should determine the sequence
+        mvalues = f.map_func(_make_str_rep, ms)
+        d = {}
+        for m in mvalues:
+            if d.has_key(m):
+                d[m] += 1
+            else:
+                d[m] = 1
+        if len(d) == 2:
+            if sorted(d.values()) == [1, 3]:
+                return c.three_similar_chows
+    return c.nothing
 
 
 def _is_little_three_similar_pungs(hand):
