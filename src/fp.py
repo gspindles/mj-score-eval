@@ -66,6 +66,14 @@ def repeat(obj, n):
         l.append(obj)
     return l
 
+def iterate(func, x, n):
+    l = [x]
+    acc = x
+    for i in range(n):
+        acc = func(acc)
+        l.append(acc)
+    return l
+
 # assumes all items in the list are iterable
 def flatten(ls):
     return [i for s in ls for i in s]

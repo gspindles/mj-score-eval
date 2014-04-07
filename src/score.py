@@ -201,6 +201,9 @@ def _tile_num_rep(meld):
     if len(mvals) == 2: # for eye? Necessary?
         return str(mvals[0]) + str(mvals[1])
 
+def _tile_num_inc(num_rep):
+    return str( int(num_rep) + 111 )
+
 
 
 ########################
@@ -382,16 +385,75 @@ def _is_three_similar_pungs(hand):
 ### 5.0 Consecutive Sets
 
 def _is_nine_tile_straight(hand):
-    pass
+    ms = _get_melds(hand)
+    coin_chows = f.filter_func(_is_coin_chow, ms)
+    bamboo_chows = f.filter_func(_is_bamboo_chow, ms)
+    character_chows = f.filter_func(_is_character_chow, ms)
+
+    def _has_straight(melds):
+        d = f.to_dict_with(_tile_num_rep, melds)
+        if d.has_key('123') and d.has_key('456') and d.has_key('789'):
+            return c.nine_tile_straight
+
+    if len(coin_chows) >= 3:
+        return _has_straight(coin_chows)
+    elif len(bamboo_chows) >= 3:
+        return _has_straight(bamboo_chows)
+    elif len(character_chows) >= 3:
+        return _has_straight(character_chows)
+    else:
+        return c.nothing
+
 
 def _is_three_consecutive_pungs(hand):
-    pass
+    ms = _get_melds(hand)
+    coin_pungs = f.filter_func(_is_coin_pung, ms)
+    bamboo_pungs = f.filter_func(_is_bamboo_pung, ms)
+    character_pungs = f.filter_func(_is_character_pung, ms)
+
+    def _is_consecutive(melds):
+        ps = sorted(f.map_func(_tile_num_rep, melds))
+        if len(melds) == 3:
+            if ps == f.iterate(_tile_num_inc, ps[0], 2):
+                return c.three_consecutive_pungs
+        if len(melds) == 4:
+            lower = ps[0:3] == f.iterate(_tile_num_inc, ps[0], 2)
+            upper = ps[1,4] == f.iterate(_tile_num_inc, ps[1], 2)
+            if lower or upper:
+                return c.three_consecutive_pungs
+        return c.nothing
+
+    if len(coin_pungs) >= 3:
+        return _is_consecutive(coin_pungs)
+    elif len(bamboo_pungs) >= 3:
+        return _is_consecutive(bamboo_pungs)
+    elif len(character_pungs) >= 3:
+        return _is_consecutive(character_pungs)
+    else:
+        return c.nothing
 
 def _is_four_consecutive_pungs(hand):
-    pass
+    ms = _get_melds(hand)
+    ts = f.flatten(f.map_func(t.snd, ms))
+    s = Set(f.map_func(t.fst, ts))
+    if len(s) == 1:
+        ps = sorted(f.map_func(_tile_num_rep, ms))
+        if ps[0:4] == f.iterate(_tile_num_inc, ps[0], 3):
+            return c.four_consecutive_pungs
+    return c.nothing
 
 def _is_three_mothers(hand):
-    pass
+    ms = _get_melds(hand)
+    ts = f.flatten(f.map_func(t.snd, ms))
+    s = Set(f.map_func(t.fst, ts))
+    if len(s) == 1:
+        ps = sorted(f.map_func(_tile_num_rep, ms))
+        test = f.iterate(_tile_num_inc, ps[0], 2)
+        test.append(''.join(f.map_func(t.fst, test)))
+        lfunc = lambda x: x in ps
+        if f.and_func(f.map_func(lfunc, test)):
+            return c.three_mothers
+    return c.nothing
 
 
 
@@ -656,6 +718,7 @@ def _is_thirteen_orphans(hand):
     # save this for now, change it later
 
 
+
 ### 12.0 Incidental bonuses
 
 def _is_final_draw():
@@ -717,7 +780,6 @@ def _is_seat_season(hand, seat):
     return c.nothing
 
 
-
 def _is_four_flowers(hand):
     if f.or_func(f.map_func(_is_bonus, hand)):
         fls = f.filter_func(t.is_flower, t.snd(_get_bonus(hand)[0]))
@@ -731,7 +793,6 @@ def _is_four_seasons(hand):
         if len(sns) == 4:
             return c.four_seasons
     return c.nothing
-
 
 
 def _is_all_bonus_tiles(hand):

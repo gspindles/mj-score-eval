@@ -66,7 +66,7 @@ three_similar_pungs       = ('Three Similar Pungs', u'三色同刻', 120)
 nine_tile_straight = ('Nine-Tile Straight', u'一氣通貫', 40)
 
 three_consecutive_pungs = ('Three Consecutive Pungs', u'三連刻', 100)
-four_consecutive_pings  = ('Four Consecutive Pungs', u'四連刻', 200)
+four_consecutive_pungs  = ('Four Consecutive Pungs', u'四連刻', 200)
 three_mothers           = ('Three Mothers', u'三娘教子', 400)
 
 

@@ -73,10 +73,11 @@ print_(s._is_three_similar_pungs(es.h_3_similar_pungs))
 
 ### 5.0 Consecutive Sets
 
-# print_(s._is_nine_tile_straight(es.h_9_tile_straight))
+print_(s._is_nine_tile_straight(es.h_9_tile_straight))
 
 
-# print_(s._is_three_consecutive_pungs(es.h_3_consecutive_pungs))
+print_(s._is_three_consecutive_pungs(es.h_3_consecutive_pungs_1))
+print_(s._is_three_consecutive_pungs(es.h_3_consecutive_pungs_2))
 # print_(s._is_four_consecutive_pungs(es.h_4_consecutive_pungs))
 # print_(s._is_three_mothers(es.h_3_mothers))
 

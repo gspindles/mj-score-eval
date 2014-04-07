@@ -48,6 +48,15 @@ honor_tiles = wind_tiles + dragon_tiles
 
 edge_tiles = terminal_tiles + honor_tiles
 
+
+
+green_tiles = ( ('B', 2), ('B', 3), ('B', 4), ('B', 6), ('B', 8), ('D', 2) )
+
+red_tiles = ( ('B', 1), ('B', 5), ('B', 7), ('B', 9), ('D', 1) )
+
+blue_tiles = ( ('C', 8), ('W', 1), ('W', 2), ('W', 3), ('W', 4), ('D', 3) )
+
+
 def get_wall():
     w = f.flatten(f.map_func(lambda x: f.repeat(x,4), regular_tiles))
     w = f.fold_func(f.cons_, w, bonus_tiles)
@@ -94,46 +103,32 @@ def compare(tile1, tile2):
 ###########################
 
 def is_coin(tile):
-    if fst(tile) == 'C':
-        return True
-    return False
+    return fst(tile) == 'C'
 
 def is_bamboo(tile):
-    if fst(tile) == 'B':
-        return True
-    return False
+    return fst(tile) == 'B'
 
 def is_character(tile):
-    if fst(tile) == 'K':
-        return True
-    return False
+    return fst(tile) == 'K'
 
 def is_suit(tile):
     return is_coin(tile) or is_bamboo(tile) or is_character(tile)
 
 def is_simple(tile):
     if is_suit(tile):
-        s = snd(tile)
-        if s > 1 and s < 9:
-            return True
+        return 1 < snd(tile) < 9
     return False
 
 def is_terminal(tile):
     if is_suit(tile):
-        s = snd(tile)
-        if s == 1 or s == 9:
-            return True
+        return snd(tile) == 1 or snd(tile) == 9
     return False
 
 def is_wind(tile):
-    if fst(tile) == 'W':
-        return True
-    return False
+    return fst(tile) == 'W'
 
 def is_dragon(tile):
-    if fst(tile) == 'D':
-        return True
-    return False
+    return fst(tile) == 'D'
 
 def is_honor(tile):
     return is_wind(tile) or is_dragon(tile)
@@ -142,19 +137,13 @@ def is_edge(tile):
     return is_terminal(tile) or is_honor(tile)
 
 def is_flower(tile):
-    if fst(tile) == 'F':
-        return True
-    return False
+    return fst(tile) == 'F'
 
 def is_season(tile):
-    if fst(tile) == 'S':
-        return True
-    return False
+    return fst(tile) == 'S'
 
 def is_animal(tile):
-    if fst(tile) == 'A':
-        return True
-    return False
+    return fst(tile) == 'A'
 
 # could probably check if tile is in bonus_tile too
 # but that seems way more comparisons than just looking at the suit
@@ -162,16 +151,13 @@ def is_bonus(tile):
     return is_flower(tile) or is_season(tile) or is_animal(tile)
 
 def is_green(tile):
-    green = [('B', 2), ('B', 3), ('B', 4), ('B', 6), ('B', 8), ('D', 2)]
-    return tile in green
+    return tile in green_tiles
 
 def is_red(tile):
-    red = [('B', 1), ('B', 5), ('B', 7), ('B', 9), ('D', 1)]
-    return tile in red
+    return tile in red_tiles
 
 def is_blue(tile):
-    blue = [('C', 8), ('W', 1), ('W', 2), ('W', 3), ('W', 4), ('D', 3)]
-    return tile in blue
+    return tile in blue_tiles
 
 
 
