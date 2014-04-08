@@ -117,6 +117,26 @@ def is_character(tile):
     return fst(tile) == 'K'
 
 
+def is_wind(tile):
+    return fst(tile) == 'W'
+
+
+def is_dragon(tile):
+    return fst(tile) == 'D'
+
+
+def is_flower(tile):
+    return fst(tile) == 'F'
+
+
+def is_season(tile):
+    return fst(tile) == 'S'
+
+
+def is_animal(tile):
+    return fst(tile) == 'A'
+
+
 def is_suit(tile):
     return is_coin(tile) or is_bamboo(tile) or is_character(tile)
 
@@ -133,32 +153,12 @@ def is_terminal(tile):
     return False
 
 
-def is_wind(tile):
-    return fst(tile) == 'W'
-
-
-def is_dragon(tile):
-    return fst(tile) == 'D'
-
-
 def is_honor(tile):
     return is_wind(tile) or is_dragon(tile)
 
 
 def is_edge(tile):
     return is_terminal(tile) or is_honor(tile)
-
-
-def is_flower(tile):
-    return fst(tile) == 'F'
-
-
-def is_season(tile):
-    return fst(tile) == 'S'
-
-
-def is_animal(tile):
-    return fst(tile) == 'A'
 
 
 # could probably check if tile is in bonus_tile too
