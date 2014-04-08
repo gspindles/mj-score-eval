@@ -1,44 +1,70 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
-
-### fp.py implements a variety of functional programming styled functions to
-### making coding easier and faster.  Yes there are python defaults from
-### itertools but they returns objects rather than plain list so this feels
-### sipmler.
-
+#
+# fp.py implements a variety of functional programming styled functions to
+# making coding easier and faster.  Yes there are python defaults from
+# itertools but they returns objects rather than plain list so this feels
+# sipmler.
 
 
 #########################
 ### Binary operations ###
 #########################
 
-# reimplementation of library operators as binary functions
+"""Reimplementation of library operators as binary functions."""
+
 
 def or_(obj1, obj2):
+    """Default or as binary function."""
+
     return obj1 or obj2
 
+
 def and_(obj1, obj2):
+    """Default and as binary function."""
+
     return obj1 and obj2
 
+
 def not_(obj):
+    """Default not as binary function."""
+
     return not obj
 
+
 def add_(num1, num2):
+    """Default add as binary function."""
+
     return num1 + num2
 
+
 def mult_(num1, num2):
+    """Default multiply as binary function."""
+
     return num1 * num2
 
+
 def pow_(num1, num2):
+    """Default power as binary function."""
+
     return num1 ^ num2
 
+
 def cons_(ls, item):
+    """List appending as binary function."""
+
     return ls + [item]
 
+
 def elem_(ls, item):
+    """Default in as binary function."""
+
     return item in ls
 
+
 def equal_(obj1, obj2):
+    """Default equal as binary function."""
+
     return obj1 == obj2
 
 
@@ -47,26 +73,40 @@ def equal_(obj1, obj2):
 ###########################
 
 def id_(x):
+    """Identity function."""
+
     return x
 
-def compose(f, g):
-    return lambda x: f( g(x) )
+
+def o_(f, g):
+    """Function composition."""
+
+    return lambda x: f(g(x))
+
 
 def reverse_(ls):
+    """Reverse a list."""
+
     if ls == []:
         return []
     else:
-        head   = ls[0]
-        tail   = ls[1:]
+        head = ls[0]
+        tail = ls[1:]
         return reverse_(tail) + head
 
-def repeat(obj, n):
+
+def repeat_(obj, n):
+    """Repeat an item n times and return a list."""
+
     l = []
     for i in range(n):
         l.append(obj)
     return l
 
-def iterate(func, x, n):
+
+def iterate_(func, x, n):
+    """Applies a function to an item n times and return a list."""
+
     l = [x]
     acc = x
     for i in range(n):
@@ -74,62 +114,72 @@ def iterate(func, x, n):
         l.append(acc)
     return l
 
-# assumes all items in the list are iterable
-def flatten(ls):
+
+def flatten_(ls):
+    """Flattens a list."""
+
     return [i for s in ls for i in s]
 
-# assumes the list contains only booleans
-def or_func(ls):
-    return fold_func(or_, False, ls)
 
-def and_func(ls):
-    return fold_func(and_, True, ls)
+def any_(ls):
+    """Or over a list a boolean values."""
 
-def map_func(func, ls):
+    return fold_(or_, False, ls)
+
+
+def all_(ls):
+    """And over a list of boolean values."""
+
+    return fold_(and_, True, ls)
+
+
+def map_(func, ls):
+    """Maps a function over a list and return a new list."""
+
     l = []
     for i in ls:
-        l.append( func(i) )
+        l.append(func(i))
     return l
 
-def filter_func(pred, ls):
+
+def filter_(pred, ls):
+    """Filter out a sublist from a list satisfying the predicate function."""
+
     l = []
     for i in ls:
         if pred(i):
             l.append(i)
     return l
 
-def fold_func(func, init, ls):
+
+def fold_(func, init, ls):
+    """Fold over a list with an intial value ala a function."""
+
     sum = init
     for i in ls:
         sum = func(sum, i)
     return sum
 
-def compose_func(funcs, x):
-    f = fold_func(compose, id_, funcs)
+
+def compose_(funcs, x):
+    """Fold over a list of function to create a composed one."""
+
+    f = fold_(o_, id_, funcs)
     return f(x)
 
-def count_with(pred, ls):
-    return len(filter_func(lambda x: pred(x) == True, ls))
 
-def zip_(l1, l2):
-    l = []
-    length = min(len(l1), len(l2))
-    for i in range(0, length):
-        l.append((l1[i], l2[i]))
-    return l
+def count_with_(pred, ls):
+    """Count the element in the list satisfying the predicate."""
 
-def zip_with(func, l1, l2):
-    l = []
-    length = min(len(l1), len(l2))
-    for i in range(0, length):
-        l.append(func(l1[i], l2[i]))
-    return l
+    return len(filter_(lambda x: pred(x) is True, ls))
 
-# quick sort taking the head of the list as pivot
-# sorts the elements of the list by a compare function
-# hand has 13 to max of 18 tiles, max of 22 if playing TW
-# shouldn't have to worry about performance
-def sort_with(compare, ls):
+
+def sort_with_(compare, ls):
+    """Quick sort taking the head of the list as pivot and sorts the elements
+    of the list by a compare function.
+
+    """
+
     if len(ls) == 1:
         return ls
     elif len(ls) == 2:
@@ -137,22 +187,71 @@ def sort_with(compare, ls):
             return [ls[1], ls[0]]
         return ls
     elif len(ls) > 2:
-        head    = ls[0]
-        tail    = ls[1:]
-        less    = [l for l in tail if compare(head, l) == 1]
+        head = ls[0]
+        tail = ls[1:]
+        less = [l for l in tail if compare(head, l) == 1]
         greater = [l for l in tail if compare(head, l) == -1]
-        equal   = [l for l in tail if compare(head, l) == 0]
-        unite   = sort_with(compare, less) + equal + [head] + sort_with(compare, greater)
+        equal = [l for l in tail if compare(head, l) == 0]
+        unite = sort_with_(compare, less)\
+            + equal + [head]\
+            + sort_with_(compare, greater)
         return unite
     else:
         return []
 
-def to_dict_with(func, ls):
+
+def to_dict_with_(func, ls):
+    """Taka a list and a key-generating function, returns a dictionary.
+
+        the keys are obtained from applying the function to the elements
+        the values counts the occurrence of the item in the list
+
+    """
+
     d = {}
     for l in ls:
         k = func(l)
-        if d.has_key(k):
+        if k in d:
             d[k] += 1
         else:
             d[k] = 1
     return d
+
+
+def zip_(l1, l2):
+    """Zip over two lists, stops and return when a list runs out."""
+
+    l = []
+    length = min(len(l1), len(l2))
+    for i in range(ength):
+        l.append((l1[i], l2[i]))
+    return l
+
+
+def zip_with_(func, l1, l2):
+    """Zip over two list with a function applied to the each pair, then returns
+    the list.
+
+    """
+
+    l = []
+    length = min(len(l1), len(l2))
+    for i in range(length):
+        l.append(func(l1[i], l2[i]))
+    return l
+
+
+##########################
+### Compound Functions ###
+##########################
+
+def concat_map_(func, ls):
+    """Map a function over a list and flattens it."""
+
+    return flatten_(map_(func, ls))
+
+
+def filter_map_(pred, func, ls):
+    """Map a function over a list and filter items satisfying the predicate."""
+
+    return filter__(pred, map_(func, ls))
