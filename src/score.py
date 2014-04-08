@@ -1,10 +1,12 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
-### score.py takes in a list of melds that is calcalated from hand.py.  From
-### this list, score.py will produce the list of patterns the hand satisfies.
-### In a sense, hend.py do all the grunt work while scope.py just match the
-### patterns and assign values.
+"""score.py takes in a list of melds that is calcalated from hand.py.  From
+this list, score.py will produce the list of patterns the hand satisfies. In a
+sense, hend.py do all the grunt work while scope.py just match the patterns and
+assign values.
+
+"""
 
 import hand as h
 import tile as t
@@ -13,255 +15,370 @@ import chart as c
 from sets import Set
 
 
-##############################
-### Meld Related Functions ###
-##############################
-
-# m is for melded
-# n is for concealed
-# c is for chow
-# p is for pung
-# k is for kong
-# e is for eye
-# h is for special hands (mainly nine gates and 13 orphans)
-# l is for leftover (mainly for 8 bonus tiles)
-
-# C is for coin
-# B is for bamboo
-# K is for character
-# W is for wind
-# D is for dragon
-# S is for simple
-# T is for terminal
-# b is for bonus (flowers, seasons, north[3ma], animals)
-
-# basic building blocks
+# Meld Related Functions
+#
+#     r is for revealed
+#     n is for concealed
+#     c is for chow
+#     p is for pung
+#     k is for kong
+#     e is for eye
+#     h is for special hands (mainly nine gates and 13 orphans)
+#     l is for leftover (mainly for 8 bonus tiles)
+#
+#     C is for coin
+#     B is for bamboo
+#     K is for character
+#     W is for wind
+#     D is for dragon
+#     S is for simple
+#     T is for terminal
+#     b is for bonus (flowers, seasons, north[3ma], animals)
 
 
-def _is_melded(meld):
-    return 'm' in t.fst(meld)
-
-
-def _is_concealed(meld):
-    return 'n' in t.fst(meld)
-
-
-def _is_chow(meld):
-    return 'c' in t.fst(meld)
-
-
-def _is_pung(meld):
-    return 'p' in t.fst(meld) or 'k' in t.fst(meld)
-
-
-def _is_kong(meld):
-    return 'k' in t.fst(meld)
-
-
-def _is_eye(meld):
-    return 'e' in t.fst(meld)
-
+# Basic Building Blocks
+#
+#     A set of predicates for querying about a meld or a pair of eyes.
 
 def _is_coin(meld):
+    """Predicate returning whether the set is coin."""
+
     return 'C' in t.fst(meld)
 
 
 def _is_bamboo(meld):
+    """Predicate returning whether the set is bamboo."""
+
     return 'B' in t.fst(meld)
 
 
 def _is_character(meld):
+    """Predicate returning whether the set is character."""
+
     return 'K' in t.fst(meld)
 
 
 def _is_wind(meld):
+    """Predicate returning whether the set is wind."""
+
     return 'W' in t.fst(meld)
 
 
 def _is_dragon(meld):
+    """Predicate returning whether the set is dragon."""
+
     return 'D' in t.fst(meld)
 
 
+def _is_bonus(meld):
+    """Predicate returning whether the set is bonus."""
+
+    return 'b' in t.fst(meld)
+
+
 def _is_simple(meld):
+    """Predicate returning whether the set is simple."""
+
     return 'S' in t.fst(meld)
 
 
 def _is_terminal(meld):
+    """Predicate returning whether the set is terminal."""
+
     return 'T' in t.fst(meld)
 
 
-def _is_bonus(meld):
-    return 'b' in t.fst(meld)
+def _is_revealed(meld):
+    """Predicate returning whether the set is revealed."""
+
+    return 'r' in t.fst(meld)
 
 
+def _is_concealed(meld):
+    """Predicate returning whether the set is concealed."""
 
-# compound funcs
+    return 'n' in t.fst(meld)
+
+
+def _is_chow(meld):
+    """Predicate returning whether the set is a chow."""
+
+    return 'c' in t.fst(meld)
+
+
+def _is_pung(meld):
+    """Predicate returning whether the set is a pung or a kong."""
+
+    return 'p' in t.fst(meld) or 'k' in t.fst(meld)
+
+
+def _is_kong(meld):
+    """Predicate returning whether the set is a kong."""
+
+    return 'k' in t.fst(meld)
+
+
+def _is_eye(meld):
+    """Predicate returning whether the set is a pair of eyes."""
+
+    return 'e' in t.fst(meld)
+
+
+# Compound Functions
+#
+#     Combine the basic functions above to create more complex predicates used
+#     in the next section.
 
 def _is_meld(meld):
+    """Predicate returning whether the set is a meld."""
+
     return _is_chow(meld) or _is_pung(meld) or _is_kong(meld)
 
 
-def _is_suit_meld(meld):
-    return _is_coin(meld) or _is_bamboo(meld) or _is_character(meld)
-
-
-def _is_suit_chow(meld):
-    return _is_chow(meld) and _is_suit_meld(meld)
-
-
-def _is_suit_pung(meld):
-    return _is_pung(meld) and _is_suit_meld(meld)
-
-
 def _is_coin_chow(meld):
+    """Predicate returning whether the set is a coin chow."""
+
     return _is_chow(meld) and _is_coin(meld)
 
 
 def _is_bamboo_chow(meld):
+    """Predicate returning whether the set is a bamboo chow."""
+
     return _is_chow(meld) and _is_bamboo(meld)
 
 
 def _is_character_chow(meld):
+    """Predicate returning whether the set is a character chow."""
+
     return _is_chow(meld) and _is_character(meld)
 
 
+def _is_simple_chow(meld):
+    """Predicate returning whether the set is a simple chow."""
+
+    return _is_chow(meld) and _aracterlpungld)
+
+
+def _is_terminal_chow(meld):
+    """Predicate returning whether the set is a terminal chow."""
+
+    return _is_chow(meld) and _is_terminal(meld)
+
+
+def _is_suit_chow(meld):
+    """Predicate returning whether the set is a suit chow."""
+
+    return _is_chow(meld) and _is_suit_meld(meld)
+
+
 def _is_coin_pung(meld):
+    """Predicate returning whether the set is a coin pung."""
+
     return _is_pung(meld) and _is_coin(meld)
 
 
 def _is_bamboo_pung(meld):
+    """Predicate returning whether the set is a bamboo pung."""
+
     return _is_pung(meld) and _is_bamboo(meld)
 
 
 def _is_character_pung(meld):
+    """Predicate returning whether the set is a character pung."""
+
     return _is_pung(meld) and _is_character(meld)
 
 
-def _is_simple_chow(meld):
-    return _is_chow(meld) and _is_simple(meld)
-
-
-def _is_terminal_chow(meld):
-    return _is_chow(meld) and _is_terminal(meld)
-
-
-def _is_simple_pung(meld):
-    return _is_pung(meld) and _is_simple(meld)
-
-
-def _is_terminal_pung(meld):
-    return _is_pung(meld) and _is_terminal(meld)
-
-
 def _is_wind_pung(meld):
+    """Predicate returning whether the set is a wind pung."""
+
     return _is_pung(meld) and _is_wind(meld)
 
 
 def _is_dragon_pung(meld):
+    """Predicate returning whether the set is a dragon pung."""
+
     return _is_pung(meld) and _is_dragon(meld)
 
 
+def _is_simple_pung(meld):
+    """Predicate returning whether the set is a simple pung."""
+
+    return _is_pung(meld) and _is_simple(meld)
+
+
+def _is_terminal_pung(meld):
+    """Predicate returning whether the set is a terminal pung."""
+
+    return _is_pung(meld) and _is_terminal(meld)
+
+
+def _is_suit_pung(meld):
+    """Predicate returning whether the set is a suit pung."""
+
+    return _is_pung(meld) and _is_suit_meld(meld)
+
+
 def _is_honor_pung(meld):
+    """Predicate returning whether the set is a honor pung."""
+
     return _is_pung(meld) and (_is_wind(meld) or _is_dragon(meld))
 
 
+def _is_outside_pung(meld):
+    """Predicate returning whether the set is a outside pung."""
+
+    outside = _is_terminal(meld) or _is_wind(meld) or _is_dragon(meld)
+    return _is_pung(meld) and outside
+
+
 def _is_concealed_pung(meld):
+    """Predicate returning whether the set is a concealed pung."""
+
     return _is_pung(meld) and _is_concealed(meld)
 
 
 def _is_simple_meld(meld):
+    """Predicate returning whether the set is a simple meld."""
+
     return _is_chow(meld) or _is_simple_pung(meld)
 
 
 def _is_terminal_meld(meld):
+    """Predicate returning whether the set is a terminal meld."""
+
     return _is_terminal_chow(meld) or _is_terminal_pung(meld)
 
 
-def _is_outside_pung(meld):
-    return _is_pung(meld) and ( _is_terminal(meld) or _is_wind(meld) or _is_dragon(meld))
+def _is_suit_meld(meld):
+    """Predicate returning whether the set is a suit meld."""
+
+    return _is_coin(meld) or _is_bamboo(meld) or _is_character(meld)
 
 
 def _is_outside_meld(meld):
+    """Predicate returning whether the set is a outside meld."""
+
     return _is_terminal_meld(meld) or _is_honor_pung(meld)
 
 
 def _is_simple_eye(meld):
+    """Predicate returning whether the set is a pair of simple eyes."""
+
     return _is_eye(meld) and _is_simple(meld)
 
 
 def _is_terminal_eye(meld):
+    """Predicate returning whether the set is a pair of terminal eyes."""
+
     return _is_eye(meld) and _is_terminal(meld)
 
 
 def _is_wind_eye(meld):
+    """Predicate returning whether the set is a pair of wind eyes."""
+
     return _is_eye(meld) and _is_wind(meld)
 
 
 def _is_dragon_eye(meld):
+    """Predicate returning whether the set is a pair of dragon eyes."""
+
     return _is_eye(meld) and _is_dragon(meld)
 
 
 def _is_honor_eye(meld):
+    """Predicate returning whether the set is a pair of honor eyes."""
+
     return _is_eye(meld) and (_is_wind(meld) or _is_dragon(meld))
 
 
 def _is_outside_eye(meld):
-    return _is_eye(meld) and (_is_terminal(meld) or _is_wind(meld) or _is_dragon(meld))
+    """Predicate returning whether the set is a pair of outside eyes."""
+
+    outside = _is_terminal(meld) or _is_wind(meld) or _is_dragon(meld)
+    return _is_eye(meld) and outside
 
 
 
-# extraction
-
+# Extraction Methods
+#
+#     Extract out melds and eyes and tiles out of a hand.
 
 def _get_melds(hand):
+    """Filter out the melds in a hand."""
+
     return f.filter_(_is_meld, hand)
 
 
 def _get_eyes(hand):
+    """Filter out the eyes in a hand."""
+
     return f.filter_(_is_eye, hand)
 
 
 def _get_bonus(hand):
+    """Filter out the bonus tiles in a hand."""
+
     return f.filter_(_is_bonus, hand)
 
 
 def _get_tiles(hand):
-    ms = f.map_(t.snd, hand)
-    return [tile for m in ms for tile in m]
+    """Flatten the hand down to a list of tile."""
+
+    melds = f.map_(t.snd, hand)
+    return [tile for meld in melds for tile in meld]
 
 
-#########################
-### Utility Functions ###
-#########################
-
+# Utility Functions
+#
+#     A small set of conversions functions for a variety of uses.
 
 def _meld_str_rep(meld):
+    """Make a string representation based on the tiles in the meld."""
+
     str_reps = f.map_(t.show_tile, t.snd(meld))
     return f.fold_(f.add_, "", str_reps)
 
 
 def _tile_num_rep(meld):
-    mvals = f.map_(t.snd, t.snd(meld))
-    if 3 <= len(mvals) <= 4: # treat kong as pung
-        return str(mvals[0]) + str(mvals[1]) + str(mvals[2])
-    if len(mvals) == 2: # for eye? Necessary?
-        return str(mvals[0]) + str(mvals[1])
+    """Make a string representation based on the values of the tiles in the
+    meld.
+
+    """
+
+    meld_values = f.map_(t.snd, t.snd(meld))
+    if 3 <= len(meld_values) <= 4: # treat kong as pung
+        return str(meld_values[0]) + str(meld_values[1]) + str(meld_values[2])
+    if len(meld_values) == 2: # for eye? Necessary?
+        return str(meld_values[0]) + str(meld_values[1])
 
 
 def _tile_num_inc(num_rep):
-    return str( int(num_rep) + 111 )
+    """Given a string representation based of the values of the tiles in the
+    pung, return the string representation of the pung of the next value.
+
+    """
+
+    return str(int(num_rep) + 111)
 
 
+# Hand Evaluations
+#
+#     Fuction for evaluate each type of hand.  The combined one might not use
+#     all of these.  There are patterns that can't be determined just by
+#     looking at the hand as well that requires game play information, such as
+#     anything in the incidental section.  These are likely to be implemented
+#     in hand.py
 
-########################
-### Hand Evaluations ###
-########################
+# 1.0 Trivial Patterns
 
-### 1.0 Trivial Patterns
-
-# chicken is only when your hand satisfies no other patterns aside form bonus tiles
-# no need to implement as it is the only option when all patterns fails
 def _is_chicken():
+    """Chicken is only when your hand satisfies no other patterns aside form
+    bonus tiles.  No need to implement as it is the only option when all
+    patterns fails.
+
+    """
+
     return c.chicken
 
 
@@ -305,9 +422,7 @@ def _is_illegal_call():
     return c.illegal_call
 
 
-
-### 2.0 Identical Sets
-
+# 2.0 Identical Sets
 
 def _is_two_identical_chows(hand):
     d = f.to_dict_with_(_meld_str_rep, _get_melds(hand))
@@ -341,15 +456,12 @@ def _is_four_identical_chows(hand):
     return c.nothing
 
 
-
-### 3.0 Pungs and Kongs
-
+# 3.0 Pungs and Kongs
 
 def _is_all_pungs(hand):
     if f.all_(f.map_(_is_pung, _get_melds(hand))):
         return c.all_pungs
     return c.nothing
-
 
 
 def _is_two_concealed_pungs(hand):
@@ -368,8 +480,6 @@ def _is_four_concealed_pungs(hand):
     if f.count_with_(_is_concealed_pung, _get_melds(hand)) == 4:
         return c.four_concealed_pungs
     return c.nothing
-
-
 
 
 def _is_one_kong(hand):
@@ -396,9 +506,7 @@ def _is_four_kongs(hand):
     return c.nothing
 
 
-
-### 4.0 Similar Sets
-
+# 4.0 Similar Sets
 
 def _is_three_similar_chows(hand):
     ms = _get_melds(hand)
@@ -415,7 +523,6 @@ def _is_three_similar_chows(hand):
             if sorted(d.values()) == [1, 3]:
                 return c.three_similar_chows
     return c.nothing
-
 
 
 def _is_little_three_similar_pungs(hand):
@@ -447,9 +554,7 @@ def _is_three_similar_pungs(hand):
     return c.nothing
 
 
-
-### 5.0 Consecutive Sets
-
+# 5.0 Consecutive Sets
 
 def _is_nine_tile_straight(hand):
     ms = _get_melds(hand)
@@ -470,7 +575,6 @@ def _is_nine_tile_straight(hand):
         return _has_straight(character_chows)
     else:
         return c.nothing
-
 
 
 def _is_three_consecutive_pungs(hand):
@@ -526,9 +630,7 @@ def _is_three_mothers(hand):
     return c.nothing
 
 
-
-### 6.0 Suit Patterns
-
+# 6.0 Suit Patterns
 
 def _is_mixed_one_suit(hand):
     pass
@@ -558,14 +660,11 @@ def _is_big_terminal_club(hand):
     return c.nothing
 
 
-
 def _is_nine_gates(hand):
     pass
 
 
-
-### 7.0 Terminal Tiles
-
+# 7.0 Terminal Tiles
 
 def _is_two_tailed_terminal_chows(hand):
     pass
@@ -574,8 +673,6 @@ def _is_two_tailed_terminal_chows(hand):
 
 def _is_two_tailed_terminal_pungs(hand):
     pass
-
-
 
 
 def _is_little_boundless_mountain(hand):
@@ -626,9 +723,7 @@ def _is_pure_greater_terminals(hand):
     return c.nothing
 
 
-
-### 8.0 Honor Tiles
-
+# 8.0 Honor Tiles
 
 def _is_dragon_pung_hand(hand):
     dps = f.filter_(_is_dragon_pung, _get_melds(hand))
@@ -643,7 +738,6 @@ def _is_seat_wind(hand, seat):
     if t.wind_tiles[seat] in wts:
         return c.seat_wind
     return c.nothing
-
 
 
 def _is_little_three_winds(hand):
@@ -662,7 +756,6 @@ def _is_big_three_winds(hand):
     return c.nothing
 
 
-
 def _is_little_four_winds(hand):
     wps = f.filter_(_is_wind_pung, _get_melds(hand))
     if len(wps) == 3:
@@ -675,7 +768,6 @@ def _is_big_four_winds(hand):
     if f.all_(f.map_(_is_wind_pung, _get_melds(hand))):
         return c.big_four_winds
     return c.nothing
-
 
 
 def _is_little_three_dragons(hand):
@@ -711,9 +803,7 @@ def _is_all_honor_pairs(hand):
     return c.nothing
 
 
-
-### 9.0 Seven Pairs
-
+# 9.0 Seven Pairs
 
 def _is_seven_pairs(hand):
     d = f.to_dict_with_(t.show_tile, f.concat_map_(t.snd, _get_eyes(hand)))
@@ -778,8 +868,7 @@ def _is_number_neighborhood(hand):
     return c.nothing
 
 
-
-### 10.0 Color Hands
+# 10.0 Color Hands
 
 
 def _is_all_green(hand):
@@ -789,13 +878,11 @@ def _is_all_green(hand):
     return c.nothing
 
 
-
 def _is_all_red(hand):
     ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand))
     if f.all_(f.map_(t.is_red, ts)):
         return c.all_green
     return c.nothing
-
 
 
 def _is_all_blue(hand):
@@ -805,8 +892,7 @@ def _is_all_blue(hand):
     return c.nothing
 
 
-### 11.0 Irregular Hands
-
+# 11.0 Irregular Hands
 
 def _is_thirteen_orphans(hand):
     # need to check all thirteen terminal tiles are in the hand
@@ -820,18 +906,14 @@ def _is_thirteen_orphans(hand):
     # save this for now, change it later
 
 
-
-### 12.0 Incidental bonuses
-
+# 12.0 Incidental bonuses
 
 def _is_final_draw():
     return c.final_draw
 
 
-
 def _is_final_discard():
     return c.final_discard
-
 
 
 def _is_win_on_kong():
@@ -855,9 +937,7 @@ def _is_blessing_of_earth():
     return c.blessing_of_earth
 
 
-
-### 13.0 Bonus Tiles
-
+# 13.0 Bonus Tiles
 
 def _is_non_seat_flower(hand, seat):
     if f.any_(f.map_(_is_bonus, hand)):
@@ -893,7 +973,6 @@ def _is_seat_season(hand, seat):
     return c.nothing
 
 
-
 def _is_four_flowers(hand):
     if f.any_(f.map_(_is_bonus, hand)):
         fls = f.filter_(t.is_flower, t.snd(_get_bonus(hand)[0]))
@@ -908,7 +987,6 @@ def _is_four_seasons(hand):
         if len(sns) == 4:
             return c.four_seasons
     return c.nothing
-
 
 
 def _is_all_bonus_tiles(hand):

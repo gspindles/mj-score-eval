@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """tile.py defines the tile structure and provides functions that queries about
-the tile return a boolean vaule
+the tile return a boolean vaule.
 
 """
 
@@ -10,11 +10,12 @@ import fp as f
 from random import shuffle
 
 
-########################
-### Data Definitions ###
-########################
+# Data Definitions
+#
+#     Defines tuples for each tile family where each tile consists of tile type
+#     and its number.
 
-tile_types = ['C', 'B', 'K', 'W', 'D', 'F', 'S', 'A']
+tile_types = ('C', 'B', 'K', 'W', 'D', 'F', 'S', 'A')
 
 coin_tiles = (('C', 1), ('C', 2), ('C', 3), ('C', 4), ('C', 5),
               ('C', 6), ('C', 7), ('C', 8), ('C', 9)
@@ -48,7 +49,7 @@ terminal_tiles = (('C', 1), ('C', 9), ('B', 1), ('B', 9), ('K', 1), ('K', 9))
 
 honor_tiles = wind_tiles + dragon_tiles
 
-edge_tiles = terminal_tiles + honor_tiles
+outside_tiles = terminal_tiles + honor_tiles
 
 
 green_tiles = (('B', 2), ('B', 3), ('B', 4), ('B', 6), ('B', 8), ('D', 2))
@@ -58,22 +59,32 @@ red_tiles = (('B', 1), ('B', 5), ('B', 7), ('B', 9), ('D', 1))
 blue_tiles = (('C', 8), ('W', 1), ('W', 2), ('W', 3), ('W', 4), ('D', 3))
 
 
+# build a wall
+
 def get_wall():
+    """Repeat each tile four times and flatten it down to a list, shuffle it
+    and return the result.
+
+    """
+
     w = f.concat_map_(lambda x: f.repeat_(x, 4), regular_tiles)
     w = f.fold_(f.cons_, w, bonus_tiles)
     shuffle(w)
     return w
 
 
-###################
-### Conversions ###
-###################
+# Conversions
+#
+#     A set of functions of converting tiles to a different representation.
 
 def show_tile(tile):
+    """Returns a string representation of a tile."""
+
     return fst(tile) + str(snd(tile))
 
 
 def read_tile(tile):
+    """Given a tile string, return its tuple representation."""
     if len(tile) == 2:
         return (tile[0], int(tile[1]))
 
@@ -90,10 +101,20 @@ rank = {'C': 10,
 
 
 def get_rank(tile):
+    """Returns a numerical representation of a tile."""
+
     return rank[fst(tile)] + snd(tile)
 
 
 def compare(tile1, tile2):
+    """Compare two tiles and returns the relation.
+
+           -1 is less than
+           0 means equal
+           1 means greater than
+
+    """
+
     if get_rank(tile1) < get_rank(tile2):
         return -1
     elif get_rank(tile1) > get_rank(tile2):
@@ -106,76 +127,108 @@ def compare(tile1, tile2):
 ###########################
 
 def is_coin(tile):
+    """Predicate returning whether a tile is a coin tile."""
+
     return fst(tile) == 'C'
 
 
 def is_bamboo(tile):
+    """Predicate returning whether a tile is a bamboo tile."""
+
     return fst(tile) == 'B'
 
 
 def is_character(tile):
+    """Predicate returning whether a tile is a character tile."""
+
     return fst(tile) == 'K'
 
 
 def is_wind(tile):
+    """Predicate returning whether a tile is a wind tile."""
+
     return fst(tile) == 'W'
 
 
 def is_dragon(tile):
+    """Predicate returning whether a tile is a dragon tile."""
+
     return fst(tile) == 'D'
 
 
 def is_flower(tile):
+    """Predicate returning whether a tile is a flower tile."""
+
     return fst(tile) == 'F'
 
 
 def is_season(tile):
+    """Predicate returning whether a tile is a season tile."""
+
     return fst(tile) == 'S'
 
 
 def is_animal(tile):
+    """Predicate returning whether a tile is a animal tile."""
+
     return fst(tile) == 'A'
 
 
 def is_suit(tile):
+    """Predicate returning whether a tile is a suit tile."""
+
     return is_coin(tile) or is_bamboo(tile) or is_character(tile)
 
 
 def is_simple(tile):
+    """Predicate returning whether a tile is a simple tile."""
+
     if is_suit(tile):
         return 1 < snd(tile) < 9
     return False
 
 
 def is_terminal(tile):
+    """Predicate returning whether a tile is a terminal tile."""
+
     if is_suit(tile):
         return snd(tile) == 1 or snd(tile) == 9
     return False
 
 
 def is_honor(tile):
+    """Predicate returning whether a tile is an honor tile."""
+
     return is_wind(tile) or is_dragon(tile)
 
 
-def is_edge(tile):
+def is_outside(tile):
+    """Predicate returning whether a tile is an outside tile."""
+
     return is_terminal(tile) or is_honor(tile)
 
 
-# could probably check if tile is in bonus_tile too
-# but that seems way more comparisons than just looking at the suit
 def is_bonus(tile):
+    """Predicate returning whether a tile is a bonus tile."""
+
     return is_flower(tile) or is_season(tile) or is_animal(tile)
 
 
 def is_green(tile):
+    """Predicate returning whether a tile is a green tile."""
+
     return tile in green_tiles
 
 
 def is_red(tile):
+    """Predicate returning whether a tile is a red tile."""
+
     return tile in red_tiles
 
 
 def is_blue(tile):
+    """Predicate returning whether a tile is a blue tile."""
+
     return tile in blue_tiles
 
 
@@ -184,14 +237,23 @@ def is_blue(tile):
 ###########################
 
 def fst(tile):
+    """Returns the tile type."""
+
     return tile[0]
 
 
 def snd(tile):
+    """Returns the tile value."""
+
     return tile[1]
 
 
 def succ(tile):
+    """Returns the next tile in the family given a tile.  The last tile loops
+    around to the first tile in the family.  This is exactly how dora works.
+
+    """
+
     if is_suit(tile):
         if snd(tile) < 9:
             return (fst(tile), snd(tile) + 1)
@@ -199,6 +261,12 @@ def succ(tile):
 
 
 def pred(tile):
+    """Returns the previous tile in the family given a tile.  The first tile
+    loops back to the last tile in the family.  This is the reverse of how dora
+    works.
+
+    """
+
     if is_suit(tile):
         if snd(tile) > 1:
             return (fst(tile), snd(tile) - 1)

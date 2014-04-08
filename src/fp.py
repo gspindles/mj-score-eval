@@ -1,18 +1,16 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
+
+
+"""fp.py implements a variety of functional programming styled functions to
+make coding easier and faster.
+
+"""
+
+
+# Binary operations
 #
-# fp.py implements a variety of functional programming styled functions to
-# making coding easier and faster.  Yes there are python defaults from
-# itertools but they returns objects rather than plain list so this feels
-# sipmler.
-
-
-#########################
-### Binary operations ###
-#########################
-
-"""Reimplementation of library operators as binary functions."""
-
+#   Reimplementation of library operators as binary functions.
 
 def or_(obj1, obj2):
     """Default or as binary function."""
@@ -68,9 +66,16 @@ def equal_(obj1, obj2):
     return obj1 == obj2
 
 
-###########################
-### Utilities functions ###
-###########################
+def print_(obj):
+    """Default print as a function"""
+
+    print obj
+
+
+# Utilities Functions
+#
+#     A set of utililies functions that oftem iterate over a list returning a
+#     new one.
 
 def id_(x):
     """Identity function."""
@@ -241,9 +246,10 @@ def zip_with_(func, l1, l2):
     return l
 
 
-##########################
-### Compound Functions ###
-##########################
+# Compound Functions
+#
+#     A set of more specialized functions that are compositions of of the
+#     previous set of functions.
 
 def concat_map_(func, ls):
     """Map a function over a list and flattens it."""

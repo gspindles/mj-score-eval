@@ -8,16 +8,17 @@ that a hand satisfies, as well as computing the score of the given hand.
 """
 
 
-#####################
-### Scoring table ###
-#####################
+# Scoring table
+#
+#     List out tuple represetation for each hand.
 
-# for when pattern is not satisfied
+
+# 0.0 for when pattern is not satisfied
 
 nothing = ()
 
 
-"""1.0 Trivial Patterns"""
+# 1.0 Trivial Patterns
 
 chicken = ('Chicken Hand', u'雞和', 1)
 all_chows = ('All Chow', u'平和', 5)
@@ -28,7 +29,7 @@ all_type = ('All Types', u'五門齊', 10)
 illegal_call = ('Illegal Call', u'詐和', -30)
 
 
-"""2.0 Identical Chows"""
+# 2.0 Identical Chows
 
 two_identical_chows = ('Identical Chow', u'一般高', 10)
 two_identical_chows_twice = ('Two Identical Chows Twice', u'兩般高', 60)
@@ -36,7 +37,7 @@ three_identical_chows = ('Three Identical Chows', u'一色三同順', 120)
 four_identical_chows = ('Four Identical Chows', u'一色四同順', 480)
 
 
-"""3.0 Pungs and Kongs"""
+# 3.0 Pungs and Kongs
 
 all_pungs = ('All Pungs', u'對對和', 30)
 two_concealed_pungs = ('Two Concealed Pungs', u'二暗刻', 5)
@@ -49,7 +50,7 @@ three_kongs = ('Three Kongs', u'三槓', 120)
 four_kongs = ('Four Kongs', u'四槓', 480)
 
 
-"""4.0 Similar Sets"""
+# 4.0 Similar Sets
 
 three_similar_chows = ('Three Similar Chows', u'三色同順', 35)
 
@@ -57,7 +58,7 @@ little_three_similar_pungs = ('Little Three Similar Pungs', u'三色小同刻', 
 three_similar_pungs = ('Three Similar Pungs', u'三色同刻', 120)
 
 
-"""5.0 Consecutive Sets ####"""
+# 5.0 Consecutive Sets
 
 nine_tile_straight = ('Nine-Tile Straight', u'一氣通貫', 40)
 
@@ -66,7 +67,7 @@ four_consecutive_pungs = ('Four Consecutive Pungs', u'四連刻', 200)
 three_mothers = ('Three Mothers', u'三娘教子', 400)
 
 
-"""6.0 Suit Patterns"""
+# 6.0 Suit Patterns
 
 mixed_one_suit = ('Mixed One-Suit', u'混一色', 40)
 pure_one_suit = ('Pure One-Suit', u'清一色', 80)
@@ -76,7 +77,7 @@ big_terminal_club = ('Big Terminal Club', u'清天龍會', 320)
 nine_gates = ('Nine Gates', u'九蓮寶燈', 480)
 
 
-"""7.0 Terminal Tiles"""
+# 7.0 Terminal Tiles
 
 two_tailed_terminal_chows = ('Two-Tailed Terminal Chows', u'老少配', 5)
 two_tailed_terminal_pungs = ('Two-Tailed Terminal Pungs', u'老少副', 15)
@@ -89,7 +90,7 @@ mixed_greater_terminals = ('Mixed Greater Terminals', u'混么九', 100)
 pure_greater_terminals = ('Pure Greater Terminals', u'清么九', 400)
 
 
-"""8.0 Honor Tiles"""
+# 8.0 Honor Tiles
 
 dragon_pung = ('Dragon Pung', u'箭刻', 10)
 seat_wind = ('Seat Wind', u'門風', 10)
@@ -106,7 +107,7 @@ all_honors = ('All Honors', u'字一色', 320)
 all_honor_pairs = ('All Honor Pairs', u'大七星', 480)
 
 
-"""9.0 Seven Pairs"""
+# 9.0 Seven Pairs
 
 seven_pairs = ('Seven Pairs', u'七對子', 30)
 
@@ -116,19 +117,19 @@ bamboo_forest = ('Bamboo Forest', u'大竹林', 400)
 number_neighborhood = ('Number Neighborhood', u'大數隣', 400)
 
 
-"""10.0 Color Hands"""
+# 10.0 Color Hands
 
 all_green = ('All Green', u'緑一色', 400)
 all_red = ('All Red', u'紅孔雀', 480)
 all_blue = ('All Blue', u'藍一色', 400)
 
 
-"""11.0 Irregular Hands"""
+# 11.0 Irregular Hands
 
 thirteen_orphans = ('Thirteen Orphans', u'十三么九', 160)
 
 
-"""12.0 Incidental bonuses"""
+# 12.0 Incidental bonuses
 
 final_draw = ('Final Draw', u'海底撈月', 10)
 final_discard = ('Final Discard', u'河底撈魚', 10)
@@ -142,7 +143,7 @@ blessing_of_heaven = ('Blessing of Heaven', u'天和', 155)
 blessing_of_earth = ('Blessing of Earth', u'地和', 155)
 
 
-"""13.0 Bonus Tiles"""
+# 13.0 Bonus Tiles
 
 non_seat_flower = ('Non-seat Flower', u'偏花', 2)
 non_seat_season = ('Non-seat Season', u'偏季', 2)
