@@ -7,11 +7,10 @@
 ### this, we will produce a list melds that will be handed to score.py for
 ### scoring the points the hand is worth.
 
-import fp    as f
-import tile  as t
+import fp as f
+import tile as t
 import chart as c
-from   sets  import Set
-
+from sets import Set
 
 
 ############
@@ -53,12 +52,12 @@ def figure_out_hand(hand):
         l.append(s.seven_pairs)
     return l
 
+
 def get_score(hands):
     if len(hands) > 0:
-        values = f.map_func(t.snd, hands)
-        return f.fold_func(f.add_, 0, values)
+        values = f.map_(t.snd, hands)
+        return f.fold_(f.add_, 0, values)
     return 0
-
 
 
 ######################################
@@ -66,7 +65,8 @@ def get_score(hands):
 ######################################
 
 def sort_tiles(tiles):
-    return f.sort_with(t.compare, tiles)
+    return f.sort_with_(t.compare, tiles)
+
 
 def to_list(hand):
     l = []
@@ -89,9 +89,9 @@ def to_list(hand):
             l.append(hand['last'])
     return l
 
+
 def get_melds(hand):
     return [c for c in hand['concealed']] + [m for m in hand['melded']]
-
 
 
 #############
@@ -101,12 +101,13 @@ def get_melds(hand):
 def _is_chow(tiles):
     if len(tiles) == 3:
         meld = sort_tiles(tiles)
-        suits = f.map_func(t.fst, meld)
+        suits = f.map_(t.fst, meld)
         if suits[0] == suits[1] == suits[2]:
-            values = f.map_func(t.snd, meld)
+            values = f.map_(t.snd, meld)
             if values[0] + 2 == values[1] + 1 == values[2]:
                 return True
     return False
+
 
 def _is_pung(tiles):
     if len(tiles) == 3:
@@ -114,17 +115,20 @@ def _is_pung(tiles):
             return True
     return False
 
+
 def _is_kong(tiles):
     if len(tiles) == 4:
         if tiles[0] == tiles[1] == tiles[2] == tiles[3]:
             return True
     return False
 
+
 def _is_eye(tiles):
     if len(tiles) == 2:
         if tile.fst(tiles) == tile.snd(tiles):
             return True
     return False
+
 
 def _is_terminal_meld(tiles):
     if _is_chow(tiles) or _is_pung(tiles) or _is_kong(tiles):
@@ -133,17 +137,21 @@ def _is_terminal_meld(tiles):
             return True
     return False
 
+
 def _is_honor_meld(tiles):
     if _is_pung(tiles) or _is_kong(tiles):
         if t.is_honor(tiles[0]):
             return True
     return False
 
+
 def _has_terminal(tiles):
-    return f.or_func(f.map_func(t.is_term, tiles))
+    return f.any_map_(t.is_term, tiles))
+
 
 def _has_honor(tiles):
-    return f.or_func(f.map_func(t.is_honor, tiles))
+    return f.any_map_(t.is_honor, tiles))
+
 
 def _is_outside(tiles):
     return _has_terminal(tiles) or _has_honor(tiles)

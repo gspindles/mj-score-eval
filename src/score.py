@@ -266,7 +266,7 @@ def _is_chicken():
 
 
 def _is_all_chows(hand):
-    if f.and_func(f.map_(_is_chow, _get_melds(hand))):
+    if f.all_(f.map_(_is_chow, _get_melds(hand))):
         return c.all_chows
     return c.nothing
 
@@ -284,18 +284,18 @@ def _is_self_drawn():
 
 # works for both 4 meld and eye, or seven pairs
 def _is_all_simples(hand):
-    if f.and_func(f.map_(_is_simple, _get_melds(hand) + _get_eyes(hand))):
+    if f.all_(f.map_(_is_simple, _get_melds(hand) + _get_eyes(hand))):
         return c.all_simples
     return c.nothing
 
 
 def _is_all_types(hand):
     ts = _get_tiles(hand)
-    has_coin      = f.or_func(f.map_(t.is_coin, ts))
-    has_bamboo    = f.or_func(f.map_(t.is_bamboo, ts))
-    has_character = f.or_func(f.map_(t.is_character, ts))
-    has_wind      = f.or_func(f.map_(t.is_wind, ts))
-    has_dragon    = f.or_func(f.map_(t.is_dragon, ts))
+    has_coin      = f.any_(f.map_(t.is_coin, ts))
+    has_bamboo    = f.any_(f.map_(t.is_bamboo, ts))
+    has_character = f.any_(f.map_(t.is_character, ts))
+    has_wind      = f.any_(f.map_(t.is_wind, ts))
+    has_dragon    = f.any_(f.map_(t.is_dragon, ts))
     if has_coin and has_bamboo and has_character and has_wind and has_dragon:
         return c.all_type
     return c.nothing
@@ -310,7 +310,7 @@ def _is_illegal_call():
 
 
 def _is_two_identical_chows(hand):
-    d = f.to_dict_with(_meld_str_rep, _get_melds(hand))
+    d = f.to_dict_with_(_meld_str_rep, _get_melds(hand))
     if len(d) == 3:
         if sorted(d.values()) == [1,1,2]:
             return c.two_identical_chows
@@ -318,7 +318,7 @@ def _is_two_identical_chows(hand):
 
 
 def _is_two_identical_chows_twice(hand):
-    d = f.to_dict_with(_meld_str_rep, _get_melds(hand))
+    d = f.to_dict_with_(_meld_str_rep, _get_melds(hand))
     if len(d) == 2:
         if d.values() == [2,2]:
             return c.two_identical_chows_twice
@@ -326,7 +326,7 @@ def _is_two_identical_chows_twice(hand):
 
 
 def _is_three_identical_chows(hand):
-    d = f.to_dict_with(_meld_str_rep, _get_melds(hand))
+    d = f.to_dict_with_(_meld_str_rep, _get_melds(hand))
     if len(d) == 2:
         if sorted(d.values()) == [1,3]:
             return c.three_identical_chows
@@ -334,7 +334,7 @@ def _is_three_identical_chows(hand):
 
 
 def _is_four_identical_chows(hand):
-    d = f.to_dict_with(_meld_str_rep, _get_melds(hand))
+    d = f.to_dict_with_(_meld_str_rep, _get_melds(hand))
     if len(d) == 1:
         if d.values() == [4]:
             return c.four_identical_chows
@@ -346,26 +346,26 @@ def _is_four_identical_chows(hand):
 
 
 def _is_all_pungs(hand):
-    if f.and_func(f.map_(_is_pung, _get_melds(hand))):
+    if f.all_(f.map_(_is_pung, _get_melds(hand))):
         return c.all_pungs
     return c.nothing
 
 
 
 def _is_two_concealed_pungs(hand):
-    if f.count_with(_is_concealed_pung, _get_melds(hand)) == 2:
+    if f.count_with_(_is_concealed_pung, _get_melds(hand)) == 2:
         return c.two_concealed_pungs
     return c.nothing
 
 
 def _is_three_concealed_pungs(hand):
-    if f.count_with(_is_concealed_pung, _get_melds(hand) ) == 3:
+    if f.count_with_(_is_concealed_pung, _get_melds(hand) ) == 3:
         return c.three_concealed_pungs
     return c.nothing
 
 
 def _is_four_concealed_pungs(hand):
-    if f.count_with(_is_concealed_pung, _get_melds(hand)) == 4:
+    if f.count_with_(_is_concealed_pung, _get_melds(hand)) == 4:
         return c.four_concealed_pungs
     return c.nothing
 
@@ -373,25 +373,25 @@ def _is_four_concealed_pungs(hand):
 
 
 def _is_one_kong(hand):
-    if f.count_with(_is_kong, _get_melds(hand)) == 1:
+    if f.count_with_(_is_kong, _get_melds(hand)) == 1:
         return c.one_kong
     return c.nothing
 
 
 def _is_two_kongs(hand):
-    if f.count_with(_is_kong, _get_melds(hand)) == 2:
+    if f.count_with_(_is_kong, _get_melds(hand)) == 2:
         return c.two_kongs
     return c.nothing
 
 
 def _is_three_kongs(hand):
-    if f.count_with(_is_kong, _get_melds(hand)) == 3:
+    if f.count_with_(_is_kong, _get_melds(hand)) == 3:
         return c.three_kongs
     return c.nothing
 
 
 def _is_four_kongs(hand):
-    if f.count_with(_is_kong, _get_melds(hand)) == 4:
+    if f.count_with_(_is_kong, _get_melds(hand)) == 4:
         return c.four_kongs
     return c.nothing
 
@@ -402,13 +402,13 @@ def _is_four_kongs(hand):
 
 def _is_three_similar_chows(hand):
     ms = _get_melds(hand)
-    has_coin = f.or_func(f.map_(_is_coin_chow, ms))
-    has_bamboo = f.or_func(f.map_(_is_bamboo_chow, ms))
-    has_character = f.or_func(f.map_(_is_character_chow, ms))
+    has_coin = f.any_(f.map_(_is_coin_chow, ms))
+    has_bamboo = f.any_(f.map_(_is_bamboo_chow, ms))
+    has_character = f.any_(f.map_(_is_character_chow, ms))
     if has_coin and has_bamboo and has_character:
         # chows of all three types are present, then one is repeated
         # so pick one that has one meld only and that should determine the sequence
-        d = f.to_dict_with(_tile_num_rep, ms)
+        d = f.to_dict_with_(_tile_num_rep, ms)
         if len(d) == 1:
             return c.three_similar_chows
         if len(d) == 2:
@@ -422,8 +422,8 @@ def _is_little_three_similar_pungs(hand):
     if len(_get_eyes(hand)) == 1:
         # no need to check for suit because we only have 4 of each tiles
         val = t.snd(t.fst(t.snd(_get_eyes(hand)[0])))
-        val_pung_str = f.fold_(f.add_, '', f.repeat(str(val), 3))
-        d = f.to_dict_with(_tile_num_rep, _get_melds(hand))
+        val_pung_str = f.fold_(f.add_, '', f.repeat_(str(val), 3))
+        d = f.to_dict_with_(_tile_num_rep, _get_melds(hand))
         if d.has_key(val_pung_str):
             if d[val_pung_str] == 2:
                 return c.little_three_similar_pungs
@@ -432,13 +432,13 @@ def _is_little_three_similar_pungs(hand):
 
 def _is_three_similar_pungs(hand):
     ms = _get_melds(hand)
-    has_coin = f.or_func(f.map_(_is_coin_pung, ms))
-    has_bamboo = f.or_func(f.map_(_is_bamboo_pung, ms))
-    has_character = f.or_func(f.map_(_is_character_pung, ms))
+    has_coin = f.any_(f.map_(_is_coin_pung, ms))
+    has_bamboo = f.any_(f.map_(_is_bamboo_pung, ms))
+    has_character = f.any_(f.map_(_is_character_pung, ms))
     if has_coin and has_bamboo and has_character:
         # chows of all three types are present, then one is repeated
         # so pick one that has one meld only and that should determine the sequence
-        d = f.to_dict_with(_tile_num_rep, ms)
+        d = f.to_dict_with_(_tile_num_rep, ms)
         if len(d) == 1:
             return c.three_similar_pungs
         if len(d) == 2:
@@ -458,7 +458,7 @@ def _is_nine_tile_straight(hand):
     character_chows = f.filter_(_is_character_chow, ms)
 
     def _has_straight(melds):
-        d = f.to_dict_with(_tile_num_rep, melds)
+        d = f.to_dict_with_(_tile_num_rep, melds)
         if d.has_key('123') and d.has_key('456') and d.has_key('789'):
             return c.nine_tile_straight
 
@@ -482,11 +482,11 @@ def _is_three_consecutive_pungs(hand):
     def _is_consecutive(melds):
         ps = sorted(f.map_(_tile_num_rep, melds))
         if len(melds) == 3:
-            if ps == f.iterate(_tile_num_inc, ps[0], 2):
+            if ps == f.iterate_(_tile_num_inc, ps[0], 2):
                 return c.three_consecutive_pungs
         if len(melds) == 4:
-            lower = ps[0:3] == f.iterate(_tile_num_inc, ps[0], 2)
-            upper = ps[1,4] == f.iterate(_tile_num_inc, ps[1], 2)
+            lower = ps[0:3] == f.iterate_(_tile_num_inc, ps[0], 2)
+            upper = ps[1,4] == f.iterate_(_tile_num_inc, ps[1], 2)
             if lower or upper:
                 return c.three_consecutive_pungs
         return c.nothing
@@ -503,25 +503,25 @@ def _is_three_consecutive_pungs(hand):
 
 def _is_four_consecutive_pungs(hand):
     ms = _get_melds(hand)
-    ts = f.concat_map_(t.snd, ms))
+    ts = f.concat_map_(t.snd, ms)
     s = Set(f.map_(t.fst, ts))
     if len(s) == 1:
         ps = sorted(f.map_(_tile_num_rep, ms))
-        if ps[0:4] == f.iterate(_tile_num_inc, ps[0], 3):
+        if ps[0:4] == f.iterate_(_tile_num_inc, ps[0], 3):
             return c.four_consecutive_pungs
     return c.nothing
 
 
 def _is_three_mothers(hand):
     ms = _get_melds(hand)
-    ts = f.concat_map_(t.snd, ms))
+    ts = f.concat_map_(t.snd, ms)
     s = Set(f.map_(t.fst, ts))
     if len(s) == 1:
         ps = sorted(f.map_(_tile_num_rep, ms))
-        test = f.iterate(_tile_num_inc, ps[0], 2)
+        test = f.iterate_(_tile_num_inc, ps[0], 2)
         test.append(''.join(f.map_(t.fst, test)))
         lfunc = lambda x: x in ps
-        if f.and_func(f.map_(lfunc, test)):
+        if f.all_(f.map_(lfunc, test)):
             return c.three_mothers
     return c.nothing
 
@@ -535,7 +535,7 @@ def _is_mixed_one_suit(hand):
 
 
 def _is_pure_one_suit(hand):
-    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand)))
+    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand))
     s = Set(f.map_(t.fst, ts))
     if len(s) == 1:
         return c.pure_one_suit
@@ -543,7 +543,7 @@ def _is_pure_one_suit(hand):
 
 
 def _is_little_terminal_club(hand):
-    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand)))
+    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand))
     s = sorted(f.map_(t.snd, ts))
     if s == [1, 1, 2, 2, 3, 3, 5, 5, 7, 7, 8, 8, 9, 9]:
         return c.little_terminal_club
@@ -551,7 +551,7 @@ def _is_little_terminal_club(hand):
 
 
 def _is_big_terminal_club(hand):
-    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand)))
+    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand))
     s = sorted(f.map_(t.snd, ts))
     if s == [1, 1, 1, 1, 2, 3, 5, 5, 7, 8, 9, 9, 9, 9]:
         return c.big_terminal_club
@@ -580,7 +580,7 @@ def _is_two_tailed_terminal_pungs(hand):
 
 def _is_little_boundless_mountain(hand):
     if _is_pure_one_suit(hand) and _is_pure_lesser_terminals(hand):
-        ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand)))
+        ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand))
         tts = f.filter_(t.is_terminal, ts)
         if len(tts) == 6:
             return c.little_boundless_mountain
@@ -589,7 +589,7 @@ def _is_little_boundless_mountain(hand):
 
 def _is_big_boundless_mountain(hand):
     if _is_pure_one_suit(hand) and _is_pure_lesser_terminals(hand):
-        ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand)))
+        ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand))
         tts = f.filter_(t.is_terminal, ts)
         if len(tts) == 8:
             return c.big_boundless_mountain
@@ -598,30 +598,30 @@ def _is_big_boundless_mountain(hand):
 
 
 def _is_mixed_lesser_terminals(hand):
-    if f.and_func(f.map_(_is_outside_meld, _get_melds(hand))):
-        if f.and_func(f.map_(_is_outside_eye, _get_eyes(hand))):
+    if f.all_(f.map_(_is_outside_meld, _get_melds(hand))):
+        if f.all_(f.map_(_is_outside_eye, _get_eyes(hand))):
             return c.mixed_lesser_terminals
     return c.nothing
 
 
 
 def _is_pure_lesser_terminals(hand):
-    if f.and_func(f.map_(_is_terminal_meld, _get_melds(hand))):
-        if f.and_func(f.map_(_is_outside_eye, _get_eyes(hand))):
+    if f.all_(f.map_(_is_terminal_meld, _get_melds(hand))):
+        if f.all_(f.map_(_is_outside_eye, _get_eyes(hand))):
             return c.pure_lesser_terminals
     return c.nothing
 
 
 def _is_mixed_greater_terminals(hand):
-    if f.and_func(f.map_(_is_outside_pung, _get_melds(hand))):
-        if f.and_func(f.map_(_is_outside_eye, _get_eyes(hand))):
+    if f.all_(f.map_(_is_outside_pung, _get_melds(hand))):
+        if f.all_(f.map_(_is_outside_eye, _get_eyes(hand))):
             return c.mixed_greater_terminals
     return c.nothing
 
 
 def _is_pure_greater_terminals(hand):
-    if f.and_func(f.map_(_is_terminal_pung, _get_melds(hand))):
-        if f.and_func(f.map_(_is_outside_eye, _get_eyes(hand))):
+    if f.all_(f.map_(_is_terminal_pung, _get_melds(hand))):
+        if f.all_(f.map_(_is_outside_eye, _get_eyes(hand))):
             return c.pure_greater_terminals
     return c.nothing
 
@@ -639,7 +639,7 @@ def _is_dragon_pung_hand(hand):
 
 def _is_seat_wind(hand, seat):
     wps = f.filter_(_is_wind_pung, _get_melds(hand))
-    wts = f.concat_map_(t.snd, wps))
+    wts = f.concat_map_(t.snd, wps)
     if t.wind_tiles[seat] in wts:
         return c.seat_wind
     return c.nothing
@@ -672,7 +672,7 @@ def _is_little_four_winds(hand):
 
 
 def _is_big_four_winds(hand):
-    if f.and_func(f.map_(_is_wind_pung, _get_melds(hand))):
+    if f.all_(f.map_(_is_wind_pung, _get_melds(hand))):
         return c.big_four_winds
     return c.nothing
 
@@ -695,14 +695,14 @@ def _is_big_three_dragons(hand):
 
 
 def _is_all_honors(hand):
-    if f.and_func(f.map_(_is_honor_pung, _get_melds(hand))):
-        if f.and_func(f.map_(_is_honor_eye, _get_eyes(hand))):
+    if f.all_(f.map_(_is_honor_pung, _get_melds(hand))):
+        if f.all_(f.map_(_is_honor_eye, _get_eyes(hand))):
             return c.all_honors
     return c.nothing
 
 
 def _is_all_honor_pairs(hand):
-    ts = Set(f.concat_map_(t.snd, _get_eyes(hand))))
+    ts = Set(f.concat_map_(t.snd, _get_eyes(hand)))
     if len(ts) == 7:
         ts = h.sort_tiles([tile for tile in ts])
         honors = [tile for tile in t.honor_tiles]
@@ -716,9 +716,9 @@ def _is_all_honor_pairs(hand):
 
 
 def _is_seven_pairs(hand):
-    d = f.to_dict_with(t.show_tile, f.concat_map_(t.snd, _get_eyes(hand))))
+    d = f.to_dict_with_(t.show_tile, f.concat_map_(t.snd, _get_eyes(hand)))
     if len(d) == 7:
-        if d.values() == f.repeat(2, 7):
+        if d.values() == f.repeat_(2, 7):
             return c.seven_pairs
     if len(d) == 6:
         if sorted(d.values()) == [2, 2, 2, 2, 2, 4]:
@@ -734,7 +734,7 @@ def _is_seven_pairs(hand):
 
 def _is_seven_shifted_pairs(hand):
     if _is_pure_one_suit(hand):
-        ts = Set(f.concat_map_(t.snd, _get_eyes(hand))))
+        ts = Set(f.concat_map_(t.snd, _get_eyes(hand)))
         if len(ts) == 7:
             vs = sorted(f.map_(t.snd, [tile for tile in ts]))
             if vs == range(1, 8) or vs == range(3, 10):
@@ -743,36 +743,36 @@ def _is_seven_shifted_pairs(hand):
 
 
 def _is_grand_chariot(hand):
-    ts = Set(f.concat_map_(t.snd, _get_eyes(hand))))
+    ts = Set(f.concat_map_(t.snd, _get_eyes(hand)))
     if len(ts) == 7:
         tts = f.map_(t.fst, [tile for tile in ts])
         vs = sorted(f.map_(t.snd, [tile for tile in ts]))
         lfunc = lambda x: x == t.tile_types[0]
-        if f.and_func(f.map_(lfunc, tts)):
+        if f.all_(f.map_(lfunc, tts)):
             if vs == range(2, 9):
                 return c.grand_chariot
     return c.nothing
 
 
 def _is_bamboo_forest(hand):
-    ts = Set(f.concat_map_(t.snd, _get_eyes(hand))))
+    ts = Set(f.concat_map_(t.snd, _get_eyes(hand)))
     if len(ts) == 7:
         tts = f.map_(t.fst, [tile for tile in ts])
         vs = sorted(f.map_(t.snd, [tile for tile in ts]))
         lfunc = lambda x: x == t.tile_types[1]
-        if f.and_func(f.map_(lfunc, tts)):
+        if f.all_(f.map_(lfunc, tts)):
             if vs == range(2, 9):
                 return c.bamboo_forest
     return c.nothing
 
 
 def _is_number_neighborhood(hand):
-    ts = Set(f.concat_map_(t.snd, _get_eyes(hand))))
+    ts = Set(f.concat_map_(t.snd, _get_eyes(hand)))
     if len(ts) == 7:
         tts = f.map_(t.fst, [tile for tile in ts])
         vs = sorted(f.map_(t.snd, [tile for tile in ts]))
         lfunc = lambda x: x == t.tile_types[2]
-        if f.and_func(f.map_(lfunc, tts)):
+        if f.all_(f.map_(lfunc, tts)):
             if vs == range(2, 9):
                 return c.number_neighborhood
     return c.nothing
@@ -783,24 +783,24 @@ def _is_number_neighborhood(hand):
 
 
 def _is_all_green(hand):
-    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand)))
-    if f.and_func(f.map_(t.is_green, ts)):
+    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand))
+    if f.all_(f.map_(t.is_green, ts)):
         return c.all_green
     return c.nothing
 
 
 
 def _is_all_red(hand):
-    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand)))
-    if f.and_func(f.map_(t.is_red, ts)):
+    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand))
+    if f.all_(f.map_(t.is_red, ts)):
         return c.all_green
     return c.nothing
 
 
 
 def _is_all_blue(hand):
-    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand)))
-    if f.and_func(f.map_(t.is_blue, ts)):
+    ts = f.concat_map_(t.snd, _get_melds(hand) + _get_eyes(hand))
+    if f.all_(f.map_(t.is_blue, ts)):
         return c.all_green
     return c.nothing
 
@@ -860,7 +860,7 @@ def _is_blessing_of_earth():
 
 
 def _is_non_seat_flower(hand, seat):
-    if f.or_func(f.map_(_is_bonus, hand)):
+    if f.any_(f.map_(_is_bonus, hand)):
         fls = f.filter_(t.is_flower, t.snd(_get_bonus(hand)[0]))
         nsfs = [fl for fl in fls if fl != t.flower_tiles[seat + 1]]
         if len(nsfs) > 0:
@@ -869,7 +869,7 @@ def _is_non_seat_flower(hand, seat):
 
 
 def _is_non_seat_season(hand, seat):
-    if f.or_func(f.map_(_is_bonus, hand)):
+    if f.any_(f.map_(_is_bonus, hand)):
         sns = f.filter_(t.is_season, t.snd(_get_bonus(hand)[0]))
         nsss = [sn for sn in sns if sn != t.season_tiles[seat + 1]]
         if len(nsss) > 0:
@@ -878,7 +878,7 @@ def _is_non_seat_season(hand, seat):
 
 
 def _is_seat_flower(hand, seat):
-    if f.or_func(f.map_(_is_bonus, hand)):
+    if f.any_(f.map_(_is_bonus, hand)):
         fls = f.filter_(t.is_flower, t.snd(_get_bonus(hand)[0]))
         if t.flower_tiles[seat] in fls:
             return c.seat_flower
@@ -886,7 +886,7 @@ def _is_seat_flower(hand, seat):
 
 
 def _is_seat_season(hand, seat):
-    if f.or_func(f.map_(_is_bonus, hand)):
+    if f.any_(f.map_(_is_bonus, hand)):
         sns = f.filter_(t.is_season, t.snd(_get_bonus(hand)[0]))
         if t.season_tiles[seat] in sns:
             return c.seat_season
@@ -895,7 +895,7 @@ def _is_seat_season(hand, seat):
 
 
 def _is_four_flowers(hand):
-    if f.or_func(f.map_(_is_bonus, hand)):
+    if f.any_(f.map_(_is_bonus, hand)):
         fls = f.filter_(t.is_flower, t.snd(_get_bonus(hand)[0]))
         if len(fls) == 4:
             return c.four_flowers
@@ -903,7 +903,7 @@ def _is_four_flowers(hand):
 
 
 def _is_four_seasons(hand):
-    if f.or_func(f.map_(_is_bonus, hand)):
+    if f.any_(f.map_(_is_bonus, hand)):
         sns = f.filter_(t.is_season, t.snd(_get_bonus(hand)[0]))
         if len(sns) == 4:
             return c.four_seasons
@@ -912,7 +912,7 @@ def _is_four_seasons(hand):
 
 
 def _is_all_bonus_tiles(hand):
-    if f.or_func(f.map_(_is_bonus, hand)):
+    if f.any_(f.map_(_is_bonus, hand)):
         bs = t.snd(_get_bonus(hand)[0])
         if len(bs) == 8:
             return c.all_bonus_tiles

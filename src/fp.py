@@ -168,12 +168,6 @@ def compose_(funcs, x):
     return f(x)
 
 
-def count_with_(pred, ls):
-    """Count the element in the list satisfying the predicate."""
-
-    return len(filter_(lambda x: pred(x) is True, ls))
-
-
 def sort_with_(compare, ls):
     """Quick sort taking the head of the list as pivot and sorts the elements
     of the list by a compare function.
@@ -200,6 +194,12 @@ def sort_with_(compare, ls):
         return []
 
 
+def count_with_(pred, ls):
+    """Count the element in the list satisfying the predicate."""
+
+    return len(filter_(lambda x: pred(x) is True, ls))
+
+
 def to_dict_with_(func, ls):
     """Taka a list and a key-generating function, returns a dictionary.
 
@@ -223,7 +223,7 @@ def zip_(l1, l2):
 
     l = []
     length = min(len(l1), len(l2))
-    for i in range(ength):
+    for i in range(length):
         l.append((l1[i], l2[i]))
     return l
 
@@ -254,4 +254,16 @@ def concat_map_(func, ls):
 def filter_map_(pred, func, ls):
     """Map a function over a list and filter items satisfying the predicate."""
 
-    return filter__(pred, map_(func, ls))
+    return filter_(pred, map_(func, ls))
+
+
+def any_map_(pred, ls):
+    """Map a predicate over a list and run any_ over the resulting list."""
+
+    return any_(map_(pred, ls))
+
+
+def all_map_(pred, ls):
+    """Map a predicate over a list and run all_ over the resulting list."""
+
+    return all_(map_(pred, ls))
