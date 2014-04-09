@@ -72,7 +72,7 @@ h_all_types = \
 h_illegal_call = []
 
 
-"""2.0 Identical Chows"""
+# 2.0 Identical Chows
 
 h_2_id_chows = \
     [(['n', 'c', 'B', 'S'], [('B', 4), ('B', 5), ('B', 6)]),
@@ -107,7 +107,7 @@ h_4_id_chows = \
      ]
 
 
-"""3.0 Pungs and Kongs"""
+# 3.0 Pungs and Kongs
 
 h_all_pungs = \
     [(['n', 'k', 'B', 'S'], [('B', 4), ('B', 4), ('B', 4), ('B', 4)]),
@@ -181,7 +181,7 @@ h_4_kongs = \
      ]
 
 
-"""4.0 Similar Sets"""
+# 4.0 Similar Sets
 
 h_3_similar_chows = \
     [(['c', 'c', 'B', 'S'], [('B', 4), ('B', 5), ('B', 6)]),
@@ -209,7 +209,7 @@ h_3_similar_pungs = \
      ]
 
 
-"""5.0 Consecutive Sets"""
+# 5.0 Consecutive Sets
 
 h_9_tile_straight = \
     [(['n', 'p', 'B', 'S'], [('B', 4), ('B', 4), ('B', 4)]),
@@ -253,7 +253,7 @@ h_3_mothers = \
      ]
 
 
-"""6.0 Suit Patterns"""
+# 6.0 Suit Patterns
 
 h_mixed_1_suit_1 = \
     [(['n', 'p', 'B', 'S'], [('B', 3), ('B', 3), ('B', 3)]),
@@ -321,7 +321,7 @@ h_nine_gates = \
      ]
 
 
-"""7.0 Terminal Tiles"""
+# 7.0 Terminal Tiles
 
 h_two_tailed_terminal_chows = \
     [(['n', 'p', 'C', 'S'], [('C', 3), ('C', 3), ('C', 3)]),
@@ -426,7 +426,7 @@ h_pure_greater_terminals_2 = \
      ]
 
 
-"""8.0 Honor Tiles"""
+# 8.0 Honor Tiles
 
 h_dragon_pung = \
     [(['n', 'p', 'B', 'S'], [('B', 2), ('B', 2), ('B', 2)]),
@@ -530,7 +530,7 @@ h_all_honor_pairs = \
      ]
 
 
-"""9.0 Seven Pairs"""
+# 9.0 Seven Pairs
 
 h_7_pairs_1 = \
     [(['n', 'e', 'C', 'T'], [('C', 1), ('C', 1)]),
@@ -624,7 +624,7 @@ h_number_neighborhood = \
      ]
 
 
-"""10.0 Color Hands"""
+# 10.0 Color Hands
 
 h_all_green = \
     [(['n', 'p', 'B', 'S'], [('B', 2), ('B', 2), ('B', 2)]),
@@ -652,7 +652,7 @@ h_all_blue = \
      ]
 
 
-"""11.0 Irregular Hands"""
+# 11.0 Irregular Hands
 
 h_13_orphans = \
     [(['r', 'h', 'B', 'T', 'W', 'D'],
@@ -665,7 +665,7 @@ h_13_orphans = \
      ]
 
 
-"""12.0 Incidental Bonuses"""
+# 12.0 Incidental Bonuses
 
 h_final_draw = []
 
@@ -682,7 +682,7 @@ h_blessing_of_heaven = []
 h_blessing_of_earth = []
 
 
-"""13.0 Bonus Tiles"""
+# 13.0 Bonus Tiles
 
 h_non_seat_flower = \
     [(['r', 'c', 'C', 'T'], [('C', 7), ('C', 8), ('C', 9)]),

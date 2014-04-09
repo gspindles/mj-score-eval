@@ -10,7 +10,6 @@
 import fp as f
 import tile as t
 import chart as c
-from sets import Set
 
 
 ############
@@ -146,11 +145,11 @@ def _is_honor_meld(tiles):
 
 
 def _has_terminal(tiles):
-    return f.any_map_(t.is_term, tiles))
+    return f.any_map_(t.is_term, tiles)
 
 
 def _has_honor(tiles):
-    return f.any_map_(t.is_honor, tiles))
+    return f.any_map_(t.is_honor, tiles)
 
 
 def _is_outside(tiles):
