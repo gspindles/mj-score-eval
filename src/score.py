@@ -626,7 +626,7 @@ def _is_nine_tile_straight(hand):
 
     def _has_straight(melds):
         d = f.to_dict_with_(_tile_num_rep, melds)
-        lfunc = lambda x: f.in_(d, x)
+        lfunc = lambda x: f.elem_(d, x)
         if f.all_map_(lfunc, ['123', '456', '789']):
             return c.nine_tile_straight
 
@@ -1225,7 +1225,7 @@ def _is_non_seat_flower(hand, seat):
                            if flower != t.flower_tiles[seat]]
         if len(nonseat_flowers) > 0:
             value = c.non_seat_flower[2] * len(nonseat_flowers)
-            return (c.non_seat_flower[0], c.non_seat_flower[1], )
+            return (c.non_seat_flower[0], c.non_seat_flower[1], value)
     return c.nothing
 
 
@@ -1284,6 +1284,7 @@ def _is_four_seasons(hand):
 
 def _is_all_bonus_tiles(hand):
     """Returns the respective tuple for obtaining all eight bonus tiles."""
+
     if f.any_map_(_is_bonus, hand):
         bonus_tiles = t.snd(_get_bonus(hand)[0])
         if len(bonus_tiles) == 8:
