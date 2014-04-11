@@ -78,8 +78,8 @@ print_(s._is_three_consecutive_pungs(es.h_3_consecutive_pungs_2))
 
 # 6.0 Suit Patterns
 
-# print_(s._is_mixed_one_suit(es.h_mixed_1_suit_1))
-# print_(s._is_mixed_one_suit(es.h_mixed_1_suit_2))
+print_(s._is_mixed_one_suit(es.h_mixed_1_suit_1))
+print_(s._is_mixed_one_suit(es.h_mixed_1_suit_2))
 print_(s._is_pure_one_suit(es.h_pure_1_suit_1))
 print_(s._is_pure_one_suit(es.h_pure_1_suit_2))
 print_(s._is_little_terminal_club(es.h_little_terminal_club))

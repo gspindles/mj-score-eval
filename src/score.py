@@ -718,7 +718,8 @@ def _is_mixed_one_suit(hand):
     """
 
     melds = _get_melds(hand) + _get_eyes(hand)
-    has_honor = f.count_with_(_is_honor_pung, melds)
+    _is_honor = lambda x: _is_wind(x) or _is_dragon(x)
+    has_honor = f.count_with_(_is_honor, melds)
     has_coin = f.count_with_(_is_coin, melds)
     has_bamboo = f.count_with_(_is_bamboo, melds)
     has_char = f.count_with_(_is_character, melds)
