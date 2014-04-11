@@ -717,7 +717,17 @@ def _is_mixed_one_suit(hand):
 
     """
 
-    pass
+    melds = _get_melds(hand) + _get_eyes(hand)
+    has_honor = f.count_with_(_is_honor_pung, melds)
+    has_coin = f.count_with_(_is_coin, melds)
+    has_bamboo = f.count_with_(_is_bamboo, melds)
+    has_char = f.count_with_(_is_character, melds)
+    in_coin = has_honor and has_coin and not has_bamboo and not has_char
+    in_bamboo = has_honor and not has_coin and has_bamboo and not has_char
+    in_char = has_honor and not has_coin and not has_bamboo and has_char
+    if in_coin or in_bamboo or in_char:
+        return c.mixed_one_suit
+    return c.nothing
 
 
 def _is_pure_one_suit(hand):
