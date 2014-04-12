@@ -787,7 +787,35 @@ def _is_two_tailed_terminal_chows(hand):
 
     """
 
-    pass
+    terminal_chows = f.filter_(_is_terminal_chow, _get_melds(hand))
+    coin_chows = f.filter_(_is_coin, terminal_chows)
+    bamboo_chows = f.filter_(_is_bamboo, terminal_chows)
+    character_chows = f.filter_(_is_character, terminal_chows)
+
+    def _count_terminal_chows(terminal_chows):
+        terminals_dict = f.to_dict_with_(_tile_num_rep, terminal_chows)
+        if sorted(terminals_dict.values()) == [1, 1]:
+            return 1
+        elif sorted(terminals_dict.values()) == [1, 2]:
+            return 1
+        elif sorted(terminals_dict.values()) == [2, 2]:
+            return 2
+        else:
+            return 0
+
+    count = 0
+    if len(coin_chows) >= 1:
+        count += _count_terminal_chows(coin_chows)
+    if len(bamboo_chows) >= 1:
+        count += _count_terminal_chows(bamboo_chows)
+    if len(character_chows) >= 1:
+        count += _count_terminal_chows(character_chows)
+
+    if count >= 0:
+        return (c.two_tailed_terminal_chows[0],
+                c.two_tailed_terminal_chows[1],
+                c.two_tailed_terminal_chows[2] * count)
+    return c.nothing
 
 
 def _is_two_tailed_terminal_pungs(hand):
@@ -796,7 +824,30 @@ def _is_two_tailed_terminal_pungs(hand):
 
     """
 
-    pass
+    terminal_pungs = f.filter_(_is_terminal_chow, _get_melds(hand))
+    coin_pungs = f.filter_(_is_coin, terminal_pungs)
+    bamboo_pungs = f.filter_(_is_bamboo, terminal_pungs)
+    character_pungs = f.filter_(_is_character, terminal_pungs)
+
+    def _count_terminal_pungs(terminal_pungs):
+        terminals_dict = f.to_dict_with_(_tile_num_rep, terminal_pungs)
+        if len(terminals_dict) == 2:
+            return True
+        return False
+
+    count = 0
+    if _count_terminal_pungs(coin_pungs):
+        count += 1
+    if _count_terminal_pungs(bamboo_pungs):
+        count += 1
+    if _count_terminal_pungs(character_pungs):
+        count += 1
+
+    if count >= 0:
+        return (c.two_tailed_terminal_pungs[0],
+                c.two_tailed_terminal_pungs[1],
+                c.two_tailed_terminal_pungs[2] * count)
+    return c.nothing
 
 
 def _is_little_boundless_mountain(hand):
