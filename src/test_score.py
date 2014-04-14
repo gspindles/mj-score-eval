@@ -72,8 +72,8 @@ print_(s._is_nine_tile_straight(es.h_9_tile_straight))
 
 print_(s._is_three_consecutive_pungs(es.h_3_consecutive_pungs_1))
 print_(s._is_three_consecutive_pungs(es.h_3_consecutive_pungs_2))
-# print_(s._is_four_consecutive_pungs(es.h_4_consecutive_pungs))
-# print_(s._is_three_mothers(es.h_3_mothers))
+print_(s._is_four_consecutive_pungs(es.h_4_consecutive_pungs))
+print_(s._is_three_mothers(es.h_3_mothers))
 
 
 # 6.0 Suit Patterns
@@ -90,8 +90,11 @@ print_(s._is_big_terminal_club(es.h_big_terminal_club))
 
 # 7.0 Terinal Tiles
 
-# print_(s._is_two_tailed_terminal_chows(es.h_two_tailed_terminal_chows))
-# print_(s._is_two_tailed_terminal_pungs(es.h_two_tailed_terminal_pungs))
+print_(s._is_two_tailed_terminal_chows(es.h_two_tailed_terminal_chows_1))
+print_(s._is_two_tailed_terminal_chows(es.h_two_tailed_terminal_chows_2))
+print_(s._is_two_tailed_terminal_chows(es.h_two_tailed_terminal_chows_3))
+print_(s._is_two_tailed_terminal_pungs(es.h_two_tailed_terminal_pungs_1))
+print_(s._is_two_tailed_terminal_pungs(es.h_two_tailed_terminal_pungs_2))
 print_(s._is_little_boundless_mountain(es.h_little_boundless_mountain_1))
 print_(s._is_little_boundless_mountain(es.h_little_boundless_mountain_2))
 print_(s._is_big_boundless_mountain(es.h_big_boundless_mountain_1))

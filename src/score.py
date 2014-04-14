@@ -128,6 +128,18 @@ def _is_eye(meld):
 #     Combine the basic functions above to create more complex predicates used
 #     in the next section.
 
+def _is_honor(meld):
+    """Predicate returning whether the set is honor."""
+
+    return _is_wind(meld) or _is_dragon(meld)
+
+
+def _is_outside(meld):
+    """Predicate returning whether the set is outside."""
+
+    return _is_terminal(meld) or _is_honor(meld)
+
+
 def _is_meld(meld):
     """Predicate returning whether the set is a meld."""
 
@@ -221,14 +233,13 @@ def _is_suit_pung(meld):
 def _is_honor_pung(meld):
     """Predicate returning whether the set is a honor pung."""
 
-    return _is_pung(meld) and (_is_wind(meld) or _is_dragon(meld))
+    return _is_pung(meld) and _is_honor(meld)
 
 
-def _is_outileside_pung(meld):
-    """Predicate returning whether the set is a outileside pung."""
+def _is_outside_pung(meld):
+    """Predicate returning whether the set is a outside pung."""
 
-    outileside = _is_terminal(meld) or _is_wind(meld) or _is_dragon(meld)
-    return _is_pung(meld) and outileside
+    return _is_pung(meld) and _is_outside(meld)
 
 
 def _is_concealed_pung(meld):
@@ -255,8 +266,8 @@ def _is_suit_meld(meld):
     return _is_coin(meld) or _is_bamboo(meld) or _is_character(meld)
 
 
-def _is_outileside_meld(meld):
-    """Predicate returning whether the set is a outileside meld."""
+def _is_outside_meld(meld):
+    """Predicate returning whether the set is a outside meld."""
 
     return _is_terminal_meld(meld) or _is_honor_pung(meld)
 
@@ -291,11 +302,11 @@ def _is_honor_eye(meld):
     return _is_eye(meld) and (_is_wind(meld) or _is_dragon(meld))
 
 
-def _is_outileside_eye(meld):
-    """Predicate returning whether the set is a pair of outileside eyes."""
+def _is_outside_eye(meld):
+    """Predicate returning whether the set is a pair of outside eyes."""
 
-    outileside = _is_terminal(meld) or _is_wind(meld) or _is_dragon(meld)
-    return _is_eye(meld) and outileside
+    outside = _is_terminal(meld) or _is_wind(meld) or _is_dragon(meld)
+    return _is_eye(meld) and outside
 
 
 # Extraction Methods
@@ -718,7 +729,6 @@ def _is_mixed_one_suit(hand):
     """
 
     melds = _get_melds(hand) + _get_eyes(hand)
-    _is_honor = lambda x: _is_wind(x) or _is_dragon(x)
     has_honor = f.count_with_(_is_honor, melds)
     has_coin = f.count_with_(_is_coin, melds)
     has_bamboo = f.count_with_(_is_bamboo, melds)
@@ -824,7 +834,7 @@ def _is_two_tailed_terminal_pungs(hand):
 
     """
 
-    terminal_pungs = f.filter_(_is_terminal_chow, _get_melds(hand))
+    terminal_pungs = f.filter_(_is_terminal_pung, _get_melds(hand))
     coin_pungs = f.filter_(_is_coin, terminal_pungs)
     bamboo_pungs = f.filter_(_is_bamboo, terminal_pungs)
     character_pungs = f.filter_(_is_character, terminal_pungs)
@@ -843,7 +853,7 @@ def _is_two_tailed_terminal_pungs(hand):
     if _count_terminal_pungs(character_pungs):
         count += 1
 
-    if count >= 0:
+    if count > 0:
         return (c.two_tailed_terminal_pungs[0],
                 c.two_tailed_terminal_pungs[1],
                 c.two_tailed_terminal_pungs[2] * count)
@@ -887,8 +897,8 @@ def _is_mixed_lesser_terminals(hand):
 
     """
 
-    if f.all_map_(_is_outileside_meld, _get_melds(hand)):
-        if f.all_map_(_is_outileside_eye, _get_eyes(hand)):
+    if f.all_map_(_is_outside_meld, _get_melds(hand)):
+        if f.all_map_(_is_outside_eye, _get_eyes(hand)):
             return c.mixed_lesser_terminals
     return c.nothing
 
@@ -900,7 +910,7 @@ def _is_pure_lesser_terminals(hand):
     """
 
     if f.all_map_(_is_terminal_meld, _get_melds(hand)):
-        if f.all_map_(_is_outileside_eye, _get_eyes(hand)):
+        if f.all_map_(_is_outside_eye, _get_eyes(hand)):
             return c.pure_lesser_terminals
     return c.nothing
 
@@ -912,8 +922,8 @@ def _is_mixed_greater_terminals(hand):
 
     """
 
-    if f.all_map_(_is_outileside_pung, _get_melds(hand)):
-        if f.all_map_(_is_outileside_eye, _get_eyes(hand)):
+    if f.all_map_(_is_outside_pung, _get_melds(hand)):
+        if f.all_map_(_is_outside_eye, _get_eyes(hand)):
             return c.mixed_greater_terminals
     return c.nothing
 
@@ -925,7 +935,7 @@ def _is_pure_greater_terminals(hand):
     """
 
     if f.all_map_(_is_terminal_pung, _get_melds(hand)):
-        if f.all_map_(_is_outileside_eye, _get_eyes(hand)):
+        if f.all_map_(_is_outside_eye, _get_eyes(hand)):
             return c.pure_greater_terminals
     return c.nothing
 
