@@ -60,7 +60,10 @@ three_similar_pungs = ('Three Similar Pungs', u'三色同刻', 120)
 
 # 5.0 Consecutive Sets
 
+three_consecutive_chows = ('Three Consecutive Chows', u'三連順', 30)
+three_consecutive_chows_twice = ('Three Consecutive Chows Twice', u'雙三連順', 60)
 nine_tile_straight = ('Nine-Tile Straight', u'一氣通貫', 40)
+four_consecutive_chows = ('Four Consecutive Chows', u'四連順', 100)
 
 three_consecutive_pungs = ('Three Consecutive Pungs', u'三連刻', 100)
 four_consecutive_pungs = ('Four Consecutive Pungs', u'四連刻', 200)

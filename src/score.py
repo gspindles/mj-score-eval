@@ -570,14 +570,14 @@ def _is_three_similar_chows(hand):
 
     """
 
-    ms = _get_melds(hand)
-    has_coin = f.any_map_(_is_coin_chow, ms)
-    has_bamboo = f.any_map_(_is_bamboo_chow, ms)
-    has_character = f.any_map_(_is_character_chow, ms)
+    melds = _get_melds(hand)
+    has_coin = f.any_map_(_is_coin_chow, melds)
+    has_bamboo = f.any_map_(_is_bamboo_chow, melds)
+    has_character = f.any_map_(_is_character_chow, melds)
     if has_coin and has_bamboo and has_character:
         # chows of all three types are present, then one is repeated.  So pick
         # one that has one meld only and that should determine the sequence
-        d = f.to_dict_with_(_tile_num_rep, ms)
+        d = f.to_dict_with_(_tile_num_rep, melds)
         if len(d) == 1:
             return c.three_similar_chows
         if len(d) == 2:
@@ -609,14 +609,14 @@ def _is_three_similar_pungs(hand):
 
     """
 
-    ms = _get_melds(hand)
-    has_coin = f.any_map_(_is_coin_pung, ms)
-    has_bamboo = f.any_map_(_is_bamboo_pung, ms)
-    has_character = f.any_map_(_is_character_pung, ms)
+    melds = _get_melds(hand)
+    has_coin = f.any_map_(_is_coin_pung, melds)
+    has_bamboo = f.any_map_(_is_bamboo_pung, melds)
+    has_character = f.any_map_(_is_character_pung, melds)
     if has_coin and has_bamboo and has_character:
         # chows of all three types are present, then one is repeated so pick
         # one that has one meld only and that should determine the sequence
-        d = f.to_dict_with_(_tile_num_rep, ms)
+        d = f.to_dict_with_(_tile_num_rep, melds)
         if len(d) == 1:
             return c.three_similar_pungs
         if len(d) == 2:
@@ -627,13 +627,42 @@ def _is_three_similar_pungs(hand):
 
 # 5.0 Consecutive setiles
 
+def _is_three_consecutive_chows(hand):
+    """Returns tde respective tuple when the hand has three increasing chows in
+    the same suit.
+
+    """
+
+    melds = _get_melds(hand)
+    coin_chows = f.filter_(_is_coin_chow, melds)
+    bamboo_chows = f.filter_(_is_bamboo_chow, melds)
+    character_chows = f.filter_(_is_character_chow, melds)
+
+    def _has_inscreasing_chows(melds):
+        chows = sorted(f.map_(_tile_num_rep, melds))
+        step1 = f.iterate(_tile_num_inc, chows[0], 3)
+        lfunc = lambda x: _tile_num_inc(_tile_num_inc(x))
+        step2 = f.iterate(lfunc, chows[0], 3)
+        if f.subset_(melds, step1) or f.subset_(melds, step2):
+            return c.three_consecutive_chows
+
+    if len(coin_chows) >= 3:
+        return _has_increasing_chows(coin_chows)
+    elif len(bamboo_chows) >= 3:
+        return _has_increasing_chows(bamboo_chows)
+    elif len(character_chows) >= 3:
+        return _has_increasing_chows(bamboo_chows)
+    else:
+        return c.nothing
+
+
 def _is_nine_tile_straight(hand):
     """Returns the respective tuple when the hands has nine tile straight."""
 
-    ms = _get_melds(hand)
-    coin_chows = f.filter_(_is_coin_chow, ms)
-    bamboo_chows = f.filter_(_is_bamboo_chow, ms)
-    character_chows = f.filter_(_is_character_chow, ms)
+    melds = _get_melds(hand)
+    coin_chows = f.filter_(_is_coin_chow, melds)
+    bamboo_chows = f.filter_(_is_bamboo_chow, melds)
+    character_chows = f.filter_(_is_character_chow, melds)
 
     def _has_straight(melds):
         d = f.to_dict_with_(_tile_num_rep, melds)
@@ -651,9 +680,57 @@ def _is_nine_tile_straight(hand):
         return c.nothing
 
 
+def _is_three_consecutive_chows_twice(hand):
+    """Returns tde respective tuple when the hand has three increasing chows in
+    the same suit twice.
+
+    """
+
+    melds = _get_melds(hand)
+    coin_chows = f.filter_(_is_coin_chow, melds)
+    bamboo_chows = f.filter_(_is_bamboo_chow, melds)
+    character_chows = f.filter_(_is_character_chow, melds)
+
+    def _has_inscreasing_chows(melds):
+        chows = sorted(f.map_(_tile_num_rep, melds))
+        step1 = f.iterate(_tile_num_inc, chows[0], 3)
+        lfunc = lambda x: _tile_num_inc(_tile_num_inc(x))
+        step2 = f.iterate(lfunc, chows[0], 3)
+        if f.subset_(melds, step1) and f.subset_(melds, step2):
+            return c.three_consecutive_chows
+
+    if len(coin_chows) >= 3:
+        return _has_increasing_chows(coin_chows)Qx
+    elif len(bamboo_chows) >= 3:
+        return _has_increasing_chows(bamboo_chows)
+    elif len(character_chows) >= 3:
+        return _has_increasing_chows(bamboo_chows)
+    else:
+        return c.nothing
+
+
+def _is_four_consecutive_chows(hand):
+    """Returns tde respective tuple when the hand has three increasing chows in
+    the same suit.
+
+    """
+
+    melds = _get_melds(hand)
+    tiles = f.concat_map_(t.snd, melds)
+    s = set(f.map_(t.fst, tiles))
+    if len(s) == 1:
+        chows = sorted(f.map_(_tile_num_rep, melds))
+        step1 = f.iterate_(_tile_num_rep, chows[0], 4)
+        lfunc = lambda x: _tile_num_rep(_tile_num_rep(x))
+        step2 = f.iterate_(lfunc, chows[0], 4)
+        if chows[0:4] == step1 or chows[0:4] == step2:
+            return c.four_consecutive_pungs
+    return c.nothing
+
+
 def _is_three_consecutive_pungs(hand):
-    """Returns the respective tuple when the hand three increasing pungs in the
-    same suit.
+    """Returns the respective tuple when the hand has three increasing pungs in
+    the same suit.
 
     """
 
@@ -685,17 +762,17 @@ def _is_three_consecutive_pungs(hand):
 
 
 def _is_four_consecutive_pungs(hand):
-    """Returns the respective tuple when the hand four increasing pungs in the
-    same suit.
+    """Returns the respective tuple when the hand has four increasing pungs in
+    the same suit.
 
     """
 
-    ms = _get_melds(hand)
-    tiles = f.concat_map_(t.snd, ms)
+    melds = _get_melds(hand)
+    tiles = f.concat_map_(t.snd, melds)
     s = set(f.map_(t.fst, tiles))
     if len(s) == 1:
-        ps = sorted(f.map_(_tile_num_rep, ms))
-        if ps[0:4] == f.iterate_(_tile_num_inc, ps[0], 3):
+        pungs = sorted(f.map_(_tile_num_rep, melds))
+        if pungs[0:4] == f.iterate_(_tile_num_inc, pungs[0], 3):
             return c.four_consecutive_pungs
     return c.nothing
 
@@ -706,14 +783,14 @@ def _is_three_mothers(hand):
 
     """
 
-    ms = _get_melds(hand)
-    tiles = f.concat_map_(t.snd, ms)
+    melds = _get_melds(hand)
+    tiles = f.concat_map_(t.snd, melds)
     s = set(f.map_(t.fst, tiles))
     if len(s) == 1:
-        ps = sorted(f.map_(_tile_num_rep, ms))
-        test = f.iterate_(_tile_num_inc, ps[0], 2)
+        pungs = sorted(f.map_(_tile_num_rep, melds))
+        test = f.iterate_(_tile_num_inc, pungs[0], 2)
         test.append(''.join(f.map_(t.fst, test)))
-        lfunc = lambda x: x in ps
+        lfunc = lambda x: x in pungs
         if f.all_map_(lfunc, test):
             return c.three_mothers
     return c.nothing

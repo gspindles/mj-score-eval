@@ -60,6 +60,13 @@ def elem_(ls, item):
     return item in ls
 
 
+def subset_(ls, sub):
+    """Returns whether a list is a sublist of another."""
+
+    lfunc = lambda x: x in ls
+    return all_map_(lfunc, sub)
+
+
 def equal_(obj1, obj2):
     """Default equal as binary function."""
 
