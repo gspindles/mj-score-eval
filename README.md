@@ -290,7 +290,7 @@ The hand consists of tiles from the set 1, 3, 5, 7 bamboo and the red dragon til
 
 
 #### 10.3 All Blue (藍一色) : 400
-The hand consists of tiles from the set 8 coin, the 4 winds, and the white dragon tile.
+The hand consists of tiles from the set 8 coin, the 4 winds, and the white dragon tile.  This hand is not recommended because for some sets, the 2 and 4 coins are also colored blue rather than blue green; or the winds are colored black; or white dragon is blank or colorful.
 
 
 
