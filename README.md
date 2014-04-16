@@ -47,19 +47,19 @@ Identical sets are sets in the same suit in the same numbers. Obviously, only Ch
 
 #### 2.1.1 Two Identical Chows (一般高) : 10
 Two Chows in the same suit in the same numbers.
-Example: 3筒 4筒 5筒﹐ 3筒 4筒 5筒
+Example: 3筒 4筒 5筒, 3筒 4筒 5筒
 
 #### 2.1.2 Two Identical Chows Twice (兩般高) : 60
 The hand contains two groups of "Two Identical Chows".
-Example: 3筒 4筒 5筒﹐ 3筒 4筒 5筒﹐ 7萬 8萬 9萬﹐ 7萬 8萬 9萬
+Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 7萬 8萬 9萬, 7萬 8萬 9萬
 
 #### 2.1.3 Three Identical Chows (一色三同順) : 120
 Three Chows in the same suit in the same numbers.
-Example: 3筒 4筒 5筒﹐ 3筒 4筒 5筒﹐ 3筒 4筒 5筒
+Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
 
 #### 2.1.4 Four Identical Chows (一色四同順) : 480
 Four Chows in the same suit in the same numbers.
-Example: 3筒 4筒 5筒﹐ 3筒 4筒 5筒﹐ 3筒 4筒 5筒﹐ 3筒 4筒 5筒
+Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
 
 
 
@@ -100,16 +100,16 @@ In Zung Jung, all 3 suits must be present; 2-suit patterns are not recognized.
 
 #### 4.1 Three Similar Chows (三色同順) : 35
 Three Chows in the same numbers across three different suits.
-Example: 3筒 4筒 5筒﹐ 3索 4索 5索﹐ 3萬 4萬 5萬
+Example: 3筒 4筒 5筒, 3索 4索 5索, 3萬 4萬 5萬
 
 
 #### 4.2.1 Little Three Similar Pungs (三色小同刻) : 30
 Two Pungs/kongs in the same number in two different suits, and the eye pair in the same number in the third suit.
-Example: 4筒 4筒 4筒﹐ 4萬 4萬 4萬﹐ 4索 4索(eye)
+Example: 4筒 4筒 4筒, 4萬 4萬 4萬, 4索 4索(eye)
 
 #### 4.2.2 Three Similar Pungs (三色同刻) : 120
 Three Pungs/kongs in the same number across three different suits.
-Example: 4筒 4筒 4筒﹐ 4萬 4萬 4萬﹐ 4索 4索 4索
+Example: 4筒 4筒 4筒, 4萬 4萬 4萬, 4索 4索 4索
 
 
 
@@ -117,23 +117,37 @@ Example: 4筒 4筒 4筒﹐ 4萬 4萬 4萬﹐ 4索 4索 4索
 
 Consecutive sets are sets in the same suit in consecutive numbers. The patterns here require three or more such sets.
 
-#### 5.1 Nine-Tile Straight (一氣通貫) : 40
+#### 5.1.1 Three Consecutive Chows (三連順) : 30
+Three chows in consecutive number in the same suit with step 1: a (n)(n+1)(n+2) sequence, a (n+1)(n+2)(n+3) sequence, and a (n+2)(n+3)(n+4) sequence; or step 2: a (n)(n+1)(n+2) sequence, a (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence.
+Example: 1萬 2萬 3萬, 2萬 3萬 4萬, 3萬 4萬 5萬
+Example: 1萬 2萬 3萬, 3萬 4萬 5萬, 5萬 6萬 7萬
+
+#### 5.1.2 Nine-Tile Straight (一氣通貫) : 40
 A "123" sequence, a "456" sequence, and a "789" sequence, all in the same suit.
 (The hand must contain exactly the three Chows listed above.)
-Example: 1萬 2萬 3萬﹐ 4萬 5萬 6萬﹐ 7萬 8萬 9萬
+Example: 1萬 2萬 3萬, 4萬 5萬 6萬, 7萬 8萬 9萬
+
+#### 5.1.3 Three Consecutive Chows Twice (雙三連順) : 60
+Two of three consecutive chows in the same suit an (n)(n+1)(n+2) sequence, (n+1)(n+2)(n+3) sequence, (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence.
+Example: 1萬 2萬 3萬, 2萬 3萬 4萬, 3萬 4萬 5萬, 5萬 6萬 7萬
+
+#### 5.1.4 Four Consecutive Chows (四連順) : 100
+Four chows in consecutive number in the same suit with step 1: a (n)(n+1)(n+2) sequence, a (n+1)(n+2)(n+3) sequence, a (n+2)(n+3)(n+4) sequence, and a (n+3)(n+4)(n+5); or step 2: a (n)(n+1)(n+2) sequence, a (n+2)(n+3)(n+4) sequence, a (n+4)(n+5)(n+6) sequence, and a (n+6)(n+7)(n+8) sequence.
+Example: 1萬 2萬 3萬, 2萬 3萬 4萬, 3萬 4萬 5萬, 4萬 5萬 6萬
+Example: 1萬 2萬 3萬, 3萬 4萬 5萬, 5萬 6萬 7萬, 7萬 8萬 9萬
 
 
 #### 5.2.1 Three Consecutive Pungs (三連刻) : 100
 Three Pungs/kongs in consecutive numbers in the same suit.
-Example: 4萬 4萬 4萬﹐ 5萬 5萬 5萬﹐ 6萬 6萬 6萬
+Example: 4萬 4萬 4萬, 5萬 5萬 5萬, 6萬 6萬 6萬
 
 #### 5.2.2 Four Consecutive Pungs (四連刻) : 200
 Four Pungs/kongs in consecutive numbers in the same suit.
-Example: 4萬 4萬 4萬﹐ 5萬 5萬 5萬﹐ 6萬 6萬 6萬﹐ 7萬 7萬 7萬
+Example: 4萬 4萬 4萬, 5萬 5萬 5萬, 6萬 6萬 6萬, 7萬 7萬 7萬
 
 #### 5.2.3 Three Mothers (三娘教子) : 400
 Hand consist of three consecutive triples and sequence of the same three tiles remaining.
-Example: 4萬 4萬 4萬﹐ 5萬 5萬 5萬﹐ 6萬 6萬 6萬﹐ 7萬 7萬 7萬, 5萬 6萬 7萬
+Example: 4萬 4萬 4萬, 5萬 5萬 5萬, 6萬 6萬 6萬, 7萬 7萬 7萬, 5萬 6萬 7萬
 
 
 
@@ -180,19 +194,20 @@ Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 9筒 9筒 9筒, 1筒 1�
 
 
 #### 7.2.1 Mixed Lesser Terminals (混全帶么) : 40
-Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal tile or an honor tile.Example: 1索 1索 1索﹐ 1萬 2萬 3萬﹐ 7筒 8筒 9筒﹐ 中 中 中﹐ 9萬 9萬
+Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal tile or an honor tile.
+Example: 1索 1索 1索, 1萬 2萬 3萬, 7筒 8筒 9筒, 中 中 中, 9萬 9萬
 
 #### 7.2.2 Pure Lesser Terminals (純全帶么) : 50
 Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal number tile.
-Example: 1索 2索 3索﹐ 1萬 1萬 1萬﹐ 7萬 8萬 9萬﹐ 9筒 9筒 9筒﹐ 1索 1索
+Example: 1索 2索 3索, 1萬 1萬 1萬, 7萬 8萬 9萬, 9筒 9筒 9筒, 1索 1索
 
 #### 7.2.3 Mixed Greater Terminals (混么九) : 100
 An "All Pungs" or "Seven Pairs" hand which consists entirely of terminal tiles and honor tiles. (Not applicable to a "Thirteen Terminals" hand.)
-Example: 9索 9索 9索﹐ 1萬 1萬 1萬﹐ 西 西 西﹐ 發 發 發﹐ 1筒 1筒
+Example: 9索 9索 9索, 1萬 1萬 1萬, 西 西 西, 發 發 發, 1筒 1筒
 
 #### 7.2.4 Pure Greater Terminals (清么九) : 400
 The hand consists entirely of terminal number tiles.
-Example: 1索 1索 1索﹐ 9萬 9萬 9萬﹐ 1筒 1筒 1筒﹐ 9筒 9筒 9筒﹐ 9索 9索
+Example: 1索 1索 1索, 9萬 9萬 9萬, 1筒 1筒 1筒, 9筒 9筒 9筒, 9索 9索
 
 
 
@@ -208,29 +223,29 @@ A triplet/kongs of a dragon tile.
 
 #### 8.2.1 Little Three Winds (小三風) : 30
 Two triplet/kongs of Winds, plus a pair of Winds as the eyes.
-Example: 西 西 西﹐ 北 北 北﹐ 東 東(eyes)
+Example: 西 西 西, 北 北 北, 東 東(eyes)
 
 #### 8.2.2 Big Three Winds (大三風) : 120
 Three triplet/kongs of Winds.
-Example: 東 東 東﹐ 南 南 南﹐ 北 北 北
+Example: 東 東 東, 南 南 南, 北 北 北
 
 #### 8.2.3 Little Four Winds (小四喜) : 320
 Three triplet/kongs of Winds, plus a pair of Winds as the eyes.
-Example: 東 東 東﹐ 西 西 西﹐ 北 北 北﹐ 南 南(eyes)
+Example: 東 東 東, 西 西 西, 北 北 北, 南 南(eyes)
 
 #### 8.2.4 Big Four Winds (大四喜) : 400
 Four triplet/kongs of Winds.
-東 東 東﹐ 南 南 南﹐ 西 西 西﹐ 北 北 北
+東 東 東, 南 南 南, 西 西 西, 北 北 北
 
 
 #### 8.3.1 Little Three Dragons (小三元) : 40 -> 60
 Two triplet/kongs of Dragons, plus a pair of Dragons as the eyes.
-Example: 白 白 白﹐ 中 中 中﹐ 發 發(eyes)
+Example: 白 白 白, 中 中 中, 發 發(eyes)
 (This hand always includes two Dragon Pungs, so it scores at least 40+10+10=60 points.)
 
 #### 8.3.2 Big Three Dragons (大三元) : 130 -> 160
 Three triplet/kongs of Dragons.
-白 白 白﹐ 發 發 發﹐ 中 中 中
+白 白 白, 發 發 發, 中 中 中
 (This hand always includes three Dragon Pungs, so it scores at least 130+10+10+10=160 points.)
 
 
@@ -248,7 +263,7 @@ Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cann
 
 #### 9.1.1 Seven Pairs (七對子) : 30
 The hand consists of seven pairs.
-Example: 2索 2索﹐ 6萬 6萬﹐ 1筒 1筒﹐ 7筒 7筒﹐ 白 白﹐ 西 西﹐ 北 北
+Example: 2索 2索, 6萬 6萬, 1筒 1筒, 7筒 7筒, 白 白, 西 西, 北 北
 
 #### 9.1.2 Seven Shifted Pairs (連七對) : 320
 The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
