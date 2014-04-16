@@ -97,7 +97,7 @@ blueTiles :: [Tile]
 blueTiles = [(C, 8), (W, 1), (W, 2), (W, 3), (W, 4), (D, 3)]
 
 
--- Composile tile lists
+-- Composite tile lists
 
 bonusTiles :: [Tile]
 bonusTiles = flowerTiles ++ seasonTiles
