@@ -1,4 +1,4 @@
-module Game.MJ.Base (
+module Game.Mahjong.Tile (
       TileType
     , Tile
     , getWall
@@ -34,7 +34,7 @@ data TileType = C | B | K | W | D | F | S | A
 type Tile = (TileType, Int)
 
 
--- The basic tile types
+-- | The basic tile types
 
 showTile :: Tile -> String
 showTile (t, v) = show t ++ show v
@@ -73,7 +73,7 @@ animalTiles :: [Tile]
 animalTiles = [(A, 1), (A, 2), (A, 3), (A, 4)]
 
 
--- More complex tile types
+-- | More complex tile types
 
 terminalTiles :: [Tile]
 terminalTiles = [(C, 1), (C, 9), (B, 1), (B, 9), (K, 1), (K, 9)]
@@ -85,7 +85,7 @@ edgeTiles :: [Tile]
 edgeTiles = terminalTiles ++ honorTiles
 
 
--- Color tiles
+-- | Color tiles
 
 greenTiles :: [Tile]
 greenTiles = [(B, 2), (B, 3), (B, 4), (B, 6), (B, 8), (D, 2)]
@@ -97,7 +97,7 @@ blueTiles :: [Tile]
 blueTiles = [(C, 8), (W, 1), (W, 2), (W, 3), (W, 4), (D, 3)]
 
 
--- Composite tile lists
+-- | Composite tile lists
 
 bonusTiles :: [Tile]
 bonusTiles = flowerTiles ++ seasonTiles
@@ -109,16 +109,16 @@ allTiles :: [Tile]
 allTiles = regularTiles ++ bonusTiles
 
 
--- Wall building
+-- | Wall building
 
-mjset :: [Tile]
-mjset = (concatMap (take 4 . repeat) $ regularTiles) ++ bonusTiles
+mjSet :: [Tile]
+mjSet = (concatMap (take 4 . repeat) $ regularTiles) ++ bonusTiles
 
 getWall :: Int -> [Tile]
-getWall a = fst $ fisherYates (mkStdGen a) mjset
+getWall a = fst $ fisherYates (mkStdGen a) mjSet
 
 
--- Tile predicates
+-- | Predicates for determining tile types
 
 isCoin :: Tile -> Bool
 isCoin = (== C) . fst
@@ -143,7 +143,6 @@ isSeason = (== S) . fst
 
 isAnimal :: Tile -> Bool
 isAnimal = (== A) . fst
-
 
 isSuit :: Tile -> Bool
 isSuit = or . zipWith id [isCoin, isBamboo, isCharacter] . repeat
@@ -173,7 +172,7 @@ isBonus :: Tile -> Bool
 isBonus = or . zipWith id [isFlower, isSeason, isAnimal] . repeat
 
 
--- Utility func
+-- | Utility functions
 
 succTile :: Tile -> Tile
 succTile t@(tt, n) | isSuit t   = if n == 9
@@ -204,15 +203,15 @@ predTile t@(tt, n) | isSuit t   = if n == 1
                                   else (tt, n - 1)
 
 
--- Fisher Yates Algorithm
+-- | Fisher Yates Algorithm
 
--- Source:  http://www.haskell.org/haskellwiki/Random_shuffle
+-- | Source:  http://www.haskell.org/haskellwiki/Random_shuffle
 fisherYatesStep :: RandomGen g => (Map Int a, g) -> (Int, a) -> (Map Int a, g)
-fisherYatesStep (m, gen) (i, x) = [(insert j x . insert i (m ! j)) m, gen']
+fisherYatesStep (m, gen) (i, x) = ((insert j x . insert i (m ! j)) m, gen')
   where
     (j, gen') = randomR (0, i) gen
 
--- Source:  http://www.haskell.org/haskellwiki/Random_shuffle
+-- | Source:  http://www.haskell.org/haskellwiki/Random_shuffle
 fisherYates :: RandomGen g => g -> [a] -> ([a], g)
 fisherYates gen [] = ([], gen)
 fisherYates gen l =
