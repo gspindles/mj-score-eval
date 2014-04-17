@@ -1,5 +1,8 @@
 .gitconfig
 
+# backup files
+*.*~
+
 # ghc compiled stuff
 *.hi
 *.o
