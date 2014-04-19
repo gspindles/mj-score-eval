@@ -40,7 +40,7 @@ four_identical_chows = ('Four Identical Chows', u'一色四同順', 480)
 # 3.0 Pungs and Kongs
 
 all_pungs = ('All Pungs', u'對對和', 30)
-two_concealed_pungs = ('Two Concealed Pungs', u'二暗刻', 5)
+two_concealed_pungs = ('Two Concealed Pungs', u'兩暗刻', 5)
 three_concealed_pungs = ('Three Concealed Pungs', u'三暗刻', 30)
 four_concealed_pungs = ('Four Concealed Pungs', u'四暗刻', 125)
 

@@ -5,7 +5,7 @@ module Game.Mahjong.Score (
 where
 
 import Data.List (nub)
-import Game.Mahjong.Tile
+import Tile
 
 data MetaInfo = Conceal
               | Revealed
