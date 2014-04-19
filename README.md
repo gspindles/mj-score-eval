@@ -69,7 +69,7 @@ Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
 The hand contains 4 set of Pungs/kongs; no Chows.
 
 
-#### 3.2.1 Two Concealed Pungs (二暗刻) : 5
+#### 3.2.1 Two Concealed Pungs (兩暗刻) : 5
 The hand contains two concealed Pungs/concealed kongs.
 
 #### 3.2.2 Three Concealed Pungs (三暗刻) : 30

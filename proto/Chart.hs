@@ -30,7 +30,7 @@ fourIdenticalChowsHand = ("Four Identical Chows", "一色四同順", 480)
 -- | 3.0 Pungs and Kongs
 
 allPungsHand = ("All Pungs", "對對和", 30)
-twoConcealedPungsHand = ("Two Concealed Pungs", "二暗刻", 5)
+twoConcealedPungsHand = ("Two Concealed Pungs", "兩暗刻", 5)
 threeConcealedPungsHand = ("Three Concealed Pungs", "三暗刻", 30)
 fourConcealedPungsHand = ("Four Concealed Pungs", "四暗刻", 125)
 
