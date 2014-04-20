@@ -27,58 +27,57 @@ type Hand = [Meld]
 
 -- | Predicates for determining the type of tiles
 
-ofCoin :: [Tile] -> Bool
-ofCoin = and . map isCoin
+ofCoin :: [Meld] -> Bool
+ofCoin = and . map isCoin . fst
 
-ofBamboo :: [Tile] -> Bool
-ofBamboo = and . map isBamboo 
+ofBamboo :: [Meld] -> Bool
+ofBamboo = and . map isBamboo . fst
 
-ofCharacter :: [Tile] -> Bool
-ofCharacter = and . map isCharacter 
+ofCharacter :: [Meld] -> Bool
+ofCharacter = and . map isCharacter . fst
 
-ofWind :: [Tile] -> Bool
-ofWind = and . map isWind
+ofWind :: [Meld] -> Bool
+ofWind = and . map isWind . fst
 
-ofDragon :: [Tile] -> Bool
-ofDragon = and . map isDragon 
+ofDragon :: [Meld] -> Bool
+ofDragon = and . map isDragon . fst
 
-ofFlower :: [Tile] -> Bool
-ofFlower = and . map isFlower
+ofFlower :: [Meld] -> Bool
+ofFlower = and . map isFlowe . fstr
 
-ofSeason :: [Tile] -> Bool
-ofSeason = and . map isSeason
+ofSeason :: [Meld] -> Bool
+ofSeason = and . map isSeason . fst
 
-ofSuit :: [Tile] -> Bool
-ofSuit = and . map isSuit
+ofSuit :: [Meld] -> Bool
+ofSuit = and . map isSuit . fst
 
-ofSimple :: [Tile] -> Bool
-ofSimple = and . map isSimple
+ofSimple :: [Meld] -> Bool
+ofSimple = and . map isSimple . fst
 
-ofTerminal :: [Tile] -> Bool
-ofTerminal = and . map isTerminal
+ofTerminal :: [Meld] -> Bool
+ofTerminal = and . map isTerminal . fst
 
-ofHonor :: [Tile] -> Bool
-ofHonor = and . map isHonor
+ofHonor :: [Meld] -> Bool
+ofHonor = and . map isHonor . fst
 
-ofEdge :: [Tile] -> Bool
-ofEdge = and . map isEdge
+ofEdge :: [Meld] -> Bool
+ofEdge = and . map isEdge . fst
 
-ofGreen :: [Tile] -> Bool
-ofGreen = and . map isGreen
+ofGreen :: [Meld] -> Bool
+ofGreen = and . map isGreen . fst
 
-ofRed :: [Tile] -> Bool
-ofRed = and . map isRed
+ofRed :: [Meld] -> Bool
+ofRed = and . map isRed . fst
 
-ofBlue :: [Tile] -> Bool
-ofBlue = and . map isBlue
+ofBlue :: [Meld] -> Bool
+ofBlue = and . map isBlue . fst
 
-ofBonus :: [Tile] -> Bool
-ofBonus = and . map isBonus
+ofBonus :: [Meld] -> Bool
+ofBonus = and . map isBonus . fst
 
 
 -- | Predicates for determining the type of meld
 
-isChow :: [Tile] -> Bool
+isChow :: [Meld] -> Bool
 isChow [] = False
 isChow t = t == (take 3 . iterate incTile . head t)  && len t == 3
-
