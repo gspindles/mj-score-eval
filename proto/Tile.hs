@@ -1,6 +1,23 @@
 module Game.Mahjong.Tile (
       TileType
     , Tile
+    , showTile
+    , coinTiles
+    , bambooTiles
+    , characterTiles
+    , windTiles
+    , dragonTiles
+    , flowerTiles
+    , seasonTiles
+    , terminalTiles
+    , honorTiles
+    , edgeTiles
+    , greenTiles
+    , redTiles
+    , blueTiles
+    , bonusTiles
+    , regularTiles
+    , allTiles
     , getWall
     , isCoin
     , isBamboo

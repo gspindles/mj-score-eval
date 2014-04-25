@@ -5,21 +5,8 @@ module Game.Mahjong.Score (
 where
 
 import Data.List (nub)
-import Tile
+import Game.Mahjong.Tile
 
-data MetaInfo = Conceal
-              | Revealed
-              | Chow
-              | Pung
-              | Kong
-              | Eye
-              | Coin
-              | Bamboo
-              | Character
-              | Wind
-              | Dragon
-              | Simple
-              | Terminal 
 
 type Meld = ([Char], [Tile])
 type Hand = [Meld]
@@ -27,57 +14,56 @@ type Hand = [Meld]
 
 -- | Predicates for determining the type of tiles
 
-ofCoin :: [Meld] -> Bool
-ofCoin = and . map isCoin . fst
+isCoin :: Meld -> Bool
+isCoin [] = []
+isCoin = elem 'C' . fst
 
-ofBamboo :: [Meld] -> Bool
-ofBamboo = and . map isBamboo . fst
+isBamboo :: Meld -> Bool
+isBamboo = elem 'B' . fst 
 
-ofCharacter :: [Meld] -> Bool
-ofCharacter = and . map isCharacter . fst
+isCharacter :: Meld -> Bool
+isCharacter = elem 'K' . fst 
 
-ofWind :: [Meld] -> Bool
-ofWind = and . map isWind . fst
+isWind :: Meld -> Bool
+isWind = elem 'W' . fst 
 
-ofDragon :: [Meld] -> Bool
-ofDragon = and . map isDragon . fst
+isDragon :: Meld -> Bool
+isDragon = elem 'D' . fst 
 
-ofFlower :: [Meld] -> Bool
-ofFlower = and . map isFlowe . fstr
+isBonus :: Meld -> Bool
+isBonus = elem 'B' . fst 
 
-ofSeason :: [Meld] -> Bool
-ofSeason = and . map isSeason . fst
+isSuit :: Meld -> Bool
+isSuit = or . zipWith id [isCoin, isBamboo, isCharacter] . repeat . fst 
 
-ofSuit :: [Meld] -> Bool
-ofSuit = and . map isSuit . fst
+isHonor :: Meld -> Bool
+isHonor = or . zipWith id [isWind, isDragon] . repeat . fst
 
-ofSimple :: [Meld] -> Bool
-ofSimple = and . map isSimple . fst
+isSimple :: Meld -> Bool
+isSimple = elem 'S' . fst 
 
-ofTerminal :: [Meld] -> Bool
-ofTerminal = and . map isTerminal . fst
+isTerminal :: Meld -> Bool
+isTerminal = elem 'T' . fst 
 
-ofHonor :: [Meld] -> Bool
-ofHonor = and . map isHonor . fst
-
-ofEdge :: [Meld] -> Bool
-ofEdge = and . map isEdge . fst
-
-ofGreen :: [Meld] -> Bool
-ofGreen = and . map isGreen . fst
-
-ofRed :: [Meld] -> Bool
-ofRed = and . map isRed . fst
-
-ofBlue :: [Meld] -> Bool
-ofBlue = and . map isBlue . fst
-
-ofBonus :: [Meld] -> Bool
-ofBonus = and . map isBonus . fst
+isEdge :: Meld -> Bool
+isEdge = or . zipWith id [isTerminal, isHonor] . repeat . fst 
 
 
 -- | Predicates for determining the type of meld
 
-isChow :: [Meld] -> Bool
-isChow [] = False
-isChow t = t == (take 3 . iterate incTile . head t)  && len t == 3
+isChow :: Meld -> Bool
+isChow = elem 'c' . fst
+--isChow t = t == (take 3 . iterate incTile . head t)  && len t == 3
+
+isPung :: Meld -> Bool
+isPung = or . zipWith id [elem 'p', elem 'k'] . repeat . fst
+
+isKong :: Meld -> Bool
+isKong [] = False
+isKong = elem 'k' . fst
+
+isEye :: Meld -> Bool
+isEye [] = False
+isEye = elem 'e' . fst
+
+
