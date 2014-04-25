@@ -1,6 +1,6 @@
-module Game.Mahjong.Hand
+module Hand
 
-import Game.Mahjong.Tile
+import Tile
 
 -- | Predicates for determining the type of tiles
 

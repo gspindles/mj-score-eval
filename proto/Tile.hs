@@ -1,4 +1,4 @@
-module Game.Mahjong.Tile (
+module Tile (
       TileType
     , Tile
     , showTile

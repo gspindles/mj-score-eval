@@ -2,10 +2,12 @@
 
 # backup files
 *.*~
+*.swp
 
 # ghc compiled stuff
 *.hi
 *.o
+*.hs.swp
 
 # python
 *.pyc
