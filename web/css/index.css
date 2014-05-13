@@ -1,13 +1,21 @@
 /* link : http://jsfiddle.net/Wc4xt/6/ */
+/* content: "\e113"; ^
+   content: "\e113"; v
+   content: "\e079"; <
+   content: "\e080"; >
+   content: "\e081"; +
+   content: "\e082"; -
+*/
+
 .panel-heading a:after {
   font-family: 'Glyphicons Halflings';
-  content: "\e114";
+  content: "\e080";
   float: right;
   color: grey;
 }
 
 .panel-heading a.collapsed:after {
-  content: "\e080";
+  content: "\e081";
 }
 
 .panel-heading a:hover {

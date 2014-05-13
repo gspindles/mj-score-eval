@@ -18,27 +18,30 @@
 
     <script type="text/javascript">
       $(document).ready(function() {
-        $('#accordion').append(makePanel("trivial", "1. Trivial Patterns"));
-        $('#accordion').append(makePanel("pung", "2. Pung and Kong Patterns"));
-        $('#accordion').append(makePanel("identical", "3. Identical Melds"));
-        $('#accordion').append(makePanel("similar", "4. Similar Melds"));
-        $('#accordion').append(makePanel("consecutive", "5. Consecutive Melds"));
-        $('#accordion').append(makePanel("suit", "6. Suit Patterns"));
-        $('#accordion').append(makePanel("terminal", "7. Terminal Tiles"));
-        $('#accordion').append(makePanel("honor", "8. Honor Tiles"));
-        $('#accordion').append(makePanel("pairs", "9. Seven Pairs"));
-        $('#accordion').append(makePanel("color", "10. Color Hands"));
-        $('#accordion').append(makePanel("irregular", "11 Irregular Hands"));
-        $('#accordion').append(makePanel("incidental", "12 Incindental Bonuses"));
-        $('#accordion').append(makePanel("bonus", "13. Bonus Tile"));
+        $('.container').append(makePanelGroup("accordion"));
+        $('#accordion').append(makePanel("trivial", "1. Trivial Patterns", "default"));
+        $('#accordion').append(makePanel("pung", "2. Pung and Kong Patterns", "default"));
+        $('#accordion').append(makePanel("identical", "3. Identical Melds", "default"));
+        $('#accordion').append(makePanel("similar", "4. Similar Melds", "default"));
+        $('#accordion').append(makePanel("consecutive", "5. Consecutive Melds", "default"));
+        $('#accordion').append(makePanel("suit", "6. Suit Patterns", "default"));
+        $('#accordion').append(makePanel("terminal", "7. Terminal Tiles", "default"));
+        $('#accordion').append(makePanel("honor", "8. Honor Tiles", "default"));
+        $('#accordion').append(makePanel("pairs", "9. Seven Pairs", "default"));
+        $('#accordion').append(makePanel("color", "10. Color Hands", "default"));
+        $('#accordion').append(makePanel("irregular", "11 Irregular Hands", "default"));
+        $('#accordion').append(makePanel("incidental", "12 Incindental Bonuses", "default"));
+        $('#accordion').append(makePanel("bonus", "13. Bonus Tile", "default"));
       });
     </script>
   </head>
   <body class="container" style="min-width: 900px;">
-    <div class="page-header well">
-      <h1>Mahjong Scoring Guide</h1>
-    </div>
-
-    <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h1 class="page-header">Mahjong Scoring Guide</h1>
+      </div>
+      <div class="panel-body">
+        Description here
+      </div>
     </div>
   </body>

@@ -41,29 +41,7 @@ Declares mahjong accidentally when the hand is not ready.
 
 
 
-### 2.0 Identical Sets
-
-Identical sets are sets in the same suit in the same numbers. Obviously, only Chows can be identical.
-
-#### 2.1.1 Two Identical Chows (一般高) : 10
-Two Chows in the same suit in the same numbers.
-Example: 3筒 4筒 5筒, 3筒 4筒 5筒
-
-#### 2.1.2 Two Identical Chows Twice (兩般高) : 60
-The hand contains two groups of "Two Identical Chows".
-Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 7萬 8萬 9萬, 7萬 8萬 9萬
-
-#### 2.1.3 Three Identical Chows (一色三同順) : 120
-Three Chows in the same suit in the same numbers.
-Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
-
-#### 2.1.4 Four Identical Chows (一色四同順) : 480
-Four Chows in the same suit in the same numbers.
-Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
-
-
-
-### 3.0 Pungs and Kongs
+### 2.0 Pungs and Kongs
 
 #### 3.1 All Pungs (對對和) : 30
 The hand contains 4 set of Pungs/kongs; no Chows.
@@ -90,6 +68,28 @@ The hand contains three kongs.
 
 #### 3.3.4 Four Kongs (四槓) : 480
 The hand contains four kongs.
+
+
+
+### 3.0 Identical Sets
+
+Identical sets are sets in the same suit in the same numbers. Obviously, only Chows can be identical.
+
+#### 2.1.1 Two Identical Chows (一般高) : 10
+Two Chows in the same suit in the same numbers.
+Example: 3筒 4筒 5筒, 3筒 4筒 5筒
+
+#### 2.1.2 Two Identical Chows Twice (兩般高) : 60
+The hand contains two groups of "Two Identical Chows".
+Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 7萬 8萬 9萬, 7萬 8萬 9萬
+
+#### 2.1.3 Three Identical Chows (一色三同順) : 120
+Three Chows in the same suit in the same numbers.
+Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
+
+#### 2.1.4 Four Identical Chows (一色四同順) : 480
+Four Chows in the same suit in the same numbers.
+Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
 
 
 
@@ -127,7 +127,7 @@ A "123" sequence, a "456" sequence, and a "789" sequence, all in the same suit.
 (The hand must contain exactly the three Chows listed above.)
 Example: 1萬 2萬 3萬, 4萬 5萬 6萬, 7萬 8萬 9萬
 
-#### 5.1.3 Three Consecutive Chows Twice (雙三連順) : 60
+#### 5.1.3 Three Consecutive Chows Twice (雙三連順) : 50
 Two of three consecutive chows in the same suit an (n)(n+1)(n+2) sequence, (n+1)(n+2)(n+3) sequence, (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence.
 Example: 1萬 2萬 3萬, 2萬 3萬 4萬, 3萬 4萬 5萬, 5萬 6萬 7萬
 
@@ -159,12 +159,6 @@ The hand consists entirely of number tiles in one suit, plus honor tiles.
 #### 6.1.2 Pure One-Suit (清一色) : 80
 The hand consists entirely of number tiles in one suit.
 
-#### 6.1.3 Little Terminal Club (一色雙龍會) : 100
-The hand consists of the pattern 123-123-789-789-55 in a suit.
-
-#### 6.1.4 Big Terminal Club (清天龍會) : 320
-The hand consists of the pattern 111-123-789-999-55 in a suit.
-
 
 #### 6.2 Nine Gates (九蓮寶燈) : 480
 A 9-way call hand, with "1112345678999" in one suit in your hand, and winning on any one tile in the same suit.
@@ -176,18 +170,21 @@ A 9-way call hand, with "1112345678999" in one suit in your hand, and winning on
 Terminals are the 1 and 9 number tiles.
 The Greater patterns consist of terminal tiles only, while the Lesser patterns include also "123" and "789" Chows.
 
-#### 7.1.1 Two-Tailed Terminal Chows (老少配) : 5
+#### 7.1.1 Two-Tailed Terminal Chows (老少順) : 5
 A sequece of 123 and 789 in the same suit.
 
-#### 7.1.2 Two-Tailed Terminal Pungs (老少副) : 15
+#### 7.1.2 Two-Tailed Terminal Pungs (老少刻) : 15
 A triplet/kongs of 1s and 9s in the same suit.
 
-#### 7.1.3 Little Mountain (小山滿) : 320
+#### 7.1.3 Two-Tailed Terminals (老少么) : 250
+The hand consists of the pattern 111-123-789-999 in a suit.
+
+#### 7.1.5 Little Mountain (小山滿) : 320
 Pure one-suit hand satisfying pure lesser terminals, using up only six terminals of one suit.
 Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 7筒 8筒 9筒, 1筒 1筒
 Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 9筒 9筒
 
-#### 7.1.4 Big Mountain (大山滿) : 400
+#### 7.1.6 Big Mountain (大山滿) : 400
 Pure one-suit hand satisfying pure lesser terminals, using up all eight terminals of one suit.
 Example: 1筒 1筒 1筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 7筒 8筒 9筒, 9筒 9筒
 Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 9筒 9筒 9筒, 1筒 1筒
@@ -261,7 +258,7 @@ The hand consists of pairs of each wind tiles and pairs of each dragon tiles.
 
 Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cannot count those patterns which specifically require Pungs, kongs, or Chows. But it can count other patterns which do not have such requirements. Four identical tiles can count as two pairs as long as kongs is not declared.
 
-#### 9.1.1 Seven Pairs (七對子) : 30
+#### 9.1.1 Seven Pairs (七對子) : 35
 The hand consists of seven pairs.
 Example: 2索 2索, 6萬 6萬, 1筒 1筒, 7筒 7筒, 白 白, 西 西, 北 北
 
@@ -287,10 +284,6 @@ The hand consists of tiles from the set 2, 3, 4, 6, 8 bamboo and the green drago
 
 #### 10.2 All Red (紅孔雀) : 480
 The hand consists of tiles from the set 1, 3, 5, 7 bamboo and the red dragon tile.
-
-
-#### 10.3 All Blue (藍一色) : 400
-The hand consists of tiles from the set 8 coin, the 4 winds, and the white dragon tile.  This hand is not recommended because for some sets, the 2 and 4 coins are also colored blue rather than blue green; or the winds are colored black; or white dragon is blank or colorful.
 
 
 
@@ -354,11 +347,11 @@ A season tile which is proper to one's seat.
 
 Upon drawing the last flower/season to complete a flower/season kongs, player only draw one extra tile.  Player does NOT draw two tiles from the tail wall (one from flower and one from declaring kongs).
 
-#### 13.2.1 Four Flowers (齊四花) : 10 -> 25
+#### 13.2.1 All Flowers (齊四花) : 15
 A complete set of all 4 Flower tiles.
 
-#### 13.2.2 Four Seasons (齊四季) : 10 -> 25
+#### 13.2.2 All Seasons (齊四季) : 15
 A complete set of all 4 Season tiles.
 
-#### 13.3 All Bonus Tiles (八仙過海) : 50 -> 100
+#### 13.3 All Bonus Tiles (八仙過海) : 80
 Gathering all flowers and seasons to instantly win the game.  If a player has 7 of the bonus tile and another player draws the last remaining bonus tile, then the first said player can steal and win.
