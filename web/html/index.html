@@ -1,67 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Mahjong Scoring Guide</title>
-
-    <link rel="stylesheet" media="screen" href="../css/index.css">
-    <link rel="stylesheet" media="screen" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" media="screen" href="../css/bootstrap-theme.min.css">
-
-    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <meta name="Keywords" content="mahjong, scoring, zung jung">
     <meta name="Description" content="A simple guide to scoring Mahjong hands.">
-</head>
-<body class="container" style="min-width: 900px;">
+
+    <link rel="stylesheet" media="screen" href="../css/index.css">
+    <link rel="stylesheet" media="screen" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="../css/bootstrap-theme.min.css">
+
+    <script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/index.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#accordion').append(makePanel("trivial", "1. Trivial Patterns"));
+        $('#accordion').append(makePanel("pung", "2. Pung and Kong Patterns"));
+        $('#accordion').append(makePanel("identical", "3. Identical Melds"));
+        $('#accordion').append(makePanel("similar", "4. Similar Melds"));
+        $('#accordion').append(makePanel("consecutive", "5. Consecutive Melds"));
+        $('#accordion').append(makePanel("suit", "6. Suit Patterns"));
+        $('#accordion').append(makePanel("terminal", "7. Terminal Tiles"));
+        $('#accordion').append(makePanel("honor", "8. Honor Tiles"));
+        $('#accordion').append(makePanel("pairs", "9. Seven Pairs"));
+        $('#accordion').append(makePanel("color", "10. Color Hands"));
+        $('#accordion').append(makePanel("irregular", "11 Irregular Hands"));
+        $('#accordion').append(makePanel("incidental", "12 Incindental Bonuses"));
+        $('#accordion').append(makePanel("bonus", "13. Bonus Tile"));
+      });
+    </script>
+  </head>
+  <body class="container" style="min-width: 900px;">
     <div class="page-header well">
-        <h1>Mahjong Scoring Guide</h1>
+      <h1>Mahjong Scoring Guide</h1>
     </div>
 
     <div class="panel-group" id="accordion">
-        <div class="panel panel-default" id="panel1">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-target="#collapseOne" href="#collapseOne" class="collapsed">
-                        1. Trivial Patterns
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse">
-                <div class="panel-body">
-                    Chicken Hand
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default" id="panel2">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-target="#collapseTwo" href="#collapseTwo" class="collapsed">
-                        2. Chows Patterns
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse">
-                <div class="panel-body">
-                    Identical Chows
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default" id="panel3">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-target="#collapseThree" href="#collapseThree" class="collapsed">
-                        3. Pung Patterns
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse">
-                <div class="panel-body">
-                    All Pungs
-                </div>
-            </div>
-        </div>
     </div>
-</body>
+  </body>
