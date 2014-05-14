@@ -18,3 +18,4 @@ __pycache__
 
 # document files are no-no, pdf ok
 *.docx
+*.xlsx
