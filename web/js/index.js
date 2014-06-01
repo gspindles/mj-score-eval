@@ -13,11 +13,11 @@ function makePanel(id, heading, style) {
           "<a data-toggle=\"collapse\" data-target=\"#collapse-" + id + "\" href=\"#collapse-" + id + "\"" +
           "onclick=\"$('#collapse-" + id + "').toggle();\">" +
           heading +
-        "</a>" +
-      "</h2>" +
-    "</div>" +
-    "<div id=\"collapse-" + id + "\" class=\"panel-collapse collapse\">" +
-      "<div id=\"body-" + id + "\" class=\"panel-body\">" +
+          "</a>" +
+        "</h2>" +
+      "</div>" +
+      "<div id=\"collapse-" + id + "\" class=\"panel-collapse collapse\">" +
+        "<div id=\"body-" + id + "\" class=\"panel-body\">" +
         "</div>" +
       "</div>" +
     "</div>";
