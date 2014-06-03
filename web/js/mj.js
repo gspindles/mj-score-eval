@@ -1,4 +1,4 @@
-// link to all the images
+// Tile images 
 
 var tileimg = {
   'c1' : '../img/c1.jpg',
@@ -48,243 +48,111 @@ var tileimg = {
   's1' : '../img/s1.jpg',
   's2' : '../img/s2.jpg',              
   's3' : '../img/s3.jpg',
-  's4' : '../img/s4.jpg'
+  's4' : '../img/s4.jpg',
+
+  'empty' : '../img/empty.jpg'
 };
 
-
-// All the chows
-
-var c1c2c3 = ['c1', 'c2', 'c3'];
-var c2c3c4 = ['c2', 'c3', 'c4'];
-var c3c4c5 = ['c3', 'c4', 'c5'];
-var c4c5c6 = ['c4', 'c5', 'c6'];
-var c5c6c7 = ['c5', 'c6', 'c7'];
-var c6c7c8 = ['c6', 'c7', 'c8'];
-var c7c8c9 = ['c7', 'c8', 'c9'];
-
-var coinSimpleChows = [c2c3c4, c3c4c5, c4c5c6, c5c6c7, c6c7c8];
-var coinTerminalChows = [c1c2c3, c7c8c9];
-var coinChows = coinSimpleChows + coinTerminalChows;
-
-var b1b2b3 = ['b1', 'b2', 'b3'];
-var b2b3b4 = ['b2', 'b3', 'b4'];
-var b3b4b5 = ['b3', 'b4', 'b5'];
-var b4b5b6 = ['b4', 'b5', 'b6'];
-var b5b6b7 = ['b5', 'b6', 'b7'];
-var b6b7b8 = ['b6', 'b7', 'b8'];
-var b7b8b9 = ['b7', 'b8', 'b9'];
-
-var bambooSimpleChows = [b2b3b4, b3b4b5, b4b5b6, b5b6b7, b6b7b8];
-var bambooTerminalChows = [b1b2b3, b7b8b9];
-var bambooChows = bambooSimpleChows + bambooTerminalChows;
-
-var k1k2k3 = ['k1', 'k2', 'k3'];
-var k2k3k4 = ['k2', 'k3', 'k4'];
-var k3k4k5 = ['k3', 'k4', 'k5'];
-var k4k5k6 = ['k4', 'k5', 'k6'];
-var k5k6k7 = ['k5', 'k6', 'k7'];
-var k6k7k8 = ['k6', 'k7', 'k8'];
-var k7k8k9 = ['k7', 'k8', 'k9'];
-
-var characterSimpleChows = [k2k3k4, k3k4k5, k4k5k6, k5k6k7, k6k7k8];
-var characterTerminalChows = [k1k2k3, k7k8k9];
-var characterChows = characterSimpleChows + characterTerminalChows;
-
-var simpleChows = coinSimpleChows + bambooSimpleChows + characterSimpleChows;
-var terminalChows = coinTerminalChows + bambooTerminalChows + characterTerminalChows;
-var allChows = allSimpleChows + allTerminalChows;
+function getIng(tile) {
+  return tileimg(tile);
+}
 
 
-// All the pungs
+// Tile unicode text
 
-var c1c1c1 = ['c1', 'c1', 'c1'];
-var c2c2c2 = ['c2', 'c2', 'c2'];
-var c3c3c3 = ['c3', 'c3', 'c3'];
-var c4c4c4 = ['c4', 'c4', 'c4'];
-var c5c5c5 = ['c5', 'c5', 'c5'];
-var c6c6c6 = ['c6', 'c6', 'c6'];
-var c7c7c7 = ['c7', 'c7', 'c7'];
-var c8c8c8 = ['c8', 'c8', 'c8'];
-var c9c9c9 = ['c9', 'c9', 'c9'];
+var tiletxt = {
+  'c1' : '\u127001',
+  'c2' : '\u127002',
+  'c3' : '\u127003',
+  'c4' : '\u127004',
+  'c5' : '\u127005',
+  'c6' : '\u127006',
+  'c7' : '\u127007',
+  'c8' : '\u127008',
+  'c9' : '\u127009',
 
-var coinSimplePungs = [c2c2c2, c3c3c3, c4c4c4, c5c5c5, c6c6c6, c7c7c7, c8c8c8];
-var coinTerminalPungs = [c1c1c1, c9c9c9];
-var coinPungs = coinSimplePungs + coinTerminalPungs;
+  'b1' : '\u127992',
+  'b2' : '\u127993',
+  'b3' : '\u127994',
+  'b4' : '\u127995',
+  'b5' : '\u127996',
+  'b6' : '\u127997',
+  'b7' : '\u127998',
+  'b8' : '\u127999',
+  'b9' : '\u127000',
 
-var b1b1b1 = ['b1', 'b1', 'b1'];
-var b2b2b2 = ['b2', 'b2', 'b2'];
-var b3b3b3 = ['b3', 'b3', 'b3'];
-var b4b4b4 = ['b4', 'b4', 'b4'];
-var b5b5b5 = ['b5', 'b5', 'b5'];
-var b6b6b6 = ['b6', 'b6', 'b6'];
-var b7b7b7 = ['b7', 'b7', 'b7'];
-var b8b8b8 = ['b8', 'b8', 'b8'];
-var b9b9b9 = ['b9', 'b9', 'b9'];
+  'k1' : '\u126983',
+  'k2' : '\u126984',
+  'k3' : '\u126985',
+  'k4' : '\u126986',
+  'k5' : '\u126987',
+  'k6' : '\u126988',
+  'k6' : '\u126989',
+  'k8' : '\u126990',
+  'k9' : '\u126991'
+  '  '  
+  'w1' : '\u126976',
+  'w2' : '\u126977',
+  'w3' : '\u126978',
+  'w4' : '\u126979',
 
-var bambooSimplePungs = [b2b2b2, b3b3b3, b4b4b4, b5b5b5, b6b6b6, b7b7b7, b8b8b8];
-var bambooTerminalPungs = [b1b1b1, b9b9b9];
-var bambooPungs = bambooSimplePungs + bambooTerminalPungs;
+  'd1' : '\u126980',
+  'd2' : '\u126981',
+  'd3' : '\u126982',
 
-var k1k1k1 = ['k1', 'k1', 'k1'];
-var k2k2k2 = ['k2', 'k2', 'k2'];
-var k3k3k3 = ['k3', 'k3', 'k3'];
-var k4k4k4 = ['k4', 'k4', 'k4'];
-var k5k5k5 = ['k5', 'k5', 'k5'];
-var k6k6k6 = ['k6', 'k6', 'k6'];
-var k7k7k7 = ['k7', 'k7', 'k7'];
-var k8k8k8 = ['k8', 'k8', 'k8'];
-var k9k9k9 = ['k9', 'k9', 'k9'];
+  'f1' : '\u127010',
+  'f2' : '\u127011',
+  'f3' : '\u127012',
+  'f4' : '\u127013',
 
-var characterSimplePungs = [k2k2k2, k3k3k3, k4k4k4, k5k5k5, k6k6k6, k7k7k7, k8k8k8];
-var characterTerminalPungs = [k1k1k1, k9k9k9];
-var characterPungs = characterSimplePungs + characterTerminalPungs;
+  's1' : '\u127014',
+  's2' : '\u127015',
+  's3' : '\u127016',
+  's4' : '\u127017',
 
-var w1w1w1 = ['w1', 'w1', 'w1'];
-var w2w2w2 = ['w2', 'w2', 'w2'];
-var w3w3w3 = ['w3', 'w3', 'w3'];
-var w4w4w4 = ['w4', 'w4', 'w4'];
+  'joker' : '\u127018',
+  'empty' : '\u127019'
+}
 
-var windPungs = [w1w1w1, w2w2w2, w3w3w3, w4w4w4];
-
-var d1d1d1 = ['d1', 'd1', 'd1'];
-var d2d2d2 = ['d2', 'd2', 'd2'];
-var d3d3d3 = ['d3', 'd3', 'd3'];
-
-var dragonPungs = [d1d1d1, d2d2d2, d3d3d3];
-
-var simplePungs = coinSimplePungs + bambooSimplePungs + characterSimplePungs;
-var terminalPungs = coinTerminalPungs + bambooTerminalPungs + characterTerminalPungs;
-var suitPungs = coinPungs + bambooPungs + dragonPungs;
-var honorPungs = dragonPungs + windPungs;
-var allPungs = suitPungs + honorPungs; 
+function getUnicode(tile) {
+  return tiletxt(tile);
+}
 
 
-// All the kongs
+// Tile definations
 
-var c1c1c1c1 = ['c1', 'c1', 'c1', 'c1'];
-var c2c2c2c2 = ['c2', 'c2', 'c2', 'c2'];
-var c3c3c3c3 = ['c3', 'c3', 'c3', 'c3'];
-var c4c4c4c4 = ['c4', 'c4', 'c4', 'c4'];
-var c5c5c5c5 = ['c5', 'c5', 'c5', 'c5'];
-var c6c6c6c6 = ['c6', 'c6', 'c6', 'c6'];
-var c7c7c7c7 = ['c7', 'c7', 'c7', 'c7'];
-var c8c8c8c8 = ['c8', 'c8', 'c8', 'c8'];
-var c9c9c9c9 = ['c9', 'c9', 'c9', 'c9'];
-
-var coinSimpleKongs = [c2c2c2c2, c3c3c3c3, c4c4c4c4, c5c5c5c5, c6c6c6c6, c7c7c7c7, c8c8c8c8];
-var coinTerminalKongs = [c1c1c1c1, c9c9c9c9];
-var coinKongs = coinSimpleKongs + coinTerminalKongs;
-
-var b1b1b1b1 = ['b1', 'b1', 'b1', 'b1'];
-var b2b2b2b2 = ['b2', 'b2', 'b2', 'b2'];
-var b3b3b3b3 = ['b3', 'b3', 'b3', 'b3'];
-var b4b4b4b4 = ['b4', 'b4', 'b4', 'b4'];
-var b5b5b5b5 = ['b5', 'b5', 'b5', 'b5'];
-var b6b6b6b6 = ['b6', 'b6', 'b6', 'b6'];
-var b7b7b7b7 = ['b7', 'b7', 'b7', 'b7'];
-var b8b8b8b8 = ['b8', 'b8', 'b8', 'b8'];
-var b9b9b9b9 = ['b9', 'b9', 'b9', 'b9'];
-
-var bambooSimpleKongs = [b2b2b2b2, b3b3b3b3, b4b4b4b4, b5b5b5b5, b6b6b6b6, b7b7b7b6, b8b8b8b8];
-var bambooTerminalKongs = [b1b1b1b1, b9b9b9b9];
-var bambooKongs = bambooSimpleKongs + bambooTerminalKongs;
-
-var k1k1k1k1 = ['k1', 'k1', 'k1', 'k1'];
-var k2k2k2k2 = ['k2', 'k2', 'k2', 'k2'];
-var k3k3k3k3 = ['k3', 'k3', 'k3', 'k3'];
-var k4k4k4k4 = ['k4', 'k4', 'k4', 'k4'];
-var k5k5k5k5 = ['k5', 'k5', 'k5', 'k5'];
-var k6k6k6k6 = ['k6', 'k6', 'k6', 'k6'];
-var k7k7k7k7 = ['k7', 'k7', 'k7', 'k7'];
-var k8k8k8k8 = ['k8', 'k8', 'k8', 'k8'];
-var k9k9k9k9 = ['k9', 'k9', 'k9', 'k9'];
-
-var characterSimpleKongs = [k2k2k2k2, k3k3k3k3, k4k4k4k4, k5k5k5k5, k6k6k6k6, k7k7k7k7, k8k8k8k8];
-var characterTerminalKongs = [k2k1k1k1, k9k9k9k9];
-var characterKongs = characterSimpleKongs + characterTerminalKongs;
-
-var w1w1w1w1 = ['w1', 'w1', 'w1', 'w1'];
-var w2w2w2w2 = ['w2', 'w2', 'w2', 'w2'];
-var w3w3w3w3 = ['w3', 'w3', 'w3', 'w3'];
-var w4w4w4w4 = ['w4', 'w4', 'w4', 'w4'];
-
-var windKongs = [w1w1w1w1, w2w2w2w2, w3w3w3w3, w4w4w4w4];
-
-var d1d1d1d1 = ['d1', 'd1', 'd1', 'd1'];
-var d2d2d2d2 = ['d2', 'd2', 'd2', 'd2'];
-var d3d3d3d3 = ['d3', 'd3', 'd3', 'd3'];
-
-var dragonKongs = [d1d1d1d1, d2d2d2d2, d3d3d3d3];
-
-var simpleKongs = coinSimpleKongs + bambooSimpleKongs + characterSimpleKongs;
-var terminalKongs = coinTerminalKongs + bambooTerminalKongs + characterTerminalKongs;
-var suitKongs = coinKongs + bambooKongs + characterKongs;
-var honorKongs = dragonKongs + windKongs;
-var allKongs = suitKongs + honorKongs; 
+var coins = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9'];
+var bamboos = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9'];
+var characters = ['k1', 'k2', 'k3', 'k4', 'k5', 'k6', 'k7', 'k8', 'k9'];
+var winds = ['w1', 'w2', 'w3', 'w4'];
+var dragons = ['d1', 'd2', 'd3'];
+var flowers = ['f1', 'f2', 'f3', 'f4'];
+var seasons = ['s1', 's2', 's3', 's4'];
+var simples = coins.slice(1, 8) + bamboos.slice(1, 8) + characters.slice(1, 8);
+var terminals = ['c1', 'c9', 'b1', 'b9', 'k1', 'k9'];
+var honors = winds + dragons;
+var edges = terminals + honors;
+var greens = ['b2', 'b3', 'b4', 'b6', 'b8', 'd2'];
+var reds = ['b1', 'b5', 'b7', 'b9', 'd1'];
+var blues = ['c8', 'w1', 'w2', 'w3', 'w4', 'd3'];
 
 
-// All the eyes
+// Make melds
 
-var c1c1 = ['c1', 'c1'];
-var c2c2 = ['c2', 'c2'];
-var c3c3 = ['c3', 'c3'];
-var c4c4 = ['c4', 'c4'];
-var c5c5 = ['c5', 'c5'];
-var c6c6 = ['c6', 'c6'];
-var c7c7 = ['c7', 'c7'];
-var c8c8 = ['c8', 'c8'];
-var c9c9 = ['c9', 'c9'];
+function makeChow(tile) {
+}
 
-var coinSimpleEyes = [c2c2, c3c3, c4c4, c5c5, c6c6, c7c7, c8c8];
-var coinTerminalEyes = [c1c1, c9c9];
-var coinEyes = coinSimpleEyes + coinTerminalEyes;
+function makePung(tile) {
+  return repeat(tile, 3);
+}
 
-var b1b1 = ['b1', 'b1'];
-var b2b2 = ['b2', 'b2'];
-var b3b3 = ['b3', 'b3'];
-var b4b4 = ['b4', 'b4'];
-var b5b5 = ['b5', 'b5'];
-var b6b6 = ['b6', 'b6'];
-var b7b7 = ['b7', 'b7'];
-var b8b8 = ['b8', 'b8'];
-var b9b9 = ['b9', 'b9'];
+function makeKong(tile) {
+  return repeat(tile, 4);
+}
 
-var bambooSimpleEyes = [b2b2, b3b3, b4b4, b5b5, b6b6, b7b6, b8b8];
-var bambooTerminalEyes = [b1b1, b9b9];
-var bambooEyes = bambooSimpleEyes + bambooTerminalEyes;
-
-var k1k1 = ['k1', 'k1'];
-var k2k2 = ['k2', 'k2'];
-var k3k3 = ['k3', 'k3'];
-var k4k4 = ['k4', 'k4'];
-var k5k5 = ['k5', 'k5'];
-var k6k6 = ['k6', 'k6'];
-var k7k7 = ['k7', 'k7'];
-var k8k8 = ['k8', 'k8'];
-var k9k9 = ['k9', 'k9'];
-
-var characterSimpleEyes = [k2k2, k3k3, k4k4, k5k5, k6k6, k7k7, k8k8];
-var characterTerminalEyes = [k1k1, k9k9];
-var characterEyes = characterSimpleEyes = characterTerminalEyes;
-
-var w1w1 = ['w1', 'w1'];
-var w2w2 = ['w2', 'w2'];
-var w3w3 = ['w3', 'w3'];
-var w4w4 = ['w4', 'w4'];
-
-var windEyes = [w1w1, w2w2, w3w3, w4w4];
-
-var d1d1 = ['d1', 'd1'];
-var d2d2 = ['d2', 'd2'];
-var d3d3 = ['d3', 'd3'];
-
-var dragonEyes = [d1d1, d2d2, d3d3];
-
-var simpleEyes = coinSimpleEyes + bambooSimpleEyes + characterSimpleEyes;
-var terminalEyes = coinTerminalEyes + bambooTerminalEyes + characterTerminalEyes;
-var suitEyes = coinEyes + bambooEyes + characterEyes;
-var honorEyes = dragonEyes + windEyes;
-var allEyes = coinEyes + bambooEyes + characterEyes + windEyes + dragonEyes;
+function makeEye(tile) {
+  return repeat(tile, 2);
+}
 
 
 // Generating functions for different hands
@@ -304,3 +172,10 @@ function makeAllTypes() {
 
 
 // utility functions
+function repeat(item, n) {
+  var l = [];
+  for (var i = 0; i < n; i++) {
+    l.append(item);
+  }
+  return l;
+}
