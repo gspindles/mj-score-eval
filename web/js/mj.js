@@ -140,6 +140,13 @@ var blues = ['c8', 'w1', 'w2', 'w3', 'w4', 'd3'];
 // Make melds
 
 function makeChow(tile) {
+  l = tile.split('');
+  if (l[0] == 'c' || l[0] == 'b' || l[0] == 'k') {
+    if (l[1] < 8) {
+      return [tile, dora(tile), dora(dora(tile))];
+    }
+  }
+  return undefined;
 }
 
 function makePung(tile) {
@@ -172,10 +179,37 @@ function makeAllTypes() {
 
 
 // utility functions
+
 function repeat(item, n) {
   var l = [];
   for (var i = 0; i < n; i++) {
     l.append(item);
   }
   return l;
+}
+
+function dora(tile) {
+  l = tile.split('');
+  if (l[0] == 'c' || l[0] == 'b' || l[0] == 'k') {
+    if (l[0] < 9) {
+      return l[0] + (parseInt(l[1]) + 1);
+    }
+    return l[0] + 1;
+  }
+  if (l[0] == 'w' || l[0] == 'f' || l[0] == 's') {
+    if (l[0] < 4) {
+      return l[0] + (parseInt(l[1]) + 1);
+    }
+    return l[0] + 1;
+  }
+  else {
+    if (l[0] < 3) {
+      return l[0] + (parseInt(l[1]) + 1);
+    }
+    return l[0] + 1;
+  }
+}
+
+function getRand(list) {
+  return list[Math.floor(Math.random() * list.length)];
 }
