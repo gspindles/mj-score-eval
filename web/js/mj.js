@@ -54,7 +54,7 @@ var tileimg = {
 };
 
 function getIng(tile) {
-  return tileimg(tile);
+  return "<img src=\"" + tileimg(tile) + "\"alt=\"" + tile + ">";
 }
 
 
@@ -114,7 +114,7 @@ var tiletxt = {
   'empty' : '\u127019'
 }
 
-function getUnicode(tile) {
+function getText(tile) {
   return tiletxt(tile);
 }
 
@@ -136,6 +136,23 @@ var greens = ['b2', 'b3', 'b4', 'b6', 'b8', 'd2'];
 var reds = ['b1', 'b5', 'b7', 'b9', 'd1'];
 var blues = ['c8', 'w1', 'w2', 'w3', 'w4', 'd3'];
 
+var tiles = {
+  'C' : coins,
+  'B' : bamboos,
+  'K' : characters,
+  'W' : winds,
+  'D' : dragons,
+  'F' : flowers,
+  'S' : seasons,
+  's' : simples,
+  'T' : terminals,
+  'H' : honors,
+  'E' : edges,
+  'r' : reds,
+  'g' : greens,
+  'b' : blues
+}
+
 
 // Make melds
 
@@ -144,6 +161,10 @@ function makeChow(tile) {
   if (l[0] == 'c' || l[0] == 'b' || l[0] == 'k') {
     if (l[1] < 8) {
       return [tile, dora(tile), dora(dora(tile))];
+    }
+    else {
+      suit = tile.split('')[0];
+      return [suit + 7, suit + 8, suit + 9];
     }
   }
   return undefined;
@@ -160,6 +181,68 @@ function makeKong(tile) {
 function makeEye(tile) {
   return repeat(tile, 2);
 }
+
+
+/* more specific make functions
+ * type char determines the type of tile
+ * 'C' coin
+ * 'B' bamboo
+ * 'K' character
+ * 'W' wind
+ * 'D' dragon
+ * 'F' flower (unused unless for all flowers)
+ * 'S' season (unused unless for all seasons)
+ * 's' simple
+ * 'T' terminal
+ * 'H' honor
+ * 'E' edge
+ * 'r' red
+ * 'g' green
+ * 'b' blue
+ *
+ * meld char determines the type of meld
+ * 'c' chow
+ * 'p' pung
+ * 'k' kong
+ * 'e' eye
+ */
+
+
+
+function getTileFrom(type) {
+  return tiles['type'][Math.floor(Math.random() * tiles['type'].length)];
+}
+
+function makeCoin(meld) {
+}
+
+function makeBamboo(meld) {
+}
+
+function makeCharacter(meld) {
+}
+
+function makeWind(meld) {
+}
+
+function makeDragon(meld) {
+}
+
+function makeSimple(meld) {
+  if (meld == 'c') {
+    return makeChow(getTileFrom('s'));
+  }
+  else if (meld == 'p') {
+    return makePung(getTileFrom('s'));
+  }
+  else if (meld == 'k') {
+    return makeKong(getTileFrom('s'));
+  }
+  else (meld == 'e') {
+    return makeEye(getTileFrom('s'));
+  }
+}
+
 
 
 // Generating functions for different hands
@@ -179,7 +262,6 @@ function makeAllTypes() {
 
 
 // utility functions
-
 function repeat(item, n) {
   var l = [];
   for (var i = 0; i < n; i++) {
@@ -208,8 +290,4 @@ function dora(tile) {
     }
     return l[0] + 1;
   }
-}
-
-function getRand(list) {
-  return list[Math.floor(Math.random() * list.length)];
 }
