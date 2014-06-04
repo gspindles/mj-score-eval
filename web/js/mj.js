@@ -207,39 +207,163 @@ function makeEye(tile) {
  * 'e' eye
  */
 
-
-
 function getTileFrom(type) {
   return tiles['type'][Math.floor(Math.random() * tiles['type'].length)];
 }
 
-function makeCoin(meld) {
-}
-
-function makeBamboo(meld) {
-}
-
-function makeCharacter(meld) {
-}
-
-function makeWind(meld) {
-}
-
-function makeDragon(meld) {
-}
-
-function makeSimple(meld) {
-  if (meld == 'c') {
-    return makeChow(getTileFrom('s'));
+function makeMeld(type, meld) {
+  if (type == 'C') {
+     if (meld == 'c') {
+      return makeChow(getTileFrom('C'));
+    }
+    else if (meld == 'p') {
+      return makePung(getTileFrom('C'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('C'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('C'));
+    }
   }
-  else if (meld == 'p') {
-    return makePung(getTileFrom('s'));
+  else if (type == 'B') {
+    if (meld == 'c') {
+      return makeChow(getTileFrom('B'));
+    }
+    else if (meld == 'p') {
+      return makePung(getTileFrom('B'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('B'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('B'));
+    }
   }
-  else if (meld == 'k') {
-    return makeKong(getTileFrom('s'));
+  else if (type == 'K') {
+    if (meld == 'c') {
+      return makeChow(getTileFrom('K'));
+    }
+    else if (meld == 'p') {
+      return makePung(getTileFrom('K'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('K'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('K'));
+    }
   }
-  else (meld == 'e') {
-    return makeEye(getTileFrom('s'));
+  else if (type == 'W') {
+    if (meld == 'p') {
+      return makePung(getTileFrom('W'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('W'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('W'));
+    }
+  }
+  else if (type == 'D') {
+    if (meld == 'p') {
+      return makePung(getTileFrom('D'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('D'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('D'));
+    }
+  }
+  else if (type == 'F') {
+    return flowers;
+  }
+  else if (type == 'S') {
+    return seasons;
+  }
+  else if (type == 's') {
+    if (meld == 'c') {
+      return makeChow(getTileFrom('s'));
+    }
+    else if (meld == 'p') {
+      return makePung(getTileFrom('s'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('s'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('s'));
+    }
+  }
+  else if (type == 'T') {
+    if (meld == 'c') {
+      return makeChow(getTileFrom('T'));
+    }
+    else if (meld == 'p') {
+      return makePung(getTileFrom('T'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('T'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('T'));
+    }
+  }
+  else if (type == 'H') {
+    if (meld == 'p') {
+      return makePung(getTileFrom('H'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('H'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('H'));
+    }
+  }
+  else if (type == 'E') {
+    if (meld == 'p') {
+      return makePung(getTileFrom('E'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('E'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('E'));
+    }
+  }
+  else if (type == 'r') {
+    if (meld == 'p') {
+      return makePung(getTileFrom('r'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('r'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('r'));
+    }
+  }
+  else if (type == 'g') {
+    if (meld == 'p') {
+      return makePung(getTileFrom('g'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('g'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('g'));
+    }
+  }
+  else (type == 'b') {
+    if (meld == 'p') {
+      return makePung(getTileFrom('b'));
+    }
+    else if (meld == 'k') {
+      return makeKong(getTileFrom('b'));
+    }
+    else (meld == 'e') {
+      return makeEye(getTileFrom('b'));
+    }
   }
 }
 
