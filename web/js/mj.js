@@ -1,140 +1,140 @@
 // Tile images 
 
 var tileimg = {
-  'c1' : '../img/c1.jpg',
-  'c2' : '../img/c2.jpg',              
-  'c3' : '../img/c3.jpg',
-  'c4' : '../img/c4.jpg',
-  'c5' : '../img/c5.jpg',
-  'c6' : '../img/c6.jpg',
-  'c7' : '../img/c7.jpg',
-  'c8' : '../img/c8.jpg',
-  'c9' : '../img/c9.jpg',
+  'C1' : '../img/C1.jpg',
+  'C2' : '../img/C2.jpg',              
+  'C3' : '../img/C3.jpg',
+  'C4' : '../img/C4.jpg',
+  'C5' : '../img/C5.jpg',
+  'C6' : '../img/C6.jpg',
+  'C7' : '../img/C7.jpg',
+  'C8' : '../img/C8.jpg',
+  'C9' : '../img/C9.jpg',
 
-  'b1' : '../img/b1.jpg',
-  'b2' : '../img/b2.jpg',              
-  'b3' : '../img/b3.jpg',
-  'b4' : '../img/b4.jpg',
-  'b5' : '../img/b5.jpg',
-  'b6' : '../img/b6.jpg',
-  'b7' : '../img/b7.jpg',
-  'b8' : '../img/b8.jpg',
-  'b9' : '../img/b9.jpg',
+  'B1' : '../img/B1.jpg',
+  'B2' : '../img/B2.jpg',              
+  'B3' : '../img/B3.jpg',
+  'B4' : '../img/B4.jpg',
+  'B5' : '../img/B5.jpg',
+  'B6' : '../img/B6.jpg',
+  'B7' : '../img/B7.jpg',
+  'B8' : '../img/B8.jpg',
+  'B9' : '../img/B9.jpg',
 
-  'k1' : '../img/k1.jpg',
-  'k2' : '../img/k2.jpg',              
-  'k3' : '../img/k3.jpg',
-  'k4' : '../img/k4.jpg',
-  'k5' : '../img/k5.jpg',
-  'k6' : '../img/k6.jpg',
-  'k7' : '../img/k7.jpg',
-  'k8' : '../img/k8.jpg',
-  'k9' : '../img/k9.jpg',
+  'K1' : '../img/K1.jpg',
+  'K2' : '../img/K2.jpg',              
+  'K3' : '../img/K3.jpg',
+  'K4' : '../img/K4.jpg',
+  'K5' : '../img/K5.jpg',
+  'K6' : '../img/K6.jpg',
+  'K7' : '../img/K7.jpg',
+  'K8' : '../img/K8.jpg',
+  'K9' : '../img/K9.jpg',
 
-  'w1' : '../img/w1.jpg',
-  'w2' : '../img/w2.jpg',              
-  'w3' : '../img/w3.jpg',
-  'w4' : '../img/w4.jpg',
+  'W1' : '../img/W1.jpg',
+  'W2' : '../img/W2.jpg',              
+  'W3' : '../img/W3.jpg',
+  'W4' : '../img/W4.jpg',
  
-  'd1' : '../img/d1.jpg',
-  'd2' : '../img/d2.jpg',              
-  'd3' : '../img/d3.jpg',
+  'D1' : '../img/D1.jpg',
+  'D2' : '../img/D2.jpg',              
+  'D3' : '../img/D3.jpg',
  
-  'f1' : '../img/f1.jpg',
-  'f2' : '../img/f2.jpg',              
-  'f3' : '../img/f3.jpg',
-  'f4' : '../img/f4.jpg',
+  'F1' : '../img/F1.jpg',
+  'F2' : '../img/F2.jpg',              
+  'F3' : '../img/F3.jpg',
+  'F4' : '../img/F4.jpg',
  
-  's1' : '../img/s1.jpg',
-  's2' : '../img/s2.jpg',              
-  's3' : '../img/s3.jpg',
-  's4' : '../img/s4.jpg',
+  'S1' : '../img/S1.jpg',
+  'S2' : '../img/S2.jpg',              
+  'S3' : '../img/S3.jpg',
+  'S4' : '../img/S4.jpg',
 
-  'empty' : '../img/empty.jpg'
+  'Empty' : '../img/Empty.jpg'
 };
 
-function getIng(tile) {
-  return "<img src=\"" + tileimg(tile) + "\"alt=\"" + tile + ">";
+function getImg(tile) {
+  return "<img src=\"" + tileimg[tile] + "\" alt=\"" + tile + "style=\"width : 70; height : 91\">";
 }
 
 
 // Tile unicode text
 
 var tiletxt = {
-  'c1' : '\u127001',
-  'c2' : '\u127002',
-  'c3' : '\u127003',
-  'c4' : '\u127004',
-  'c5' : '\u127005',
-  'c6' : '\u127006',
-  'c7' : '\u127007',
-  'c8' : '\u127008',
-  'c9' : '\u127009',
+  'C1' : '\u127001',
+  'C2' : '\u127002',
+  'C3' : '\u127003',
+  'C4' : '\u127004',
+  'C5' : '\u127005',
+  'C6' : '\u127006',
+  'C7' : '\u127007',
+  'C8' : '\u127008',
+  'C9' : '\u127009',
 
-  'b1' : '\u127992',
-  'b2' : '\u127993',
-  'b3' : '\u127994',
-  'b4' : '\u127995',
-  'b5' : '\u127996',
-  'b6' : '\u127997',
-  'b7' : '\u127998',
-  'b8' : '\u127999',
-  'b9' : '\u127000',
+  'B1' : '\u127992',
+  'B2' : '\u127993',
+  'B3' : '\u127994',
+  'B4' : '\u127995',
+  'B5' : '\u127996',
+  'B6' : '\u127997',
+  'B7' : '\u127998',
+  'B8' : '\u127999',
+  'B9' : '\u127000',
 
-  'k1' : '\u126983',
-  'k2' : '\u126984',
-  'k3' : '\u126985',
-  'k4' : '\u126986',
-  'k5' : '\u126987',
-  'k6' : '\u126988',
-  'k6' : '\u126989',
-  'k8' : '\u126990',
-  'k9' : '\u126991'
-  '  '  
-  'w1' : '\u126976',
-  'w2' : '\u126977',
-  'w3' : '\u126978',
-  'w4' : '\u126979',
+  'K1' : '\u126983',
+  'K2' : '\u126984',
+  'K3' : '\u126985',
+  'K4' : '\u126986',
+  'K5' : '\u126987',
+  'K6' : '\u126988',
+  'K6' : '\u126989',
+  'K8' : '\u126990',
+  'K9' : '\u126991',
 
-  'd1' : '\u126980',
-  'd2' : '\u126981',
-  'd3' : '\u126982',
+  'W1' : '\u126976',
+  'W2' : '\u126977',
+  'W3' : '\u126978',
+  'W4' : '\u126979',
 
-  'f1' : '\u127010',
-  'f2' : '\u127011',
-  'f3' : '\u127012',
-  'f4' : '\u127013',
+  'D1' : '\u126980',
+  'D2' : '\u126981',
+  'D3' : '\u126982',
 
-  's1' : '\u127014',
-  's2' : '\u127015',
-  's3' : '\u127016',
-  's4' : '\u127017',
+  'F1' : '\u127010',
+  'F2' : '\u127011',
+  'F3' : '\u127012',
+  'F4' : '\u127013',
 
-  'joker' : '\u127018',
-  'empty' : '\u127019'
+  'S1' : '\u127014',
+  'S2' : '\u127015',
+  'S3' : '\u127016',
+  'S4' : '\u127017',
+
+  'Joker' : '\u127018',
+  'Empty' : '\u127019'
 }
 
 function getText(tile) {
-  return tiletxt(tile);
+  return tiletxt[tile];
 }
 
 
 // Tile definations
 
-var coins = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9'];
-var bamboos = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9'];
-var characters = ['k1', 'k2', 'k3', 'k4', 'k5', 'k6', 'k7', 'k8', 'k9'];
-var winds = ['w1', 'w2', 'w3', 'w4'];
-var dragons = ['d1', 'd2', 'd3'];
-var flowers = ['f1', 'f2', 'f3', 'f4'];
-var seasons = ['s1', 's2', 's3', 's4'];
+var coins = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9'];
+var bamboos = ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9'];
+var characters = ['K1', 'K2', 'K3', 'K4', 'K5', 'K6', 'K7', 'K8', 'K9'];
+var winds = ['W1', 'W2', 'W3', 'W4'];
+var dragons = ['D1', 'D2', 'D3'];
+var flowers = ['F1', 'F2', 'F3', 'F4'];
+var seasons = ['S1', 'S2', 'S3', 'S4'];
 var simples = coins.slice(1, 8) + bamboos.slice(1, 8) + characters.slice(1, 8);
-var terminals = ['c1', 'c9', 'b1', 'b9', 'k1', 'k9'];
+var terminals = ['C1', 'C9', 'B1', 'B9', 'K1', 'K9'];
 var honors = winds + dragons;
 var edges = terminals + honors;
-var greens = ['b2', 'b3', 'b4', 'b6', 'b8', 'd2'];
-var reds = ['b1', 'b5', 'b7', 'b9', 'd1'];
-var blues = ['c8', 'w1', 'w2', 'w3', 'w4', 'd3'];
+var greens = ['B2', 'B3', 'B4', 'B6', 'B8', 'D2'];
+var reds = ['B1', 'B5', 'B7', 'B9', 'D1'];
+var blues = ['C8', 'W1', 'W2', 'W3', 'W4', 'D3'];
 
 var tiles = {
   'C' : coins,
@@ -158,13 +158,12 @@ var tiles = {
 
 function makeChow(tile) {
   l = tile.split('');
-  if (l[0] == 'c' || l[0] == 'b' || l[0] == 'k') {
-    if (l[1] < 8) {
+  if (l[0] == 'C' || l[0] == 'B' || l[0] == 'K') {
+    if (parseInt(l[1]) < 8) {
       return [tile, dora(tile), dora(dora(tile))];
     }
     else {
-      suit = tile.split('')[0];
-      return [suit + 7, suit + 8, suit + 9];
+      return [l[0] + 7, l[0] + 8, l[0] + 9];
     }
   }
   return undefined;
@@ -208,7 +207,7 @@ function makeEye(tile) {
  */
 
 function getTileFrom(type) {
-  return tiles['type'][Math.floor(Math.random() * tiles['type'].length)];
+  return tiles[type][Math.floor(Math.random() * tiles[type].length)];
 }
 
 function makeMeld(type, meld) {
@@ -222,7 +221,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('C'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('C'));
     }
   }
@@ -236,7 +235,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('B'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('B'));
     }
   }
@@ -250,7 +249,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('K'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('K'));
     }
   }
@@ -261,7 +260,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('W'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('W'));
     }
   }
@@ -272,7 +271,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('D'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('D'));
     }
   }
@@ -292,7 +291,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('s'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('s'));
     }
   }
@@ -306,7 +305,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('T'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('T'));
     }
   }
@@ -317,7 +316,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('H'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('H'));
     }
   }
@@ -328,7 +327,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('E'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('E'));
     }
   }
@@ -339,7 +338,7 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('r'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('r'));
     }
   }
@@ -350,34 +349,49 @@ function makeMeld(type, meld) {
     else if (meld == 'k') {
       return makeKong(getTileFrom('g'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('g'));
     }
   }
-  else (type == 'b') {
+  else {
     if (meld == 'p') {
       return makePung(getTileFrom('b'));
     }
     else if (meld == 'k') {
       return makeKong(getTileFrom('b'));
     }
-    else (meld == 'e') {
+    else {
       return makeEye(getTileFrom('b'));
     }
   }
 }
 
+function makeImg(meld) {
+  return map(getImg, meld);
+}
+
+function makeTxt(meld) {
+  return map(getImg, meld);
+}
 
 
 // Generating functions for different hands
 
+function makeHand(melds) {
+  hand = [];
+  for (var i = 0; i < hand.length; i++) {
+    hand.push(makeMeld(melds[i][0], melds[i][1]));
+  }
+  return hand;
+}
+
 function makeChicken() {
   // to make this easier, just have a chow from each suit, a suit pung, and wind eyes
-
+  return makeHand([['C','c'],['B','c'],['K','c'],['S','p'],['W','e']]);
 }
 
 function makeAllSimples() {
-
+  return makeHand([['s','c'],['s','c'],['s','p'],['s','p'],['s','e']]);
 }
 
 function makeAllTypes() {
@@ -386,31 +400,41 @@ function makeAllTypes() {
 
 
 // utility functions
+
 function repeat(item, n) {
   var l = [];
   for (var i = 0; i < n; i++) {
-    l.append(item);
+    l.push(item);
+  }
+  return l;
+}
+
+function map(func, list) {
+  l = [];
+  for (var i = 0; i < list.length; i++) {
+    l.push(func(list[i]));
   }
   return l;
 }
 
 function dora(tile) {
   l = tile.split('');
-  if (l[0] == 'c' || l[0] == 'b' || l[0] == 'k') {
-    if (l[0] < 9) {
-      return l[0] + (parseInt(l[1]) + 1);
+  v = parseInt(l[1]);
+  if (l[0] == 'C' || l[0] == 'B' || l[0] == 'K') {
+    if (v < 9) {
+      return l[0] + (v + 1);
     }
     return l[0] + 1;
   }
-  if (l[0] == 'w' || l[0] == 'f' || l[0] == 's') {
-    if (l[0] < 4) {
-      return l[0] + (parseInt(l[1]) + 1);
+  if (l[0] == 'W' || l[0] == 'F' || l[0] == 'S') {
+    if (v < 4) {
+      return l[0] + (v + 1);
     }
     return l[0] + 1;
   }
   else {
-    if (l[0] < 3) {
-      return l[0] + (parseInt(l[1]) + 1);
+    if (l[1] < 3) {
+      return l[0] + (v + 1);
     }
     return l[0] + 1;
   }
