@@ -8,7 +8,14 @@
 -- Portability :  portable
 
 module Game.Mahjong.Meld (
-    Meld(Mixed)
+    -- Meld data 
+    Meld(..)
+
+    -- Meld generation
+  , makeChow, makePung, makeKong, makeEye, makeMixed, makeBonus
+  
+    -- Meld predicates
+  , isChow, isPung, isKong, isEye, isMixed
   ) where
 
 import Game.Mahjong.Tile
@@ -21,6 +28,7 @@ data Meld = Chow [Tile]
           | Kong [Tile]
           | Eye [Tile]
           | Mixed [Tile]
+          | Bonus [Tile]
             deriving (Show, Eq)
 
 
@@ -53,29 +61,35 @@ makeEye t = case t of
 makeMixed :: [Tile] -> Meld
 makeMixed = Mixed 
 
+makeBonus :: [Tile] -> Meld
+makeBonus = Bonus
+
 
 {- Meld predicates -}
 
 isChow :: Meld -> Bool
-isChow (Chow _) = True
-isChow _        = False
+isChow (Chow _)   = True
+isChow _          = False
 
 isPung :: Meld -> Bool
-isPung (Pung _) = True
-isPung _        = False
+isPung (Pung _)   = True
+isPung _          = False
 
 isKong :: Meld -> Bool
-isKong (Kong _) = True
-isKong _        = False
+isKong (Kong _)   = True
+isKong _          = False
 
 isEye :: Meld -> Bool
-isEye (Eye _) = True
-isEye _       = False
+isEye (Eye _)     = True
+isEye _           = False
 
 isMixed :: Meld -> Bool
 isMixed (Mixed _) = True
 isMixed _         = False
 
+isBonus :: Meld -> Bool
+isBonus (Bonus _) = True
+isBonus _         = False
 
 {- generate the melds -}
 

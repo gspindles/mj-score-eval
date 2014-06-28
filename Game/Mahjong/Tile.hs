@@ -75,20 +75,17 @@ data Tile = Coin SuitValue
 instance Show Tile where
   show = showTile 
 
-data ShortType = C | B | K | W | D | F | S | A
-                 deriving (Bounded, Enum, Eq, Ord, Read, Show)
-
 showTile :: Tile -> String
 showTile t =
   case t of
-    (Coin c)      -> show C ++ getValue c [One ..]
-    (Bamboo b)    -> show B ++ getValue b [One ..]
-    (Character k) -> show K ++ getValue k [One ..]
-    (Wind w)      -> show W ++ getValue w [East ..]
-    (Dragon d)    -> show D ++ getValue d [Red ..]
-    (Flower f)    -> show F ++ getValue f [PlumBlossom ..]
-    (Season s)    -> show S ++ getValue s [Spring ..]
-    (Animal a)    -> show A ++ getValue a [Cat ..]
+    (Coin c)      -> 'C' : (getValue c [One ..])
+    (Bamboo b)    -> 'B' : (getValue b [One ..])
+    (Character k) -> 'K' : (getValue k [One ..])
+    (Wind w)      -> 'W' : (getValue w [East ..])
+    (Dragon d)    -> 'D' : (getValue d [Red ..])
+    (Flower f)    -> 'F' : (getValue f [PlumBlossom ..])
+    (Season s)    -> 'S' : (getValue s [Spring ..])
+    (Animal a)    -> 'A' : (getValue a [Cat ..])
     where
       getValue :: (Eq a) => a -> [a] -> String
       getValue v = show . fromJust . lookup v . flip zip [1..]
