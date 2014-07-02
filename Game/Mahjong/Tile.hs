@@ -25,13 +25,14 @@ module Game.Mahjong.Tile (
     , isGreen, isRed, isBlue
     
       -- Utility functions
-    , mjSet, getWall
+    , mjSet, getWall, impureWall
     , dora, reverseDora
     ) where
 
 import Data.List (intersperse)
 import Data.Map (Map, insert, (!), elems, singleton)
 import Data.Maybe (fromJust)
+import System.IO.Unsafe
 import System.Random
 
 
@@ -78,14 +79,14 @@ instance Show Tile where
 showTile :: Tile -> String
 showTile t =
   case t of
-    (Coin c)      -> 'C' : (getValue c [One ..])
-    (Bamboo b)    -> 'B' : (getValue b [One ..])
-    (Character k) -> 'K' : (getValue k [One ..])
-    (Wind w)      -> 'W' : (getValue w [East ..])
-    (Dragon d)    -> 'D' : (getValue d [Red ..])
-    (Flower f)    -> 'F' : (getValue f [PlumBlossom ..])
-    (Season s)    -> 'S' : (getValue s [Spring ..])
-    (Animal a)    -> 'A' : (getValue a [Cat ..])
+    Coin c      -> 'C' : (getValue c [One ..])
+    Bamboo b    -> 'B' : (getValue b [One ..])
+    Character k -> 'K' : (getValue k [One ..])
+    Wind w      -> 'W' : (getValue w [East ..])
+    Dragon d    -> 'D' : (getValue d [Red ..])
+    Flower f    -> 'F' : (getValue f [PlumBlossom ..])
+    Season s    -> 'S' : (getValue s [Spring ..])
+    Animal a    -> 'A' : (getValue a [Cat ..])
     where
       getValue :: (Eq a) => a -> [a] -> String
       getValue v = show . fromJust . lookup v . flip zip [1..]
@@ -246,6 +247,12 @@ mjSet = (concatMap (take 4 . repeat) $ regulars) ++ bonuses
 
 getWall :: Int -> [Tile]
 getWall a = fst $ fisherYates (mkStdGen a) mjSet
+
+impureWall :: [Tile]
+impureWall = getWall impureRandNumber 
+
+impureRandNumber :: Int
+impureRandNumber = mod (unsafePerformIO randomIO) 144
 
 -- | Fisher Yates Algorithm
 -- | Source:  http://www.haskell.org/haskellwiki/Random_shuffle
