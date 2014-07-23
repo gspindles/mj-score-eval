@@ -1,3 +1,4 @@
+-- | OUTDATED
 module Score (
 
 )
@@ -68,4 +69,3 @@ isConcealedMeld = elem 'c' . fst
 
 isRevealedMeld :: Meld -> Bool
 isRevealedMeld = not . isConcealedMeld
-

@@ -7,6 +7,8 @@
 -- Stability   :  experimental
 -- Portability :  portable
 
+-- | Data definition for meld
+--   along with methods to generate melds of certain kind
 module Game.Mahjong.Meld (
     -- Meld data 
     Meld(..)
@@ -23,19 +25,44 @@ import Game.Mahjong.Tile
 
 {- Data definitions -}
 
-data Meld = Chow [Tile]
-          | Pung [Tile]
-          | Kong [Tile]
-          | Eye [Tile]
-          | Mixed [Tile]
-          | Bonus [Tile]
+data Meld = Chow [Tile]   -- ^ a sequence of 3 tiles
+          | Pung [Tile]   -- ^ a triple of tiles
+          | Kong [Tile]   -- ^ a quartet of tiles
+          | Eye [Tile]    -- ^ a pair of tiles
+          | Mixed [Tile]  -- ^ for 13 orphans and 9 gates
+          | Bonus [Tile]  -- ^ a set of bonus tiles
             deriving (Show, Eq)
+
+getTiles :: Meld -> [Tile]
+getTiles (Chow ts) = ts
+getTiles (Pung ts) = ts
+getTiles (Kong ts) = ts
+getTiles (Eye ts) = ts
+getTiles (Mixed ts) = ts
+getTiles (Bonus ts) = ts
 
 
 {- Meld generate -}
 
 makeChow :: Tile -> Meld
-makeChow = undefined
+makeChow t = case t of
+  Wind _      -> error "Can't make chow of wind tiles"
+  Dragon _    -> error "Can't make chow of dragon tiles"
+  Flower _    -> error "Can't make chow of flower tiles"
+  Season _    -> error "Can't make chow of season tiles"
+--Animal _    -> error "Can't make chow of animal tiles"
+  Coin v      -> case v of
+    Eight -> error "Can't make chow with starting value Eight"
+    Nine  -> error "Can't make chow with starting value Nine"
+    _     -> Chow . take 3 . iterate dora $ t 
+  Bamboo v    -> case v of 
+    Eight -> error "Can't make chow with starting value Eight"
+    Nine  -> error "Can't make chow with starting value Nine"
+    _     -> Chow . take 3 . iterate dora $ t
+  Character v -> case v of 
+    Eight -> error "Can't make chow with starting value Eight"
+    Nine  -> error "Can't make chow with starting value Nine"
+    _     -> Chow . take 3 . iterate dora $ t
 
 makePung :: Tile -> Meld
 makePung t = case t of

@@ -1,53 +1,20 @@
-module Hand
+-- |
+-- Module      :  Game.Mahjong.Hand
+-- Copyright   :  Joseph Ching 2014
+-- License     :  MIT
+--
+-- Maintainer  :  joseph.m.ching@gmail.com
+-- Stability   :  experimental
+-- Portability :  portable
 
-import Tile
+-- | Data definition of a hand
+--   along with hand evaluation functions
+module Game.Mahjong.Example
 
--- | Predicates for determining the type of tiles
+where
 
-ofCoin :: [Meld] -> Bool
-ofCoin = and . map isCoin . fst
+import Game.Mahjong.Meld
 
-ofBamboo :: [Meld] -> Bool
-ofBamboo = and . map isBamboo . fst
+{- Data definition -}
 
-ofCharacter :: [Meld] -> Bool
-ofCharacter = and . map isCharacter . fst
-
-ofWind :: [Meld] -> Bool
-ofWind = and . map isWind . fst
-
-ofDragon :: [Meld] -> Bool
-ofDragon = and . map isDragon . fst
-
-ofFlower :: [Meld] -> Bool
-ofFlower = and . map isFlowe . fstr
-
-ofSeason :: [Meld] -> Bool
-ofSeason = and . map isSeason . fst
-
-ofSuit :: [Meld] -> Bool
-ofSuit = and . map isSuit . fst
-
-ofSimple :: [Meld] -> Bool
-ofSimple = and . map isSimple . fst
-
-ofTerminal :: [Meld] -> Bool
-ofTerminal = and . map isTerminal . fst
-
-ofHonor :: [Meld] -> Bool
-ofHonor = and . map isHonor . fst
-
-ofEdge :: [Meld] -> Bool
-ofEdge = and . map isEdge . fst
-
-ofGreen :: [Meld] -> Bool
-ofGreen = and . map isGreen . fst
-
-ofRed :: [Meld] -> Bool
-ofRed = and . map isRed . fst
-
-ofBlue :: [Meld] -> Bool
-ofBlue = and . map isBlue . fst
-
-ofBonus :: [Meld] -> Bool
-ofBonus = and . map isBonus . fst
+type Hand = [Meld]

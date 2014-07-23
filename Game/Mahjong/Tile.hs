@@ -7,10 +7,11 @@
 -- Stability   :  experimental
 -- Portability :  portable
 
--- | Tile implementation and tile related functions
+-- | Data definition of tiles
+--   along with tile related functions
 module Game.Mahjong.Tile (
       -- Tile data
-      SuitValue, WindValue, DragonValue, FlowerValue, SeasonValue
+      SuitValue(..), WindValue(..), DragonValue(..), FlowerValue(..), SeasonValue(..)
     , Tile(..)
 
       -- Tile collections
