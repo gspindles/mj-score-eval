@@ -9,7 +9,7 @@
 
 -- | Data definition of a hand
 --   along with hand evaluation functions
-module Game.Mahjong.Example
+module Game.Mahjong.Hand
 
 where
 
@@ -17,4 +17,17 @@ import Game.Mahjong.Meld
 
 {- Data definition -}
 
-type Hand = [Meld]
+data Hand = NoHand
+          | Hand
+              { getMelds :: [Meld]
+              , lastMeld ::  Meld
+              , bonusH   ::  Meld
+              }
+          deriving (Eq, Show)
+
+data InProgress = InProgress
+                    { onHand  ::  Meld
+                    , melded  :: [Meld]
+                    , bonusIP ::  Meld
+                    }
+                deriving (Eq, Show)

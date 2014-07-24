@@ -11,7 +11,7 @@
 --   and declaration for all accepted patterns
 module Game.Mahjong.Pattern (
     -- 0.0 Imcomplete or invalid pattern
-    noHand
+    noPattern
     
     -- 1.0 Trivial Patterns
   , chicken, allChows, concealed, selfDrawn, allSimples, allTypes, illegalCall
@@ -69,12 +69,12 @@ module Game.Mahjong.Pattern (
 
 {- Data Declaration -}
 
-data Pattern = NoHand             -- ^ an incomplete / invalid pattern
-             | Pattern            -- ^ a complete hand with fields
-             { name :: String     -- ^ the english name
-             , chinese :: String  -- ^ the chinese name
-             , score :: Int       -- ^ the score
-             }
+data Pattern = NoPattern              -- ^ an incomplete / invalid pattern
+             | Pattern                -- ^ a complete hand with fields
+                 { name    :: String  -- ^ the english name
+                 , chinese :: String  -- ^ the chinese name
+                 , score   :: Int     -- ^ the score
+                 }
              deriving (Eq, Show)
 
 
@@ -82,8 +82,8 @@ data Pattern = NoHand             -- ^ an incomplete / invalid pattern
 
 -- | 0.0 Incomplete or Invalid Patterns
 
-noHand :: Pattern
-noHand = NoHand
+noPattern :: Pattern
+noPattern = NoPattern
 
 -- | 1.0 Trivial Patterns
 
