@@ -1,3 +1,5 @@
+{- SLOW PROGRESS IN CONVERTING THESE OVER TO NEW DATA FORMAT -}
+
 -- |
 -- Module      :  Game.Mahjong.Example
 -- Copyright   :  Joseph Ching 2014

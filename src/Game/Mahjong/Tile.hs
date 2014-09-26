@@ -15,14 +15,14 @@ module Game.Mahjong.Tile (
     , Tile(..)
 
       -- Tile collections
-    , coins, bamboos, characters, winds, dragons, flowers, seasons
-    , suits, simples, terminals, honors, edges, bonuses
+    , coins, bamboos, characters, winds, dragons, flowers, seasons, animals
+    , simples, terminals, suits, honors, edges, bonuses, extras
     , greens, reds, blues
-    , regulars, alls
+    , regulars, allTiles
 
       -- Tile predicates
-    , isCoin, isBamboo, isCharacter, isWind, isDragon, isFlower, isSeason
-    , isSuit, isSimple, isTerminal, isHonor, isEdge, isBonus
+    , isCoin, isBamboo, isCharacter, isWind, isDragon, isFlower, isSeason, isAnimal
+    , isSimple, isTerminal, isSuit, isHonor, isEdge, isBonus
     , isGreen, isRed, isBlue
     
       -- Utility functions
@@ -119,14 +119,14 @@ seasons = map (Season $) [Spring ..]
 animals :: [Tile]
 animals = map (Animal $) [Cat ..]
 
-suits :: [Tile]
-suits = coins ++ bamboos ++ characters
-
 simples :: [Tile]
 simples = concatMap (\x -> tail . init $ x) [coins, bamboos, characters]
 
 terminals :: [Tile]
 terminals = concatMap (\x -> [head x, last x]) [coins, bamboos, characters]
+
+suits :: [Tile]
+suits = coins ++ bamboos ++ characters
 
 honors :: [Tile]
 honors = winds ++ dragons
@@ -152,8 +152,8 @@ blues = [Coin Eight] ++ winds ++ [Dragon White]
 regulars :: [Tile]
 regulars = coins ++ bamboos ++ characters ++ winds ++ dragons
 
-alls :: [Tile]
-alls = regulars ++ bonuses
+allTiles :: [Tile]
+allTiles = regulars ++ bonuses
 
 
 {- Predicates for determining tile types -}
@@ -190,14 +190,14 @@ isAnimal :: Tile -> Bool
 isAnimal (Animal _) = True
 isAnimal _          = False
 
-isSuit :: Tile -> Bool
-isSuit = or . zipWith id [isCoin, isBamboo, isCharacter] . repeat
-
 isSimple :: Tile -> Bool
 isSimple = and . zipWith id [isSuit, not . isTerminal] . repeat
 
 isTerminal :: Tile -> Bool
 isTerminal = flip elem terminals
+
+isSuit :: Tile -> Bool
+isSuit = or . zipWith id [isCoin, isBamboo, isCharacter] . repeat
 
 isHonor :: Tile -> Bool
 isHonor = or . zipWith id [isWind, isDragon] . repeat
@@ -250,7 +250,7 @@ getWall :: Int -> [Tile]
 getWall a = fst $ fisherYates (mkStdGen a) mjSet
 
 impureWall :: [Tile]
-impureWall = getWall impureRandNumber 
+impureWall = getWall impureRandNumber
 
 impureRandNumber :: Int
 impureRandNumber = mod (unsafePerformIO randomIO) 144

@@ -23,11 +23,11 @@ data Hand = NoHand
               , lastMeld ::  Meld
               , bonusH   ::  Meld
               }
-          deriving (Eq, Show)
+            deriving (Eq, Show)
 
 data InProgress = InProgress
                     { onHand  ::  Meld
                     , melded  :: [Meld]
                     , bonusIP ::  Meld
                     }
-                deriving (Eq, Show)
+                  deriving (Eq, Show)

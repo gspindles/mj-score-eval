@@ -75,7 +75,7 @@ data Pattern = NoPattern              -- ^ an incomplete / invalid pattern
                  , chinese :: String  -- ^ the chinese name
                  , score   :: Int     -- ^ the score
                  }
-             deriving (Eq, Show)
+               deriving (Eq, Show)
 
 
 {- Hand List -}

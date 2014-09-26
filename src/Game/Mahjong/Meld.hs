@@ -8,7 +8,7 @@
 -- Portability :  portable
 
 -- | Data definition for meld
---   along with methods to generate melds of certain kind
+--   along with predicates on melds
 module Game.Mahjong.Meld (
     -- Data definition 
     Status(..), Meld(..)
@@ -16,19 +16,25 @@ module Game.Mahjong.Meld (
 
     -- Meld generation
   , makeChow, makePung, makeKong, makeEye, makeMixed, makeBonus
-  
+
     -- Meld predicates
   , isChow, isPung, isKong, isEye, isMixed
+  , isRevealed, isConcealed
+  
+    -- Meld predicate with respect to the tile type
+  , isCoinMeld, isBambooMeld, isCharacterMeld, isWindMeld, isDragonMeld
+  , isSimpleMeld, isTerminalMeld, isSuitMeld, isHonorMeld, isEdgeMeld, isBonusMeld
+  , isGreenMeld, isRedMeld, isBlueMeld
   ) where
 
-import Game.Mahjong.Tile
-
+import qualified Game.Mahjong.Tile
+import Game.Mahjong.Tile as T
 
 {- Data definitions -}
 
 data Status = Revealed
             | Concealed
-            deriving (Bounded, Enum, Eq, Ord, Read, Show)
+              deriving (Bounded, Enum, Eq, Ord, Read, Show)
 
 data Meld = Chow  Status [Tile]  -- ^ a sequence of 3 tiles
           | Pung  Status [Tile]  -- ^ a triple of tiles
@@ -131,5 +137,53 @@ isBonus :: Meld -> Bool
 isBonus (Bonus _) = True
 isBonus _         = False
 
+isRevealed :: Status -> Bool
+isRevealed = (==) Revealed
 
-{- generate the melds -}
+isConcealed :: Status -> Bool
+isConcealed = (==) Concealed
+
+
+{- Meld Predicates with Respect to Tile Type -}
+
+isCoinMeld :: Meld -> Bool
+isCoinMeld = all isCoin . getTiles
+
+isBambooMeld :: Meld -> Bool
+isBambooMeld = all isBamboo . getTiles
+
+isCharacterMeld :: Meld -> Bool
+isCharacterMeld = all isCharacter . getTiles
+
+isWindMeld :: Meld -> Bool
+isWindMeld = all isWind . getTiles
+
+isDragonMeld :: Meld -> Bool
+isDragonMeld = all isDragon . getTiles
+
+isSimpleMeld :: Meld -> Bool
+isSimpleMeld = all isSimple . getTiles
+
+isTerminalMeld :: Meld -> Bool
+isTerminalMeld = any isTerminal . getTiles
+
+isSuitMeld :: Meld -> Bool
+isSuitMeld = or . zipWith id [isCoinMeld, isBambooMeld, isCharacterMeld] . repeat
+
+isHonorMeld :: Meld -> Bool
+isHonorMeld = or . zipWith id [isWindMeld, isDragonMeld] . repeat
+
+isEdgeMeld :: Meld -> Bool
+isEdgeMeld = or . zipWith id [isTerminalMeld, isHonorMeld] . repeat
+
+isBonusMeld :: Meld -> Bool
+isBonusMeld = all T.isBonus . getTiles
+
+isGreenMeld :: Meld -> Bool
+isGreenMeld = all isGreen . getTiles
+
+isRedMeld :: Meld -> Bool
+isRedMeld = all isRed . getTiles
+
+isBlueMeld :: Meld -> Bool
+isBlueMeld = all isBlue . getTiles
