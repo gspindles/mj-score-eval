@@ -22,94 +22,93 @@ import Game.Mahjong.Tile
 import System.IO.Unsafe (unsafePerformIO)
 import System.Random
 
-{- Data Definition -}
 
-data TileType = CoinTile
-              | BambooTile
-              | CharacterTile
-              | WindTile
-              | DragonTile
-              | FlowerTile
-              | SeasonTile
-              | AnimalTile
-              | SimpleTile
-              | TerminalTile
-              | SuitTile
-              | HonorTile
-              | EdgeTile
-              | GreenTile
-              | RedTile
-              | BlueTile
-              | BonusTile
-              | ExtraTile
-                deriving (Bounded, Enum, Eq, Ord, Read, Show)
+{- Data declaration -}
 
-data MeldType = ChowMeld
-              | PungMeld
-              | KongMeld
-              | EyeMeld
-              | MixedMeld
-              | BonusMeld
-                deriving (Bounded, Enum, Eq, Ord, Read, Show)
+data AllTileType = CoinTile
+                 | BambooTile
+                 | CharacterTile
+                 | WindTile
+                 | DragonTile
+                 | FlowerTile
+                 | SeasonTile
+                 | AnimalTile
+                 | SimpleTile
+                 | TerminalTile
+                 | SuitTile
+                 | HonorTile
+                 | EdgeTile
+                 | GreenTile
+                 | RedTile
+                 | BlueTile
+                 | BonusTile
+                 | ExtraTile
+                   deriving (Eq, Read, Show)
 
 
 {- Get a Tile -}
 
+helper :: [Tile] -> Int -> Tile
+helper ts x = ts !! mod x (length ts)
+
 getCoin :: Int -> Tile
-getCoin x = coins !! mod x 9
+getCoin = helper coins
 
 getBamboo :: Int -> Tile
-getBamboo x = bamboos !! mod x 9
+getBamboo = helper bamboos
 
 getCharacter :: Int -> Tile
-getCharacter x = characters !! mod x 9
+getCharacter = helper characters
 
 getWind :: Int -> Tile
-getWind x = winds !! mod x 4
+getWind = helper winds
 
 getDragon :: Int -> Tile
-getDragon x = dragons !! mod x 3
+getDragon = helper dragons
 
 getFlower :: Int -> Tile
-getFlower x = flowers !! mod x 4
+getFlower = helper flowers
 
 getSeason :: Int -> Tile
-getSeason x = seasons !! mod x 4
+getSeason = helper seasons
 
 getAnimal :: Int -> Tile
-getAnimal x = animals !! mod x 4
+getAnimal = helper animals
 
 getSimple :: Int -> Tile
-getSimple x = simples !! mod x 24
+getSimple = helper simples
 
 getTerminal :: Int -> Tile
-getTerminal x = terminals !! mod x 6
+getTerminal = helper terminals
 
 getSuit :: Int -> Tile
-getSuit x = suits !! mod x 27
+getSuit = helper suits
 
 getHonor :: Int -> Tile
-getHonor x = honors !! mod x 7
+getHonor = helper honors
 
 getEdge :: Int -> Tile
-getEdge x = edges !! mod x 13
+getEdge = helper edges
 
 getBonus :: Int -> Tile
-getBonus x = bonuses !! mod x 8
+getBonus = helper bonuses
 
 getExtra :: Int -> Tile
-getExtra x = bonuses !! mod x 12
+getExtra = helper bonuses
 
 getGreen :: Int -> Tile
-getGreen x = greens !! mod x 6
+getGreen = helper greens
 
 getRed :: Int -> Tile
-getRed x = reds !! mod x 5
+getRed = helper reds
 
 getBlue :: Int -> Tile
-getBlue x = blues !! mod x 7
+getBlue = helper blues
 
-getTile :: TileType -> Int -> Tile
+getRandomTile :: Int -> Tile
+getRandomTile = helper regulars
+
+getTile :: AllTileType -> Int -> Tile
 getTile CoinTile      = getCoin
 getTile BambooTile    = getBamboo
 getTile CharacterTile = getCharacter
@@ -129,9 +128,6 @@ getTile GreenTile     = getGreen
 getTile RedTile       = getRed
 getTile BlueTile      = getBlue
 
-getRandomTile :: Int -> Tile
-getRandomTile x = regulars !! mod x 144
-
 sample :: Int -> [Tile] -> [Tile]
 sample size ts = nub . map (\x -> ts !! mod x (length ts)) $ (unsafePerformIO (seeds size) :: [Int])
   where seeds :: Int -> IO [Int]
@@ -139,12 +135,17 @@ sample size ts = nub . map (\x -> ts !! mod x (length ts)) $ (unsafePerformIO (s
           g <- newStdGen
           return . take size $ (randoms g :: [Int])
 
+
 {- Generate the Melds -}
 
-makeMeld :: MeldType -> Status -> TileType -> Int -> Meld
-makeMeld ChowMeld  s t x = makeChow  s $ getTile t x
-makeMeld PungMeld  s t x = makePung  s $ getTile t x
-makeMeld KongMeld  s t x = makeKong  s $ getTile t x
-makeMeld EyeMeld   s t x = makeEye   s $ getTile t x
-makeMeld MixedMeld _ _ x = makeMixed   $ sample x regulars
-makeMeld BonusMeld _ _ x = makeBonus   $ sample x bonuses
+makeMeld :: MeldType -> Status -> AllTileType -> Int -> Either String Meld
+makeMeld Chow s t x = makeChow  s $ getTile t x
+makeMeld Pung s t x = makePung  s $ getTile t x
+makeMeld Kong s t x = makeKong  s $ getTile t x
+makeMeld Eye  s t x = makeEye   s $ getTile t x
+
+genBonus :: Int -> [Tile]
+genBonus x = sample x bonuses
+
+genOnHand :: Int -> [Tile]
+genOnHand x = sample x regulars

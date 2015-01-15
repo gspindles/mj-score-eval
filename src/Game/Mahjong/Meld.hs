@@ -11,161 +11,145 @@
 --   along with predicates on melds
 module Game.Mahjong.Meld (
     -- Data definition 
-    Status(..), Meld(..)
-  , getStatus, getTiles
+    MeldType(..), Status(..)
+  , Meld, meldType, meldStatus, meldTiles
+  , Bonus, bonusTiles
+  , OnHand, onHandTiles
 
     -- Meld generation
-  , makeChow, makePung, makeKong, makeEye, makeMixed, makeBonus
+  , makeChow, makePung, makeKong, makeEye
 
     -- Meld predicates
-  , isChow, isPung, isKong, isEye, isMixed
+  , isChow, isPung, isKong, isEye
   , isRevealed, isConcealed
   
     -- Meld predicate with respect to the tile type
   , isCoinMeld, isBambooMeld, isCharacterMeld, isWindMeld, isDragonMeld
-  , isSimpleMeld, isTerminalMeld, isSuitMeld, isHonorMeld, isEdgeMeld, isBonusMeld
+  , isSimpleMeld, isTerminalMeld, isSuitMeld, isHonorMeld, isEdgeMeld
   , isGreenMeld, isRedMeld, isBlueMeld
   ) where
 
-import qualified Game.Mahjong.Tile
-import Game.Mahjong.Tile as T
+import Game.Mahjong.Tile
+import Data.List (intersperse)
 
 {- Data definitions -}
 
-data Status = Revealed
-            | Concealed
-              deriving (Bounded, Enum, Eq, Ord, Read, Show)
+data MeldType = Chow | Pung | Kong | Eye
+                deriving (Eq, Read, Show)
 
-data Meld = Chow  Status [Tile]  -- ^ a sequence of 3 tiles
-          | Pung  Status [Tile]  -- ^ a triple of tiles
-          | Kong  Status [Tile]  -- ^ a quartet of tiles
-          | Eye   Status [Tile]  -- ^ a pair of tiles
-          | Mixed        [Tile]  -- ^ for 13 orphans and 9 gates
-          | Bonus        [Tile]  -- ^ a set of bonus tiles
-            deriving (Show, Eq)
+-- | R: Revealed, H: Concealed
+data Status = R | H
+              deriving (Eq, Read, Show)
 
-getStatus :: Meld -> Status
-getStatus (Chow  r _) = r
-getStatus (Pung  r _) = r
-getStatus (Kong  r _) = r
-getStatus (Eye   r _) = r
-getStatus (Mixed   _) = Concealed
-getStatus (Bonus   _) = Revealed
+data Meld = Meld
+          { meldType :: MeldType
+          , meldStatus :: Status
+          , meldTiles :: [Tile]
+          } deriving (Eq, Read)
 
-getTiles :: Meld -> [Tile]
-getTiles (Chow  _ ts) = ts
-getTiles (Pung  _ ts) = ts
-getTiles (Kong  _ ts) = ts
-getTiles (Eye   _ ts) = ts
-getTiles (Mixed   ts) = ts
-getTiles (Bonus   ts) = ts
+newtype Bonus = Bonus { bonusTiles :: [Tile] }
+             deriving (Eq, Read)
 
+newtype OnHand = OnHand { onHandTiles :: [Tile] }
+                 deriving (Eq, Read)
 
-{- Meld generate -}
+-- | show unfinished stuff (), then revealed <>, then concealed [], then bonus {}
+instance Show Meld where
+  show (Meld _ R ts) = "<" ++ join ts ++ ">"
+  show (Meld _ H ts) = "[" ++ join ts ++ "]"
 
-makeChow :: Status -> Tile -> Meld
-makeChow s t = case t of
-  Wind _      -> error "Can't make chow of wind tiles"
-  Dragon _    -> error "Can't make chow of dragon tiles"
-  Flower _    -> error "Can't make chow of flower tiles"
-  Season _    -> error "Can't make chow of season tiles"
---Animal _    -> error "Can't make chow of animal tiles"
-  Coin v      -> case v of
-    Eight -> error "Can't make chow with starting value Eight"
-    Nine  -> error "Can't make chow with starting value Nine"
-    _     -> Chow s . take 3 . iterate dora $ t 
-  Bamboo v    -> case v of 
-    Eight -> error "Can't make chow with starting value Eight"
-    Nine  -> error "Can't make chow with starting value Nine"
-    _     -> Chow s . take 3 . iterate dora $ t
-  Character v -> case v of 
-    Eight -> error "Can't make chow with starting value Eight"
-    Nine  -> error "Can't make chow with starting value Nine"
-    _     -> Chow s . take 3 . iterate dora $ t
+instance Show Bonus where
+  show (Bonus ts) = "{" ++ join ts ++ "}"
 
-makePung :: Status -> Tile -> Meld
-makePung s t = case t of
-  Flower _ -> error "Can't make pung of flower tiles"
-  Season _ -> error "Can't make pung of season tiles"
---Animal _ -> error "Can't make pung of animal tiles"
-  t        -> Pung s $ replicate 3 t
+instance Show OnHand where
+  show (OnHand ts) = "(" ++ join ts ++ ")"
 
-makeKong :: Status -> Tile -> Meld
-makeKong s t = case t of
-  Flower _ -> Kong s $ flowers -- for convenience in generation only 
-  Season _ -> Kong s $ seasons -- not an "actual" meld
---Animal _ -> animals -- only used for 
-  t        -> Kong s $ replicate 4 t
-
-makeEye :: Status -> Tile -> Meld
-makeEye s t = case t of
-  Flower _ -> error "Can't make eye of flower tiles"
-  Season _ -> error "Can't make eye of season tiles"
---Animal _ -> error "Can't make eye of animal tiles"
-  t        -> Eye s $ replicate 2 t
-
-makeMixed :: [Tile] -> Meld
-makeMixed = Mixed 
-
-makeBonus :: [Tile] -> Meld
-makeBonus = Bonus
+join :: [Tile] -> String
+join = concat . intersperse "," . map show
 
 
-{- Meld predicates -}
+{- Predicates for determining meld types -}
 
 isChow :: Meld -> Bool
-isChow (Chow _ _) = True
-isChow _          = False
+isChow (Meld Chow _ _) = True
+isChow _               = False
 
+-- | Kong do count as pung during scoring process
 isPung :: Meld -> Bool
-isPung (Pung _ _) = True
-isPung _          = False
+isPung (Meld Pung _ _) = True
+isPung (Meld Kong _ _) = True
+isPung _               = True
 
 isKong :: Meld -> Bool
-isKong (Kong _ _) = True
-isKong _          = False
+isKong (Meld Kong _ _) = True
+isKong _               = False
 
 isEye :: Meld -> Bool
-isEye (Eye _ _)   = True
-isEye _           = False
+isEye (Meld Eye _ _) = True
+isEye _              = False
 
-isMixed :: Meld -> Bool
-isMixed (Mixed _) = True
-isMixed _         = False
+isRevealed :: Meld -> Bool
+isRevealed (Meld _ R _) = True
+isRevealed _            = False
 
-isBonus :: Meld -> Bool
-isBonus (Bonus _) = True
-isBonus _         = False
+isConcealed :: Meld -> Bool
+isConcealed (Meld _ H _) = True
+isConcealed _            = False
 
-isRevealed :: Status -> Bool
-isRevealed = (==) Revealed
 
-isConcealed :: Status -> Bool
-isConcealed = (==) Concealed
+{- Meld generation -}
+
+makeChow :: Status -> Tile -> Either String Meld
+makeChow s t =
+  if not . isSuitTile $ t
+  then Left $ "can't make chow of " ++ name (tileType t) ++ " tiles."
+  else if or . zipWith (==) [8, 9] . repeat . tileValue $ t
+       then Right . Meld Chow s $ neighbor t
+       else Right . Meld Chow s . take 3 . iterate dora $ t
+       where neighbor :: Tile -> [Tile]
+             neighbor = zipWith id [reverseDora, id, dora] . repeat
+
+makePung :: Status -> Tile -> Either String Meld
+makePung s t =
+  if isBonusTile t
+  then Left $ "Can't make pung of " ++ name (tileType t) ++ " tiles."
+  else Right . Meld Pung s $ replicate 3 t
+
+makeKong :: Status -> Tile -> Either String Meld
+makeKong s t =
+  if isBonusTile t
+  then Left $ "Can't make kong of " ++ name (tileType t) ++ " tiles."
+  else Right . Meld Kong s $ replicate 4 t
+
+makeEye :: Status -> Tile -> Either String Meld
+makeEye s t =
+  if isBonusTile t
+  then Left $ "Can't make eye of " ++ name (tileType t) ++ " tiles."
+  else Right . Meld Eye s $ replicate 2 t
 
 
 {- Meld Predicates with Respect to Tile Type -}
 
 isCoinMeld :: Meld -> Bool
-isCoinMeld = all isCoin . getTiles
+isCoinMeld = all isCoinTile . meldTiles
 
 isBambooMeld :: Meld -> Bool
-isBambooMeld = all isBamboo . getTiles
+isBambooMeld = all isBambooTile . meldTiles
 
 isCharacterMeld :: Meld -> Bool
-isCharacterMeld = all isCharacter . getTiles
+isCharacterMeld = all isCharacterTile . meldTiles
 
 isWindMeld :: Meld -> Bool
-isWindMeld = all isWind . getTiles
+isWindMeld = all isWindTile . meldTiles
 
 isDragonMeld :: Meld -> Bool
-isDragonMeld = all isDragon . getTiles
+isDragonMeld = all isDragonTile . meldTiles
 
 isSimpleMeld :: Meld -> Bool
-isSimpleMeld = all isSimple . getTiles
+isSimpleMeld = all isSimpleTile . meldTiles
 
 isTerminalMeld :: Meld -> Bool
-isTerminalMeld = any isTerminal . getTiles
+isTerminalMeld = any isTerminalTile . meldTiles
 
 isSuitMeld :: Meld -> Bool
 isSuitMeld = or . zipWith id [isCoinMeld, isBambooMeld, isCharacterMeld] . repeat
@@ -176,14 +160,11 @@ isHonorMeld = or . zipWith id [isWindMeld, isDragonMeld] . repeat
 isEdgeMeld :: Meld -> Bool
 isEdgeMeld = or . zipWith id [isTerminalMeld, isHonorMeld] . repeat
 
-isBonusMeld :: Meld -> Bool
-isBonusMeld = all T.isBonus . getTiles
-
 isGreenMeld :: Meld -> Bool
-isGreenMeld = all isGreen . getTiles
+isGreenMeld = all isGreenTile . meldTiles
 
 isRedMeld :: Meld -> Bool
-isRedMeld = all isRed . getTiles
+isRedMeld = all isRedTile . meldTiles
 
 isBlueMeld :: Meld -> Bool
-isBlueMeld = all isBlue . getTiles
+isBlueMeld = all isBlueTile . meldTiles
