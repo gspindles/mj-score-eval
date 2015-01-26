@@ -1,6 +1,6 @@
 -- |
 -- Module      :  Game.Mahjong.Tile
--- Copyright   :  Joseph Ching 2014
+-- Copyright   :  Joseph Ching 2015
 -- License     :  MIT
 --
 -- Maintainer  :  joseph.m.ching@gmail.com
@@ -11,8 +11,7 @@
 --   along with tile related functions
 module Game.Mahjong.Tile (
       -- Tile data
-      SuitValue(..), WindValue(..), DragonValue(..), FlowerValue(..), SeasonValue(..)
-    , Tile
+      TileType(..), Tile, tileType, tileValue, Name(..)
 
       -- Tile collections
     , coins, bamboos, characters, winds, dragons, flowers, seasons, animals
@@ -21,103 +20,81 @@ module Game.Mahjong.Tile (
     , regulars, allTiles
 
       -- Tile predicates
-    , isCoin, isBamboo, isCharacter, isWind, isDragon, isFlower, isSeason, isAnimal
-    , isSimple, isTerminal, isSuit, isHonor, isEdge, isBonus
-    , isGreen, isRed, isBlue
+    , isCoinTile, isBambooTile, isCharacterTile, isWindTile, isDragonTile, isFlowerTile, isSeasonTile, isAnimalTile
+    , isSimpleTile, isTerminalTile, isSuitTile, isHonorTile, isEdgeTile, isBonusTile
+    , isGreenTile, isRedTile, isBlueTile
 
       -- Utility functions
     , mjSet, getWall, impureWall
     , dora, reverseDora
     ) where
 
-import Data.List (intersperse)
 import Data.Map (Map, insert, (!), elems, singleton)
-import Data.Maybe (fromJust)
 import System.IO.Unsafe
 import System.Random
 
 
 {- Data definition -}
 
--- | The nine suit values used for the three suits
-data SuitValue = One | Two | Three | Four | Five | Six | Seven | Eight | Nine
-                 deriving (Bounded, Enum, Eq, Ord, Read, Show)
-
--- | The four wind values
-data WindValue = East | South | West | North
-                 deriving (Bounded, Enum, Eq, Ord, Read, Show)
-
--- | The three dragon values
-data DragonValue = Red | Green | White
-                   deriving (Bounded, Enum, Eq, Ord, Read, Show)
-
--- | The four flower values
-data FlowerValue = PlumBlossom | Orchid | Chrysanthenum | BambooTree
-                   deriving (Bounded, Enum, Eq, Ord, Read, Show)
-
--- | The four season values
-data SeasonValue = Spring | Summer | Autumn | Winter
-                   deriving (Bounded, Enum, Eq, Ord, Read, Show)
-
--- | The four animal values
-data AnimalValue = Cat | Mouse | Cockerel | Centipede
-                   deriving (Bounded, Enum, Eq, Ord, Read, Show)
+-- | The tile types: Coin, Bamboo, Character, Wind, Dragon, Flower, Season, Animal
+data TileType = C | B | K | W | D | F | S | A
+                deriving (Eq, Read, Show)
 
 -- | Define the tiles
-data Tile = Coin SuitValue
-          | Bamboo SuitValue
-          | Character SuitValue
-          | Wind WindValue
-          | Dragon DragonValue
-          | Flower FlowerValue
-          | Season SeasonValue
-          | Animal AnimalValue
-            deriving (Eq, Ord, Read)
+data Tile = Tile
+          { tileType :: TileType
+          , tileValue :: Int
+          } deriving (Eq, Read)
 
 instance Show Tile where
-  show = showTile
+  show (Tile tt tv) = show tt ++ show tv
 
-showTile :: Tile -> String
-showTile t =
-  case t of
-    Coin c      -> 'C' : (getValue c [One ..])
-    Bamboo b    -> 'B' : (getValue b [One ..])
-    Character k -> 'K' : (getValue k [One ..])
-    Wind w      -> 'W' : (getValue w [East ..])
-    Dragon d    -> 'D' : (getValue d [Red ..])
-    Flower f    -> 'F' : (getValue f [PlumBlossom ..])
-    Season s    -> 'S' : (getValue s [Spring ..])
-    Animal a    -> 'A' : (getValue a [Cat ..])
-    where
-      getValue :: (Eq a) => a -> [a] -> String
-      getValue v = show . fromJust . lookup v . flip zip [1..]
+
+{- Class definition -}
+
+class Name a where
+  name :: a -> String
+
+instance Name TileType where
+  name C = "Coin"
+  name B = "Bamboo"
+  name K = "Character"
+  name W = "Wind"
+  name D = "Dragon"
+  name F = "Season"
+  name A = "Animal"
 
 
 {- Tile collections -}
 
 coins :: [Tile]
-coins = map (Coin $) [One ..]
+coins = map (Tile C $) [1..9]
 
 bamboos :: [Tile]
-bamboos = map (Bamboo $) [One ..]
+bamboos = map (Tile B $) [1..9]
 
 characters :: [Tile]
-characters = map (Character $) [One ..]
+characters = map (Tile K $) [1..9]
 
+-- | 1: East, 2: South, 3: North, 4: West
 winds :: [Tile]
-winds = map (Wind $) [East ..]
+winds = map (Tile W $) [1..4]
 
+-- | 1: Red, 2: Green, 3: White
 dragons :: [Tile]
-dragons = map (Dragon $) [Red ..]
+dragons = map (Tile D $) [1..3]
 
+-- | 1: Plum Blossom, 2: Orchid, 3: Chrysanthemum, 4: Bamboo Tree
 flowers :: [Tile]
-flowers = map (Flower $) [PlumBlossom ..]
+flowers = map (Tile F $) [1..4]
 
+-- | 1: Spring, 2: Summer, 3: Autumn, 4: Winter
 seasons :: [Tile]
-seasons = map (Season $) [Spring ..]
+seasons = map (Tile S $) [1..4]
 
+-- | 1: Cat, 2: Mouse, 3: Cockerel, 4: Centipede
 animals :: [Tile]
-animals = map (Animal $) [Cat ..]
+animals = map (Tile A $) [1..4]
 
 simples :: [Tile]
 simples = concatMap (\x -> tail . init $ x) [coins, bamboos, characters]
@@ -141,13 +118,13 @@ extras :: [Tile]
 extras = bonuses ++ animals
 
 greens :: [Tile]
-greens = map (Bamboo $) [Two, Three, Four, Six, Eight] ++ [Dragon Green]
+greens = map (Tile B $) [2, 3, 4, 6, 8] ++ [Tile D 2]
 
 reds :: [Tile]
-reds = map (Bamboo $) [One, Five, Seven, Nine] ++ [Dragon Red]
+reds = map (Tile B $) [1, 5, 7, 9] ++ [Tile D 1]
 
 blues :: [Tile]
-blues = [Coin Eight] ++ winds ++ [Dragon White]
+blues = [Tile C 8] ++ winds ++ [Tile D 3]
 
 regulars :: [Tile]
 regulars = coins ++ bamboos ++ characters ++ winds ++ dragons
@@ -158,87 +135,87 @@ allTiles = regulars ++ bonuses
 
 {- Predicates for determining tile types -}
 
-isCoin :: Tile -> Bool
-isCoin (Coin _) = True
-isCoin _        = False
+isCoinTile :: Tile -> Bool
+isCoinTile (Tile C _) = True
+isCoinTile _          = False
 
-isBamboo :: Tile -> Bool
-isBamboo (Bamboo _) = True
-isBamboo _          = False
+isBambooTile :: Tile -> Bool
+isBambooTile (Tile B _) = True
+isBambooTile _          = False
 
-isCharacter :: Tile -> Bool
-isCharacter (Character _) = True
-isCharacter _             = False
+isCharacterTile :: Tile -> Bool
+isCharacterTile (Tile K _) = True
+isCharacterTile _          = False
 
-isWind :: Tile -> Bool
-isWind (Wind _) = True
-isWind _        = False
+isWindTile :: Tile -> Bool
+isWindTile (Tile W _) = True
+isWindTile _          = False
 
-isDragon :: Tile -> Bool
-isDragon (Dragon _) = True
-isDragon _          = False
+isDragonTile :: Tile -> Bool
+isDragonTile (Tile D _) = True
+isDragonTile _          = False
 
-isFlower :: Tile -> Bool
-isFlower (Flower _) = True
-isFlower _          = False
+isFlowerTile :: Tile -> Bool
+isFlowerTile (Tile F _) = True
+isFlowerTile _          = False
 
-isSeason :: Tile -> Bool
-isSeason (Season _) = True
-isSeason _          = False
+isSeasonTile :: Tile -> Bool
+isSeasonTile (Tile S _) = True
+isSeasonTile _          = False
 
-isAnimal :: Tile -> Bool
-isAnimal (Animal _) = True
-isAnimal _          = False
+isAnimalTile :: Tile -> Bool
+isAnimalTile (Tile A _) = True
+isAnimalTile _          = False
 
-isSimple :: Tile -> Bool
-isSimple = and . zipWith id [isSuit, not . isTerminal] . repeat
+isSimpleTile :: Tile -> Bool
+isSimpleTile = and . zipWith id [isSuitTile, not . isTerminalTile] . repeat
 
-isTerminal :: Tile -> Bool
-isTerminal = flip elem terminals
+isTerminalTile :: Tile -> Bool
+isTerminalTile = flip elem terminals
 
-isSuit :: Tile -> Bool
-isSuit = or . zipWith id [isCoin, isBamboo, isCharacter] . repeat
+isSuitTile :: Tile -> Bool
+isSuitTile = or . zipWith id [isCoinTile, isBambooTile, isCharacterTile] . repeat
 
-isHonor :: Tile -> Bool
-isHonor = or . zipWith id [isWind, isDragon] . repeat
+isHonorTile :: Tile -> Bool
+isHonorTile = or . zipWith id [isWindTile, isDragonTile] . repeat
 
-isEdge :: Tile -> Bool
-isEdge = or . zipWith id [isTerminal, isWind, isDragon] . repeat
+isEdgeTile :: Tile -> Bool
+isEdgeTile = or . zipWith id [isTerminalTile, isWindTile, isDragonTile] . repeat
 
-isBonus :: Tile -> Bool
-isBonus = or . zipWith id [isFlower, isSeason, isAnimal] . repeat
+isBonusTile :: Tile -> Bool
+isBonusTile = or . zipWith id [isFlowerTile, isSeasonTile, isAnimalTile] . repeat
 
-isGreen :: Tile -> Bool
-isGreen = flip elem greens
+isGreenTile :: Tile -> Bool
+isGreenTile = flip elem greens
 
-isRed :: Tile -> Bool
-isRed = flip elem reds
+isRedTile :: Tile -> Bool
+isRedTile = flip elem reds
 
-isBlue :: Tile -> Bool
-isBlue = flip elem blues
+isBlueTile :: Tile -> Bool
+isBlueTile = flip elem blues
 
 
 {- Utility functions -}
 
 dora :: Tile -> Tile
-dora (Coin c)      = if c == Nine       then Coin One           else Coin $ succ c
-dora (Bamboo b)    = if b == Nine       then Bamboo One         else Bamboo $ succ b
-dora (Character k) = if k == Nine       then Character One      else Character $ succ k
-dora (Wind w)      = if w == North      then Wind East          else Wind $ succ w
-dora (Dragon d)    = if d == White      then Dragon Red         else Dragon $ succ d
-dora (Flower f)    = if f == BambooTree then Flower PlumBlossom else Flower $ succ f
-dora (Season s)    = if s == Winter     then Season Spring      else Season $ succ s
-dora (Animal a)    = if a == Centipede  then Animal Cat         else Animal $ succ a
+dora (Tile C c) = if c == 9 then Tile C 1 else Tile C (succ c)
+dora (Tile B b) = if b == 9 then Tile B 1 else Tile B (succ b)
+dora (Tile K k) = if k == 9 then Tile K 1 else Tile K (succ k)
+dora (Tile W w) = if w == 4 then Tile W 1 else Tile W (succ w)
+dora (Tile D d) = if d == 3 then Tile D 1 else Tile D (succ d)
+dora (Tile F f) = if f == 4 then Tile F 1 else Tile F (succ f)
+dora (Tile S s) = if s == 4 then Tile S 1 else Tile S (succ s)
+dora (Tile A a) = if a == 4 then Tile A 1 else Tile A (succ a)
 
 reverseDora :: Tile -> Tile
-reverseDora (Coin c)      = if c == One         then Coin Nine         else Coin $ pred c
-reverseDora (Bamboo b)    = if b == One         then Bamboo Nine       else Bamboo $ pred b
-reverseDora (Character k) = if k == One         then Character Nine    else Character $ pred k
-reverseDora (Wind w)      = if w == East        then Wind North        else Wind $ pred w
-reverseDora (Dragon d)    = if d == Red         then Dragon White      else Dragon $ pred d
-reverseDora (Flower f)    = if f == PlumBlossom then Flower BambooTree else Flower $ pred f
-reverseDora (Season s)    = if s == Spring      then Season Winter     else Season $ pred s
-reverseDora (Animal a)    = if a == Cat         then Animal Centipede  else Animal $ pred a
+reverseDora (Tile C c) = if c == 1 then Tile C 9 else Tile C (pred c)
+reverseDora (Tile B b) = if b == 1 then Tile B 9 else Tile B (pred b)
+reverseDora (Tile K k) = if k == 1 then Tile K 9 else Tile K (pred k)
+reverseDora (Tile W w) = if w == 1 then Tile W 4 else Tile W (pred w)
+reverseDora (Tile D d) = if d == 1 then Tile D 3 else Tile D (pred d)
+reverseDora (Tile F f) = if f == 1 then Tile F 4 else Tile F (pred f)
+reverseDora (Tile S s) = if s == 1 then Tile S 4 else Tile S (pred s)
+reverseDora (Tile A a) = if a == 1 then Tile A 4 else Tile A (pred a)
 
 
 {- Wall building -}

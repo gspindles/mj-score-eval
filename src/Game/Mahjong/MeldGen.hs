@@ -1,6 +1,6 @@
 -- |
 -- Module      :  Game.Mahjong.MeldGen
--- Copyright   :  Joseph Ching 2014
+-- Copyright   :  Joseph Ching 2015
 -- License     :  MIT
 --
 -- Maintainer  :  joseph.m.ching@gmail.com
