@@ -19,8 +19,7 @@ module Game.Mahjong.Tile
   , Tile, WrapTile
   , Suit, Honor, Bonus
 
-    -- constructors :: (MetaType m) => a -> Tile m
-  , mkCoin, mkBamboo, mkCharacter, mkWind, mkDragon, mkFlower, mkSeason, mkAnimal
+    -- constructors :: (MetaType a) => Tile a -> WrapTile
   , mkWrap
 
     -- Tiles :: (MetaType a) => Tile a
@@ -58,10 +57,7 @@ import System.Random
 
 {- Data definition -}
 
--- | Meta tile types
-class MetaType a
-
--- | The tile types: Coin, Bamboo, Character, Wind, Dragon, Flower, Season, Animal
+-- | The tile types
 data TileType = Coin | Bamboo | Character | Wind | Dragon | Flower | Season | Animal
                 deriving (Bounded, Enum, Eq, Ord)
 
@@ -69,23 +65,28 @@ data TileType = Coin | Bamboo | Character | Wind | Dragon | Flower | Season | An
 data Values   = One | Two | Three | Four | Five | Six | Seven | Eight | Nine
                 deriving (Bounded, Enum, Eq, Ord)
 
--- | The four winds: East, South, West, North
+-- | The four winds
 data Winds    = East | South | West | North
                 deriving (Bounded, Enum, Eq, Ord)
 
--- | The three dragons: Red, Green, White
+-- | The three dragons
 data Dragons  = Red | Green | White
                 deriving (Bounded, Enum, Eq, Ord)
 
--- | The four flowers: Plum Blossom, Orchid, Chrysanthemum, Bamboo Tree
+-- | The four flowers
 data Flowers  = PlumBlossom | Orchid | Chrysanthemum | BambooTree
                 deriving (Bounded, Enum, Eq, Ord)
 
+-- | The four seasons
 data Seasons  = Spring | Summer | Autumn | Winter
                 deriving (Bounded, Enum, Eq, Ord)
 
+-- | The four animals
 data Animals  = Cat | Mouse | Cockerel | Centipede
                 deriving (Bounded, Enum, Eq, Ord)
+
+-- | Meta tile types
+class MetaType a
 
 -- | Suit, Honor, and Bonus are used as phantoms for Tile
 data Suit
@@ -181,30 +182,6 @@ instance MetaType Bonus
 -------------------------------------------------------------------------------
 
 {- Constructors -}
-
-mkCoin      :: Values -> Tile Suit
-mkCoin      = CTile
-
-mkBamboo    :: Values -> Tile Suit
-mkBamboo    = BTile
-
-mkCharacter :: Values -> Tile Suit
-mkCharacter = KTile
-
-mkWind      :: Winds -> Tile Honor
-mkWind      = WTile
-
-mkDragon    :: Dragons -> Tile Honor
-mkDragon    = DTile
-
-mkFlower    :: Flowers -> Tile Bonus
-mkFlower    = FTile
-
-mkSeason    :: Seasons -> Tile Bonus
-mkSeason    = STile
-
-mkAnimal    :: Animals -> Tile Bonus
-mkAnimal    = ATile
 
 mkWrap      :: Tile a -> WrapTile
 mkWrap      = Wrap
@@ -465,14 +442,14 @@ dora (STile s) = if s == Winter     then STile Spring      else STile $ succ s
 dora (ATile a) = if a == Centipede  then ATile Cat         else ATile $ succ a
 
 reverseDora :: Tile a -> Tile a
-reverseDora (CTile c) = if c == One         then CTile Nine       else CTile $ succ c
-reverseDora (BTile b) = if b == One         then BTile Nine       else BTile $ succ b
-reverseDora (KTile k) = if k == One         then KTile Nine       else KTile $ succ k
-reverseDora (WTile w) = if w == East        then WTile North      else WTile $ succ w
-reverseDora (DTile d) = if d == Red         then DTile White      else DTile $ succ d
-reverseDora (FTile f) = if f == PlumBlossom then FTile BambooTree else FTile $ succ f
-reverseDora (STile s) = if s == Spring      then STile Winter     else STile $ succ s
-reverseDora (ATile a) = if a == Cat         then ATile Centipede  else ATile $ succ a
+reverseDora (CTile c) = if c == One         then CTile Nine       else CTile $ pred c
+reverseDora (BTile b) = if b == One         then BTile Nine       else BTile $ pred b
+reverseDora (KTile k) = if k == One         then KTile Nine       else KTile $ pred k
+reverseDora (WTile w) = if w == East        then WTile North      else WTile $ pred w
+reverseDora (DTile d) = if d == Red         then DTile White      else DTile $ pred d
+reverseDora (FTile f) = if f == PlumBlossom then FTile BambooTree else FTile $ pred f
+reverseDora (STile s) = if s == Spring      then STile Winter     else STile $ pred s
+reverseDora (ATile a) = if a == Cat         then ATile Centipede  else ATile $ pred a
 
 
 -------------------------------------------------------------------------------
