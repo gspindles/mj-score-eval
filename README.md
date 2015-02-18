@@ -43,30 +43,30 @@ Declares mahjong accidentally when the hand is not ready.
 
 ### 2.0 Pungs and Kongs
 
-#### 3.1 All Pungs (對對和) : 30
+#### 2.1 All Pungs (對對和) : 30
 The hand contains 4 set of Pungs/kongs; no Chows.
 
 
-#### 3.2.1 Two Concealed Pungs (兩暗刻) : 5
+#### 2.2.1 Two Concealed Pungs (兩暗刻) : 5
 The hand contains two concealed Pungs/concealed kongs.
 
-#### 3.2.2 Three Concealed Pungs (三暗刻) : 30
+#### 2.2.2 Three Concealed Pungs (三暗刻) : 30
 The hand contains three concealed Pungs/concealed kongs.
 
-#### 3.2.3 Four Concealed Pungs (四暗刻) : 125
+#### 2.2.3 Four Concealed Pungs (四暗刻) : 125
 The hand contains four concealed Pungs/concealed kongs.
 
 
-#### 3.3.1 One Kong (一槓) : 5
+#### 2.3.1 One Kong (一槓) : 5
 The hand contains one kongs. (Irrespective of whether it is exposed or concealed; same below.)
 
-#### 3.3.2 Two Kongs (兩槓) : 20
+#### 2.3.2 Two Kongs (兩槓) : 20
 The hand contains two kongs.
 
-#### 3.3.3 Three Kongs (三槓) : 120
+#### 2.3.3 Three Kongs (三槓) : 120
 The hand contains three kongs.
 
-#### 3.3.4 Four Kongs (四槓) : 480
+#### 2.3.4 Four Kongs (四槓) : 480
 The hand contains four kongs.
 
 
@@ -75,19 +75,19 @@ The hand contains four kongs.
 
 Identical sets are sets in the same suit in the same numbers. Obviously, only Chows can be identical.
 
-#### 2.1.1 Two Identical Chows (一般高) : 10
+#### 3.1.1 Two Identical Chows (一般高) : 10
 Two Chows in the same suit in the same numbers.
 Example: 3筒 4筒 5筒, 3筒 4筒 5筒
 
-#### 2.1.2 Two Identical Chows Twice (兩般高) : 60
+#### 3.1.2 Two Identical Chows Twice (兩般高) : 60
 The hand contains two groups of "Two Identical Chows".
 Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 7萬 8萬 9萬, 7萬 8萬 9萬
 
-#### 2.1.3 Three Identical Chows (一色三同順) : 120
+#### 3.1.3 Three Identical Chows (一色三同順) : 120
 Three Chows in the same suit in the same numbers.
 Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
 
-#### 2.1.4 Four Identical Chows (一色四同順) : 480
+#### 3.1.4 Four Identical Chows (一色四同順) : 480
 Four Chows in the same suit in the same numbers.
 Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
 

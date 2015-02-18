@@ -85,65 +85,33 @@ a4 = ATile Centipede
 
 {- Tile collections -}
 
-coins      :: Tiles
+coins, bamboos, characters, winds, dragons, flowers, seasons, animals :: Tiles
 coins      = map (Wrap . CTile) [One ..]
-
-bamboos    :: Tiles
 bamboos    = map (Wrap . BTile) [One ..]
-
-characters :: Tiles
 characters = map (Wrap . KTile) [One ..]
-
-winds      :: Tiles
 winds      = map (Wrap . WTile) [East ..]
-
-dragons    :: Tiles
 dragons    = map (Wrap . DTile) [Red ..]
-
-flowers    :: Tiles
 flowers    = map (Wrap . FTile) [PlumBlossom ..]
-
-seasons    :: Tiles
 seasons    = map (Wrap . STile) [Spring ..]
-
-animals    :: Tiles
 animals    = map (Wrap . ATile) [Cat ..]
 
-simples    :: Tiles
+simples, terminals, suits, honors, edges, bonuses, extras :: Tiles
 simples    = concatMap (\x -> tail . init $ x) [coins, bamboos, characters]
-
-terminals  :: Tiles
 terminals  = concatMap (\x -> [head x, last x]) [coins, bamboos, characters]
-
-suits      :: Tiles
 suits      = coins ++ bamboos ++ characters
-
-honors     :: Tiles
 honors     = winds ++ dragons
-
-edges      :: Tiles
 edges      = terminals ++ honors
-
-bonuses    :: Tiles
 bonuses    = flowers ++ seasons
-
-extras     :: Tiles
 extras     = bonuses ++ animals
 
-greens     :: Tiles
-greens     = map (Wrap . BTile) [Two, Three, Four, Six, Eight]
-             ++ [Wrap $ DTile Green]
-
-reds       :: Tiles
+reds, greens, blues :: Tiles
 reds       = map (Wrap . BTile) [One, Five, Seven, Nine]
              ++ [Wrap $ DTile Red]
-
-blues      :: Tiles
+greens     = map (Wrap . BTile) [Two, Three, Four, Six, Eight]
+             ++ [Wrap $ DTile Green]
 blues      = [Wrap $ CTile Eight] ++ winds ++ [Wrap $ DTile White]
 
-regulars   :: Tiles
+regulars, allTiles :: Tiles
 regulars   = coins ++ bamboos ++ characters ++ winds ++ dragons
-
-allTiles   :: Tiles
 allTiles   = regulars ++ bonuses
 

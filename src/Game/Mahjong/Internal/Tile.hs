@@ -1,4 +1,5 @@
 {-# LANGUAGE ExistentialQuantification #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE Rank2Types #-}
 
@@ -51,12 +52,13 @@ data Animals  = Cat | Mouse | Cockerel | Centipede
                 deriving (Bounded, Enum, Eq, Ord)
 
 -- | Meta tile types
-class MetaType a
-
--- | Suit, Honor, and Bonus are used as phantoms for Tile
 data Suit
 data Honor
 data Bonus
+
+class MetaType a
+class Chowable a
+class Pungable a
 
 -- | The 8 kinds of tiles 
 data Tile a where
@@ -155,6 +157,10 @@ heq _          _          = False
 instance MetaType Suit
 instance MetaType Honor
 instance MetaType Bonus
+
+instance Chowable (Tile Suit)
+instance Pungable (Tile Suit)
+instance Pungable (Tile Honor)
 
 
 -------------------------------------------------------------------------------

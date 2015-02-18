@@ -21,68 +21,29 @@ import Game.Mahjong.Tile.Collections
 
 {- Predicates for determining tile types -}
 
-isCoin :: Tile a -> Bool
-isCoin (CTile _)      = True
-isCoin _              = False
+isCoin, isBamboo, isCharacter, isWind, isDragon, isFlower, isSeason, isAnimal :: Tile a -> Bool
+isCoin                = (==) Coin . tileType
+isBamboo              = (==) Bamboo . tileType 
+isCharacter           = (==) Character . tileType 
+isWind                = (==) Wind . tileType
+isDragon              = (==) Dragon . tileType
+isFlower              = (==) Flower . tileType
+isSeason              = (==) Season . tileType
+isAnimal              = (==) Animal . tileType
 
-isBamboo :: Tile a -> Bool
-isBamboo (BTile _)    = True
-isBamboo _            = False
-
-isCharacter :: Tile a -> Bool
-isCharacter (KTile _) = True
-isCharacter _         = False
-
-isWind :: Tile a -> Bool
-isWind (WTile _)      = True
-isWind _              = False
-
-isDragon :: Tile a -> Bool
-isDragon (DTile _)    = True
-isDragon _            = False
-
-isFlower :: Tile a -> Bool
-isFlower (FTile _)    = True
-isFlower _            = False
-
-isSeason :: Tile a -> Bool
-isSeason (STile _)    = True
-isSeason _            = False
-
-isAnimal :: Tile a -> Bool
-isAnimal (ATile _)    = True
-isAnimal _            = False
-
-isSimple :: Tile a -> Bool
-isSimple (CTile v)    = elem v [Two .. Eight]
-isSimple (BTile v)    = elem v [Two .. Eight]
-isSimple (KTile v)    = elem v [Two .. Eight]
-isSimple _            = False
-
-isTerminal :: Tile a -> Bool
+isSimple, isTerminal, isSuit, isHonor, isEdge, isBonus :: Tile a -> Bool
+isSimple              = and . zipWith id [isSuit, not . isTerminal] . repeat
 isTerminal (CTile v)  = elem v [One, Nine]
 isTerminal (BTile v)  = elem v [One, Nine]
 isTerminal (KTile v)  = elem v [One, Nine]
 isTerminal _          = False
+isSuit                = or . zipWith id [isCoin, isBamboo, isCharacter] . repeat
+isHonor               = or . zipWith id [isWind, isDragon] . repeat 
+isEdge                = or . zipWith id [isTerminal, isHonor] . repeat
+isBonus               = or . zipWith id [isFlower, isSeason, isAnimal] . repeat
 
-isSuit :: Tile a -> Bool
-isSuit  = or . zipWith id [isCoin, isBamboo, isCharacter] . repeat
-
-isHonor :: Tile a -> Bool
-isHonor = or . zipWith id [isWind, isDragon] . repeat 
-
-isEdge :: Tile a -> Bool
-isEdge  = or . zipWith id [isTerminal, isHonor] . repeat
-
-isBonus :: Tile a -> Bool
-isBonus = or . zipWith id [isFlower, isSeason, isAnimal] . repeat
-
-isGreen :: Tile a -> Bool
-isGreen = flip elem greens . Wrap
-
-isRed :: Tile a -> Bool
-isRed   = flip elem reds . Wrap
-
-isBlue :: Tile a -> Bool
-isBlue  = flip elem blues . Wrap
+isRed, isGreen, isBlue :: Tile a -> Bool
+isRed                 = flip elem reds . Wrap
+isGreen               = flip elem greens . Wrap
+isBlue                = flip elem blues . Wrap
 

@@ -16,6 +16,7 @@ module Game.Mahjong.Tile
     TileType
   , Tile, Tiles
   , Suit, Honor, Bonus
+  , Chowable, Pungable
 
     -- constructors :: (MetaType a) => Tile a -> WrapTile
   , mkWrap
@@ -69,10 +70,10 @@ reverseDora (ATile a) = if a == Cat         then ATile Centipede  else ATile $ p
 {- Wall building -}
 
 mjSet :: Tiles
-mjSet      = (concatMap (take 4 . repeat) $ regulars) ++ bonuses
+mjSet = (concatMap (take 4 . repeat) $ regulars) ++ bonuses
 
 getWall :: Int -> Tiles
-getWall a  = fst $ fisherYates (mkStdGen a) mjSet
+getWall a = fst $ fisherYates (mkStdGen a) mjSet
 
 impureWall :: IO Tiles
 impureWall = do
