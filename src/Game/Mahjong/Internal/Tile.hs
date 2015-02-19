@@ -1,5 +1,4 @@
 {-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE Rank2Types #-}
 
@@ -12,8 +11,10 @@
 -- Stability   :  experimental
 -- Portability :  portable
 
--- | Data definition of tiles
---   along with tile related functions
+-- | Data definitions and instances of tiles
+--   along with tile aliases, collections
+--   as well as predicates on tiles
+--   and utility functions
 module Game.Mahjong.Internal.Tile where
 
 import Data.Maybe (fromJust)
@@ -138,29 +139,29 @@ instance Show WrapTile where
   show (Wrap t) = show t
 
 instance Eq (Tile a) where
-  (==) = heq
+  (==) = tileEq
 
 instance Eq (WrapTile) where
-  w1 == w2 = liftWrap2 heq w1 w2
+  w1 == w2 = liftWrap2 tileEq w1 w2
 
-heq :: Tile a -> Tile b -> Bool
-heq (CTile v1) (CTile v2) = v1 == v2
-heq (BTile v1) (BTile v2) = v1 == v2
-heq (KTile v1) (KTile v2) = v1 == v2
-heq (WTile w1) (WTile w2) = w1 == w2
-heq (DTile d1) (DTile d2) = d1 == d2
-heq (FTile f1) (FTile f2) = f1 == f2
-heq (STile s1) (STile s2) = s1 == s2
-heq (ATile a1) (ATile a2) = a1 == a2
-heq _          _          = False
+tileEq :: Tile a -> Tile b -> Bool
+tileEq (CTile v1) (CTile v2) = v1 == v2
+tileEq (BTile v1) (BTile v2) = v1 == v2
+tileEq (KTile v1) (KTile v2) = v1 == v2
+tileEq (WTile w1) (WTile w2) = w1 == w2
+tileEq (DTile d1) (DTile d2) = d1 == d2
+tileEq (FTile f1) (FTile f2) = f1 == f2
+tileEq (STile s1) (STile s2) = s1 == s2
+tileEq (ATile a1) (ATile a2) = a1 == a2
+tileEq _          _          = False
 
 instance MetaType Suit
 instance MetaType Honor
 instance MetaType Bonus
 
-instance Chowable (Tile Suit)
-instance Pungable (Tile Suit)
-instance Pungable (Tile Honor)
+instance Chowable Suit
+instance Pungable Suit
+instance Pungable Honor
 
 
 -------------------------------------------------------------------------------
@@ -173,7 +174,109 @@ mkWrap      = Wrap
 
 -------------------------------------------------------------------------------
 
-{- Utility functions -}
+{- Tile Aliases -}
+
+c1, c2, c3, c4, c5, c6, c7, c8, c9 :: Tile Suit
+c1 = CTile One
+c2 = CTile Two
+c3 = CTile Three
+c4 = CTile Four
+c5 = CTile Five
+c6 = CTile Six
+c7 = CTile Seven
+c8 = CTile Eight
+c9 = CTile Nine
+
+b1, b2, b3, b4, b5, b6, b7, b8, b9 :: Tile Suit
+b1 = BTile One
+b2 = BTile Two
+b3 = BTile Three
+b4 = BTile Four
+b5 = BTile Five
+b6 = BTile Six
+b7 = BTile Seven
+b8 = BTile Eight
+b9 = BTile Nine
+
+k1, k2, k3, k4, k5, k6, k7, k8, k9 :: Tile Suit
+k1 = KTile One
+k2 = KTile Two
+k3 = KTile Three
+k4 = KTile Four
+k5 = KTile Five
+k6 = KTile Six
+k7 = KTile Seven
+k8 = KTile Eight
+k9 = KTile Nine
+
+w1, w2, w3, w4 :: Tile Honor
+w1 = WTile East
+w2 = WTile South
+w3 = WTile West
+w4 = WTile North
+
+d1, d2, d3 :: Tile Honor
+d1 = DTile Red
+d2 = DTile Green
+d3 = DTile White
+
+f1, f2, f3, f4 :: Tile Bonus
+f1 = FTile PlumBlossom
+f2 = FTile Orchid
+f3 = FTile Chrysanthemum
+f4 = FTile BambooTree
+
+s1, s2, s3, s4 :: Tile Bonus
+s1 = STile Spring
+s2 = STile Summer
+s3 = STile Autumn
+s4 = STile Winter
+
+a1, a2, a3, a4 :: Tile Bonus
+a1 = ATile Cat
+a2 = ATile Mouse
+a3 = ATile Cockerel
+a4 = ATile Centipede
+
+
+-------------------------------------------------------------------------------
+
+{- Tile collections -}
+
+coins, bamboos, characters, winds, dragons, flowers, seasons, animals :: Tiles
+coins      = map (Wrap . CTile) [One ..]
+bamboos    = map (Wrap . BTile) [One ..]
+characters = map (Wrap . KTile) [One ..]
+winds      = map (Wrap . WTile) [East ..]
+dragons    = map (Wrap . DTile) [Red ..]
+flowers    = map (Wrap . FTile) [PlumBlossom ..]
+seasons    = map (Wrap . STile) [Spring ..]
+animals    = map (Wrap . ATile) [Cat ..]
+
+simples, terminals, suits, honors, edges, bonuses, extras :: Tiles
+simples    = concatMap (\x -> tail . init $ x) [coins, bamboos, characters]
+terminals  = concatMap (\x -> [head x, last x]) [coins, bamboos, characters]
+suits      = coins ++ bamboos ++ characters
+honors     = winds ++ dragons
+edges      = terminals ++ honors
+bonuses    = flowers ++ seasons
+extras     = bonuses ++ animals
+
+reds, greens, blues :: Tiles
+reds       = map (Wrap . BTile) [One, Five, Seven, Nine]
+             ++ [Wrap $ DTile Red]
+greens     = map (Wrap . BTile) [Two, Three, Four, Six, Eight]
+             ++ [Wrap $ DTile Green]
+blues      = [Wrap $ CTile Eight] ++ winds ++ [Wrap $ DTile White]
+
+regulars, allTiles :: Tiles
+regulars   = coins ++ bamboos ++ characters ++ winds ++ dragons
+allTiles   = regulars ++ bonuses
+
+
+-------------------------------------------------------------------------------
+
+{- Predicates for determining tile types -}
 
 tileType :: Tile a -> TileType
 tileType (CTile _) = Coin
@@ -184,6 +287,37 @@ tileType (DTile _) = Dragon
 tileType (FTile _) = Flower
 tileType (STile _) = Season
 tileType (ATile _) = Animal
+
+isCoinT, isBambooT, isCharacterT, isWindT, isDragonT, isFlowerT, isSeasonT, isAnimalT :: Tile a -> Bool
+isCoinT                = (==) Coin . tileType
+isBambooT              = (==) Bamboo . tileType 
+isCharacterT           = (==) Character . tileType 
+isWindT                = (==) Wind . tileType
+isDragonT              = (==) Dragon . tileType
+isFlowerT              = (==) Flower . tileType
+isSeasonT              = (==) Season . tileType
+isAnimalT              = (==) Animal . tileType
+
+isSimpleT, isTerminalT, isSuitT, isHonorT, isEdgeT, isBonusT :: Tile a -> Bool
+isSimpleT              = and . zipWith id [isSuitT, not . isTerminalT] . repeat
+isTerminalT (CTile v)  = elem v [One, Nine]
+isTerminalT (BTile v)  = elem v [One, Nine]
+isTerminalT (KTile v)  = elem v [One, Nine]
+isTerminalT _          = False
+isSuitT                = or . zipWith id [isCoinT, isBambooT, isCharacterT] . repeat
+isHonorT               = or . zipWith id [isWindT, isDragonT] . repeat 
+isEdgeT                = or . zipWith id [isTerminalT, isHonorT] . repeat
+isBonusT               = or . zipWith id [isFlowerT, isSeasonT, isAnimalT] . repeat
+
+isRedT, isGreenT, isBlueT :: Tile a -> Bool
+isRedT                 = flip elem reds . Wrap
+isGreenT               = flip elem greens . Wrap
+isBlueT                = flip elem blues . Wrap
+
+
+-------------------------------------------------------------------------------
+
+{- Utility functions -}
 
 liftWrap :: (forall a. Tile a -> b) -> WrapTile -> b
 liftWrap f (Wrap t) = f t
@@ -199,4 +333,24 @@ mapWrap f ws = map (liftWrap f) ws
 
 mapWrapT :: (forall a. Tile a -> Tile a) -> Tiles -> Tiles
 mapWrapT f ws = map (liftWrapT f) ws
+
+dora :: Tile a -> Tile a
+dora (CTile c) = if c == Nine       then CTile One         else CTile $ succ c
+dora (BTile b) = if b == Nine       then BTile One         else BTile $ succ b
+dora (KTile k) = if k == Nine       then KTile One         else KTile $ succ k
+dora (WTile w) = if w == North      then WTile East        else WTile $ succ w
+dora (DTile d) = if d == White      then DTile Red         else DTile $ succ d
+dora (FTile f) = if f == BambooTree then FTile PlumBlossom else FTile $ succ f
+dora (STile s) = if s == Winter     then STile Spring      else STile $ succ s
+dora (ATile a) = if a == Centipede  then ATile Cat         else ATile $ succ a
+
+reverseDora :: Tile a -> Tile a
+reverseDora (CTile c) = if c == One         then CTile Nine       else CTile $ pred c
+reverseDora (BTile b) = if b == One         then BTile Nine       else BTile $ pred b
+reverseDora (KTile k) = if k == One         then KTile Nine       else KTile $ pred k
+reverseDora (WTile w) = if w == East        then WTile North      else WTile $ pred w
+reverseDora (DTile d) = if d == Red         then DTile White      else DTile $ pred d
+reverseDora (FTile f) = if f == PlumBlossom then FTile BambooTree else FTile $ pred f
+reverseDora (STile s) = if s == Spring      then STile Winter     else STile $ pred s
+reverseDora (ATile a) = if a == Cat         then ATile Centipede  else ATile $ pred a
 
