@@ -129,14 +129,14 @@ instance Show Animals where
   show (Centipede)     = "4"
 
 instance Show (Tile a) where
-  show (CTile v)       = "C" ++ show v
-  show (BTile v)       = "B" ++ show v
-  show (KTile v)       = "K" ++ show v
-  show (WTile v)       = "W" ++ show v
-  show (DTile v)       = "D" ++ show v
-  show (FTile v)       = "F" ++ show v
-  show (STile v)       = "S" ++ show v
-  show (ATile v)       = "A" ++ show v
+  show (CTile c)       = "C" ++ show c
+  show (BTile b)       = "B" ++ show b
+  show (KTile k)       = "K" ++ show k
+  show (WTile w)       = "W" ++ show w
+  show (DTile d)       = "D" ++ show d
+  show (FTile f)       = "F" ++ show f
+  show (STile s)       = "S" ++ show s
+  show (ATile a)       = "A" ++ show a
 
 instance Show WrapTile where
   show (Wrap t) = show t
@@ -145,9 +145,9 @@ instance Eq (Tile a) where
   (==) = eqHelper
 
 eqHelper :: Tile a -> Tile b -> Bool
-eqHelper (CTile v1) (CTile v2) = v1 == v2
-eqHelper (BTile v1) (BTile v2) = v1 == v2
-eqHelper (KTile v1) (KTile v2) = v1 == v2
+eqHelper (CTile c1) (CTile c2) = c1 == c2
+eqHelper (BTile b1) (BTile b2) = b1 == b2
+eqHelper (KTile k1) (KTile k2) = k1 == k2
 eqHelper (WTile w1) (WTile w2) = w1 == w2
 eqHelper (DTile d1) (DTile d2) = d1 == d2
 eqHelper (FTile f1) (FTile f2) = f1 == f2
