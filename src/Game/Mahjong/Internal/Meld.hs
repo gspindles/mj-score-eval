@@ -38,8 +38,6 @@ data Meld          = Meld { meldType :: MeldType
 
 newtype BonusTiles = BonusTiles { bonusTiles :: Tiles }
 
-newtype OnHand     = OnHand { onHand :: Tiles }
-
 
 -------------------------------------------------------------------------------
 
@@ -58,9 +56,6 @@ instance Show Meld where
 
 instance Show BonusTiles where
   show (BonusTiles ts) = "{" ++ join' ts ++ "}"
-
-instance Show OnHand where
-  show (OnHand ts) = "/" ++ join' ts ++ "/"
 
 join' :: Tiles -> String
 join' = concat . intersperse " " . map show

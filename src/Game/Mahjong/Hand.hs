@@ -18,16 +18,14 @@ import Game.Mahjong.Meld
 {- Data definition -}
 
 data Hand = NoHand
-          | Hand
-              { getMelds :: [Meld]
-              , lastMeld ::  Meld
-              , bonusH   ::  Meld
-              }
+          | Hand { melds      :: [Meld]
+                 , lastMeld   :: Meld
+                 , bonusH     :: Meld
+                 }
             deriving (Eq, Show)
 
-data InProgress = InProgress
-                    { onHand  ::  Meld
-                    , melded  :: [Meld]
-                    , bonusIP ::  Meld
-                    }
+data InProgress = InProgress { onHand  :: Tiles
+                             , melded  :: [Meld]
+                             , bonusIP ::  Meld
+                             }
                   deriving (Eq, Show)

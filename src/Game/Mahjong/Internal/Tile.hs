@@ -94,7 +94,10 @@ instance Show TileType where
   show Animal          = "A"
 
 instance Show Values where
-  show v = show . fromJust . lookup v $ flip zip [1..9] [One .. Nine]
+  show v = show $ showHelper v [One .. Nine]
+
+showHelper :: (Eq a) => a -> [a] -> Int
+showHelper a = fromJust . lookup a . flip zip [1..]
 
 instance Show Winds where
   show (East)          = "E"
@@ -139,21 +142,40 @@ instance Show WrapTile where
   show (Wrap t) = show t
 
 instance Eq (Tile a) where
-  (==) = tileEq
+  (==) = eqHelper
+
+eqHelper :: Tile a -> Tile b -> Bool
+eqHelper (CTile v1) (CTile v2) = v1 == v2
+eqHelper (BTile v1) (BTile v2) = v1 == v2
+eqHelper (KTile v1) (KTile v2) = v1 == v2
+eqHelper (WTile w1) (WTile w2) = w1 == w2
+eqHelper (DTile d1) (DTile d2) = d1 == d2
+eqHelper (FTile f1) (FTile f2) = f1 == f2
+eqHelper (STile s1) (STile s2) = s1 == s2
+eqHelper (ATile a1) (ATile a2) = a1 == a2
+eqHelper _          _          = False
 
 instance Eq (WrapTile) where
-  w1 == w2 = liftWrap2 tileEq w1 w2
+  w1 == w2 = liftWrap2 eqHelper w1 w2
 
-tileEq :: Tile a -> Tile b -> Bool
-tileEq (CTile v1) (CTile v2) = v1 == v2
-tileEq (BTile v1) (BTile v2) = v1 == v2
-tileEq (KTile v1) (KTile v2) = v1 == v2
-tileEq (WTile w1) (WTile w2) = w1 == w2
-tileEq (DTile d1) (DTile d2) = d1 == d2
-tileEq (FTile f1) (FTile f2) = f1 == f2
-tileEq (STile s1) (STile s2) = s1 == s2
-tileEq (ATile a1) (ATile a2) = a1 == a2
-tileEq _          _          = False
+instance Ord (Tile a) where
+  compare = ordHelper
+
+ordHelper :: Tile a -> Tile b -> Ordering
+ordHelper t1 t2 = compare (tileRank t1) (tileRank t2)
+
+tileRank :: Tile a -> Int
+tileRank (CTile c) = 10 + showHelper c [One .. Nine]
+tileRank (BTile b) = 20 + showHelper b [One .. Nine]
+tileRank (KTile k) = 30 + showHelper k [One .. Nine]
+tileRank (WTile w) = 40 + showHelper w [East .. North]
+tileRank (DTile d) = 50 + showHelper d [Red .. White]
+tileRank (FTile f) = 60 + showHelper f [PlumBlossom .. BambooTree]
+tileRank (STile s) = 70 + showHelper s [Spring .. Winter]
+tileRank (ATile a) = 80 + showHelper a [Cat .. Centipede]
+
+instance Ord WrapTile where
+  compare w1 w2 = liftWrap2 ordHelper w1 w2
 
 instance MetaType Suit
 instance MetaType Honor
