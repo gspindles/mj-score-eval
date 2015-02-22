@@ -36,8 +36,6 @@ data Meld          = Meld { meldType :: MeldType
                           , meld     :: Tiles
                           }
 
-newtype BonusTiles = BonusTiles { bonusTiles :: Tiles }
-
 
 -------------------------------------------------------------------------------
 
@@ -51,11 +49,8 @@ instance Show Status where
 instance Show Meld where
   show (Meld Chow s ts) = show s ++ join' ts ++ ">"
   show (Meld Pung s ts) = show s ++ join' ts ++ "]"
-  show (Meld Kong s ts) = show s ++ join' ts ++ "|"
+  show (Meld Kong s ts) = show s ++ join' ts ++ "}"
   show (Meld Eyes s ts) = show s ++ join' ts ++ ")"
-
-instance Show BonusTiles where
-  show (BonusTiles ts) = "{" ++ join' ts ++ "}"
 
 join' :: Tiles -> String
 join' = concat . intersperse " " . map show
@@ -70,18 +65,15 @@ join' = concat . intersperse " " . map show
 mkChow :: Status -> Tile Suit -> Meld
 mkChow s t = 
   case t of
-  (CTile c) -> if elem c [Eight, Nine]
-               then Meld Chow s . map (mkWrap . CTile)  $ [Seven, Eight, Nine]
-               else Meld Chow s . map mkWrap . mkHelper $ t
-  (BTile b) -> if elem b [Eight, Nine]
-               then Meld Chow s . map (mkWrap . BTile)  $ [Seven, Eight, Nine]
-               else Meld Chow s . map mkWrap . mkHelper $ t
-  (KTile k) -> if elem k [Eight, Nine]
-               then Meld Chow s . map (mkWrap . KTile)  $ [Seven, Eight, Nine]
-               else Meld Chow s . map mkWrap . mkHelper $ t
+    (CTile c) -> mkHelper s t c CTile
+    (BTile b) -> mkHelper s t b BTile
+    (KTile k) -> mkHelper s t k KTile
   where
-    mkHelper :: Tile a -> [Tile a]
-    mkHelper = take 3 . iterate dora
+    mkHelper :: Status -> Tile Suit -> Values -> (Values -> Tile Suit) -> Meld 
+    mkHelper s t v tCtor =
+      if elem v [Eight, Nine]
+      then Meld Chow s . map (mkWrap . tCtor) $ [Seven, Eight, Nine]
+      else Meld Chow s . map mkWrap . take 3 . iterate dora $ t
 
 mkPung, mkKong, mkEyes :: (Pungable t) => Status -> Tile t -> Meld
 mkPung s = Meld Pung s . map mkWrap . replicate 3
@@ -94,7 +86,6 @@ mkEyes s = Meld Eyes s . map mkWrap . replicate 2
 {- Predicates for determining meld types -}
 
 isChow, isPung, isKong, isEyes :: Meld -> Bool
-
 isChow (Meld Chow _ _) = True
 isChow _               = False
 
