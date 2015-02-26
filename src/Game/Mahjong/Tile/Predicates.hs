@@ -9,10 +9,10 @@
 
 -- | Various predicates on tile types
 module Game.Mahjong.Tile.Predicates
-  ( -- Tile type :: Tile a -> TileType
+  ( -- * Tile type ':: Tile a -> TileType'
     tileType
-  
-    -- Tile predicates :: Tile a -> Bool
+
+    -- * Tile predicates ':: Tile a -> Bool'
   , isCoinT, isBambooT, isCharacterT, isWindT, isDragonT, isFlowerT, isSeasonT, isAnimalT
   , isSimpleT, isTerminalT, isSuitT, isHonorT, isEdgeT, isBonusT
   , isRedT, isGreenT, isBlueT

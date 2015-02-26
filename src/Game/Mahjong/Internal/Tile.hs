@@ -286,9 +286,9 @@ extras     = bonuses ++ animals
 
 reds, greens, blues :: Tiles
 reds       = map (Wrap . BTile) [One, Five, Seven, Nine]
-             ++ [Wrap $ DTile Red]
+          ++ [Wrap $ DTile Red]
 greens     = map (Wrap . BTile) [Two, Three, Four, Six, Eight]
-             ++ [Wrap $ DTile Green]
+          ++ [Wrap $ DTile Green]
 blues      = [Wrap $ CTile Eight] ++ winds ++ [Wrap $ DTile White]
 
 regulars, allTiles :: Tiles

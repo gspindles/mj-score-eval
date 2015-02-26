@@ -9,13 +9,13 @@
 
 -- | Meld module
 module Game.Mahjong.Meld 
-  ( -- Constructors :: Status -> Tile t -> Meld
+  ( -- * Constructors ':: Status -> Tile t -> Meld'
     mkChow, mkPung, mkKong, mkEyes
 
-    -- Predicates for the type of meld :: Meld -> Bool
+    -- * Predicates for the type of meld ':: Meld -> Bool'
   , isChow, isPung, isKong, isEyes
   
-    -- predicate for meld base on tile type :: Meld -> Bool
+    -- * predicate for meld base on tile type ':: Meld -> Bool'
   , isCoinM, isBambooM, isCharacterM, isWindM, isDragonM
   , isSimpleM, isTerminalM, isSuitM, isHonorM, isEdgeM
   , isRedM, isGreenM, isBlueM

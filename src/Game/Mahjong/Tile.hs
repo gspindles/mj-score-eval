@@ -9,16 +9,16 @@
 
 -- | Tile module with various functions on wall building
 module Game.Mahjong.Tile
-  ( -- Tile data
+  ( -- * Tile data
     TileType
   , Tile, Tiles
   , Suit, Honor, Bonus
   , Chowable, Pungable
 
-    -- constructors :: (MetaType a) => Tile a -> WrapTile
+    -- * Constructors ':: (MetaType a) => Tile a -> WrapTile'
   , mkWrap
 
-    -- tile aliases :: WrapTile
+    -- * Tile aliases ':: WrapTile'
   , c1, c2, c3, c4, c5, c6, c7, c8, c9
   , b1, b2, b3, b4, b5, b6, b7, b8, b9
   , k1, k2, k3, k4, k5, k6, k7, k8, k9
@@ -27,19 +27,19 @@ module Game.Mahjong.Tile
   , f1, f2, f3, f4
   , s1, s2, s3, s4
 
-    -- tile collections :: Tiles
+    -- * Tile collections ':: Tiles'
   , coins, bamboos, characters, winds, dragons, flowers, seasons, animals
   , simples, terminals, suits, honors, edges, bonuses
   , reds, greens, blues
   , regulars, allTiles
 
-    -- tile predicate :: Tile a -> Bool
+    -- * Tile predicate ':: Tile a -> Bool'
   , tileType
   , isCoinT, isBambooT, isCharacterT, isWindT, isDragonT, isFlowerT, isSeasonT
   , isSimpleT, isTerminalT, isSuitT, isHonorT, isEdgeT, isBonusT
   , isRedT, isGreenT, isBlueT
 
-    -- Utility functions
+    -- * Utility functions
 --, liftWrap, liftWrapT, liftWrap2
 --, mapWrap, mapWrapT
   , dora, reverseDora

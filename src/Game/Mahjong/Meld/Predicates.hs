@@ -9,10 +9,10 @@
 
 -- | Predicates on melds
 module Game.Mahjong.Meld.Predicates
-  ( -- Predicates on meld type :: Meld -> Bool
+  ( -- * Predicates on meld type ':: Meld -> Bool'
     isChow, isPung, isKong, isEyes
 
-    -- Predicates on meld based on tile type :: Meld -> Bool
+    -- * Predicates on meld based on tile type ':: Meld -> Bool'
   , isCoinM, isBambooM, isCharacterM, isWindM, isDragonM
   , isSimpleM, isTerminalM, isSuitM, isHonorM, isEdgeM
   , isRedM, isGreenM, isBlueM

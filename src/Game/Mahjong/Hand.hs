@@ -55,6 +55,16 @@ join'' d = concat . intersperse d . map show
 delim :: String
 delim = "  |  "
 
+
+-------------------------------------------------------------------------------
+
+{- Utilities functions -}
+
+getMelds :: Hand -> [Meld]
+getMelds (NoHand    ) = []
+getMelds (Hand m l _) = l : m
+
+
 -------------------------------------------------------------------------------
 
 {- Example for repl -}

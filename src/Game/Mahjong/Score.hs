@@ -11,9 +11,7 @@
 --   and evaluate score
 module Game.Mahjong.Score (
 
-)
-
-where
+) where
 
 import Data.List (nub)
 import Game.Mahjong.Tile

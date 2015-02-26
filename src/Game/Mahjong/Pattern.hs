@@ -10,58 +10,58 @@
 -- | Data definition of hand patterns
 --   and declaration for all accepted patterns
 module Game.Mahjong.Pattern
-  ( -- 0.0 Imcomplete or invalid pattern
+  ( -- * 0.0 Imcomplete or invalid pattern
     noPattern
-    
-    -- 1.0 Trivial Patterns
+
+    -- * 1.0 Trivial Patterns
   , chicken, allChows, concealed, selfDrawn, allSimples, allTypes, illegalCall
 
-    -- 2.0 Pungs and Kongs
+    -- * 2.0 Pungs and Kongs
   , allPungs, twoConcealedPungs, threeConcealedPungs, fourConcealedPungs
   , oneKong, twoKongs, threeKongs, fourKongs
  
-    -- 3.0 Identical Chows
+    -- * 3.0 Identical Chows
   , twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows
 
-    -- 4.0 Similar Sets
+    -- * 4.0 Similar Sets
   , threeSimilarChows
   , littleThreeSimilarPungs, threeSimilarPungs
 
-    -- 5.0 Consecutive Sets 
+    -- * 5.0 Consecutive Sets 
   , threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice, fourConsecutiveChows
   , threeConsecutivePungs, fourConsecutivePungs, threeMothers
 
-     -- 6.0 Suit Patterns
+     -- * 6.0 Suit Patterns
   , mixedOneSuit, pureOneSuit, littleTerminalClub, bigTerminalClub
   , nineGates
 
-    -- 7.0 Terminal Tiles
+    -- * 7.0 Terminal Tiles
   , twoTailedTerminalChows, twoTailedTerminalPungs, littleBoundlessMountain, bigBoundlessMountain
   , mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals
 
-    -- 8.0 Honor Tiles
+    -- * 8.0 Honor Tiles
   , dragonPung, seatWindHand
   , littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds
   , littleThreeDragons, bigThreeDragons
   , allHonors, allHonorPairs
 
-    -- 9.0 Seven Pairs
+    -- * 9.0 Seven Pairs
   , sevenPairs
   , sevenShiftedPairs, grandChariot, bambooForest, numberNeighborhood
 
-    -- 10.0 Color Hands
+    -- * 10.0 Color Hands
   , allGreen, allRed, allBlue
 
-    -- 11.0 Irregular Hands
+    -- * 11.0 Irregular Hands
   , thirteenOrphans
 
-    -- 12.0 Incidental bonuses
+    -- * 12.0 Incidental bonuses
   , finalDraw, finalDiscard
   , winOnKong, winOnBonusTile
   , robbingAKong
   , blessingOfHeaven, blessingOfEarth
 
-    -- 13.0 Bonus Tiles
+    -- * 13.0 Bonus Tiles
   , nonSeatFlower, nonSeatSeason, seatFlower, seatSeason
   , fourFlowers, fourSeasons
   , allBonusTiles
@@ -72,12 +72,11 @@ module Game.Mahjong.Pattern
 
 {- Data Declaration -}
 
-data Pattern = NoPattern              -- ^ an incomplete / invalid pattern
-             | Pattern                -- ^ a valid hand
-             { name    :: String      -- ^ the english name
-             , chinese :: String      -- ^ the chinese name
-             , score   :: Int         -- ^ the score
-             }
+data Pattern = NoPattern                    -- ^ an incomplete / invalid pattern
+             | Pattern { name    :: String  -- ^ the english name
+                       , chinese :: String  -- ^ the chinese name
+                       , score   :: Int     -- ^ the score
+                       }
                deriving (Eq, Show)
 
 

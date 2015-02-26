@@ -1,5 +1,5 @@
 {- SLOW PROGRESS IN CONVERTING THESE OVER TO NEW DATA FORMAT -}
-{- MAINLY BECAUSE THIS DEPENDS ON IMPLEMENTATION OF ALL OTHER TO FINALIZE FIRST }
+{- MAINLY BECAUSE THIS DEPENDS ON IMPLEMENTATION OF ALL OTHER TO FINALIZE FIRST -}
 
 -- |
 -- Module      :  Game.Mahjong.Example
@@ -17,49 +17,60 @@ module Game.Mahjong.Example
 where
 
 import Game.Mahjong.Hand
-import Game.Mahjong.Meld
+import Game.Mahjong.Internal.Meld
+import Game.Mahjong.Tile
 
--- | Make a list of hands for testing
 
+-------------------------------------------------------------------------------
+
+{- Aliases -}
+
+r = Revealed
+c = Concealed
+
+-------------------------------------------------------------------------------
+
+{- Make a list of hands for testing -}
 
 -- | 1.0 Trivial Patterns
 
 chickenEx :: Hand
-chickenEx = Hand
-  { getMelds = [ makeChow  Revealed  $ Coin Seven 
-               , makePung  Revealed  $ Wind East 
-               , makeChow  Revealed  $ Character One 
-               , makeChow  Concealed $ Bamboo Four
-               ]
-  , lastMeld =   makeEye   Revealed  $ Wind West
-  , bonusH   =   makeBonus           $ [Flower One, Season Two]
-  }
+chickenEx = Hand [ mkChow r c7
+                 , mkPung r k2
+                 , mkChow r k8
+                 , mkPung c b4 
+                 ]
+                 (mkEyes r w3)
+                 (map mkWrap [f1, s2])
 
 allChowsEx :: Hand 
-allChowsEx = Hand
-  { getMelds = [ makeChow  Revealed  $ Bamboo Four
-               , makeChow  Revealed  $ Coin Seven 
-               , makeChow  Revealed  $ Bamboo Two
-               , makeChow  Concealed $ Character One
-               ]
-  , lastMeld =   makeEye   Concealed $ Dragon Red
-  , bonusH   =   makeBonus           $ [Flower One, Season Two]
-  }
+allChowsEx = Hand [ mkChow r b4
+                  , mkChow r c7
+                  , mkChow r b2
+                  , mkChow c c1
+                  ]
+                  (mkEyes c d1)
+                  (map mkWrap [f1, s2])
 
 concealedEx :: Hand 
-concealedEx = Hand
-  { getMelds = [ makeChow  Concealed $ Coin Seven
-               , makePung  Concealed $ Wind East 
-               , makeChow  Concealed $ Character One 
-               , makeChow  Concealed $ Bamboo Four 
-               ]
-  , lastMeld =   makeEye   Revealed  $ Wind West
-  , bonusH   =   makeBonus           $ [Flower One, Season Two]
-  }
+concealedEx = Hand [ mkChow c c7
+                   , mkPung c w1 
+                   , mkChow c k1
+                   , mkChow c b4 
+                   ]
+                   (mkEyes r w3)
+                   (map mkWrap [f1, s2])
 
 selfDrawnEx :: Hand
-selfDrawnEx = []
+selfDrawnEx = Hand [ mkChow c c7
+                   , mkPung r w1 
+                   , mkChow r k1
+                   , mkChow c b4 
+                   ]
+                   (mkEyes c w3)
+                   (map mkWrap [f1, s2])
 
+{-
 allSimpleHand2 :: Hand
 allSimpleHand2 = [ (['n', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
                  , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
@@ -785,3 +796,4 @@ allBonusTileEx = [ (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
                              ]
                      )
                    ]
+-}

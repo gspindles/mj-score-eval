@@ -15,7 +15,7 @@
 module Game.Mahjong.Internal.Meld where
 
 import Game.Mahjong.Internal.Tile
-import Data.List (intersperse)
+import Data.List (intercalate)
  
 
 -------------------------------------------------------------------------------
@@ -47,13 +47,15 @@ instance Show Status where
 
 -- | show unfinished stuff (), then revealed <>, then concealed [], then bonus {}
 instance Show Meld where
-  show (Meld Chow s ts) = show s ++ join' ts ++ ">"
-  show (Meld Pung s ts) = show s ++ join' ts ++ "]"
-  show (Meld Kong s ts) = show s ++ join' ts ++ "}"
-  show (Meld Eyes s ts) = show s ++ join' ts ++ ")"
+  show (Meld Chow s ts) = show s ++ join' " " ts ++ ">"
+  show (Meld Pung s ts) = show s ++ join' " " ts ++ "]"
+  show (Meld Kong s ts) = show s ++ join' " " ts ++ "}"
+  show (Meld Eyes s ts) = show s ++ join' " " ts ++ ")"
 
-join' :: Tiles -> String
-join' = concat . intersperse " " . map show
+  showList ms s = intercalate "  " . map show $ ms
+
+join' :: Show a => String -> [a] -> String
+join' delim = intercalate delim . map show
 
 
 -------------------------------------------------------------------------------
