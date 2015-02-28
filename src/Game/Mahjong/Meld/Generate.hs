@@ -117,10 +117,11 @@ getTile BlueTile      = getBlue
 
 sample :: Int -> [Tile] -> [Tile]
 sample size ts = nub . map (\x -> ts !! mod x (length ts)) $ (unsafePerformIO (seeds size) :: [Int])
-  where seeds :: Int -> IO [Int]
-        seeds size = do
-          g <- newStdGen
-          return . take size $ (randoms g :: [Int])
+  where
+    seeds :: Int -> IO [Int]
+    seeds size = do
+      g <- newStdGen
+      return . take size $ (randoms g :: [Int])
 
 
 {- Generate the Melds -}

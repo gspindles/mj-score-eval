@@ -42,8 +42,8 @@ data Meld          = Meld { meldType  :: MeldType
 {- Class instances -}
 
 instance Show Status where
-  show Revealed  = "\\"
-  show Concealed = "/"
+  show Revealed         = "\\"
+  show Concealed        = "/"
 
 -- | show unfinished stuff (), then revealed <>, then concealed [], then bonus {}
 instance Show Meld where
@@ -52,10 +52,13 @@ instance Show Meld where
   show (Meld Kong s ts) = show s ++ join' " " ts ++ "}"
   show (Meld Eyes s ts) = show s ++ join' " " ts ++ ")"
 
-  showList ms s = intercalate "  " . map show $ ms
+  showList ms s         = intercalate "  " . map show $ ms
 
 join' :: Show a => String -> [a] -> String
-join' delim = intercalate delim . map show
+join' delim             = intercalate delim . map show
+
+
+-- | TODO: Add instance for Eq and maybe Ord
 
 
 -------------------------------------------------------------------------------
@@ -78,9 +81,9 @@ mkChow s t =
       else Meld Chow s . map mkWrap . take 3 . iterate dora $ t
 
 mkPung, mkKong, mkEyes :: (Pungable t) => Status -> Tile t -> Meld
-mkPung s = Meld Pung s . map mkWrap . replicate 3
-mkKong s = Meld Kong s . map mkWrap . replicate 4
-mkEyes s = Meld Eyes s . map mkWrap . replicate 2
+mkPung s   = Meld Pung s . map mkWrap . replicate 3
+mkKong s   = Meld Kong s . map mkWrap . replicate 4
+mkEyes s   = Meld Eyes s . map mkWrap . replicate 2
 
 
 -------------------------------------------------------------------------------
@@ -129,3 +132,9 @@ isBlueM      = predHelper isBlueT
 predHelper :: (forall a. Tile a -> Bool) -> Meld -> Bool
 predHelper p = liftWrap p . head . meldTiles
 
+
+-------------------------------------------------------------------------------
+
+{- Utilities functions -}
+
+-- | TODO : shifting a meld

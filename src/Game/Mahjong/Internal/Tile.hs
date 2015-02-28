@@ -94,10 +94,7 @@ instance Show TileType where
   show Animal          = "A"
 
 instance Show Values where
-  show v = show $ showHelper v [One .. Nine]
-
-showHelper :: (Eq a) => a -> [a] -> Int
-showHelper a = fromJust . lookup a . flip zip [1..]
+  show v               = show $ showHelper v [One .. Nine]
 
 instance Show Winds where
   show (East)          = "E"
@@ -139,10 +136,17 @@ instance Show (Tile a) where
   show (ATile a)       = "A" ++ show a
 
 instance Show WrapTile where
-  show (Wrap t) = show t
+  show (Wrap t)        = show t
+
+showHelper :: (Eq a) => a -> [a] -> Int
+showHelper a           = fromJust . lookup a . flip zip [1..]
+
 
 instance Eq (Tile a) where
-  (==) = eqHelper
+  (==)                         = eqHelper
+
+instance Eq (WrapTile) where
+  w1 == w2                     = liftWrap2 eqHelper w1 w2
 
 eqHelper :: Tile a -> Tile b -> Bool
 eqHelper (CTile c1) (CTile c2) = c1 == c2
@@ -155,14 +159,15 @@ eqHelper (STile s1) (STile s2) = s1 == s2
 eqHelper (ATile a1) (ATile a2) = a1 == a2
 eqHelper _          _          = False
 
-instance Eq (WrapTile) where
-  w1 == w2 = liftWrap2 eqHelper w1 w2
 
 instance Ord (Tile a) where
-  compare = ordHelper
+  compare          = ordHelper
+
+instance Ord WrapTile where
+  compare w1 w2    = liftWrap2 ordHelper w1 w2
 
 ordHelper :: Tile a -> Tile b -> Ordering
-ordHelper t1 t2 = compare (tileRank t1) (tileRank t2)
+ordHelper t1 t2    = compare (tileRank t1) (tileRank t2)
 
 tileRank :: Tile a -> Int
 tileRank (CTile c) = 10 + showHelper c [One .. Nine]
@@ -174,8 +179,6 @@ tileRank (FTile f) = 60 + showHelper f [PlumBlossom .. BambooTree]
 tileRank (STile s) = 70 + showHelper s [Spring .. Winter]
 tileRank (ATile a) = 80 + showHelper a [Cat .. Centipede]
 
-instance Ord WrapTile where
-  compare w1 w2 = liftWrap2 ordHelper w1 w2
 
 instance MetaType Suit
 instance MetaType Honor
@@ -301,14 +304,14 @@ allTiles   = regulars ++ bonuses
 {- Predicates for determining tile types -}
 
 tileType :: Tile a -> TileType
-tileType (CTile _) = Coin
-tileType (BTile _) = Bamboo
-tileType (KTile _) = Character
-tileType (WTile _) = Wind
-tileType (DTile _) = Dragon
-tileType (FTile _) = Flower
-tileType (STile _) = Season
-tileType (ATile _) = Animal
+tileType (CTile _)     = Coin
+tileType (BTile _)     = Bamboo
+tileType (KTile _)     = Character
+tileType (WTile _)     = Wind
+tileType (DTile _)     = Dragon
+tileType (FTile _)     = Flower
+tileType (STile _)     = Season
+tileType (ATile _)     = Animal
 
 isCoinT, isBambooT, isCharacterT, isWindT, isDragonT, isFlowerT, isSeasonT, isAnimalT :: Tile a -> Bool
 isCoinT                = (==) Coin . tileType
@@ -356,15 +359,16 @@ mapWrap f ws = map (liftWrap f) ws
 mapWrapT :: (forall a. Tile a -> Tile a) -> Tiles -> Tiles
 mapWrapT f ws = map (liftWrapT f) ws
 
+
 dora :: Tile a -> Tile a
-dora (CTile c) = if c == Nine       then CTile One         else CTile $ succ c
-dora (BTile b) = if b == Nine       then BTile One         else BTile $ succ b
-dora (KTile k) = if k == Nine       then KTile One         else KTile $ succ k
-dora (WTile w) = if w == North      then WTile East        else WTile $ succ w
-dora (DTile d) = if d == White      then DTile Red         else DTile $ succ d
-dora (FTile f) = if f == BambooTree then FTile PlumBlossom else FTile $ succ f
-dora (STile s) = if s == Winter     then STile Spring      else STile $ succ s
-dora (ATile a) = if a == Centipede  then ATile Cat         else ATile $ succ a
+dora (CTile c)        = if c == Nine       then CTile One         else CTile $ succ c
+dora (BTile b)        = if b == Nine       then BTile One         else BTile $ succ b
+dora (KTile k)        = if k == Nine       then KTile One         else KTile $ succ k
+dora (WTile w)        = if w == North      then WTile East        else WTile $ succ w
+dora (DTile d)        = if d == White      then DTile Red         else DTile $ succ d
+dora (FTile f)        = if f == BambooTree then FTile PlumBlossom else FTile $ succ f
+dora (STile s)        = if s == Winter     then STile Spring      else STile $ succ s
+dora (ATile a)        = if a == Centipede  then ATile Cat         else ATile $ succ a
 
 reverseDora :: Tile a -> Tile a
 reverseDora (CTile c) = if c == One         then CTile Nine       else CTile $ pred c

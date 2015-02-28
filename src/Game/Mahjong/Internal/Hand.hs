@@ -21,21 +21,23 @@ import Game.Mahjong.Internal.Tile
 {- Data definition -}
 
 -- | A complete hand when a player has won
-data Hand = NoHand
-          | Hand { melds    :: [Meld]         -- ^ completed / concealed meld
-                 , lastMeld :: Meld           -- ^ the last meld that wins the game
-                 , bonusH   :: [Tile Bonus]   -- ^ just a list of bonus tiles
-                 }
-          | Special { tileSet  :: Tiles         -- ^ the set of onhand tile
-                    , lastTile :: WrapTile      -- ^ the last tile obtained
-                    , bonusS   :: [Tile Bonus]  -- ^ any bonus tiles
-                    }
+data Hand =
+    NoHand
+  | Hand    { melds    :: [Meld]        -- ^ completed / concealed meld
+            , lastMeld :: Meld          -- ^ the last meld that wins the game
+            , bonusH   :: [Tile Bonus]  -- ^ just a list of bonus tiles
+            }
+  | Special { tileSet  :: Tiles         -- ^ the set of onhand tile
+            , lastTile :: WrapTile      -- ^ the last tile obtained
+            , bonusS   :: [Tile Bonus]  -- ^ any bonus tiles
+            }
 
 -- | An inprogress hand during game play, before winning
-data InProgress = InProgress { onHand  :: Tiles         -- ^ hidden on hand tiles
-                             , melded  :: [Meld]        -- ^ list of revealed meld
-                             , bonusIP :: [Tile Bonus]  -- ^ list of revealed bonus tiles
-                             }
+data InProgress =
+  InProgress { onHand  :: Tiles         -- ^ hidden on hand tiles
+             , melded  :: [Meld]        -- ^ list of revealed meld
+             , bonusIP :: [Tile Bonus]  -- ^ list of revealed bonus tiles
+             }
 
 
 -------------------------------------------------------------------------------
@@ -58,14 +60,14 @@ instance Show InProgress where
                        ++ delim ++ (joinSort b)
 
 join'' :: Show a => String -> [a] -> String
-join'' d = concat . intersperse d . map show
+join'' d    = concat . intersperse d . map show
 
 joinSort :: (Ord a, Show a) => [a] -> String
 joinSort [] = "[]"
 joinSort ls = join'' " " . sort $ ls
 
 delim :: String
-delim = "  |  "
+delim       = "  |  "
 
 
 -------------------------------------------------------------------------------
@@ -89,10 +91,12 @@ getMelds (Special m l _)     = []  -- | TODO: come back to this later
 handTiles :: Hand -> Tiles
 handTiles (NoHand          ) = []
 handTiles (Hand    ms lm bs) = sort (mts ++ bts)
-  where mts = concatMap meldTiles (lm : ms)
-        bts = map mkWrap bs
+  where
+    mts = concatMap meldTiles (lm : ms)
+    bts = map mkWrap bs
 handTiles (Special ts lt bs) = sort (ts ++ [lt] ++ bts)
-  where bts = map mkWrap bs
+  where
+    bts = map mkWrap bs
 
 
 -------------------------------------------------------------------------------
@@ -113,6 +117,7 @@ addBonus (InProgress oh ms bip) b      = InProgress oh ms (b : bip)
 
 inProgressTiles :: InProgress -> Tiles
 inProgressTiles (InProgress oh ms bip) = sort (oh ++ mts ++ bts)
-  where mts = concatMap meldTiles ms
-        bts = map mkWrap bip
+  where
+    mts = concatMap meldTiles ms
+    bts = map mkWrap bip
 
