@@ -1,6 +1,3 @@
-{- SLOW PROGRESS IN CONVERTING THESE OVER TO NEW DATA FORMAT -}
-{- MAINLY BECAUSE THIS DEPENDS ON IMPLEMENTATION OF ALL OTHER TO FINALIZE FIRST -}
-
 -- |
 -- Module      :  Game.Mahjong.Example
 -- Copyright   :  Joseph Ching 2015
@@ -269,231 +266,617 @@ threeSimilarPungsEx = mkHand
 
 -- | 5.0 Consecutive Sets
 
-{-
 nineTileStraightEx :: Hand
 nineTileStraightEx = mkHand
+  [ mkChow r b1
+  , mkChow r b4
+  , mkPung c w3
+  , mkEyes c k2
+  ]
+  (mkChow r b7)
+  [f2]
 
-threeConsecutivePungsHand1 :: Hand
-threeConsecutivePungsHand1 = mkHand
-
-threeConsecutivePungsHand2 :: Hand
-threeConsecutivePungsHand2 = mkHand
+threeConsecutivePungsHandEx :: Hand
+threeConsecutivePungsHandEx = mkHand
+  [ mkPung r k5
+  , mkPung r k6
+  , mkChow c c2
+  , mkEyes c d2
+  ]
+  (mkPung r k7)
+  []
 
 fourConsecutivePungsEx :: Hand
 fourConsecutivePungsEx = mkHand
+  [ mkPung r k5
+  , mkPung r k6
+  , mkChow r k7
+  , mkEyes c d2
+  ]
+  (mkPung r k8)
+  []
 
 threeMothersEx :: Hand
 threeMothersEx = mkHand
+  [ mkPung r k5
+  , mkPung r k6
+  , mkChow r k5
+  , mkEyes c d2
+  ]
+  (mkPung r k7)
+  []
 
 
 -- | 6.0 Suit Patterns
 
-mixedOneSuitHand1 :: Hand
-mixedOneSuitHand1 = mkHand
+mixedOneSuitHandEx1 :: Hand
+mixedOneSuitHandEx1 = mkHand
+  [ mkPung r k5
+  , mkPung r w1
+  , mkChow r k2
+  , mkEyes c d2
+  ]
+  (mkChow r k7)
+  []
 
-mixedOneSuitHand2 :: Hand
-mixedOneSuitHand2 = mkHand
+mixedOneSuitHandEx2 :: Hand
+mixedOneSuitHandEx2 = mkHand
+  [ mkEyes c c2
+  , mkEyes c c5
+  , mkEyes c c7
+  , mkEyes c c8
+  , mkEyes c w3
+  , mkEyes c w4
+  ]
+  (mkEyes r d1)
+  [s3]
 
-pureOneSuitHand1 :: Hand
-pureOneSuitHand1 = mkHand
+pureOneSuitHandEx1 :: Hand
+pureOneSuitHandEx1 = mkHand
+  [ mkPung r k1
+  , mkChow r k3
+  , mkChow r k4
+  , mkEyes c k9
+  ]
+  (mkPung r k8)
+  [f3]
 
-pureOneSuitHand2 :: Hand
-pureOneSuitHand2 = mkHand
-
-littleTerminalClubEx :: Hand
-littleTerminalClubEx = mkHand
-
-bigTerminalClubEx :: Hand
-bigTerminalClubEx = mkHand
+pureOneSuitHandEx2 :: Hand
+pureOneSuitHandEx2 = mkHand
+  [ mkEyes c c1
+  , mkEyes c c2
+  , mkEyes c c4
+  , mkEyes c c5
+  , mkEyes c c7
+  , mkEyes c c8
+  ]
+  (mkEyes r c9)
+  [s3]
 
 nineGatesEx :: Hand
-nineGatesEx = mkHand
+nineGatesEx = mkSpecial
+  [ mkWrap b1, mkWrap b1, mkWrap b1
+  , mkWrap b2, mkWrap b3, mkWrap b4
+  , mkWrap b5
+  , mkWrap b6, mkWrap b7, mkWrap b8
+  , mkWrap b9, mkWrap b9, mkWrap b9
+  ]
+  b5
+  [f3]
 
 
 -- | 7.0 Terminal Tiles
 
-twoTailedTerminalChowsHand1 :: Hand
-twoTailedTerminalChowsHand1 = mkHand
+twoTailedTerminalChowsHandEx1 :: Hand
+twoTailedTerminalChowsHandEx1 = mkHand
+  [ mkChow r b1
+  , mkChow r b8
+  , mkPung c k3
+  , mkEyes c w2
+  ]
+  (mkChow r c6)
+  [s1]
 
-twoTailedTerminalChowsHand2 :: Hand
-twoTailedTerminalChowsHand2 = mkHand
+twoTailedTerminalChowsHandEx2 :: Hand
+twoTailedTerminalChowsHandEx2 = mkHand
+  [ mkChow r b1
+  , mkChow r b8
+  , mkChow c k1
+  , mkEyes c c3
+  ]
+  (mkChow r k9)
+  [f2]
 
-twoTailedTerminalChowsHand3 :: Hand
-twoTailedTerminalChowsHand3 = mkHand
+twoTailedTerminalPungsHandEx1 :: Hand
+twoTailedTerminalPungsHandEx1 = mkHand
+  [ mkPung r b1
+  , mkPung r b9
+  , mkPung c w1
+  , mkEyes c c3
+  ]
+  (mkChow r k4)
+  []
 
-twoTailedTerminalPungsHand1 :: Hand
-twoTailedTerminalPungsHand1 = mkHand
 
-twoTailedTerminalPungsHand2 :: Hand
-twoTailedTerminalPungsHand2 = mkHand
+twoTailedTerminalPungsHandEx2 :: Hand
+twoTailedTerminalPungsHandEx2 = mkHand
+  [ mkPung r b1
+  , mkPung r b9
+  , mkPung c k1
+  , mkEyes c c3
+  ]
+  (mkPung r k9)
+  [s3]
 
-littleBoundlessMountainHand1 :: Hand
-littleBoundlessMountainHand1 = mkHand
+twoTailedTerminalsEx1 :: Hand
+twoTailedTerminalsEx1 = mkHand
+  [ mkPung r b1
+  , mkPung r b9
+  , mkChow c b1
+  , mkEyes c c3
+  ]
+  (mkChow r b9)
+  [s1]
 
-littleBoundlessMountainHand2 :: Hand
-littleBoundlessMountainHand2 = mkHand
+twoTailedTerminalsEx2 :: Hand
+twoTailedTerminalsEx2 = mkHand
+  [ mkPung r b1
+  , mkPung r b9
+  , mkChow c b1
+  , mkEyes c b5
+  ]
+  (mkChow r b9)
+  [s1]
 
-bigBoundlessMountainHand1 :: Hand
-bigBoundlessMountainHand1 = mkHand
+littleBoundlessMountainHandEx1 :: Hand
+littleBoundlessMountainHandEx1 = mkHand
+  [ mkPung r b1
+  , mkPung r b9
+  , mkChow c b1
+  , mkEyes c b5
+  ]
+  (mkChow r b9)
+  [f1]
 
-bigBoundlessMountainHand2 :: Hand
-bigBoundlessMountainHand2 = mkHand
+littleBoundlessMountainHandEx2 :: Hand
+littleBoundlessMountainHandEx2 = mkHand
+  [ mkChow r k1
+  , mkChow r k1
+  , mkChow c k1
+  , mkEyes c k9
+  ]
+  (mkChow r k9)
+  [f1]
+
+bigBoundlessMountainHandEx1 :: Hand
+bigBoundlessMountainHandEx1 = mkHand
+  [ mkPung r k1
+  , mkChow c k1
+  , mkChow r k9
+  , mkEyes c k9
+  ]
+  (mkChow r k9)
+  [s4]
+
+bigBoundlessMountainHandEx2 :: Hand
+bigBoundlessMountainHandEx2 = mkHand
+  [ mkChow r k1
+  , mkChow c k1
+  , mkChow r k9
+  , mkEyes c k1
+  ]
+  (mkPung r k9)
+  [f4]
 
 mixedLesserTerminalEx :: Hand
 mixedLesserTerminalEx = mkHand
+  [ mkChow r c1
+  , mkPung r c9
+  , mkChow c b1
+  , mkPung c k9
+  ]
+  (mkEyes r w2)
+  []
 
 pureLesserTerminalEx :: Hand
 pureLesserTerminalEx = mkHand
+  [ mkChow r c1
+  , mkPung r c9
+  , mkChow r b1
+  , mkPung c k1
+  ]
+  (mkEyes c b9)
+  [f3]
 
-mixedGreaterTerminalHand1 :: Hand
-mixedGreaterTerminalHand1 = mkHand
+mixedGreaterTerminalHandEx1 :: Hand
+mixedGreaterTerminalHandEx1 = mkHand
+  [ mkPung r c1
+  , mkPung r c9
+  , mkPung r w1
+  , mkPung c d1
+  ]
+  (mkEyes c b9)
+  [f1, s2]
 
-mixedGreaterTerminalHand2 :: Hand
-mixedGreaterTerminalHand2 = mkHand
+mixedGreaterTerminalHandEx2 :: Hand
+mixedGreaterTerminalHandEx2 = mkHand
+  [ mkEyes c c9
+  , mkEyes c b9
+  , mkEyes c k1
+  , mkEyes c w2
+  , mkEyes c w4
+  , mkEyes c d2
+  ]
+  (mkEyes r w1)
+  []
 
-pureGreaterTerminalHand1 :: Hand
-pureGreaterTerminalHand1 = mkHand
+pureGreaterTerminalHandEx1 :: Hand
+pureGreaterTerminalHandEx1 = mkHand
+  [ mkPung r c1
+  , mkPung r c9
+  , mkPung r b1
+  , mkKong c k1
+  ]
+  (mkEyes c b9)
+  [s3]
 
-pureGreaterTermimalHand2 :: Hand
-pureGreaterTermimalHand2 = mkHand
+pureGreaterTerminalHandEx2 :: Hand
+pureGreaterTerminalHandEx2 = mkHand
+  [ mkEyes c c1
+  , mkEyes c c9
+  , mkEyes c b1
+  , mkEyes c b9
+  , mkEyes c k1
+  , mkEyes c k9
+  ]
+  (mkEyes r k1)
+  []
 
 
 -- | 8.0 Honor Tiles
 
 dragonPungEx :: Hand
 dragonPungEx = mkHand
+  [ mkChow r c1
+  , mkChow r k2
+  , mkPung r d1
+  , mkEyes c d3
+  ]
+  (mkPung r w3)
+  []
 
 seatWindEx :: Hand
 seatWindEx = mkHand
+  [ mkPung r c8
+  , mkChow r b3
+  , mkChow r k8
+  , mkPung r w3
+  ]
+  (mkEyes c w2)
+  [s2]
 
 littleThreeWindsEx :: Hand
 littleThreeWindsEx = mkHand
+  [ mkPung r w2
+  , mkPung r w4
+  , mkChow r c3
+  , mkKong c k7
+  ]
+  (mkEyes c w1)
+  [f1, f3]
 
 bigThreeWindsEx :: Hand
 bigThreeWindsEx = mkHand
+  [ mkPung r w2
+  , mkPung r w4
+  , mkChow r c3
+  , mkEyes c k7
+  ]
+  (mkPung c w1)
+  [s1]
 
 littleFourWindsEx :: Hand
 littleFourWindsEx = mkHand
+  [ mkPung r w2
+  , mkPung c w3
+  , mkPung r w4
+  , mkChow r c3
+  ]
+  (mkEyes c w1)
+  [f3, s2]
 
 bigFourWindsEx :: Hand
 bigFourWindsEx = mkHand
+  [ mkPung r w2
+  , mkPung c w3
+  , mkPung r w4
+  , mkEyes c k7
+  ]
+  (mkPung r w1)
+  [f4, s2]
 
 littleThreeDragonsEx :: Hand
 littleThreeDragonsEx = mkHand
+  [ mkPung r d1
+  , mkPung r d2
+  , mkChow c b3
+  , mkPung c k8
+  ]
+  (mkEyes r d3)
+  [s3]
 
 bigThreeDragonsEx :: Hand
 bigThreeDragonsEx = mkHand
+  [ mkPung r d1
+  , mkPung r d2
+  , mkChow c b3
+  , mkEyes c k8
+  ]
+  (mkPung r d3)
+  [f2]
 
-allHonorsHand1 :: Hand
-allHonorsHand1 = mkHand
+allHonorsEx1 :: Hand
+allHonorsEx1 = mkHand
+  [ mkPung r w1
+  , mkPung r w4
+  , mkPung r d1
+  , mkPung c d2
+  ]
+  (mkPung r w3)
+  [s1]
 
-allHonorsHand2 :: Hand
-allHonorsHand2 = mkHand
+allHonorsEx2 :: Hand
+allHonorsEx2 = mkHand
+  [ mkEyes c w1
+  , mkEyes c w3
+  , mkEyes c w3
+  , mkEyes c w4
+  , mkEyes c d1
+  , mkEyes c d2
+  ]
+  (mkEyes r w1)
+  [s3]
 
 allHonorPairsEx :: Hand
 allHonorPairsEx = mkHand
+  [ mkEyes c w1
+  , mkEyes c w2
+  , mkEyes c w3
+  , mkEyes c w4
+  , mkEyes c d1
+  , mkEyes c d2
+  ]
+  (mkEyes r d3)
+  [s3]
 
 
 -- | 9.0 Seven Pairs
 
-sevenPairsHand1 :: Hand
-sevenPairsHand1 = mkHand
+sevenPairsHandEx1 :: Hand
+sevenPairsHandEx1 = mkHand
+  [ mkEyes c c2
+  , mkEyes c c5
+  , mkEyes c c8
+  , mkEyes c b3
+  , mkEyes c w1
+  , mkEyes c k7
+  ]
+  (mkEyes r k8)
+  [s3]
 
-sevenPairsHand2 :: Hand
-sevenPairsHand2 = mkHand
+sevenPairsHandEx2 :: Hand
+sevenPairsHandEx2 = mkHand
+  [ mkEyes c c2
+  , mkEyes c c2
+  , mkEyes c c8
+  , mkEyes c b3
+  , mkEyes c b5
+  , mkEyes c d3
+  ]
+  (mkEyes r k8)
+  [s3]
 
-sevenPairsHand3 :: Hand
-sevenPairsHand3 = mkHand
+sevenShiftedPairsHandEx1 :: Hand
+sevenShiftedPairsHandEx1 = mkHand
+  [ mkEyes c c1
+  , mkEyes c c2
+  , mkEyes c c3
+  , mkEyes c c4
+  , mkEyes c c5
+  , mkEyes c c6
+  ]
+  (mkEyes r c7)
+  [s3]
 
-sevenPairsHand4 :: Hand
-sevenPairsHand4 = mkHand
-
-sevenShiftedPairsHand1 :: Hand
-sevenShiftedPairsHand1 = mkHand
-
-sevenShiftedPairsHand2 :: Hand
-sevenShiftedPairsHand2 = mkHand
+sevenShiftedPairsHandEx2 :: Hand
+sevenShiftedPairsHandEx2 = mkHand
+  [ mkEyes c b3
+  , mkEyes c b4
+  , mkEyes c b5
+  , mkEyes c b6
+  , mkEyes c b8
+  , mkEyes c b9
+  ]
+  (mkEyes r b7)
+  [f4, s4]
 
 grandChariotEx :: Hand
 grandChariotEx = mkHand
+  [ mkEyes c c2
+  , mkEyes c c3
+  , mkEyes c c4
+  , mkEyes c c5
+  , mkEyes c c6
+  , mkEyes c c8
+  ]
+  (mkEyes r c7)
+  [s3]
 
 bambooForestEx :: Hand
 bambooForestEx = mkHand
+  [ mkEyes c b2
+  , mkEyes c b3
+  , mkEyes c b4
+  , mkEyes c b6
+  , mkEyes c b7
+  , mkEyes c b8
+  ]
+  (mkEyes r b5)
+  [f3]
 
 numberNeighborhoodEx :: Hand
 numberNeighborhoodEx = mkHand
+  [ mkEyes c k2
+  , mkEyes c k3
+  , mkEyes c k4
+  , mkEyes c k5
+  , mkEyes c k7
+  , mkEyes c k8
+  ]
+  (mkEyes r k6)
+  [f1, f3, s3]
 
 
 -- | 10.0 Color Hands
 
 allGreenEx :: Hand
 allGreenEx = mkHand
+  [ mkChow r b2
+  , mkChow r b2
+  , mkPung r b6
+  , mkPung c d2
+  ]
+  (mkEyes c b8)
+  [f2, s2]
 
 allRedEx :: Hand
 allRedEx = mkHand
+  [ mkPung r b1
+  , mkPung r b5
+  , mkPung c b7
+  , mkPung c b9
+  ]
+  (mkEyes c d1)
+  [f1, s1]
 
 allBlueEx :: Hand
 allBlueEx = mkHand
+  [ mkPung c c8
+  , mkPung r w2
+  , mkPung r w3
+  , mkPung c d3
+  ]
+  (mkEyes r w3)
+  [f3, s3]
 
 
 -- | 11.0 Irregular Hands
 
 thirteenOrphanEx :: Hand
-thirteenOrphanEx = mkHand
-[ ( ['r', 'h', 'B', 'T', 'W', 'D']
-                       , [ (C, 1), (C, 9), (B, 1), (B, 9), (K, 1), (K, 9)
-                           (W, 1), (W, [(C, 1), (C, 2), (W, 3), (W, 4)
-                           (D, 1), (D, [(C, 1), (C, 2), (D, 2), (D, 3)
-                         ]
-                       )
-                     , (['b'], [(F, 1, [(C, 1), ('C')])
-                     ]
+thirteenOrphanEx = mkSpecial
+  [ mkWrap c1, mkWrap c9
+  , mkWrap b1, mkWrap b9
+  , mkWrap k1, mkWrap k9
+  , mkWrap w1, mkWrap w2, mkWrap w3, mkWrap w4
+  , mkWrap d1, mkWrap d2, mkWrap d3
+  ]
+  c1
+  [f4]
 
 
 -- | 12.0 Incidental Bonuses
 
-finalDrawEx :: Hand []
-finalDrawEx = mkHand
+finalDrawEx :: Hand
+finalDrawEx = noHand
 
-finalDiscardEx :: Hand []
-finalDiscardEx = mkHand
+finalDiscardEx :: Hand
+finalDiscardEx = noHand
 
-winOnKongEx :: Hand []
-winOnKongEx = mkHand
+winOnKongEx :: Hand
+winOnKongEx = noHand
 
-winOnBonusTileEx :: Hand []
-winOnBonusTileEx = mkHand
+winOnBonusTileEx :: Hand
+winOnBonusTileEx = noHand
 
-robbingKongEx :: Hand []
-robbingKongEx = mkHand
+robbingKongEx :: Hand
+robbingKongEx = noHand
 
-blessingOfHeavenEx :: Hand []
-blessingOfHeavenEx = mkHand
+blessingOfHeavenEx :: Hand
+blessingOfHeavenEx = noHand
 
-blessingOfEarthEx :: Hand []
-blessingOfEarthEx = mkHand
+blessingOfEarthEx :: Hand
+blessingOfEarthEx = noHand
 
 
 -- | 13.0 Bonus Tiles
 
 nonSeatFlowerEx :: Hand
 nonSeatFlowerEx = mkHand
+  [ mkChow r c2
+  , mkPung r b2
+  , mkChow r b8
+  , mkPung c w4
+  ]
+  (mkEyes r d1)
+  [f2]
 
 nonSeatSeasonEx :: Hand
 nonSeatSeasonEx = mkHand
+  [ mkChow r c7
+  , mkPung r k2
+  , mkPung c k4
+  , mkChow r k8
+  ]
+  (mkEyes r w3)
+  [s2]
 
 seatFlowerEx :: Hand
 seatFlowerEx = mkHand
+  [ mkChow r c5
+  , mkChow r k5
+  , mkChow r k7
+  , mkPung c w4
+  ]
+  (mkEyes r d2)
+  [f1]
 
 seatSeasonEx :: Hand
 seatSeasonEx = mkHand
+  [ mkChow r b2
+  , mkPung r b6
+  , mkPung c b4
+  , mkKong r k8
+  ]
+  (mkEyes r w2)
+  [s1]
 
 fourFlowersEx :: Hand
 fourFlowersEx = mkHand
+  [ mkChow r b7
+  , mkPung r k4
+  , mkChow r k8
+  , mkPung c d3
+  ]
+  (mkEyes r w3)
+  [f1, f2, f3, f4]
 
 fourSeasonsEx :: Hand
 fourSeasonsEx = mkHand
+  [ mkChow r c3
+  , mkPung r b4
+  , mkChow r k3
+  , mkPung c w4
+  ]
+  (mkEyes r w3)
+  [s1, s2, s3, s4]
 
 allBonusTileEx :: Hand
 allBonusTileEx = mkHand
--}
+  [ mkChow r c7
+  , mkPung r b2
+  , mkChow r b8
+  , mkPung c k4
+  ]
+  (mkEyes r w3)
+  [f1, f2, f3, f4, s1, s2, s3, s4]
+

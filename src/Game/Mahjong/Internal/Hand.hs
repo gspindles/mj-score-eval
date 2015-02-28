@@ -26,10 +26,14 @@ data Hand = NoHand
                  , lastMeld :: Meld           -- ^ the last meld that wins the game
                  , bonusH   :: [Tile Bonus]   -- ^ just a list of bonus tiles
                  }
+          | Special { tileSet  :: Tiles         -- ^ the set of onhand tile
+                    , lastTile :: WrapTile      -- ^ the last tile obtained
+                    , bonusS   :: [Tile Bonus]  -- ^ any bonus tiles
+                    }
 
 -- | An inprogress hand during game play, before winning
-data InProgress = InProgress { onHand  :: Tiles       -- ^ hidden on hand tiles
-                             , melded  :: [Meld]      -- ^ list of revealed meld
+data InProgress = InProgress { onHand  :: Tiles         -- ^ hidden on hand tiles
+                             , melded  :: [Meld]        -- ^ list of revealed meld
                              , bonusIP :: [Tile Bonus]  -- ^ list of revealed bonus tiles
                              }
 
@@ -39,18 +43,26 @@ data InProgress = InProgress { onHand  :: Tiles       -- ^ hidden on hand tiles
 {- Data instances -}
 
 instance Show Hand where
-  show NoHand = "NoHand"
-  show (Hand m l b) = join'' "  " m
-          ++ delim ++ show l
-          ++ delim ++ (join'' " " . sort $ b)
+  show h = case h of
+    NoHand          -> "NoHand"
+    (Hand m l b)    -> join'' "  " m
+           ++ delim ++ show l
+           ++ delim ++ joinSort b
+    (Special t l b) -> "/" ++ joinSort t ++ "/"
+                  ++ delim ++ show l
+                  ++ delim ++ joinSort b
 
 instance Show InProgress where
-  show (InProgress o m b)  = "/" ++ (join'' " " . sort $ o) ++ "/"
-                        ++ delim ++ (join'' "  " m) ++ delim
-                                 ++ (join'' " " . sort $ b)
+  show (InProgress o m b) = "/" ++ joinSort o ++ "/"
+                       ++ delim ++ (join'' "  " m)
+                       ++ delim ++ (joinSort b)
 
 join'' :: Show a => String -> [a] -> String
 join'' d = concat . intersperse d . map show
+
+joinSort :: (Ord a, Show a) => [a] -> String
+joinSort [] = "[]"
+joinSort ls = join'' " " . sort $ ls
 
 delim :: String
 delim = "  |  "
@@ -61,20 +73,26 @@ delim = "  |  "
 {- Functions for complete hand -}
 
 noHand :: Hand
-noHand                    = NoHand
+noHand                       = NoHand
 
 mkHand :: [Meld] -> Meld -> [Tile Bonus] -> Hand
-mkHand                    = Hand
+mkHand                       = Hand
+
+mkSpecial :: Tiles -> Tile a -> [Tile Bonus] -> Hand
+mkSpecial ts t tbs           = Special ts (mkWrap t) tbs
 
 getMelds :: Hand -> [Meld]
-getMelds (NoHand    )     = []
-getMelds (Hand m l _)     = l : m
+getMelds (NoHand       )     = []
+getMelds (Hand    m l _)     = l : m
+getMelds (Special m l _)     = []  -- | TODO: come back to this later
 
 handTiles :: Hand -> Tiles
-handTiles (NoHand    )    = []
-handTiles (Hand ms lm bs) = sort (mts ++ bts)
+handTiles (NoHand          ) = []
+handTiles (Hand    ms lm bs) = sort (mts ++ bts)
   where mts = concatMap meldTiles (lm : ms)
         bts = map mkWrap bs
+handTiles (Special ts lt bs) = sort (ts ++ [lt] ++ bts)
+  where bts = map mkWrap bs
 
 
 -------------------------------------------------------------------------------
