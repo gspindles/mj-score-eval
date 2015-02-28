@@ -201,7 +201,7 @@ threeSimilarPungs       = Pattern "Three Similar Pungs"        "三色同刻"   
 -- | 5.0 Consecutive Sets
 
 threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice, fourConsecutiveChows :: Pattern
-threeConsecutiveChows      = Pattern "Three Consecutive Chows"       "三連順" 30
+threeConsecutiveChows      = Pattern "Three Consecutive Chows"       "三連順"   30
 nineTileStraight           = Pattern "Nine-Tile Straight"            "一氣通貫" 40
 threeConsecutiveChowsTwice = Pattern "Three Consecutive Chows Twice" "雙三連順" 60
 fourConsecutiveChows       = Pattern "Four Consecutive Chows"        "四連順"   100

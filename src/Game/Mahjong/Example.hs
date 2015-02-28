@@ -40,7 +40,7 @@ chickenEx = mkHand
   [ mkChow r c7
   , mkPung r k2
   , mkChow r k8
-  , mkPung c b4 
+  , mkPung c b4
   ]
   (mkEyes r w3)
   [f1, s2]
@@ -56,10 +56,11 @@ allChowsEx = mkHand
   [f1, s2]
 
 concealedEx :: Hand 
-concealedEx = mkHand [ mkChow c c7
-  , mkPung c w1 
+concealedEx = mkHand
+  [ mkChow c c7
+  , mkPung c w1
   , mkChow c k1
-  , mkChow c b4 
+  , mkChow c b4
   ]
   (mkEyes r w3)
   [f1, s2]
@@ -67,11 +68,11 @@ concealedEx = mkHand [ mkChow c c7
 selfDrawnEx :: Hand
 selfDrawnEx = mkHand
   [ mkChow c c7
-  , mkPung r w1 
+  , mkPung r w1
   , mkChow r k1
-  , mkChow c b4 
+  , mkEyes c w3
   ]
-  (mkEyes c w3)
+  (mkChow c b4)
   [f1, s2]
 
 allSimpleHandEx1 :: Hand
@@ -79,9 +80,9 @@ allSimpleHandEx1 = mkHand
   [ mkChow r b4
   , mkChow r c6
   , mkPung c b3
-  , mkPung r k6
+  , mkEyes c b2
   ]
-  (mkEyes c b2)
+  (mkPung r k6)
   []
 
 allSimpleHandEx2 :: Hand
@@ -109,602 +110,337 @@ allTypesEx = mkHand
 
 -- | 2.0 Identical Chows
 
-{-
 twoIdenticalChowsEx :: Hand
-twoIdenticalChowsEx = [ (['n', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                        , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                        , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                        , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                        , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                        ]
+twoIdenticalChowsEx = mkHand
+  [ mkChow r b4
+  , mkChow c c6
+  , mkChow r c6
+  , mkEyes c k3
+  ]
+  (mkPung r w1)
+  [s1]
 
 twoIdenticalChowsTwiceEx :: Hand
-twoIdenticalChowsTwiceEx = [ (['n', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                             , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                             , (['r', 'p', 'W'], [(B, 4), (B, 5), (B, 6)])
-                             , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                             , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                             ]
+twoIdenticalChowsTwiceEx = mkHand
+  [ mkChow r b4
+  , mkChow c c6
+  , mkChow r c6
+  , mkEyes c k3
+  ]
+  (mkChow r b4)
+  [s1]
 
 threeIdenticalChowsEx :: Hand
-threeIdenticalChowsEx = [ (['n', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                          , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                          , (['r', 'p', 'B', 'W'], [(B, 4), (B, 5), (B, 6)])
-                          , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                          , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                          ]
+threeIdenticalChowsEx = mkHand
+  [ mkChow r b4
+  , mkChow r b4
+  , mkChow c c6
+  , mkEyes c k3
+  ]
+  (mkChow r b4)
+  [s1]
 
 fourIdenticalChowsEx :: Hand
-fourIdenticalChowsEx = [ (['n', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                         , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                         , (['r', 'p', 'C', 'W'], [(C, 6), (C, 7), (C, 8)])
-                         , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                         , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                         ]
+fourIdenticalChowsEx = mkHand
+  [ mkChow r b4
+  , mkChow r b4
+  , mkChow c b4
+  , mkEyes c k3
+  ]
+  (mkChow r b4)
+  [s1]
 
 
 -- | 3.0 Pungs and Kongs
 
 allPungsEx :: Hand
-allPungsEx = [ (['n', 'k', 'B', 'S'], [(B, 4), (B, 4), (B, 4), (B, 4)])
-               , (['r', 'p', 'C', 'S'], [(C, 7), (C, 7), (C, 7)])
-               , (['r', 'p', 'B', 'S'], [(B, 2), (B, 2), (B, 2)])
-               , (['r', 'p', '­K', 'S'], [(K, 3), (K, 3), (K, 3)])
-               , (['n', 'e', 'D'], [(D, 1), (D, 1)])
-               ]
+allPungsEx = mkHand
+  [ mkPung r b4
+  , mkPung c d2
+  , mkKong c k6
+  , mkPung c d2
+  ]
+  (mkEyes r b3)
+  [f3]
 
 twoConcealedPungsEx :: Hand
-twoConcealedPungsEx = [ (['n', 'k', 'B', 'S'], [(B, 4), (B, 4), (B, 4), (B, 4)])
-                        , (['n', 'p', 'B', 'S'], [(B, 2), (B, 2), (B, 2)])
-                        , (['r', 'p', 'C', 'S'], [(C, 7), (C, 7), (C, 7)])
-                        , (['r', 'k', 'K', 'S'], [(K, 3), (K, 3), (K, 3), (K, 3)])
-                        , (['n', 'e', 'D'], [(D, 1), (D, 1)])
-                        ]
+twoConcealedPungsEx = mkHand
+  [ mkPung c b4
+  , mkPung c c3
+  , mkChow r k2
+  , mkEyes c w2
+  ]
+  (mkChow r k6)
+  [s2]
 
 threeConcealedPungsEx :: Hand
-threeConcealedPungsEx = [ (['n', 'k', 'B', 'S'], [(B, 4), (B, 4), (B, 4), (B, 4)])
-                          , (['n', 'p', 'B', 'S'], [(B, 1), (B, 2), (B, 2)])
-                          , (['n', 'k', 'K', 'S'], [(K, 3), (K, 3), (K, 3), (K, 3)])
-                          , (['r', 'p', 'C', 'S'], [(C, 7), (C, 7), (C, 7)])
-                          , (['r', 'e', 'D'], [(D, 1), (D, 1)])
-                          ]
+threeConcealedPungsEx = mkHand
+  [ mkPung c b4
+  , mkKong c c3
+  , mkChow r k2
+  , mkEyes c w2
+  ]
+  (mkPung c k6)
+  [s2]
 
 fourConcealedPunsgEx :: Hand
-fourConcealedPunsgEx = [ (['n', 'k', 'B', 'S'], [(B, 4), (B, 4), (B, 4), (B, 4)])
-                         , (['n', 'p', 'B', 'S'], [(B, 2), (B, 2), (B, 2)])
-                         , (['n', 'k', 'K', 'S'], [(K, 3), (K, 3), (K, 3), (K, 3)])
-                         , (['n', 'p', 'C', 'S'], [(C, 7), (C, 7), (C, 7)])
-                         , (['r', 'e', 'D'], [(D, 1), (D, 1)])
-                         , (['b'], [(F, 1), (S, 2)])
-                         ]
+fourConcealedPunsgEx = mkHand
+  [ mkPung c b4
+  , mkPung c c3
+  , mkPung c k2
+  , mkEyes c w2
+  ]
+  (mkPung c k6)
+  [s2]
 
 oneKongEx :: Hand
-oneKongEx = [ (['n', 'k', 'B', 'S'], [(B, 4), (B, 4), (B, 4), (B, 4)])
-              , (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-              , (['r', 'c', 'B', 'S'], [(B, 2), (B, 3), (B, 4)])
-              , (['r', 'c', 'K', 'T'], [(K, 1), (K, 2), (K, 3)])
-              , (['r', 'e', 'D'], [(D, 1), (D, 1)])
-              , (['b'], [(F, 1), (S, 2)])
-              ]
+oneKongEx = mkHand
+  [ mkKong r c3
+  , mkChow c b2
+  , mkPung r b9
+  , mkEyes c d2
+  ]
+  (mkChow r k2)
+  []
 
 twoKongsEx :: Hand
-twoKongsEx = [ (['n', 'k', 'B', 'S'], [(B, 4), (B, 4), (B, 4), (B, 4)])
-               , (['r', 'k', 'C', 'T'], [(C, 7), (C, 7), (C, 7), (C, 7)])
-               , (['r', 'c', 'B', 'S'], [(B, 2), (B, 3), (B, 4)])
-               , (['r', 'c', 'K', 'S'], [(K, 3), (K, 4), (K, 5)])
-               , (['r', 'e', 'D'], [(D, 1), (D, 1)])
-               , (['b'], [(F, 1), (S, 2)])
-               ]
+twoKongsEx = mkHand
+  [ mkKong r c3
+  , mkChow c b2
+  , mkKong r b9
+  , mkEyes c d2
+  ]
+  (mkChow r k2)
+  []
 
 threeKongsEx :: Hand
-threeKongsEx = [ (['n', 'k', 'C', 'S'], [(B, 4), (B, 4), (B, 4), (B, 4)])
-                 , (['r', 'k', 'C', 'S'], [(C, 7), (C, 7), (C, 7), (C, 7)])
-                 , (['r', 'k', 'B', 'S'], [(B, 2), (B, 2), (B, 2), (B, 2)])
-                 , (['r', 'c', 'K', 'S'], [(K, 3), (K, 4), (K, 5)])
-                 , (['r', 'e', 'D'], [(D, 1), (D, 1)])
-                 , (['b'], [(F, 1), (S, 2)])
-                 ]
+threeKongsEx = mkHand
+  [ mkKong r c3
+  , mkChow c b2
+  , mkKong r b9
+  , mkEyes c d2
+  ]
+  (mkKong r k2)
+  []
 
 fourKongsEx :: Hand
-fourKongsEx = [ (['n', 'k', 'B', 'S'], [(B, 4), (B, 4), (B, 4), (B, 4)])
-                , (['r', 'k', 'C', 'S'], [(C, 7), (C, 7), (C, 7), (C, 7)])
-                , (['r', 'k', 'B', 'S'], [(B, 2), (B, 2), (B, 2), (B, 2)])
-                , (['r', 'k', 'K', 'S'], [(K, 3), (K, 3), (K, 3), (K, 3)])
-                , (['r', 'e', 'D'], [(D, 1), (D, 1)])
-                , (['b'], [(F, 1), (S, 2)])
-                ]
+fourKongsEx = mkHand
+  [ mkKong r c3
+  , mkKong c b2
+  , mkKong r b9
+  , mkEyes c d2
+  ]
+  (mkKong r k2)
+  []
 
 
 -- | 4.0 Similar Sets
 
 threeSimilarChowsEx :: Hand
-threeSimilarChowsEx = [ (['c', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                        , (['r', 'c', 'C', 'S'], [(C, 4), (C, 5), (C, 6)])
-                        , (['r', 'p', 'B', 'S'], [(B, 2), (B, 2), (B, 2)])
-                        , (['r', 'c', 'K', 'S'], [(K, 4), (K, 5), (K, 6)])
-                        , (['r', 'e', 'D'], [(D, 1), (D, 1)])
-                        ]
+threeSimilarChowsEx = mkHand
+  [ mkChow r k3
+  , mkChow r b3
+  , mkPung r d3
+  , mkEyes c b7
+  ]
+  (mkChow r c3)
+  [s2]
 
 littleThreeSimilarPungsEx :: Hand
-littleThreeSimilarPungsEx = [ (['n', 'p', 'B', 'S'], [(B, 4), (B, 4), (B, 4)])
-                              , (['r', 'p', 'C', 'S'], [(C, 4), (C, 4), (C, 4)])
-                              , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                              , (['n', 'k', 'B', 'S'], [(B, 2), (B, 2), (B, 2), (B, 2)])
-                              , (['r', 'e', 'K', 'S'], [(K, 4), (K, 4)])
-                              ]
+littleThreeSimilarPungsEx = mkHand
+  [ mkPung r c6
+  , mkKong r k6
+  , mkChow c c1
+  , mkEyes r c6
+  ]
+  (mkPung r d2)
+  [s4]
 
 threeSimilarPungsEx :: Hand
-threeSimilarPungsEx = [ (['n', 'p', 'B', 'S'], [(B, 4), (B, 4), (B, 4)])
-                        , (['r', 'p', 'C', 'S'], [(C, 4), (C, 4), (C, 4)])
-                        , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                        , (['r', 'p', 'K', 'T'], [(K, 4), (K, 4), (K, 4)])
-                        , (['n', 'e', 'D'], [(D, 1), (D, 1)])
-                        ]
+threeSimilarPungsEx = mkHand
+  [ mkPung r c6
+  , mkKong r k6
+  , mkChow c c1
+  , mkPung r c6
+  ]
+  (mkEyes r d2)
+  [s4]
 
 
 -- | 5.0 Consecutive Sets
 
+{-
 nineTileStraightEx :: Hand
-nineTileStraightEx = [ (['n', 'p', 'B', 'S'], [(B, 4), (B, 4), (B, 4)])
-                       , (['n', 'c', 'C', 'T'], [(C, 1), (C, 2), (C, 3)])
-                       , (['r', 'c', 'C', 'S'], [(C, 4), (C, 5), (C, 6)])
-                       , (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-                       , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                       ]
+nineTileStraightEx = mkHand
 
 threeConsecutivePungsHand1 :: Hand
-threeConsecutivePungsHand1 = [ (['n', 'p', 'B', 'S'], [(B, 4), (B, 4), (B, 4)])
-                             , (['r', 'p', 'B', 'S'], [(B, 5), (B, 5), (B, 5)])
-                             , (['r', 'p', 'B', 'S'], [(B, 6), (B, 6), (B, 6)])
-                             , (['r', 'c', 'C', 'T'], [(C, 1), (C, 2), (C, 2)])
-                             , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                             ]
+threeConsecutivePungsHand1 = mkHand
 
 threeConsecutivePungsHand2 :: Hand
-threeConsecutivePungsHand2 = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 2)])
-                             , (['n', 'p', 'B', 'S'], [(B, 4), (B, 4), (B, 4)])
-                             , (['r', 'p', 'B', 'S'], [(B, 5), (B, 5), (B, 5)])
-                             , (['r', 'p', 'B', 'S'], [(B, 6), (B, 6), (B, 6)])
-                             , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                             ]
+threeConsecutivePungsHand2 = mkHand
 
 fourConsecutivePungsEx :: Hand
-fourConsecutivePungsEx = [ (['n', 'p', 'B', 'S'], [(B, 4), (B, 4), (B, 4)])
-                           , (['r', 'p', 'B', 'S'], [(B, 5), (B, 5), (B, 5)])
-                           , (['r', 'p', 'B', 'S'], [(B, 6), (B, 6), (B, 6)])
-                           , (['r', 'p', 'B', 'S'], [(B, 7), (B, 7), (B, 7)])
-                           , (['n', 'e', 'C', 'S'], [(C, 4), (C, 4)])
-                           ]
+fourConsecutivePungsEx = mkHand
 
 threeMothersEx :: Hand
-threeMothersEx = [ (['n', 'p', 'B', 'S'], [(B, 4), (B, 4), (B, 4)])
-                   , (['r', 'p', 'B', 'S'], [(B, 5), (B, 5), (B, 5)])
-                   , (['r', 'p', 'B', 'S'], [(B, 6), (B, 6), (B, 6)])
-                   , (['r', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                   , (['n', 'e', 'C', 'S'], [(C, 4), (C, 4)])
-                   ]
+threeMothersEx = mkHand
 
 
 -- | 6.0 Suit Patterns
 
 mixedOneSuitHand1 :: Hand
-mixedOneSuitHand1 = [ (['n', 'p', 'B', 'S'], [(B, 3), (B, 3), (B, 3)])
-                    , (['r', 'p', 'W'], [(W, 4), (W, 4), (W, 4)])
-                    , (['r', 'p', 'D'], [(D, 1), (D, 1), (D, 1)])
-                    , (['r', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                    , (['n', 'e', 'B', 'S'], [(B, 8), (B, 8)])
-                    ]
+mixedOneSuitHand1 = mkHand
 
 mixedOneSuitHand2 :: Hand
-mixedOneSuitHand2 = [ (['n', 'e', 'B', 'T'], [(B, 1), (B, 1)])
-                    , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                    , (['n', 'e', 'B', 'S'], [(B, 5), (B, 5)])
-                    , (['n', 'e', 'B', 'S'], [(B, 6), (B, 6)])
-                    , (['n', 'e', 'W'], [(W, 2), (W, 2)])
-                    , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                    , (['r', 'e', 'D'], [(D, 1), (D, 1)])
-                    ]
+mixedOneSuitHand2 = mkHand
 
 pureOneSuitHand1 :: Hand
-pureOneSuitHand1 = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                   , (['r', 'p', 'B', 'S'], [(B, 4), (B, 4), (B, 4)])
-                   , (['r', 'c', 'B', 'S'], [(B, 6), (B, 7), (B, 8)])
-                   , (['r', 'c', 'B', 'S'], [(B, 5), (B, 6), (B, 7)])
-                   , (['n', 'e', 'B', 'T'], [(B, 9), (B, 9)])
-                   ]
+pureOneSuitHand1 = mkHand
 
 pureOneSuitHand2 :: Hand
-pureOneSuitHand2 = [ (['n', 'e', 'B', 'T'], [(B, 1), (B, 1)])
-                   , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                   , (['n', 'e', 'B', 'S'], [(B, 4), (B, 4)])
-                   , (['n', 'e', 'B', 'S'], [(B, 5), (B, 5)])
-                   , (['n', 'e', 'B', 'S'], [(B, 6), (B, 6)])
-                   , (['n', 'e', 'B', 'S'], [(B, 8), (B, 8)])
-                   , (['r', 'e', 'B', 'T'], [(B, 9), (B, 9)])
-                   ]
+pureOneSuitHand2 = mkHand
 
 littleTerminalClubEx :: Hand
-littleTerminalClubEx = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                         , (['r', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                         , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                         , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                         , (['n', 'e', 'S'], [(B, 5), (B, 5)])
-                         ]
+littleTerminalClubEx = mkHand
 
 bigTerminalClubEx :: Hand
-bigTerminalClubEx = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                      , (['r', 'p', 'B', 'T'], [(B, 1), (B, 1), (B, 1)])
-                      , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                      , (['r', 'p', 'B', 'T'], [(B, 9), (B, 9), (B, 9)])
-                      , (['n', 'e', 'S'], [(B, 5), (B, 5)])
-                      ]
+bigTerminalClubEx = mkHand
 
 nineGatesEx :: Hand
-nineGatesEx = [ ( ['r', 'h', 'B', 'T', 'S']
-                  , [(B, 1), (B, 1)
-                     (B, 1), (B, 2), (B, 3)
-                     (B, 4), (B, 5), (B, 6)
-                     (B, 6), (B, 7), (B, 8)
-                     (B, 9), (B, 9), (B, 9)
-                    ]
-                  )
-                , (['b'], [(F, 3)])
-                ]
+nineGatesEx = mkHand
 
 
 -- | 7.0 Terminal Tiles
 
 twoTailedTerminalChowsHand1 :: Hand
-twoTailedTerminalChowsHand1 = [ (['n', 'p', 'C', 'S'], [(C, 3), (C, 3), (C, 3)])
-                              , (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                              , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                              , (['r', 'c', 'K', 'S'], [(K, 5), (K, 6), (K, 7)])
-                              , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                              ]
+twoTailedTerminalChowsHand1 = mkHand
 
 twoTailedTerminalChowsHand2 :: Hand
-twoTailedTerminalChowsHand2 = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                              , (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                              , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                              , (['r', 'c', 'K', 'S'], [(K, 5), (K, 6), (K, 7)])
-                              , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                              ]
+twoTailedTerminalChowsHand2 = mkHand
 
 twoTailedTerminalChowsHand3 :: Hand
-twoTailedTerminalChowsHand3 = [ (['n', 'c', 'C', 'T'], [(C, 1), (C, 2), (C, 3)])
-                              , (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                              , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                              , (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-                              , (['n', 'e', 'K'], [(K, 4), (K, 4)])
-                              ]
+twoTailedTerminalChowsHand3 = mkHand
 
 twoTailedTerminalPungsHand1 :: Hand
-twoTailedTerminalPungsHand1 = [ (['n', 'p', 'C', 'S'], [(C, 3), (C, 3), (C, 3)])
-                              , (['n', 'p', 'B', 'T'], [(B, 1), (B, 1), (B, 1)])
-                              , (['r', 'p', 'B', 'T'], [(B, 9), (B, 9), (B, 9)])
-                              , (['r', 'c', 'K', 'S'], [(K, 5), (K, 6), (K, 7)])
-                              , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                              ]
+twoTailedTerminalPungsHand1 = mkHand
 
 twoTailedTerminalPungsHand2 :: Hand
-twoTailedTerminalPungsHand2 = [ (['n', 'p', 'C', 'T'], [(C, 1), (C, 1), (C, 1)])
-                              , (['n', 'p', 'B', 'T'], [(B, 1), (B, 1), (B, 1)])
-                              , (['r', 'p', 'B', 'T'], [(B, 9), (B, 9), (B, 9)])
-                              , (['r', 'p', 'C', 'T'], [(C, 9), (C, 9), (C, 9)])
-                              , (['n', 'e', 'K'], [(K, 4), (K, 4)])
-                              ]
+twoTailedTerminalPungsHand2 = mkHand
 
 littleBoundlessMountainHand1 :: Hand
-littleBoundlessMountainHand1 = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                               , (['r', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                               , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                               , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                               , (['n', 'e', 'B', 'T'], [(B, 9), (B, 9)])
-                               ]
+littleBoundlessMountainHand1 = mkHand
 
 littleBoundlessMountainHand2 :: Hand
-littleBoundlessMountainHand2 = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                               , (['r', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                               , (['r', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                               , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                               , (['n', 'e', 'B', 'T'], [(B, 9), (B, 9)])
-                               ]
+littleBoundlessMountainHand2 = mkHand
 
 bigBoundlessMountainHand1 :: Hand
-bigBoundlessMountainHand1 = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                            , (['r', 'p', 'B', 'T'], [(B, 1), (B, 1), (B, 1)])
-                            , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                            , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                            , (['n', 'e', 'B', 'T'], [(B, 9), (B, 9)])
-                            ]
+bigBoundlessMountainHand1 = mkHand
 
 bigBoundlessMountainHand2 :: Hand
-bigBoundlessMountainHand2 = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                            , (['r', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                            , (['r', 'c', 'B', 'T'], [(B, 7), (B, 8), (B, 9)])
-                            , (['r', 'p', 'B', 'T'], [(B, 9), (B, 9), (B, 9)])
-                            , (['n', 'e', 'B', 'T'], [(B, 1), (B, 1)])
-                            ]
+bigBoundlessMountainHand2 = mkHand
 
 mixedLesserTerminalEx :: Hand
-mixedLesserTerminalEx = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                          , (['r', 'p', 'C', 'T'], [(C, 1), (C, 1), (C, 1)])
-                          , (['r', 'c', 'K', 'T'], [(K, 7), (K, 8), (K, 9)])
-                          , (['r', 'p', 'D'], [(D, 2), (D, 2), (D, 2)])
-                          , (['n', 'e', 'W'], [(W, 1), (W, 1)])
-                          ]
+mixedLesserTerminalEx = mkHand
 
 pureLesserTerminalEx :: Hand
-pureLesserTerminalEx = [ (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                         , (['r', 'p', 'C', 'T'], [(C, 1), (C, 1), (C, 1)])
-                         , (['r', 'c', 'K', 'T'], [(K, 7), (K, 8), (K, 9)])
-                         , (['r', 'p', 'B', 'T'], [(B, 9), (B, 9), (B, 9)])
-                         , (['n', 'e', 'K', 'T'], [(K, 1), (K, 1)])
-                         ]
+pureLesserTerminalEx = mkHand
 
 mixedGreaterTerminalHand1 :: Hand
-mixedGreaterTerminalHand1 = [ (['n', 'p', 'K', 'T'], [(K, 1), (K, 1), (K, 1)])
-                            , (['r', 'p', 'C', 'T'], [(C, 9), (C, 9), (C, 9)])
-                            , (['r', 'p', 'B', 'T'], [(B, 9), (B, 9), (B, 9)])
-                            , (['r', 'p', 'D'], [(D, 2), (D, 2), (D, 2)])
-                            , (['n', 'e', 'W'], [(W, 1), (W, 1)])
-                            ]
+mixedGreaterTerminalHand1 = mkHand
 
 mixedGreaterTerminalHand2 :: Hand
-mixedGreaterTerminalHand2 = [ (['n', 'e', 'C', 'T'], [(C, 9), (C, 9)])
-                            , (['n', 'e', 'B', 'T'], [(B, 1), (B, 1)])
-                            , (['n', 'e', 'B', 'T'], [(B, 9), (B, 9)])
-                            , (['n', 'e', 'K', 'T'], [(K, 1), (K, 1)])
-                            , (['n', 'e', 'W'], [(W, 2), (W, 2)])
-                            , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                            , (['r', 'e', 'D'], [(D, 1), (D, 1)])
-                            ]
+mixedGreaterTerminalHand2 = mkHand
 
 pureGreaterTerminalHand1 :: Hand
-pureGreaterTerminalHand1 = [ (['n', 'p', 'C', 'T'], [(C, 1), (C, 1), (C, 1)])
-                           , (['r', 'p', 'C', 'T'], [(C, 9), (C, 9), (C, 9)])
-                           , (['r', 'p', 'B', 'T'], [(B, 1), (B, 1), (B, 1)])
-                           , (['r', 'p', 'B', 'T'], [(B, 9), (B, 9), (B, 9)])
-                           , (['n', 'e', 'K', 'T'], [(K, 9), (K, 9)])
-                           ]
+pureGreaterTerminalHand1 = mkHand
 
 pureGreaterTermimalHand2 :: Hand
-pureGreaterTermimalHand2 = [ (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                           , (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                           , (['n', 'e', 'C', 'T'], [(C, 9), (C, 9)])
-                           , (['n', 'e', 'B', 'T'], [(B, 1), (B, 1)])
-                           , (['n', 'e', 'B', 'T'], [(B, 9), (B, 9)])
-                           , (['n', 'e', 'K', 'T'], [(K, 1), (K, 1)])
-                           , (['r', 'e', 'K', 'T'], [(K, 9), (K, 9)])
-                           ]
+pureGreaterTermimalHand2 = mkHand
 
 
 -- | 8.0 Honor Tiles
 
 dragonPungEx :: Hand
-dragonPungEx = [ (['n', 'p', 'B', 'S'], [(B, 2), (B, 2), (B, 2)])
-                 , (['n', 'c', 'K', 'S'], [(K, 3), (K, 4), (K, 5)])
-                 , (['r', 'c', 'C', 'T'], [(C, 1), (C, 2), (C, 3)])
-                 , (['r', 'p', 'D'], [(D, 1), (D, 1), (D, 1)])
-                 , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                 , (['b'], [(F, 4)])
-                 ]
+dragonPungEx = mkHand
 
 seatWindEx :: Hand
-seatWindEx = [ (['n', 'p', 'B', 'S'], [(B, 2), (B, 2), (B, 2)])
-               , (['n', 'c', 'K', 'S'], [(K, 3), (K, 4), (K, 5)])
-               , (['r', 'c', 'C', 'T'], [(C, 1), (C, 2), (C, 3)])
-               , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-               , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-               , (['b'], [(F, 4)])
-               , ]
+seatWindEx = mkHand
 
 littleThreeWindsEx :: Hand
-littleThreeWindsEx = [ (['n', 'p', 'C', 'S'], [(C, 2), (C, 2), (C, 2)])
-                       , (['n', 'p', 'W'], [(W, 3), (W, 3), (W, 3)])
-                       , (['r', 'c', 'K', 'T'], [(K, 1), (K, 2), (K, 3)])
-                       , (['r', 'p', 'W'], [(W, 4), (W, 4), (W, 4)])
-                       , (['r', 'e', 'W'], [(W, 1), (W, 1)])
-                       , (['b'], [(F, 4)])
-                       ]
+littleThreeWindsEx = mkHand
 
 bigThreeWindsEx :: Hand
-bigThreeWindsEx = [ (['n', 'p', 'W'], [(W, 2), (W, 2), (W, 2)])
-                    , (['n', 'p', 'W'], [(W, 3), (W, 3), (W, 3)])
-                    , (['r', 'c', 'K', 'T'], [(K, 1), (K, 2), (K, 3)])
-                    , (['r', 'p', 'W'], [(W, 4), (W, 4), (W, 4)])
-                    , (['r', 'e', 'C', 'S'], [(C, 4), (C, 4)])
-                    , (['b'], [(F, 4)])
-                    ]
+bigThreeWindsEx = mkHand
 
 littleFourWindsEx :: Hand
-littleFourWindsEx = [ (['n', 'p', 'W'], [(W, 2), (W, 2), (W, 2)])
-                      , (['n', 'c', 'K', 'T'], [(K, 1), (K, 2), (K, 3)])
-                      , (['r', 'p', 'W'], [(W, 3), (W, 3), (W, 3)])
-                      , (['r', 'p', 'W'], [(W, 4), (W, 4), (W, 4)])
-                      , (['r', 'e', 'W'], [(W, 1), (W, 1)])
-                      , (['b'], [(F, 4)])
-                      ]
+littleFourWindsEx = mkHand
 
 bigFourWindsEx :: Hand
-bigFourWindsEx = [ (['n', 'p', 'W'], [(W, 2), (W, 2), (W, 2)])
-                   , (['r', 'p', 'W'], [(W, 3), (W, 3), (W, 3)])
-                   , (['r', 'p', 'W'], [(W, 4), (W, 4), (W, 4)])
-                   , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                   , (['r', 'e', 'C', 'S'], [(C, 4), (C, 4)])
-                   , (['b'], [(F, 4)])
-                   ]
+bigFourWindsEx = mkHand
 
 littleThreeDragonsEx :: Hand
-littleThreeDragonsEx = [ (['n', 'p', 'D'], [(D, 2), (D, 2), (D, 2)])
-                         , (['n', 'c', 'K', 'S'], [(K, 3), (K, 4), (K, 5)])
-                         , (['r', 'p', 'C', 'T'], [(C, 1), (C, 1), (C, 1)])
-                         , (['r', 'p', 'D'], [(D, 1), (D, 1), (D, 1)])
-                         , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                         ]
+littleThreeDragonsEx = mkHand
 
 bigThreeDragonsEx :: Hand
-bigThreeDragonsEx = [ (['n', 'p', 'D'], [(D, 2), (D, 2), (D, 2)])
-                      , (['n', 'c', 'B', 'T'], [(B, 1), (B, 2), (B, 3)])
-                      , (['r', 'p', 'D'], [(D, 1), (D, 1), (D, 1)])
-                      , (['r', 'p', 'D'], [(D, 3), (D, 3), (D, 3)])
-                      , (['r', 'e', 'C', 'S'], [(C, 3), (C, 3)])
-                      ]
+bigThreeDragonsEx = mkHand
 
 allHonorsHand1 :: Hand
-allHonorsHand1 = [ (['n', 'p', 'D'], [(D, 2), (D, 2), (D, 2)])
-                 , (['n', 'p', 'W'], [(W, 3), (W, 3), (W, 3)])
-                 , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                 , (['r', 'p', 'D'], [(D, 1), (D, 1), (D, 1)])
-                 , (['r', 'e', 'W'], [(W, 4), (W, 4)])
-                 ]
+allHonorsHand1 = mkHand
 
 allHonorsHand2 :: Hand
-allHonorsHand2 = [ (['n', 'e', 'W'], [(W, 1), (W, 1)])
-                 , (['n', 'e', 'W'], [(W, 2), (W, 2)])
-                 , (['n', 'e', 'W'], [(W, 2), (W, 2)])
-                 , (['n', 'e', 'D'], [(D, 1), (D, 1)])
-                 , (['n', 'e', 'D'], [(D, 2), (D, 2)])
-                 , (['n', 'e', 'D'], [(D, 3), (D, 3)])
-                 , (['r', 'e', 'W'], [(W, 4), (W, 4)])
-                 ]
+allHonorsHand2 = mkHand
 
 allHonorPairsEx :: Hand
-allHonorPairsEx = [ (['n', 'e', 'W'], [(W, 1), (W, 1)])
-                    , (['n', 'e', 'W'], [(W, 2), (W, 2)])
-                    , (['n', 'e', 'W'], [(W, 3), (W, 3)])
-                    , (['n', 'e', 'D'], [(D, 1), (D, 1)])
-                    , (['n', 'e', 'D'], [(D, 2), (D, 2)])
-                    , (['n', 'e', 'D'], [(D, 3), (D, 3)])
-                    , (['r', 'e', 'W'], [(W, 4), (W, 4)])
-                    ]
+allHonorPairsEx = mkHand
 
 
 -- | 9.0 Seven Pairs
 
 sevenPairsHand1 :: Hand
-sevenPairsHand1 = [ (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                  , (['n', 'e', 'C', 'S'], [(C, 7), (C, 7)])
-                  , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                  , (['n', 'e', 'K', 'S'], [(K, 6), (K, 6)])
-                  , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                  , (['n', 'e', 'D'], [(D, 2), (D, 2)])
-                  , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                  ]
+sevenPairsHand1 = mkHand
 
 sevenPairsHand2 :: Hand
-sevenPairsHand2 = [ (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                  , (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                  , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                  , (['n', 'e', 'K', 'S'], [(K, 6), (K, 6)])
-                  , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                  , (['n', 'e', 'D'], [(D, 2), (D, 2)])
-                  , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                  ]
+sevenPairsHand2 = mkHand
 
 sevenPairsHand3 :: Hand
-sevenPairsHand3 = [ (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                  , (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                  , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                  , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                  , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                  , (['n', 'e', 'D'], [(D, 2), (D, 2)])
-                  , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                  ]
+sevenPairsHand3 = mkHand
 
 sevenPairsHand4 :: Hand
-sevenPairsHand4 = [ (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                  , (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                  , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                  , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                  , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                  , (['n', 'e', 'W'], [(W, 4), (W, 4)])
-                  , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-                  ]
+sevenPairsHand4 = mkHand
 
 sevenShiftedPairsHand1 :: Hand
-sevenShiftedPairsHand1 = [ (['n', 'e', 'C', 'T'], [(C, 1), (C, 1)])
-                         , (['n', 'e', 'C', 'S'], [(C, 2), (C, 2)])
-                         , (['n', 'e', 'C', 'S'], [(C, 3), (C, 3)])
-                         , (['n', 'e', 'C', 'S'], [(C, 4), (C, 4)])
-                         , (['n', 'e', 'C', 'S'], [(C, 5), (C, 5)])
-                         , (['n', 'e', 'C', 'S'], [(C, 6), (C, 6)])
-                         , (['r', 'e', 'C', 'S'], [(C, 7), (C, 7)])
-                         ]
+sevenShiftedPairsHand1 = mkHand
 
 sevenShiftedPairsHand2 :: Hand
-sevenShiftedPairsHand2 = [ (['n', 'e', 'K', 'S'], [(K, 3), (K, 3)])
-                         , (['n', 'e', 'K', 'S'], [(K, 4), (K, 4)])
-                         , (['n', 'e', 'K', 'S'], [(K, 5), (K, 5)])
-                         , (['n', 'e', 'K', 'S'], [(K, 6), (K, 6)])
-                         , (['n', 'e', 'K', 'S'], [(K, 7), (K, 7)])
-                         , (['n', 'e', 'K', 'S'], [(K, 8), (K, 8)])
-                         , (['r', 'e', 'K', 'T'], [(K, 9), (K, 9)])
-                         ]
+sevenShiftedPairsHand2 = mkHand
 
 grandChariotEx :: Hand
-grandChariotEx = [ (['n', 'e', 'C', 'S'], [(C, 2), (C, 2)])
-                   , (['n', 'e', 'C', 'S'], [(C, 3), (C, 3)])
-                   , (['n', 'e', 'C', 'S'], [(C, 4), (C, 4)])
-                   , (['n', 'e', 'C', 'S'], [(C, 5), (C, 5)])
-                   , (['n', 'e', 'C', 'S'], [(C, 6), (C, 6)])
-                   , (['n', 'e', 'C', 'S'], [(C, 7), (C, 7)])
-                   , (['r', 'e', 'C', 'S'], [(C, 8), (C, 8)])
-                   ]
+grandChariotEx = mkHand
 
 bambooForestEx :: Hand
-bambooForestEx = [ (['n', 'e', 'B', 'S'], [(B, 2), (B, 2)])
-                   , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                   , (['n', 'e', 'B', 'S'], [(B, 4), (B, 4)])
-                   , (['n', 'e', 'B', 'S'], [(B, 5), (B, 5)])
-                   , (['n', 'e', 'B', 'S'], [(B, 6), (B, 6)])
-                   , (['n', 'e', 'B', 'S'], [(B, 7), (B, 7)])
-                   , (['r', 'e', 'B', 'S'], [(B, 8), (B, 8)])
-                   ]
+bambooForestEx = mkHand
 
 numberNeighborhoodEx :: Hand
-numberNeighborhoodEx = [ (['n', 'e', 'K', 'S'], [(K, 2), (K, 2)])
-                         , (['n', 'e', 'K', 'S'], [(K, 3), (K, 3)])
-                         , (['n', 'e', 'K', 'S'], [(K, 4), (K, 4)])
-                         , (['n', 'e', 'K', 'S'], [(K, 5), (K, 5)])
-                         , (['n', 'e', 'K', 'S'], [(K, 6), (K, 6)])
-                         , (['n', 'e', 'K', 'S'], [(K, 7), (K, 7)])
-                         , (['r', 'e', 'K', 'S'], [(K, 8), (K, 8)])
-                         ]
+numberNeighborhoodEx = mkHand
 
 
 -- | 10.0 Color Hands
 
 allGreenEx :: Hand
-allGreenEx = [ (['n', 'p', 'B', 'S'], [(B, 2), (B, 2), (B, 2)])
-               , (['r', 'c', 'B', 'S'], [(B, 2), (B, 3), (B, 4)])
-               , (['r', 'p', 'B', 'S'], [(B, 6), (B, 6), (B, 6)])
-               , (['r', 'p', 'D'], [(D, 2), (D, 2), (D, 2)])
-               , (['r', 'e', 'B', 'S'], [(B, 8), (B, 8)])
-               ]
+allGreenEx = mkHand
 
 allRedEx :: Hand
-allRedEx = [ (['n', 'p', 'B', 'S'], [(B, 1), (B, 1), (B, 1)])
-             , (['r', 'p', 'B', 'S'], [(B, 5), (B, 5), (B, 5)])
-             , (['r', 'p', 'B', 'S'], [(B, 9), (B, 9), (B, 9)])
-             , (['r', 'p', 'D'], [(D, 1), (D, 1), (D, 1)])
-             , (['r', 'e', 'B', 'S'], [(B, 7), (B, 7)])
-             ]
+allRedEx = mkHand
 
 allBlueEx :: Hand
-allBlueEx = [ (['n', 'p', 'W'], [(W, 2), (W, 2), (W, 2)])
-              , (['r', 'p', 'W'], [(W, 3), (W, 3), (W, 3)])
-              , (['r', 'p', 'W'], [(C, 8), (C, 8), (C, 8)])
-              , (['r', 'p', 'W'], [(D, 3), (D, 3), (D, 3)])
-              , (['r', 'e', 'W'], [(W, 4), (W, 4)])
-              , (['b'], [(F, 4)])
-              ]
+allBlueEx = mkHand
 
 
 -- | 11.0 Irregular Hands
 
 thirteenOrphanEx :: Hand
-thirteenOrphanEx = [ ( ['r', 'h', 'B', 'T', 'W', 'D']
+thirteenOrphanEx = mkHand
+[ ( ['r', 'h', 'B', 'T', 'W', 'D']
                        , [ (C, 1), (C, 9), (B, 1), (B, 9), (K, 1), (K, 9)
                            (W, 1), (W, [(C, 1), (C, 2), (W, 3), (W, 4)
                            (D, 1), (D, [(C, 1), (C, 2), (D, 2), (D, 3)
@@ -717,91 +453,47 @@ thirteenOrphanEx = [ ( ['r', 'h', 'B', 'T', 'W', 'D']
 -- | 12.0 Incidental Bonuses
 
 finalDrawEx :: Hand []
-finalDrawEx = [] 
+finalDrawEx = mkHand
 
 finalDiscardEx :: Hand []
-finalDiscardEx = []
+finalDiscardEx = mkHand
 
 winOnKongEx :: Hand []
-winOnKongEx = []
+winOnKongEx = mkHand
 
 winOnBonusTileEx :: Hand []
-winOnBonusTileEx = []
+winOnBonusTileEx = mkHand
 
 robbingKongEx :: Hand []
-robbingKongEx = []
+robbingKongEx = mkHand
 
 blessingOfHeavenEx :: Hand []
-blessingOfHeavenEx = []
+blessingOfHeavenEx = mkHand
 
 blessingOfEarthEx :: Hand []
-blessingOfEarthEx = []
+blessingOfEarthEx = mkHand
 
 
 -- | 13.0 Bonus Tiles
 
 nonSeatFlowerEx :: Hand
-nonSeatFlowerEx = [ (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-                    , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                    , (['r', 'c', 'K', 'S'], [(K, 1), (K, 2), (K, 3)])
-                    , (['r', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                    , (['c', 'e', 'W'], [(W, 3), (W, 3)])
-                    , (['b'], [(F, 3), (S, 2)])
-                    ]
+nonSeatFlowerEx = mkHand
 
 nonSeatSeasonEx :: Hand
-nonSeatSeasonEx = [ (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-                    , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                    , (['r', 'c', 'K', 'S'], [(K, 1), (K, 2), (K, 3)])
-                    , (['r', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                    , (['c', 'e', 'W'], [(W, 3), (W, 3)])
-                    , (['b'], [(F, 2), (S, 4)])
-                    ]
+nonSeatSeasonEx = mkHand
 
 seatFlowerEx :: Hand
-seatFlowerEx = [ (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-                 , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                 , (['r', 'c', 'K', 'S'], [(K, 1), (K, 2), (K, 3)])
-                 , (['r', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                 , (['c', 'e', 'W'], [(W, 3), (W, 3)])
-                 , (['b'], [(F, 1), (S, 2)])
-                 ]
+seatFlowerEx = mkHand
 
 seatSeasonEx :: Hand
-seatSeasonEx = [ (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-                 , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                 , (['r', 'c', 'K', 'S'], [(K, 1), (K, 2), (K, 3)])
-                 , (['r', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                 , (['c', 'e', 'W'], [(W, 3), (W, 3)])
-                 , (['b'], [(F, 2), (S, 1)])
-                 ]
+seatSeasonEx = mkHand
 
 fourFlowersEx :: Hand
-fourFlowersEx = [ (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-                  , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                  , (['r', 'c', 'K', 'S'], [(K, 1), (K, 2), (K, 3)])
-                  , (['r', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                  , (['c', 'e', 'W'], [(W, 3), (W, 3)])
-                  , (['b'], [(F, 1), (F, 2), (F, 3), (F, 4)])
-                  ]
+fourFlowersEx = mkHand
 
 fourSeasonsEx :: Hand
-fourSeasonsEx = [ (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-                  , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                  , (['r', 'c', 'K', 'S'], [(K, 1), (K, 2), (K, 3)])
-                  , (['r', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                  , (['c', 'e', 'W'], [(W, 3), (W, 3)])
-                  , (['b'], [(S, 1), (S, 2), (S, 3), (S, 4)])
-                  ]
+fourSeasonsEx = mkHand
 
 allBonusTileEx :: Hand
-allBonusTileEx = [ (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-                   , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-                   , (['r', 'c', 'K', 'S'], [(K, 1), (K, 2), (K, 3)])
-                   , (['l'], [(B, 4), (B, 5), (B, 6), (B, 7)])
-                   , (['b'], [ (F, 1), (F, 2), (F, 3), (F, 4)
-                             , (S, 1), (S, 2), (S, 3), (S, 4)
-                             ]
-                     )
-                   ]
+allBonusTileEx = mkHand
 -}
