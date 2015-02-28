@@ -72,16 +72,13 @@ module Game.Mahjong.Pattern
 
     -- * 8.0 Honor Tiles
 
-    -- ** 8.1 Dragon pung and seat wind
-  , dragonPung, seatWindHand
+    -- ** 8.1 Dragons
+  , dragonPung, littleThreeDragons, bigThreeDragons
 
     -- ** 8.2 Winds
-  , littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds
+  , windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds
 
-    -- ** 8.3 Dragons
-  , littleThreeDragons, bigThreeDragons
-
-    -- ** 8.4 Pure honors
+    -- ** 8.3 Pure honors
   , allHonors, allHonorPairs
 
 
@@ -120,7 +117,7 @@ module Game.Mahjong.Pattern
     -- * 13.0 Bonus Tiles
 
     -- ** 13.1 Basic flower points
-  , nonSeatFlower, nonSeatSeason, seatFlower, seatSeason
+  , bonusTile
 
     -- ** 13.2 Flower kong
   , fourFlowers, fourSeasons
@@ -240,17 +237,15 @@ pureGreaterTerminals    = Pattern "Pure Greater Terminals"  "清么九"   400
 
 -- | 8.0 Honor Tiles
 
-dragonPung, seatWindHand :: Pattern
-dragonPung         = Pattern "Dragon Pung" "箭刻" 10
-seatWindHand       = Pattern "Seat Wind"   "門風" 10
-
-littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds :: Pattern
+windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds :: Pattern
+windPung           = Pattern "Wind Pung"          "風刻"   5
 littleThreeWinds   = Pattern "Little Three Winds" "小三風" 30
 bigThreeWinds      = Pattern "Big Three Winds"    "大三風" 120
 littleFourWinds    = Pattern "Little Four Winds"  "小四喜" 320
 bigFourWinds       = Pattern "Big Four Winds"     "大四喜" 400
 
-littleThreeDragons, bigThreeDragons :: Pattern
+dragonPung, littleThreeDragons, bigThreeDragons :: Pattern
+dragonPung         = Pattern "Dragon Pung"          "箭刻"   10
 littleThreeDragons = Pattern "Little Three Dragons" "小三元" 40
 bigThreeDragons    = Pattern "Big Three Dragons"    "大三元" 130
 
@@ -305,11 +300,8 @@ blessingOfEarth  = Pattern "Blessing of Earth"  "地和" 155
 
 -- | 13.0 Bonus Tiles
 
-nonSeatFlower, nonSeatSeason, seatFlower, seatSeason :: Pattern
-nonSeatFlower = Pattern "Non-seat Flower" "偏花" 2
-nonSeatSeason = Pattern "Non-seat Season" "偏季" 2
-seatFlower    = Pattern "Seat Flower"     "正花" 4
-seatSeason    = Pattern "Seat Season"     "正季" 4
+bonusTile :: Pattern
+bonusTile     = Pattern "Non-seat Flower" "花季牌" 2
 
 fourFlowers, fourSeasons :: Pattern
 fourFlowers   = Pattern "Four Flowers" "齊四花" 10

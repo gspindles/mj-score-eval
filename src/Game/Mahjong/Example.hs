@@ -535,18 +535,9 @@ pureGreaterTerminalHandEx2 = mkHand
 
 -- | 8.0 Honor Tiles
 
-dragonPungEx :: Hand
-dragonPungEx = mkHand
-  [ mkChow r c1
-  , mkChow r k2
-  , mkPung r d1
-  , mkEyes c d3
-  ]
-  (mkPung r w3)
-  []
 
-seatWindEx :: Hand
-seatWindEx = mkHand
+windPungEx :: Hand
+windPungEx = mkHand
   [ mkPung r c8
   , mkChow r b3
   , mkChow r k8
@@ -594,6 +585,16 @@ bigFourWindsEx = mkHand
   ]
   (mkPung r w1)
   [f4, s2]
+
+dragonPungEx :: Hand
+dragonPungEx = mkHand
+  [ mkChow r c1
+  , mkChow r k2
+  , mkPung r d1
+  , mkEyes c d3
+  ]
+  (mkPung r w3)
+  []
 
 littleThreeDragonsEx :: Hand
 littleThreeDragonsEx = mkHand
@@ -810,8 +811,9 @@ blessingOfEarthEx = noHand
 
 -- | 13.0 Bonus Tiles
 
-nonSeatFlowerEx :: Hand
-nonSeatFlowerEx = mkHand
+
+bonusTile :: Hand
+bonusTile = mkHand
   [ mkChow r c2
   , mkPung r b2
   , mkChow r b8
@@ -819,36 +821,6 @@ nonSeatFlowerEx = mkHand
   ]
   (mkEyes r d1)
   [f2]
-
-nonSeatSeasonEx :: Hand
-nonSeatSeasonEx = mkHand
-  [ mkChow r c7
-  , mkPung r k2
-  , mkPung c k4
-  , mkChow r k8
-  ]
-  (mkEyes r w3)
-  [s2]
-
-seatFlowerEx :: Hand
-seatFlowerEx = mkHand
-  [ mkChow r c5
-  , mkChow r k5
-  , mkChow r k7
-  , mkPung c w4
-  ]
-  (mkEyes r d2)
-  [f1]
-
-seatSeasonEx :: Hand
-seatSeasonEx = mkHand
-  [ mkChow r b2
-  , mkPung r b6
-  , mkPung c b4
-  , mkKong r k8
-  ]
-  (mkEyes r w2)
-  [s1]
 
 fourFlowersEx :: Hand
 fourFlowersEx = mkHand
