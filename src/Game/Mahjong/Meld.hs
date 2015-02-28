@@ -12,6 +12,9 @@ module Game.Mahjong.Meld
   ( -- * Constructors ':: Status -> Tile t -> Meld'
     mkChow, mkPung, mkKong, mkEyes
 
+    -- * Meld accessors
+  , meldType, status, meldTiles
+
     -- * Predicates for the type of meld ':: Meld -> Bool'
   , isChow, isPung, isKong, isEyes
   

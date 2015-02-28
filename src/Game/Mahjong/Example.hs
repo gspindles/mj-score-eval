@@ -28,6 +28,7 @@ import Game.Mahjong.Tile
 r = Revealed
 c = Concealed
 
+
 -------------------------------------------------------------------------------
 
 {- Make a list of hands for testing -}
@@ -35,73 +36,80 @@ c = Concealed
 -- | 1.0 Trivial Patterns
 
 chickenEx :: Hand
-chickenEx = Hand [ mkChow r c7
-                 , mkPung r k2
-                 , mkChow r k8
-                 , mkPung c b4 
-                 ]
-                 (mkEyes r w3)
-                 (map mkWrap [f1, s2])
+chickenEx = mkHand
+  [ mkChow r c7
+  , mkPung r k2
+  , mkChow r k8
+  , mkPung c b4 
+  ]
+  (mkEyes r w3)
+  [f1, s2]
 
 allChowsEx :: Hand 
-allChowsEx = Hand [ mkChow r b4
-                  , mkChow r c7
-                  , mkChow r b2
-                  , mkChow c c1
-                  ]
-                  (mkEyes c d1)
-                  (map mkWrap [f1, s2])
+allChowsEx = mkHand
+  [ mkChow r b4
+  , mkChow r c7
+  , mkChow r b2
+  , mkChow c c1
+  ]
+  (mkEyes c d1)
+  [f1, s2]
 
 concealedEx :: Hand 
-concealedEx = Hand [ mkChow c c7
-                   , mkPung c w1 
-                   , mkChow c k1
-                   , mkChow c b4 
-                   ]
-                   (mkEyes r w3)
-                   (map mkWrap [f1, s2])
+concealedEx = mkHand [ mkChow c c7
+  , mkPung c w1 
+  , mkChow c k1
+  , mkChow c b4 
+  ]
+  (mkEyes r w3)
+  [f1, s2]
 
 selfDrawnEx :: Hand
-selfDrawnEx = Hand [ mkChow c c7
-                   , mkPung r w1 
-                   , mkChow r k1
-                   , mkChow c b4 
-                   ]
-                   (mkEyes c w3)
-                   (map mkWrap [f1, s2])
+selfDrawnEx = mkHand
+  [ mkChow c c7
+  , mkPung r w1 
+  , mkChow r k1
+  , mkChow c b4 
+  ]
+  (mkEyes c w3)
+  [f1, s2]
 
-{-
-allSimpleHand2 :: Hand
-allSimpleHand2 = [ (['n', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-                 , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])
-                 , (['r', 'p', 'B', 'S'], [(B, 3), (B, 3), (B, 3)])
-                 , (['r', 'p', 'K', 'S'], [(K, 2), (K, 2), (K, 2)])
-                 , (['r', 'e', 'B', 'S'], [(B, 2), (B, 2)])
-                 , (['b'], [(F, 1), (S, 2)])
-                 ]
+allSimpleHandEx1 :: Hand
+allSimpleHandEx1 = mkHand
+  [ mkChow r b4
+  , mkChow r c6
+  , mkPung c b3
+  , mkPung r k6
+  ]
+  (mkEyes c b2)
+  []
 
-allSimpleHand2 = Hand
-allSimpleHand2 = [ (['n', 'e', 'C', 'S'], [(C, 2), (C, 2)])
-                 , (['n', 'e', 'C', 'S'], [(C, 5), (C, 5)])
-                 , (['n', 'e', 'C', 'S'], [(C, 8), (C, 8)])
-                 , (['n', 'e', 'B', 'S'], [(B, 3), (B, 3)])
-                 , (['n', 'e', 'B', 'S'], [(B, 6), (B, 6)])
-                 , (['n', 'e', 'B', 'S'], [(B, 8), (B, 8)])
-                 , (['r', 'e', 'K', 'S'], [(K, 8), (K, 8)])
-                 ]
+allSimpleHandEx2 :: Hand
+allSimpleHandEx2 = mkHand
+  [ mkEyes c c2
+  , mkEyes c c5
+  , mkEyes c c8
+  , mkEyes c b3
+  , mkEyes c b5
+  , mkEyes c k7
+  ]
+  (mkEyes r k8)
+  [s3]
 
-AllTypesEx :: Hand
-AllTypesEx = [ (['r', 'c', 'C', 'T'], [(C, 7), (C, 8), (C, 9)])
-               , (['r', 'p', 'W'], [(W, 1), (W, 1), (W, 1)])
-               , (['r', 'c', 'K', 'T'], [(K, 1), (K, 2), (K, 3)])
-               , (['r', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
-               , (['r', 'e', 'D'], [(D, 3), (D, 3)])
-               , (['b'], [(F, 1)])
-               ]
+allTypesEx :: Hand
+allTypesEx = mkHand
+  [ mkChow r c7
+  , mkPung r w2
+  , mkPung c k4
+  , mkChow c b6
+  ]
+  (mkEyes r d3)
+  [f1]
 
 
 -- | 2.0 Identical Chows
 
+{-
 twoIdenticalChowsEx :: Hand
 twoIdenticalChowsEx = [ (['n', 'c', 'B', 'S'], [(B, 4), (B, 5), (B, 6)])
                         , (['r', 'c', 'C', 'S'], [(C, 6), (C, 7), (C, 8)])

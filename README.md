@@ -176,7 +176,7 @@ A sequece of 123 and 789 in the same suit.
 #### 7.1.2 Two-Tailed Terminal Pungs (老少刻) : 15
 A triplet/kongs of 1s and 9s in the same suit.
 
-#### 7.1.3 Two-Tailed Terminals (老少么) : 250
+#### 7.1.3 Two-Tailed Terminals (老少么) : 240
 The hand consists of the pattern 111-123-789-999 in a suit.
 
 #### 7.1.5 Little Mountain (小山滿) : 320

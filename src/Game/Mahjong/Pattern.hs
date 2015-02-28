@@ -13,57 +13,119 @@ module Game.Mahjong.Pattern
   ( -- * 0.0 Imcomplete or invalid pattern
     noPattern
 
+
     -- * 1.0 Trivial Patterns
   , chicken, allChows, concealed, selfDrawn, allSimples, allTypes, illegalCall
 
+
     -- * 2.0 Pungs and Kongs
-  , allPungs, twoConcealedPungs, threeConcealedPungs, fourConcealedPungs
+
+    -- ** 2.1 Pung
+  , allPungs
+
+    -- ** 2.2 Concealed pungs
+  , twoConcealedPungs, threeConcealedPungs, fourConcealedPungs
+
+    -- ** 2.3 Kongs
   , oneKong, twoKongs, threeKongs, fourKongs
- 
-    -- * 3.0 Identical Chows
+
+
+    -- * 3.0 Identical Sets
   , twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows
 
+
     -- * 4.0 Similar Sets
+
+    -- ** 4.1 Similar chows
   , threeSimilarChows
+
+    -- ** 4.2 Similar pungs
   , littleThreeSimilarPungs, threeSimilarPungs
 
+
     -- * 5.0 Consecutive Sets 
+
+    -- ** 5.1 Consecutive chows
   , threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice, fourConsecutiveChows
+
+    -- ** 5.2 Consecutive pungs
   , threeConsecutivePungs, fourConsecutivePungs, threeMothers
 
-     -- * 6.0 Suit Patterns
-  , mixedOneSuit, pureOneSuit, littleTerminalClub, bigTerminalClub
+
+    -- * 6.0 Suit Patterns
+
+    -- ** 6.1 Mixed and pure
+  , mixedOneSuit, pureOneSuit
+
+    -- ** 6.2 Nine Gates
   , nineGates
 
+
     -- * 7.0 Terminal Tiles
-  , twoTailedTerminalChows, twoTailedTerminalPungs, littleBoundlessMountain, bigBoundlessMountain
+
+    -- ** 7.1 Chow and pungs
+  , twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain
+
+    -- ** 7.2 Mixed and pure
   , mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals
 
+
     -- * 8.0 Honor Tiles
+
+    -- ** 8.1 Dragon pung and seat wind
   , dragonPung, seatWindHand
+
+    -- ** 8.2 Winds
   , littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds
+
+    -- ** 8.3 Dragons
   , littleThreeDragons, bigThreeDragons
+
+    -- ** 8.4 Pure honors
   , allHonors, allHonorPairs
 
+
     -- * 9.0 Seven Pairs
+
+    -- ** 9.1 Basic seven pairs
   , sevenPairs
+
+    -- ** 9.2 Specialized seven pairs
   , sevenShiftedPairs, grandChariot, bambooForest, numberNeighborhood
+
 
     -- * 10.0 Color Hands
   , allGreen, allRed, allBlue
 
+
     -- * 11.0 Irregular Hands
   , thirteenOrphans
 
+
     -- * 12.0 Incidental bonuses
+
+    -- ** 12.1 Final tile
   , finalDraw, finalDiscard
+
+    -- ** 12.2 Winning on displacement tile
   , winOnKong, winOnBonusTile
+
+    -- ** 12.3 Robbing a kong
   , robbingAKong
+
+    -- ** 12.4 Blessings / First tile
   , blessingOfHeaven, blessingOfEarth
 
+
     -- * 13.0 Bonus Tiles
+
+    -- ** 13.1 Basic flower points
   , nonSeatFlower, nonSeatSeason, seatFlower, seatSeason
+
+    -- ** 13.2 Flower kong
   , fourFlowers, fourSeasons
+
+    -- ** 12.3 Both sets of bonus tile
   , allBonusTiles
   ) where
 
@@ -152,11 +214,9 @@ threeMothers               = Pattern "Three Mothers"           "三娘教子" 40
 
 -- | 6.0 Suit Patterns
 
-mixedOneSuit, pureOneSuit, littleTerminalClub, bigTerminalClub :: Pattern
+mixedOneSuit, pureOneSuit :: Pattern
 mixedOneSuit       = Pattern "Mixed One-Suit"       "混一色"     40
 pureOneSuit        = Pattern "Pure One-Suit"        "清一色"     80
-littleTerminalClub = Pattern "Little Terminal Club" "一色雙龍會" 100
-bigTerminalClub    = Pattern "Big Terminal Club"    "清天龍會"   320
 
 nineGates :: Pattern
 nineGates          = Pattern "Nine Gates" "九蓮寶燈" 480
@@ -164,9 +224,10 @@ nineGates          = Pattern "Nine Gates" "九蓮寶燈" 480
 
 -- | 7.0 Terminal Tiles
 
-twoTailedTerminalChows, twoTailedTerminalPungs, littleBoundlessMountain, bigBoundlessMountain :: Pattern
+twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: Pattern
 twoTailedTerminalChows  = Pattern "Two-Tailed Terminal Chows" "老少配" 5
 twoTailedTerminalPungs  = Pattern "Two-Tailed Terminal Pungs" "老少副" 15
+twoTailedTerminals      = Pattern "Two-Tailed Terminals"      "老少么" 240
 littleBoundlessMountain = Pattern "Little Boundless Mountain" "小山滿" 320
 bigBoundlessMountain    = Pattern "Big  Boundless Mountain"   "大山滿" 400
 

@@ -31,9 +31,9 @@ data MeldType      = Chow | Pung | Kong | Eyes
                      deriving (Eq, Show)
 
 -- | Meld data
-data Meld          = Meld { meldType :: MeldType
-                          , status   :: Status
-                          , meld     :: Tiles
+data Meld          = Meld { meldType  :: MeldType
+                          , status    :: Status
+                          , meldTiles :: Tiles
                           }
 
 
@@ -115,8 +115,8 @@ isWindM      = predHelper isWindT
 isDragonM    = predHelper isDragonT
 
 isSimpleM, isTerminalM, isSuitM, isHonorM, isEdgeM :: Meld -> Bool
-isSimpleM    = and . mapWrap isSimpleT . meld
-isTerminalM  = or . mapWrap isTerminalT . meld
+isSimpleM    = and . mapWrap isSimpleT . meldTiles
+isTerminalM  = or . mapWrap isTerminalT . meldTiles
 isSuitM      = predHelper isSuitT
 isHonorM     = predHelper isHonorT
 isEdgeM      = predHelper isEdgeT
@@ -127,5 +127,5 @@ isGreenM     = predHelper isGreenT
 isBlueM      = predHelper isBlueT
 
 predHelper :: (forall a. Tile a -> Bool) -> Meld -> Bool
-predHelper p = liftWrap p . head . meld
+predHelper p = liftWrap p . head . meldTiles
 
