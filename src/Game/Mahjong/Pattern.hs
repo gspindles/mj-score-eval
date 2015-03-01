@@ -92,7 +92,7 @@ module Game.Mahjong.Pattern
 
 
     -- * 10.0 Color Hands
-  , allGreen, allRed, allBlue
+  , allGreen, allRed
 
 
     -- * 11.0 Irregular Hands
@@ -117,7 +117,7 @@ module Game.Mahjong.Pattern
     -- * 13.0 Bonus Tiles
 
     -- ** 13.1 Basic flower points
-  , bonusTile
+  , bonusFlowerSeason
 
     -- ** 13.2 Flower kong
   , fourFlowers, fourSeasons
@@ -222,11 +222,11 @@ nineGates          = Pattern "Nine Gates" "九蓮寶燈" 480
 -- | 7.0 Terminal Tiles
 
 twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: Pattern
-twoTailedTerminalChows  = Pattern "Two-Tailed Terminal Chows" "老少配" 5
-twoTailedTerminalPungs  = Pattern "Two-Tailed Terminal Pungs" "老少副" 15
-twoTailedTerminals      = Pattern "Two-Tailed Terminals"      "老少么" 240
-littleBoundlessMountain = Pattern "Little Boundless Mountain" "小山滿" 320
-bigBoundlessMountain    = Pattern "Big  Boundless Mountain"   "大山滿" 400
+twoTailedTerminalChows  = Pattern "Two-Tailed Terminal Chows" "老少配"   5
+twoTailedTerminalPungs  = Pattern "Two-Tailed Terminal Pungs" "老少副"   15
+twoTailedTerminals      = Pattern "Two-Tailed Terminals"      "老少么九" 240
+littleBoundlessMountain = Pattern "Little Boundless Mountain" "小山滿"   320
+bigBoundlessMountain    = Pattern "Big  Boundless Mountain"   "大山滿"   400
 
 mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals :: Pattern
 mixedLesserTerminals    = Pattern "Mixed Lesser Terminals"  "混全帶么" 40
@@ -271,7 +271,7 @@ numberNeighborhood = Pattern "Number Neighborhood" "大數隣" 400
 allGreen, allRed, allBlue :: Pattern
 allGreen = Pattern "All Green" "緑一色" 400
 allRed   = Pattern "All Red"   "紅孔雀" 480
-allBlue  = Pattern "All Blue"  "藍一色" 400
+allBlue  = Pattern "All Blue"  "藍一色" 400 -- not exported
 
 
 -- | 11.0 Irregular Hands
@@ -300,13 +300,13 @@ blessingOfEarth  = Pattern "Blessing of Earth"  "地和" 155
 
 -- | 13.0 Bonus Tiles
 
-bonusTile :: Pattern
-bonusTile     = Pattern "Non-seat Flower" "花季牌" 2
+bonusFlowerSeason :: Pattern
+bonusFlowerSeason = Pattern "Non-seat Flower" "花季牌" 2
 
 fourFlowers, fourSeasons :: Pattern
-fourFlowers   = Pattern "Four Flowers" "齊四花" 10
-fourSeasons   = Pattern "Four Seasons" "齊四季" 10
+fourFlowers       = Pattern "Four Flowers" "齊四花" 10
+fourSeasons       = Pattern "Four Seasons" "齊四季" 10
 
 allBonusTiles :: Pattern
-allBonusTiles = Pattern "All Bonus Tiles" "八仙過海" 50
+allBonusTiles     = Pattern "All Bonus Tiles" "八仙過海" 50
 

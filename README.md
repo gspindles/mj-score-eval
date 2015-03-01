@@ -1,7 +1,7 @@
 mj-score-eval
 =============
 
-A minor mahjong evaluation program to familiarize with Python
+A minor mahjong evaluation program for fun.
 
 ### Mahjong Scoring Guide
 
@@ -128,8 +128,9 @@ A "123" sequence, a "456" sequence, and a "789" sequence, all in the same suit.
 Example: 1萬 2萬 3萬, 4萬 5萬 6萬, 7萬 8萬 9萬
 
 #### 5.1.3 Three Consecutive Chows Twice (雙三連順) : 50
-Two of three consecutive chows in the same suit an (n)(n+1)(n+2) sequence, (n+1)(n+2)(n+3) sequence, (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence.
-Example: 1萬 2萬 3萬, 2萬 3萬 4萬, 3萬 4萬 5萬, 5萬 6萬 7萬
+Two of three consecutive chows in the same suit.  At the start: (n)(n+1)(n+2) sequence, (n+1)(n+2)(n+3) sequence, (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence; or at the end: (n)(n+1)(n+2) sequence, (n+2)(n+3)(n+4) sequence, (n+3)(n+4)(n+5) sequence, and a (n+4)(n+5)(n+6) sequence.
+Example: 1萬 2萬 3萬, 2萬 3萬 4萬, 3萬 4萬 5萬, 5萬 6萬 7萬 (Chow #1,2,3 and #1,3,4 makes two consecutive chows)
+Example: 1萬 2萬 3萬, 3萬 4萬 5萬, 4萬 5萬 6萬, 5萬 6萬 7萬 (Chow #1,2,4 and #2,3,4 makes two consecutive chows)
 
 #### 5.1.4 Four Consecutive Chows (四連順) : 100
 Four chows in consecutive number in the same suit with step 1: a (n)(n+1)(n+2) sequence, a (n+1)(n+2)(n+3) sequence, a (n+2)(n+3)(n+4) sequence, and a (n+3)(n+4)(n+5); or step 2: a (n)(n+1)(n+2) sequence, a (n+2)(n+3)(n+4) sequence, a (n+4)(n+5)(n+6) sequence, and a (n+6)(n+7)(n+8) sequence.
@@ -176,7 +177,7 @@ A sequece of 123 and 789 in the same suit.
 #### 7.1.2 Two-Tailed Terminal Pungs (老少刻) : 15
 A triplet/kongs of 1s and 9s in the same suit.
 
-#### 7.1.3 Two-Tailed Terminals (老少么) : 240
+#### 7.1.3 Two-Tailed Terminals (老少么九) : 200
 The hand consists of the pattern 111-123-789-999 in a suit.
 
 #### 7.1.5 Little Mountain (小山滿) : 320
@@ -190,11 +191,11 @@ Example: 1筒 1筒 1筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 7筒 8筒 9筒, 9筒 9�
 Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 9筒 9筒 9筒, 1筒 1筒
 
 
-#### 7.2.1 Mixed Lesser Terminals (混全帶么) : 40
+#### 7.2.1 Mixed Lesser Terminals (混全帶么九) : 40
 Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal tile or an honor tile.
 Example: 1索 1索 1索, 1萬 2萬 3萬, 7筒 8筒 9筒, 中 中 中, 9萬 9萬
 
-#### 7.2.2 Pure Lesser Terminals (純全帶么) : 50
+#### 7.2.2 Pure Lesser Terminals (純全帶么九) : 50
 Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal number tile.
 Example: 1索 2索 3索, 1萬 1萬 1萬, 7萬 8萬 9萬, 9筒 9筒 9筒, 1索 1索
 
@@ -210,46 +211,45 @@ Example: 1索 1索 1索, 9萬 9萬 9萬, 1筒 1筒 1筒, 9筒 9筒 9筒, 9索 9�
 
 ### 8.0 Honor Tiles
 
-#### 8.1.1 Seat Wind (門風) : 10
-A triplet/kongs of Seat Wind (your own Wind).
-Note: in Zung Jung the Prevailing Wind is not recognized.
+#### 8.1.1 Wind Pung (風刻) : 5
+A triplet/kongs of a wind tile.
+Note: Seat wind and Prevailing Wind are not recognized.
 
-#### 8.1.2 Dragon Pung (箭刻) : 10 per set
-A triplet/kongs of a dragon tile.
-
-
-#### 8.2.1 Little Three Winds (小三風) : 30
+#### 8.1.2 Little Three Winds (小三風) : 30
 Two triplet/kongs of Winds, plus a pair of Winds as the eyes.
 Example: 西 西 西, 北 北 北, 東 東(eyes)
 
-#### 8.2.2 Big Three Winds (大三風) : 120
+#### 8.1.3 Big Three Winds (大三風) : 120
 Three triplet/kongs of Winds.
 Example: 東 東 東, 南 南 南, 北 北 北
 
-#### 8.2.3 Little Four Winds (小四喜) : 320
+#### 8.1.4 Little Four Winds (小四喜) : 320
 Three triplet/kongs of Winds, plus a pair of Winds as the eyes.
 Example: 東 東 東, 西 西 西, 北 北 北, 南 南(eyes)
 
-#### 8.2.4 Big Four Winds (大四喜) : 400
+#### 8.1.5 Big Four Winds (大四喜) : 400
 Four triplet/kongs of Winds.
 東 東 東, 南 南 南, 西 西 西, 北 北 北
 
 
-#### 8.3.1 Little Three Dragons (小三元) : 40 -> 60
+#### 8.2.1 Dragon Pung (箭刻) : 10 per set
+A triplet/kongs of a dragon tile.
+
+#### 8.2.2 Little Three Dragons (小三元) : 40 -> 60
 Two triplet/kongs of Dragons, plus a pair of Dragons as the eyes.
 Example: 白 白 白, 中 中 中, 發 發(eyes)
 (This hand always includes two Dragon Pungs, so it scores at least 40+10+10=60 points.)
 
-#### 8.3.2 Big Three Dragons (大三元) : 130 -> 160
+#### 8.2.3 Big Three Dragons (大三元) : 130 -> 160
 Three triplet/kongs of Dragons.
 白 白 白, 發 發 發, 中 中 中
 (This hand always includes three Dragon Pungs, so it scores at least 130+10+10+10=160 points.)
 
 
-#### 8.4.1 All Honor Pungs (字一色) : 320
+#### 8.3.1 All Honor Pungs (字一色) : 320
 The hand consists entirely of honor tiles.
 
-#### 8.4.2 All Honor Pairs (大七星) : 480
+#### 8.3.2 All Honor Pairs (大七星) : 480
 The hand consists of pairs of each wind tiles and pairs of each dragon tiles.
 
 
@@ -333,25 +333,18 @@ Does not count if East has made a concealed kongs.
 
 ### 13.0 Bonus Tiles
 
-#### 13.1.1 Non-seat Flower (偏花) : 2 per tile
-A flower tile which is not proper to one's seat.
+#### 13.1 Bonus Flower / Season (花季牌) : 2 per tile
+Each flower or season bonus tile is worth 2 points unless completing the set.
 
-#### 13.1.2 Non-seat Season (偏季) : 2 per tile
-A season tile which is not proper to one's seat.
 
-#### 13.1.3 Seat Flower (正花) : 4 per tile
-A flower tile which is proper to one's seat.
-
-#### 13.1.4 Seat Season (正季) : 4 per tile
-A season tile which is proper to one's seat.
-
-Upon drawing the last flower/season to complete a flower/season kongs, player only draw one extra tile.  Player does NOT draw two tiles from the tail wall (one from flower and one from declaring kongs).
+Note: Upon drawing the last flower/season to complete a flower/season kongs, player only draw one extra tile.  Player does NOT draw two tiles from the tail wall (one from flower and one from declaring kongs).
 
 #### 13.2.1 All Flowers (齊四花) : 15
 A complete set of all 4 Flower tiles.
 
 #### 13.2.2 All Seasons (齊四季) : 15
 A complete set of all 4 Season tiles.
+
 
 #### 13.3 All Bonus Tiles (八仙過海) : 80
 Gathering all flowers and seasons to instantly win the game.  If a player has 7 of the bonus tile and another player draws the last remaining bonus tile, then the first said player can steal and win.

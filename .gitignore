@@ -21,5 +21,9 @@ __pycache__
 *.db
 
 # document files are no-no, pdf ok
+*.odt
+*.doc
 *.docx
+*.ods
+*.xls
 *.xlsx

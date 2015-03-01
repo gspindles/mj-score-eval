@@ -266,6 +266,26 @@ threeSimilarPungsEx = mkHand
 
 -- | 5.0 Consecutive Sets
 
+threeConsecutiveChowsEx1 :: Hand
+threeConsecutiveChowsEx1 = mkHand
+  [ mkChow r c1
+  , mkChow r c2
+  , mkChow c c3
+  , mkPung c b8
+  ]
+  (mkEyes r d2)
+  [s1]
+
+threeConsecutiveChowsEx2 :: Hand
+threeConsecutiveChowsEx2 = mkHand
+  [ mkChow r c1
+  , mkChow r c3
+  , mkChow c c5
+  , mkPung c b8
+  ]
+  (mkEyes r d2)
+  [s1]
+
 nineTileStraightEx :: Hand
 nineTileStraightEx = mkHand
   [ mkChow r b1
@@ -275,6 +295,47 @@ nineTileStraightEx = mkHand
   ]
   (mkChow r b7)
   [f2]
+
+threeConsecutiveChowsTwiceEx1 :: Hand
+threeConsecutiveChowsTwiceEx1 = mkHand
+  [ mkChow r c2
+  , mkChow r c3
+  , mkChow c c4
+  , mkChow c c6
+  ]
+  (mkEyes r b2)
+  [f1, f3, s2]
+
+threeConsecutiveChowsTwiceEx2 :: Hand
+threeConsecutiveChowsTwiceEx2 = mkHand
+  [ mkChow r c2
+  , mkChow r c4
+  , mkChow c c5
+  , mkChow c c6
+  ]
+  (mkEyes r k7)
+  []
+
+fourConsecutiveChowsEx1 :: Hand 
+fourConsecutiveChowsEx1 = mkHand 
+  [ mkChow r c1
+  , mkChow r c2
+  , mkChow c c3
+  , mkChow c c4
+  ]
+  (mkEyes r b2)
+  [f1]
+
+fourConsecutiveChowsEx2 :: Hand 
+fourConsecutiveChowsEx2 = mkHand 
+  [ mkChow r c1
+  , mkChow r c3
+  , mkChow c c5
+  , mkChow c b7
+  ]
+  (mkEyes r k2)
+  [f4, s3]
+
 
 threeConsecutivePungsHandEx :: Hand
 threeConsecutivePungsHandEx = mkHand
