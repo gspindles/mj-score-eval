@@ -229,10 +229,10 @@ littleBoundlessMountain = Pattern "Little Boundless Mountain" "小山滿"   320
 bigBoundlessMountain    = Pattern "Big  Boundless Mountain"   "大山滿"   400
 
 mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals :: Pattern
-mixedLesserTerminals    = Pattern "Mixed Lesser Terminals"  "混全帶么" 40
-pureLesserTerminals     = Pattern "Pure Lesser Terminals"   "純全帶么" 50
-mixedGreaterTerminals   = Pattern "Mixed Greater Terminals" "混么九"   100
-pureGreaterTerminals    = Pattern "Pure Greater Terminals"  "清么九"   400
+mixedLesserTerminals    = Pattern "Mixed Lesser Terminals"  "混全帶么九" 40
+pureLesserTerminals     = Pattern "Pure Lesser Terminals"   "純全帶么九" 50
+mixedGreaterTerminals   = Pattern "Mixed Greater Terminals" "混么九"     100
+pureGreaterTerminals    = Pattern "Pure Greater Terminals"  "清么九"     400
 
 
 -- | 8.0 Honor Tiles
