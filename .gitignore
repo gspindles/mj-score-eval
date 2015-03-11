@@ -27,3 +27,6 @@ __pycache__
 *.ods
 *.xls
 *.xlsx
+
+# back up stuff
+*.bak

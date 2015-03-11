@@ -301,48 +301,17 @@ allTiles   = regulars ++ bonuses
 
 -------------------------------------------------------------------------------
 
-{- Predicates for determining tile types -}
+{- Utility functions -}
 
 tileType :: Tile a -> TileType
-tileType (CTile _)     = Coin
-tileType (BTile _)     = Bamboo
-tileType (KTile _)     = Character
-tileType (WTile _)     = Wind
-tileType (DTile _)     = Dragon
-tileType (FTile _)     = Flower
-tileType (STile _)     = Season
-tileType (ATile _)     = Animal
-
-isCoinT, isBambooT, isCharacterT, isWindT, isDragonT, isFlowerT, isSeasonT, isAnimalT :: Tile a -> Bool
-isCoinT                = (==) Coin . tileType
-isBambooT              = (==) Bamboo . tileType 
-isCharacterT           = (==) Character . tileType 
-isWindT                = (==) Wind . tileType
-isDragonT              = (==) Dragon . tileType
-isFlowerT              = (==) Flower . tileType
-isSeasonT              = (==) Season . tileType
-isAnimalT              = (==) Animal . tileType
-
-isSimpleT, isTerminalT, isSuitT, isHonorT, isEdgeT, isBonusT :: Tile a -> Bool
-isSimpleT              = and . zipWith id [isSuitT, not . isTerminalT] . repeat
-isTerminalT (CTile v)  = elem v [One, Nine]
-isTerminalT (BTile v)  = elem v [One, Nine]
-isTerminalT (KTile v)  = elem v [One, Nine]
-isTerminalT _          = False
-isSuitT                = or . zipWith id [isCoinT, isBambooT, isCharacterT] . repeat
-isHonorT               = or . zipWith id [isWindT, isDragonT] . repeat 
-isEdgeT                = or . zipWith id [isTerminalT, isHonorT] . repeat
-isBonusT               = or . zipWith id [isFlowerT, isSeasonT, isAnimalT] . repeat
-
-isRedT, isGreenT, isBlueT :: Tile a -> Bool
-isRedT                 = flip elem reds . Wrap
-isGreenT               = flip elem greens . Wrap
-isBlueT                = flip elem blues . Wrap
-
-
--------------------------------------------------------------------------------
-
-{- Utility functions -}
+tileType (CTile _)       = Coin
+tileType (BTile _)       = Bamboo
+tileType (KTile _)       = Character
+tileType (WTile _)       = Wind
+tileType (DTile _)       = Dragon
+tileType (FTile _)       = Flower
+tileType (STile _)       = Season
+tileType (ATile _)       = Animal
 
 liftWrap :: (forall a. Tile a -> b) -> WrapTile -> b
 liftWrap f (Wrap t) = f t
@@ -360,23 +329,34 @@ mapWrapT :: (forall a. Tile a -> Tile a) -> Tiles -> Tiles
 mapWrapT f ws = map (liftWrapT f) ws
 
 
-dora :: Tile a -> Tile a
-dora (CTile c)        = if c == Nine       then CTile One         else CTile $ succ c
-dora (BTile b)        = if b == Nine       then BTile One         else BTile $ succ b
-dora (KTile k)        = if k == Nine       then KTile One         else KTile $ succ k
-dora (WTile w)        = if w == North      then WTile East        else WTile $ succ w
-dora (DTile d)        = if d == White      then DTile Red         else DTile $ succ d
-dora (FTile f)        = if f == BambooTree then FTile PlumBlossom else FTile $ succ f
-dora (STile s)        = if s == Winter     then STile Spring      else STile $ succ s
-dora (ATile a)        = if a == Centipede  then ATile Cat         else ATile $ succ a
+-------------------------------------------------------------------------------
 
-reverseDora :: Tile a -> Tile a
-reverseDora (CTile c) = if c == One         then CTile Nine       else CTile $ pred c
-reverseDora (BTile b) = if b == One         then BTile Nine       else BTile $ pred b
-reverseDora (KTile k) = if k == One         then KTile Nine       else KTile $ pred k
-reverseDora (WTile w) = if w == East        then WTile North      else WTile $ pred w
-reverseDora (DTile d) = if d == Red         then DTile White      else DTile $ pred d
-reverseDora (FTile f) = if f == PlumBlossom then FTile BambooTree else FTile $ pred f
-reverseDora (STile s) = if s == Spring      then STile Winter     else STile $ pred s
-reverseDora (ATile a) = if a == Cat         then ATile Centipede  else ATile $ pred a
+{- Dora -}
+
+class Dora a where
+  dora        :: a -> a
+  reverseDora :: a -> a
+
+instance Dora (Tile t) where
+  dora (CTile c)        = if c == Nine       then CTile One         else CTile $ succ c
+  dora (BTile b)        = if b == Nine       then BTile One         else BTile $ succ b
+  dora (KTile k)        = if k == Nine       then KTile One         else KTile $ succ k
+  dora (WTile w)        = if w == North      then WTile East        else WTile $ succ w
+  dora (DTile d)        = if d == White      then DTile Red         else DTile $ succ d
+  dora (FTile f)        = if f == BambooTree then FTile PlumBlossom else FTile $ succ f
+  dora (STile s)        = if s == Winter     then STile Spring      else STile $ succ s
+  dora (ATile a)        = if a == Centipede  then ATile Cat         else ATile $ succ a
+
+  reverseDora (CTile c) = if c == One         then CTile Nine       else CTile $ pred c
+  reverseDora (BTile b) = if b == One         then BTile Nine       else BTile $ pred b
+  reverseDora (KTile k) = if k == One         then KTile Nine       else KTile $ pred k
+  reverseDora (WTile w) = if w == East        then WTile North      else WTile $ pred w
+  reverseDora (DTile d) = if d == Red         then DTile White      else DTile $ pred d
+  reverseDora (FTile f) = if f == PlumBlossom then FTile BambooTree else FTile $ pred f
+  reverseDora (STile s) = if s == Spring      then STile Winter     else STile $ pred s
+  reverseDora (ATile a) = if a == Cat         then ATile Centipede  else ATile $ pred a
+
+instance Dora WrapTile where
+  dora        = liftWrapT dora
+  reverseDora = liftWrapT reverseDora
 

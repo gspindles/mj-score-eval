@@ -28,18 +28,13 @@ module Game.Mahjong.Tile
   , s1, s2, s3, s4
 
     -- * Tile collections ':: Tiles'
-  , coins, bamboos, characters, winds, dragons, flowers, seasons, animals
+  , coins, bamboos, characters, winds, dragons, flowers, seasons
   , simples, terminals, suits, honors, edges, bonuses
-  , reds, greens, blues
+  , reds, greens
   , regulars, allTiles
 
-    -- * Tile predicate ':: Tile a -> Bool'
-  , tileType
-  , isCoinT, isBambooT, isCharacterT, isWindT, isDragonT, isFlowerT, isSeasonT
-  , isSimpleT, isTerminalT, isSuitT, isHonorT, isEdgeT, isBonusT
-  , isRedT, isGreenT, isBlueT
-
     -- * Utility functions
+  , tileType
 --, liftWrap, liftWrapT, liftWrap2
 --, mapWrap, mapWrapT
   , dora, reverseDora

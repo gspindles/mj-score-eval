@@ -14,7 +14,7 @@ module Game.Mahjong.Example
 where
 
 import Game.Mahjong.Hand
-import Game.Mahjong.Internal.Meld
+import Game.Mahjong.Meld
 import Game.Mahjong.Tile
 
 

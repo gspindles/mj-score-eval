@@ -15,8 +15,8 @@
 module Game.Mahjong.Internal.Meld where
 
 import Game.Mahjong.Internal.Tile
-import Data.List (intercalate)
- 
+import Data.List (intercalate, sort)
+
 
 -------------------------------------------------------------------------------
 
@@ -70,15 +70,15 @@ join' delim             = intercalate delim . map show
 mkChow :: Status -> Tile Suit -> Meld
 mkChow s t = 
   case t of
-    (CTile c) -> mkHelper s t c CTile
-    (BTile b) -> mkHelper s t b BTile
-    (KTile k) -> mkHelper s t k KTile
+    (CTile c) -> mkHelper s c CTile
+    (BTile b) -> mkHelper s b BTile
+    (KTile k) -> mkHelper s k KTile
   where
-    mkHelper :: Status -> Tile Suit -> Values -> (Values -> Tile Suit) -> Meld 
-    mkHelper s t v tCtor =
+    mkHelper :: Status -> Values -> (Values -> Tile Suit) -> Meld 
+    mkHelper s v tCtor =
       if elem v [Eight, Nine]
       then Meld Chow s . map (mkWrap . tCtor) $ [Seven, Eight, Nine]
-      else Meld Chow s . map mkWrap . take 3 . iterate dora $ t
+      else Meld Chow s . map (mkWrap . tCtor) . take 3 . iterate succ $ v
 
 mkPung, mkKong, mkEyes :: (Pungable t) => Status -> Tile t -> Meld
 mkPung s   = Meld Pung s . map mkWrap . replicate 3
@@ -108,33 +108,35 @@ isEyes _               = False
 
 -------------------------------------------------------------------------------
 
-{- Meld Predicates with Respect to Tile Types -}
-
-isCoinM, isBambooM, isCharacterM, isWindM, isDragonM :: Meld -> Bool
-isCoinM      = predHelper isCoinT
-isBambooM    = predHelper isBambooT
-isCharacterM = predHelper isCharacterT
-isWindM      = predHelper isWindT
-isDragonM    = predHelper isDragonT
-
-isSimpleM, isTerminalM, isSuitM, isHonorM, isEdgeM :: Meld -> Bool
-isSimpleM    = and . mapWrap isSimpleT . meldTiles
-isTerminalM  = or . mapWrap isTerminalT . meldTiles
-isSuitM      = predHelper isSuitT
-isHonorM     = predHelper isHonorT
-isEdgeM      = predHelper isEdgeT
-
-isRedM, isGreenM, isBlueM :: Meld -> Bool
-isRedM       = predHelper isRedT
-isGreenM     = predHelper isGreenT
-isBlueM      = predHelper isBlueT
-
-predHelper :: (forall a. Tile a -> Bool) -> Meld -> Bool
-predHelper p = liftWrap p . head . meldTiles
-
-
--------------------------------------------------------------------------------
-
 {- Utilities functions -}
 
--- | TODO : shifting a meld
+shiftMeld :: Meld -> Meld
+shiftMeld m =
+  case m of
+    (Meld Chow s ts) ->
+      case head . sort $ ts of
+        (Wrap (CTile c)) -> chowHelper s c c1 CTile
+        (Wrap (BTile b)) -> chowHelper s b b1 BTile
+        (Wrap (KTile k)) -> chowHelper s k k1 KTile
+      where
+        chowHelper :: Status -> Values -> Tile Suit -> (Values -> Tile Suit) -> Meld
+        chowHelper s v v1 tCtor =
+          if v < Seven
+          then mkChow s . tCtor $ succ v
+          else mkChow s v1
+    (Meld Pung s ts) -> shiftHelper mkPung s $ head . sort $ ts
+    (Meld Kong s ts) -> shiftHelper mkKong s $ head . sort $ ts
+    (Meld Eyes s ts) -> shiftHelper mkEyes s $ head . sort $ ts
+  where
+    shiftHelper :: (forall t. Pungable t => Status -> Tile t -> Meld)
+                 -> Status
+                 -> WrapTile
+                 -> Meld
+    shiftHelper mCtor s wt =
+      case wt of
+        (Wrap t@(CTile _)) -> mCtor s $ dora t
+        (Wrap t@(BTile _)) -> mCtor s $ dora t
+        (Wrap t@(KTile _)) -> mCtor s $ dora t
+        (Wrap t@(WTile _)) -> mCtor s $ dora t
+        (Wrap t@(DTile _)) -> mCtor s $ dora t
+
