@@ -115,23 +115,23 @@ shiftMeld m =
   case m of
     (Meld Chow s ts) ->
       case head . sort $ ts of
-        (Wrap (CTile c)) -> chowHelper s c c1 CTile
-        (Wrap (BTile b)) -> chowHelper s b b1 BTile
-        (Wrap (KTile k)) -> chowHelper s k k1 KTile
+        (Wrap (CTile c))   -> chowHelper s c c1 CTile
+        (Wrap (BTile b))   -> chowHelper s b b1 BTile
+        (Wrap (KTile k))   -> chowHelper s k k1 KTile
       where
         chowHelper :: Status -> Values -> Tile Suit -> (Values -> Tile Suit) -> Meld
         chowHelper s v v1 tCtor =
           if v < Seven
           then mkChow s . tCtor $ succ v
           else mkChow s v1
-    (Meld Pung s ts) -> shiftHelper mkPung s $ head . sort $ ts
-    (Meld Kong s ts) -> shiftHelper mkKong s $ head . sort $ ts
-    (Meld Eyes s ts) -> shiftHelper mkEyes s $ head . sort $ ts
+    (Meld Pung s ts)       -> shiftHelper mkPung s $ head . sort $ ts
+    (Meld Kong s ts)       -> shiftHelper mkKong s $ head . sort $ ts
+    (Meld Eyes s ts)       -> shiftHelper mkEyes s $ head . sort $ ts
   where
     shiftHelper :: (forall t. Pungable t => Status -> Tile t -> Meld)
-                 -> Status
-                 -> WrapTile
-                 -> Meld
+                -> Status
+                -> WrapTile
+                -> Meld
     shiftHelper mCtor s wt =
       case wt of
         (Wrap t@(CTile _)) -> mCtor s $ dora t
