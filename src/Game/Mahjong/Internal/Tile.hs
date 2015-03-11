@@ -84,46 +84,34 @@ type Tiles = [WrapTile]
 {- Class instances -}
 
 instance Show TileType where
-  show Coin            = "C"
-  show Bamboo          = "B"
-  show Character       = "K"
-  show Wind            = "W"
-  show Dragon          = "D"
-  show Flower          = "F"
-  show Season          = "S"
-  show Animal          = "A"
+  show tt              = showHelper tt reps [Coin .. Animal]
+    where
+      reps :: [String]
+      reps = ["C", "B", "K", "W", "D", "F", "S", "A"]
 
 instance Show Values where
-  show v               = show $ showHelper v [One .. Nine]
+  show v               = show $ showHelper v [1..] [One .. Nine]
 
 instance Show Winds where
-  show (East)          = "E"
-  show (South)         = "S"
-  show (West)          = "W"
-  show (North)         = "N"
+  show w               = showHelper w reps [East .. North]
+    where
+      reps :: [String]
+      reps = ["E", "S", "W", "N"]
 
 instance Show Dragons where
-  show (Red)           = "R"
-  show (Green)         = "G"
-  show (White)         = "W"
+  show d               = showHelper d reps [Red .. White]
+    where
+      reps :: [String]
+      reps = ["R", "G", "W"]
 
 instance Show Flowers where
-  show (PlumBlossom)   = "1"
-  show (Orchid)        = "2"
-  show (Chrysanthemum) = "3"
-  show (BambooTree)    = "4"
+  show f               = show $ showHelper f [1..] [PlumBlossom .. BambooTree]
 
 instance Show Seasons where
-  show (Spring)        = "1"
-  show (Summer)        = "2"
-  show (Autumn)        = "3"
-  show (Winter)        = "4"
+  show s               = show $ showHelper s [1..] [Spring .. Winter]
 
 instance Show Animals where
-  show (Cat)           = "1"
-  show (Mouse)         = "2"
-  show (Cockerel)      = "3"
-  show (Centipede)     = "4"
+  show a               = show $ showHelper a [1..] [Cat .. Centipede]
 
 instance Show (Tile a) where
   show (CTile c)       = "C" ++ show c
@@ -138,8 +126,8 @@ instance Show (Tile a) where
 instance Show WrapTile where
   show (Wrap t)        = show t
 
-showHelper :: (Eq a) => a -> [a] -> Int
-showHelper a           = fromJust . lookup a . flip zip [1..]
+showHelper :: (Eq a) => a -> [b] -> [a] -> b
+showHelper a reps      = fromJust . lookup a . flip zip reps
 
 
 instance Eq (Tile a) where
@@ -170,14 +158,14 @@ ordHelper :: Tile a -> Tile b -> Ordering
 ordHelper t1 t2    = compare (tileRank t1) (tileRank t2)
 
 tileRank :: Tile a -> Int
-tileRank (CTile c) = 10 + showHelper c [One .. Nine]
-tileRank (BTile b) = 20 + showHelper b [One .. Nine]
-tileRank (KTile k) = 30 + showHelper k [One .. Nine]
-tileRank (WTile w) = 40 + showHelper w [East .. North]
-tileRank (DTile d) = 50 + showHelper d [Red .. White]
-tileRank (FTile f) = 60 + showHelper f [PlumBlossom .. BambooTree]
-tileRank (STile s) = 70 + showHelper s [Spring .. Winter]
-tileRank (ATile a) = 80 + showHelper a [Cat .. Centipede]
+tileRank (CTile c) =  0 + showHelper c [1..] [One .. Nine]
+tileRank (BTile b) = 10 + showHelper b [1..] [One .. Nine]
+tileRank (KTile k) = 20 + showHelper k [1..] [One .. Nine]
+tileRank (WTile w) = 30 + showHelper w [1..] [East .. North]
+tileRank (DTile d) = 40 + showHelper d [1..] [Red .. White]
+tileRank (FTile f) = 50 + showHelper f [1..] [PlumBlossom .. BambooTree]
+tileRank (STile s) = 60 + showHelper s [1..] [Spring .. Winter]
+tileRank (ATile a) = 70 + showHelper a [1..] [Cat .. Centipede]
 
 
 instance Chowable Suit
