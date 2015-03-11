@@ -57,7 +57,7 @@ data Suit
 data Honor
 data Bonus
 
-class MetaType a
+-- | Meta tile classes
 class Chowable a
 class Pungable a
 
@@ -179,10 +179,6 @@ tileRank (FTile f) = 60 + showHelper f [PlumBlossom .. BambooTree]
 tileRank (STile s) = 70 + showHelper s [Spring .. Winter]
 tileRank (ATile a) = 80 + showHelper a [Cat .. Centipede]
 
-
-instance MetaType Suit
-instance MetaType Honor
-instance MetaType Bonus
 
 instance Chowable Suit
 instance Pungable Suit

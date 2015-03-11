@@ -15,7 +15,7 @@ module Game.Mahjong.Tile
   , Suit, Honor, Bonus
   , Chowable, Pungable
 
-    -- * Constructors ':: (MetaType a) => Tile a -> WrapTile'
+    -- * Constructors ':: Tile a -> WrapTile'
   , mkWrap
 
     -- * Tile aliases ':: WrapTile'
