@@ -18,6 +18,9 @@ module Game.Mahjong.Meld
     -- * Meld accessors
   , meldType, status, meldTiles
 
+    -- * Predicates for the status of meld ':: Meld -> Bool'
+  , isConcealed, isRevealed
+
     -- * Predicates for the type of meld ':: Meld -> Bool'
   , isChow, isPung, isKong, isEyes
 

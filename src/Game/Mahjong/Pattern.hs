@@ -10,11 +10,7 @@
 -- | Data definition of hand patterns
 --   and declaration for all accepted patterns
 module Game.Mahjong.Pattern
-  ( -- * 0.0 Imcomplete or invalid pattern
-    noPattern
-
-
-    -- * 1.0 Trivial Patterns
+  ( -- * 1.0 Trivial Patterns
   , chicken, allChows, concealed, selfDrawn, allSimples, allTypes, illegalCall
 
 
@@ -92,7 +88,7 @@ module Game.Mahjong.Pattern
 
 
     -- * 10.0 Color Hands
-  , allGreen, allRed
+  , allRed, allGreen
 
 
     -- * 11.0 Irregular Hands
@@ -131,8 +127,7 @@ module Game.Mahjong.Pattern
 
 {- Data Declaration -}
 
-data Pattern = NoPattern                    -- ^ an incomplete / invalid pattern
-             | Pattern { name    :: String  -- ^ the english name
+data Pattern = Pattern { name    :: String  -- ^ the english name
                        , chinese :: String  -- ^ the chinese name
                        , score   :: Int     -- ^ the score
                        }
@@ -142,12 +137,6 @@ data Pattern = NoPattern                    -- ^ an incomplete / invalid pattern
 -------------------------------------------------------------------------------
 
 {- Hand List -}
-
--- | 0.0 Incomplete or Invalid Patterns
-
-noPattern :: Pattern
-noPattern = NoPattern
-
 
 -- | 1.0 Trivial Patterns
 

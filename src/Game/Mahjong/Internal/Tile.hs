@@ -84,50 +84,50 @@ type Tiles = [WrapTile]
 {- Class instances -}
 
 instance Show TileType where
-  show tt              = showHelper tt reps [Coin .. Animal]
+  show tt         = showHelper tt reps [Coin .. Animal]
     where
       reps :: [String]
       reps = ["C", "B", "K", "W", "D", "F", "S", "A"]
 
 instance Show Values where
-  show v               = show $ showHelper v [1..] [One .. Nine]
+  show v          = show $ showHelper v [1..] [One .. Nine]
 
 instance Show Winds where
-  show w               = showHelper w reps [East .. North]
+  show w          = showHelper w reps [East .. North]
     where
       reps :: [String]
       reps = ["E", "S", "W", "N"]
 
 instance Show Dragons where
-  show d               = showHelper d reps [Red .. White]
+  show d          = showHelper d reps [Red .. White]
     where
       reps :: [String]
       reps = ["R", "G", "W"]
 
 instance Show Flowers where
-  show f               = show $ showHelper f [1..] [PlumBlossom .. BambooTree]
+  show f          = show $ showHelper f [1..] [PlumBlossom .. BambooTree]
 
 instance Show Seasons where
-  show s               = show $ showHelper s [1..] [Spring .. Winter]
+  show s          = show $ showHelper s [1..] [Spring .. Winter]
 
 instance Show Animals where
-  show a               = show $ showHelper a [1..] [Cat .. Centipede]
+  show a          = show $ showHelper a [1..] [Cat .. Centipede]
 
 instance Show (Tile a) where
-  show (CTile c)       = "C" ++ show c
-  show (BTile b)       = "B" ++ show b
-  show (KTile k)       = "K" ++ show k
-  show (WTile w)       = "W" ++ show w
-  show (DTile d)       = "D" ++ show d
-  show (FTile f)       = "F" ++ show f
-  show (STile s)       = "S" ++ show s
-  show (ATile a)       = "A" ++ show a
+  show (CTile c)  = "C" ++ show c
+  show (BTile b)  = "B" ++ show b
+  show (KTile k)  = "K" ++ show k
+  show (WTile w)  = "W" ++ show w
+  show (DTile d)  = "D" ++ show d
+  show (FTile f)  = "F" ++ show f
+  show (STile s)  = "S" ++ show s
+  show (ATile a)  = "A" ++ show a
 
 instance Show WrapTile where
-  show (Wrap t)        = show t
+  show (Wrap t)   = show t
 
 showHelper :: (Eq a) => a -> [b] -> [a] -> b
-showHelper a reps      = fromJust . lookup a . flip zip reps
+showHelper a reps = fromJust . lookup a . flip zip reps
 
 
 instance Eq (Tile a) where
@@ -288,14 +288,14 @@ allTiles   = regulars ++ bonuses
 {- Utility functions -}
 
 tileType :: Tile a -> TileType
-tileType (CTile _)       = Coin
-tileType (BTile _)       = Bamboo
-tileType (KTile _)       = Character
-tileType (WTile _)       = Wind
-tileType (DTile _)       = Dragon
-tileType (FTile _)       = Flower
-tileType (STile _)       = Season
-tileType (ATile _)       = Animal
+tileType (CTile _) = Coin
+tileType (BTile _) = Bamboo
+tileType (KTile _) = Character
+tileType (WTile _) = Wind
+tileType (DTile _) = Dragon
+tileType (FTile _) = Flower
+tileType (STile _) = Season
+tileType (ATile _) = Animal
 
 liftWrap :: (forall a. Tile a -> b) -> WrapTile -> b
 liftWrap f (Wrap t) = f t

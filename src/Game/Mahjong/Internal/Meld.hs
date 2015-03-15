@@ -88,6 +88,15 @@ mkEyes s   = Meld Eyes s . map mkWrap . replicate 2
 
 -------------------------------------------------------------------------------
 
+{- Predicates for determining status -}
+
+isConcealed, isRevealed :: Meld -> Bool
+isConcealed = (==) Concealed . status
+isRevealed  = (==) Revealed . status
+
+
+-------------------------------------------------------------------------------
+
 {- Predicates for determining meld types -}
 
 isChow, isPung, isKong, isEyes :: Meld -> Bool
