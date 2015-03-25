@@ -10,7 +10,11 @@
 -- | Data definition of hand patterns
 --   and declaration for all accepted patterns
 module Game.Mahjong.Pattern
-  ( -- * 1.0 Trivial Patterns
+  ( -- * The `Pattern` type
+    Pattern
+
+
+    -- * 1.0 Trivial Patterns
   , chicken, allChows, concealed, selfDrawn, allSimples, allTypes, illegalCall
 
 
@@ -127,11 +131,11 @@ module Game.Mahjong.Pattern
 
 {- Data Declaration -}
 
-data Pattern = Pattern { name    :: String  -- ^ the english name
-                       , chinese :: String  -- ^ the chinese name
-                       , score   :: Int     -- ^ the score
-                       }
-               deriving (Eq, Show)
+data Pattern =
+  Pattern { name    :: String  -- ^ the english name
+          , chinese :: String  -- ^ the chinese name
+          , score   :: Int     -- ^ the score
+          } deriving (Eq, Show)
 
 
 -------------------------------------------------------------------------------

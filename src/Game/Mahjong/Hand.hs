@@ -39,8 +39,8 @@ module Game.Mahjong.Hand
     -- ** Other stats
   , numOfSuits, numOfHonors, numOfEdges, numOfMelds
 
-    -- ** For folding
-  , handStatStep
+    -- ** Calculating hand stat
+  , handStatStep, handStat
   ) where
 
 import Game.Mahjong.Internal.Hand

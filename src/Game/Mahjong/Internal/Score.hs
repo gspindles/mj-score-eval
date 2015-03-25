@@ -15,6 +15,7 @@ module Game.Mahjong.Internal.Score where
 
 import Data.Maybe
 import Game.Mahjong.Internal.Hand
+import Game.Mahjong.Internal.Meld
 import Game.Mahjong.Internal.Predicate
 import Game.Mahjong.Pattern
 
@@ -24,33 +25,63 @@ import Game.Mahjong.Pattern
 {- Data definition -}
 
 -- | Newtype for scoring functions
-newType ScoreFunc = Hand -> Maybe Pattern
+type ScoreFunc = Hand -> Maybe Pattern
 
 -------------------------------------------------------------------------------
 
 {- Scoring functions -}
 
+scoreHelper :: (Hand -> Bool) -> Pattern -> ScoreFunc
+scoreHelper f p h =
+  if f h
+  then Just p
+  else Nothing
+
+
 -- | 1.0 Trivial Patterns
 isChicken :: ScoreFunc
-isChicken = \_ -> Just chicken
+isChicken       = \_ -> Just chicken
 
 isAllChows :: ScoreFunc
-isAllChows h
-  | (>=) 4 . filter isChow . getMelds $ h = Just allChows
-  | otherwise                             = Nothing
+isAllChows      = scoreHelper f p
+  where
+    f  = all isChow . getMelds
+    p  = allChows
 
-isConcealed :: ScoreFunc
-isConcealed h
-  | all . map isConcealed . melds $ h = Just concealed
-  | otherwise                         = Nothing
+isConcealedHand :: ScoreFunc
+isConcealedHand = scoreHelper f p
+  where
+    f  = all isConcealed . melds
+    p  = concealed
 
-selfDrawn, allSimples, allTypes, illegalCall :: ScoreFunc
-chicken, allChows, concealed, selfDrawn, allSimples, allTypes, illegalCall = undefined
+isSelfDrawn :: ScoreFunc
+isSelfDrawn     = scoreHelper f p
+  where
+    f  = isConcealed . lastMeld
+    p  = selfDrawn
+
+isAllSimples :: ScoreFunc
+isAllSimples    = scoreHelper f p
+  where
+    f  = all isSimple . getMelds
+    p  = allSimples
+
+isAllTypes :: ScoreFunc
+isAllTypes      = scoreHelper f p
+  where
+    f  = all (>= 1) . zipWith id ns . repeat . handStat
+    p  = allTypes
+    ns = [numOfCoins, numOfBamboos, numOfCharacters, numOfWinds, numOfDragons]
+
+isIllegalCall :: ScoreFunc
+isIllegalCall   = \_ -> Just illegalCall
 
 
 -- | 2.0 Pungs and Kongs
 
 -- 2.1 Pung
+
+{-
 allPungs :: ScoreFunc
 allPungs = undefined
 
@@ -180,3 +211,4 @@ fourFlowers, fourSeasons = undefined
 -- 12.3 Both sets of bonus tile
 allBonusTiles :: ScoreFunc
 allBonusTiles = undefined
+-}

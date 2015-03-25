@@ -142,9 +142,11 @@ inProgressTiles (InProgress oh ms bip) = sort (oh ++ mts ++ bts)
 
 {- Functions for stats on hand -}
 
--- I should use a lens library for all this but w/e idk lol.
+-- I should use a lens library for all this but w/e idk yolo lol.
 -- All of this just so I don't have multiple iterations through a hand's melds.
 -- As a punishment for ugliness, I'm not allowed to align those ='s obsessively.
+
+-- On a side note, HandStat should be isomorphic to 11-tuple
 instance Monoid HandStat where
   mempty =
     HandStat 0 0 0
@@ -172,23 +174,29 @@ numOfEdges  = sum . zipWith id [numOfTerminals, numOfDragons, numOfWinds] . repe
 numOfMelds  = sum . zipWith id [numOfChows, numOfPungs, numOfKongs, numOfEyes] . repeat
 
 handStatStep :: Meld -> HandStat -> HandStat
-handStatStep m hs = mappend hs (step m)
+handStatStep m hs = mappend hs $ step m
   where
+    -- Used `toHandStat . map binary . zipWith id [funcs] . repeat` in the past;
+    -- however, converting a list of 11 elements over to HandStat was unsightly.
     step :: Meld -> HandStat
-    step = toHandStat . map binary .
-      zipWith id [ isCoin, isBamboo, isCharacter
-                 , isWind, isDragon
-                 , isSimple, isTerminal
-                 , isChow, isPung, isKong, isEyes
-                 ] . repeat
-
-    -- will have exactly 11 elements because of the number of functions in zipWith above
-    toHandStat :: [Int] -> HandStat
-    toHandStat (h1:h2:h3:h4:h5:h6:h7:h8:h9:h10:h11:[]) =
-      HandStat h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
-    toHandStat _ = mempty
+    step m =
+      HandStat { numOfCoins      = binary . isCoin      $ m
+               , numOfBamboos    = binary . isBamboo    $ m
+               , numOfCharacters = binary . isCharacter $ m
+               , numOfWinds      = binary . isWind      $ m
+               , numOfDragons    = binary . isDragon    $ m
+               , numOfSimples    = binary . isSimple    $ m
+               , numOfTerminals  = binary . isTerminal  $ m
+               , numOfChows      = binary . isChow      $ m
+               , numOfPungs      = binary . isPung      $ m
+               , numOfKongs      = binary . isKong      $ m
+               , numOfEyes       = binary . isEyes      $ m
+               }
 
     binary :: Bool -> Int
     binary False = 0
     binary True  = 1
+
+handStat :: Hand -> HandStat
+handStat = foldr handStatStep mempty . getMelds
 
