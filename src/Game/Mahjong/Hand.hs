@@ -33,6 +33,14 @@ module Game.Mahjong.Hand
   , inProgressTiles
 
 
+    -- * Stats on a hand
+  , HandStat(..)
+
+    -- ** Other stats
+  , numOfSuits, numOfHonors, numOfEdges, numOfMelds
+
+    -- ** For folding
+  , handStatStep
   ) where
 
 import Game.Mahjong.Internal.Hand

@@ -103,10 +103,10 @@ isChow, isPung, isKong, isEyes :: Meld -> Bool
 isChow (Meld Chow _ _) = True
 isChow _               = False
 
--- | Kong do count as pung during scoring process
+-- Even though kong can be counted as pung,
+-- this distinction will be made later in `HandStat`
 isPung (Meld Pung _ _) = True
-isPung (Meld Kong _ _) = True
-isPung _               = True
+isPung _               = False
 
 isKong (Meld Kong _ _) = True
 isKong _               = False

@@ -12,7 +12,9 @@
 module Game.Mahjong.Internal.Hand where
 
 import Data.List (intersperse, sort)
+import Data.Monoid
 import Game.Mahjong.Internal.Meld
+import Game.Mahjong.Internal.Predicate
 import Game.Mahjong.Internal.Tile
 
 
@@ -39,6 +41,20 @@ data InProgress =
              , bonusIP :: [Tile Bonus]  -- ^ list of revealed bonus tiles
              }
 
+-- | Stat on a hand
+data HandStat =
+  HandStat { numOfCoins      :: Int   -- ^ The number of coin melds
+           , numOfBamboos    :: Int   -- ^ The number of bamboo melds
+           , numOfCharacters :: Int   -- ^ The number of character melds
+           , numOfWinds      :: Int   -- ^ The number of wind melds
+           , numOfDragons    :: Int   -- ^ The number of dragon melds
+           , numOfSimples    :: Int   -- ^ The number of simple melds
+           , numOfTerminals  :: Int   -- ^ The number of terminal melds
+           , numOfChows      :: Int   -- ^ The number of chows
+           , numOfPungs      :: Int   -- ^ The number of pungs
+           , numOfKongs      :: Int   -- ^ The number of kongs
+           , numOfEyes       :: Int   -- ^ The number of eyes
+           } deriving Show
 
 -------------------------------------------------------------------------------
 
@@ -120,4 +136,59 @@ inProgressTiles (InProgress oh ms bip) = sort (oh ++ mts ++ bts)
   where
     mts = concatMap meldTiles ms
     bts = map mkWrap bip
+
+
+-------------------------------------------------------------------------------
+
+{- Functions for stats on hand -}
+
+-- I should use a lens library for all this but w/e idk lol.
+-- All of this just so I don't have multiple iterations through a hand's melds.
+-- As a punishment for ugliness, I'm not allowed to align those ='s obsessively.
+instance Monoid HandStat where
+  mempty =
+    HandStat 0 0 0
+             0 0
+             0 0
+             0 0 0 0
+
+  mappend hs1 hs2 =
+    HandStat (numOfCoins      hs1 + numOfCoins      hs2)
+             (numOfBamboos    hs1 + numOfBamboos    hs2)
+             (numOfCharacters hs1 + numOfCharacters hs2)
+             (numOfWinds      hs1 + numOfWinds      hs2)
+             (numOfDragons    hs1 + numOfDragons    hs2)
+             (numOfSimples    hs1 + numOfSimples    hs2)
+             (numOfTerminals  hs1 + numOfTerminals  hs2)
+             (numOfChows      hs1 + numOfChows      hs2)
+             (numOfPungs      hs1 + numOfPungs      hs2)
+             (numOfKongs      hs1 + numOfKongs      hs2)
+             (numOfEyes       hs1 + numOfEyes       hs2)
+
+numOfSuits, numOfHonors, numOfEdges, numOfMelds :: HandStat -> Int
+numOfSuits  = sum . zipWith id [numOfCoins, numOfBamboos, numOfCharacters] . repeat
+numOfHonors = sum . zipWith id [numOfWinds, numOfDragons] . repeat
+numOfEdges  = sum . zipWith id [numOfTerminals, numOfDragons, numOfWinds] . repeat
+numOfMelds  = sum . zipWith id [numOfChows, numOfPungs, numOfKongs, numOfEyes] . repeat
+
+handStatStep :: Meld -> HandStat -> HandStat
+handStatStep m hs = mappend hs (step m)
+  where
+    step :: Meld -> HandStat
+    step = toHandStat . map binary .
+      zipWith id [ isCoin, isBamboo, isCharacter
+                 , isWind, isDragon
+                 , isSimple, isTerminal
+                 , isChow, isPung, isKong, isEyes
+                 ] . repeat
+
+    -- will have exactly 11 elements because of the number of functions in zipWith above
+    toHandStat :: [Int] -> HandStat
+    toHandStat (h1:h2:h3:h4:h5:h6:h7:h8:h9:h10:h11:[]) =
+      HandStat h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
+    toHandStat _ = mempty
+
+    binary :: Bool -> Int
+    binary False = 0
+    binary True  = 1
 
