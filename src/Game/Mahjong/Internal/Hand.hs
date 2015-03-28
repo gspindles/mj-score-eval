@@ -171,7 +171,8 @@ numOfSuits, numOfHonors, numOfEdges, numOfMelds :: HandStat -> Int
 numOfSuits  = sum . zipWith id [numOfCoins, numOfBamboos, numOfCharacters] . repeat
 numOfHonors = sum . zipWith id [numOfWinds, numOfDragons] . repeat
 numOfEdges  = sum . zipWith id [numOfTerminals, numOfDragons, numOfWinds] . repeat
-numOfMelds  = sum . zipWith id [numOfChows, numOfPungs, numOfKongs, numOfEyes] . repeat
+-- Avoid double counting a kong.
+numOfMelds  = sum . zipWith id [numOfChows, numOfPungs, numOfEyes] . repeat
 
 handStatStep :: Meld -> HandStat -> HandStat
 handStatStep m hs = mappend hs $ step m

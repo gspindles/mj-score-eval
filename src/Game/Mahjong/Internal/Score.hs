@@ -25,13 +25,13 @@ import Game.Mahjong.Pattern
 {- Data definition -}
 
 -- | Newtype for scoring functions
-type ScoreFunc = Hand -> Maybe Pattern
+type ScoreFunc = (Hand, HandStat) -> Maybe Pattern
 
 -------------------------------------------------------------------------------
 
 {- Scoring functions -}
 
-scoreHelper :: (Hand -> Bool) -> Pattern -> ScoreFunc
+scoreHelper :: ((Hand, HandStat) -> Bool) -> Pattern -> ScoreFunc
 scoreHelper f p h =
   if f h
   then Just p
@@ -45,31 +45,32 @@ isChicken       = \_ -> Just chicken
 isAllChows :: ScoreFunc
 isAllChows      = scoreHelper f p
   where
-    f  = all isChow . getMelds
+    f  = (>= 4) . numOfChows . snd
+--  f  = all isChow . getMelds . fst
     p  = allChows
 
 isConcealedHand :: ScoreFunc
 isConcealedHand = scoreHelper f p
   where
-    f  = all isConcealed . melds
+    f  = all isConcealed . melds . fst
     p  = concealed
 
 isSelfDrawn :: ScoreFunc
 isSelfDrawn     = scoreHelper f p
   where
-    f  = isConcealed . lastMeld
+    f  = isConcealed . lastMeld . fst
     p  = selfDrawn
 
 isAllSimples :: ScoreFunc
 isAllSimples    = scoreHelper f p
   where
-    f  = all isSimple . getMelds
+    f  = all isSimple . getMelds . fst
     p  = allSimples
 
 isAllTypes :: ScoreFunc
 isAllTypes      = scoreHelper f p
   where
-    f  = all (>= 1) . zipWith id ns . repeat . handStat
+    f  = all (>= 1) . zipWith id ns . repeat . snd
     p  = allTypes
     ns = [numOfCoins, numOfBamboos, numOfCharacters, numOfWinds, numOfDragons]
 
@@ -81,15 +82,49 @@ isIllegalCall   = \_ -> Just illegalCall
 
 -- 2.1 Pung
 
-{-
-allPungs :: ScoreFunc
-allPungs = undefined
+isAllPungs :: ScoreFunc
+isAllPungs = scoreHelper f p
+  where
+    f = (>= 4) . numOfPungs . snd
+--  f = all isPung . getMelds . fst
+    p = allPungs
 
 -- 2.2 Concealed pungs
-twoConcealedPungs, threeConcealedPungs, fourConcealedPungs :: ScoreFunc
-twoConcealedPungs, threeConcealedPungs, fourConcealedPungs = undefined
+
+isTwoConcealedPungs :: ScoreFunc
+isTwoConcealedPungs = scoreHelper f p
+  where
+    f = (== 2) . concealedHelper
+    p = twoConcealedPungs
+
+isThreeConcealedPungs :: ScoreFunc
+isThreeConcealedPungs = scoreHelper f p
+  where
+    f = (== 3) . concealedHelper
+    p = threeConcealedPungs
+
+isFourConcealedPungs :: ScoreFunc
+isFourConcealedPungs = scoreHelper f p
+  where
+    f = (== 4) . concealedHelper
+    p = fourConcealedPungs
+
+-- Will be using this one, the 3 above are just for completion really.
+isConcealedPungs :: ScoreFunc
+isConcealedPungs p =
+  let count = concealedHelper p
+  in case count of
+    2 -> Just twoConcealedPungs
+    3 -> Just threeConcealedPungs
+    4 -> Just fourConcealedPungs
+    _ -> Nothing
+
+concealedHelper :: (Hand, HandStat) -> Int
+concealedHelper = length . filter (\x -> isPung x && isConcealed x) . getMelds . fst
+
 
 -- 2.3 Kongs
+{-
 oneKong, twoKongs, threeKongs, fourKongs :: ScoreFunc
 oneKong, twoKongs, threeKongs, fourKongs = undefined
 

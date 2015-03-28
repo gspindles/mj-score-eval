@@ -180,8 +180,8 @@ threeConcealedPungsEx = mkHand
   (mkPung c k6)
   [s2]
 
-fourConcealedPunsgEx :: Hand
-fourConcealedPunsgEx = mkHand
+fourConcealedPungsEx :: Hand
+fourConcealedPungsEx = mkHand
   [ mkPung c b4
   , mkPung c c3
   , mkPung c k2

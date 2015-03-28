@@ -100,19 +100,11 @@ isRevealed  = (==) Revealed . status
 {- Predicates for determining meld types -}
 
 isChow, isPung, isKong, isEyes :: Meld -> Bool
-isChow (Meld Chow _ _) = True
-isChow _               = False
-
--- Even though kong can be counted as pung,
--- this distinction will be made later in `HandStat`
-isPung (Meld Pung _ _) = True
-isPung _               = False
-
-isKong (Meld Kong _ _) = True
-isKong _               = False
-
-isEyes (Meld Eyes _ _) = True
-isEyes _               = False
+isChow = (== Chow) . meldType
+-- kong does get counted as pung
+isPung = foldr (||) False . zipWith id [(== Pung), (== Kong)] . repeat . meldType
+isKong = (== Kong) . meldType
+isEyes = (== Chow) . meldType
 
 
 -------------------------------------------------------------------------------
