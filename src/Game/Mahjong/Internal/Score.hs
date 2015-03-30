@@ -123,31 +123,31 @@ concealedHelper       = length . filter (\x -> isPung x && isConcealed x) . getM
 -- 2.3 Kongs
 
 isOneKong, isTwoKongs, isThreeKongs, isFourKongs, isKongs :: ScoreFunc
-isOneKong   = scoreHelper f g
+isOneKong    = scoreHelper f p
   where
     f = (== 1) . numOfKongs . snd
     p = oneKong
 
-isTwoKong   = scoreHelper f g
+isTwoKongs   = scoreHelper f p
   where
     f = (== 2) . numOfKongs . snd
     p = twoKongs
 
-isThreeKong = scoreHelper f g
+isThreeKongs = scoreHelper f p
   where
     f = (== 3) . numOfKongs . snd
     p = threeKongs
 
-isFourKong  = scoreHelper f g
+isFourKongs  = scoreHelper f p
   where
     f = (== 4) . numOfKongs . snd
     p = fourKongs
 
 -- Will be using this one, the 4 above are just for completeness sake.
-isKongs p   =
-  let count = numOfKongs . snd $ p
+isKongs p    =
+  let count  = numOfKongs . snd $ p
   in case count of
-    1 -> Just onKong
+    1 -> Just oneKong
     2 -> Just twoKongs
     3 -> Just threeKongs
     4 -> Just fourKongs

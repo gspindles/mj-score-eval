@@ -229,8 +229,8 @@ tileType (ATile _) = Animal
 {- Dora -}
 
 class Dora a where
-  dora                  :: a -> a
-  reverseDora           :: a -> a
+  dora        :: a -> a
+  reverseDora :: a -> a
 
 instance Dora Values where
   dora                  = doraHelper
