@@ -26,6 +26,6 @@ module Game.Mahjong.Tile.Predicates
   ) where
 
 import Game.Mahjong.Internal.Meld
-import Game.Mahjong.Internal.Predicate
+import Game.Mahjong.Internal.Predicates
 import Game.Mahjong.Internal.Tile
 

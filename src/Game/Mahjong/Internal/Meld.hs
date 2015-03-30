@@ -1,6 +1,3 @@
-{-# LANGUAGE GADTs #-}
-{-# LANGUAGE Rank2Types #-}
-
 -- |
 -- Module      :  Game.Mahjong.Internal.Meld
 -- Copyright   :  Joseph Ching 2015
@@ -23,18 +20,19 @@ import Data.List (intercalate, sort)
 {- Data definitions -}
 
 -- | R: Revealed, H: Concealed
-data Status        = Revealed | Concealed
-                     deriving (Bounded, Enum, Eq, Ord)
+data Status   = Revealed | Concealed
+                deriving (Bounded, Enum, Eq, Ord)
 
 -- | Meld types
-data MeldType      = Chow | Pung | Kong | Eyes
-                     deriving (Eq, Show)
+data MeldType = Chow | Pung | Kong | Eyes
+                deriving (Eq, Show)
 
 -- | Meld data
-data Meld          = Meld { meldType  :: MeldType
-                          , status    :: Status
-                          , meldTiles :: Tiles
-                          }
+data Meld     = CMeld { status :: Status, meldTiles :: [Tile] }
+              | PMeld { status :: Status, meldTiles :: [Tile] }
+              | KMeld { status :: Status, meldTiles :: [Tile] }
+              | EMeld { status :: Status, meldTiles :: [Tile] }
+                deriving (Eq)
 
 
 -------------------------------------------------------------------------------
@@ -47,10 +45,10 @@ instance Show Status where
 
 -- | show unfinished stuff (), then revealed <>, then concealed [], then bonus {}
 instance Show Meld where
-  show (Meld Chow s ts) = show s ++ join' " " ts ++ ">"
-  show (Meld Pung s ts) = show s ++ join' " " ts ++ "]"
-  show (Meld Kong s ts) = show s ++ join' " " ts ++ "}"
-  show (Meld Eyes s ts) = show s ++ join' " " ts ++ ")"
+  show (CMeld s ts)     = show s ++ join' " " ts ++ ">"
+  show (PMeld s ts)     = show s ++ join' " " ts ++ "]"
+  show (KMeld s ts)     = show s ++ join' " " ts ++ "}"
+  show (EMeld s ts)     = show s ++ join' " " ts ++ ")"
 
   showList ms s         = intercalate "  " . map show $ ms
 
@@ -58,32 +56,45 @@ join' :: Show a => String -> [a] -> String
 join' delim             = intercalate delim . map show
 
 
--- | TODO: Add instance for Eq and maybe Ord
-
-
 -------------------------------------------------------------------------------
 
-{- Meld generation -}
+{- Unsafe meld generation -}
 
--- | Given a suit tile, takes 2 successors and a chow
---   In the case Eight or Nine is provied, the chow will just be Seven Eight Nine
-mkChow :: Status -> Tile Suit -> Meld
-mkChow s t = 
+-- | Given a suit tile, takes 2 successors and a chow.
+-- In the case Eight or Nine is provided, the chow will just be Seven Eight Nine.
+-- Given a non suit tile, return an error message.
+mkChow :: Status -> Tile -> Meld
+mkChow s t              =
   case t of
-    (CTile c) -> mkHelper s c CTile
-    (BTile b) -> mkHelper s b BTile
-    (KTile k) -> mkHelper s k KTile
+    (CTile c)           -> chowHelper s c CTile
+    (BTile b)           -> chowHelper s b BTile
+    (KTile k)           -> chowHelper s k KTile
+    _                   -> error "Can only make a chow with suit tiles."
   where
-    mkHelper :: Status -> Values -> (Values -> Tile Suit) -> Meld 
-    mkHelper s v tCtor =
+    chowHelper :: Status -> Values -> (Values -> Tile) -> Meld
+    chowHelper s v tCtor =
       if elem v [Eight, Nine]
-      then Meld Chow s . map (mkWrap . tCtor) $ [Seven, Eight, Nine]
-      else Meld Chow s . map (mkWrap . tCtor) . take 3 . iterate succ $ v
+      then CMeld s . map tCtor $ [Seven, Eight, Nine]
+      else CMeld s . map tCtor . take 3 . iterate succ $ v
 
-mkPung, mkKong, mkEyes :: (Pungable t) => Status -> Tile t -> Meld
-mkPung s   = Meld Pung s . map mkWrap . replicate 3
-mkKong s   = Meld Kong s . map mkWrap . replicate 4
-mkEyes s   = Meld Eyes s . map mkWrap . replicate 2
+mkPung, mkKong, mkEyes :: Status -> Tile -> Meld
+mkPung s t              = meldHelper PMeld Pung s t 3
+mkKong s t              = meldHelper KMeld Kong s t 4
+mkEyes s t              = meldHelper EMeld Eyes s t 2
+
+meldHelper :: (Status -> [Tile] -> Meld)
+           -> MeldType -> Status -> Tile -> Int
+           -> Meld
+meldHelper mCtor mt s t n =
+  case t of
+    (CTile c)           -> mCtor s $ replicate n t
+    (BTile b)           -> mCtor s $ replicate n t
+    (KTile k)           -> mCtor s $ replicate n t
+    (WTile w)           -> mCtor s $ replicate n t
+    (DTile d)           -> mCtor s $ replicate n t
+    _                   ->
+      let msg = "Cannot make a " ++ show mt ++ " out of bonus tiles."
+      in error msg
 
 
 -------------------------------------------------------------------------------
@@ -92,7 +103,7 @@ mkEyes s   = Meld Eyes s . map mkWrap . replicate 2
 
 isConcealed, isRevealed :: Meld -> Bool
 isConcealed = (==) Concealed . status
-isRevealed  = (==) Revealed . status
+isRevealed  = (==) Revealed  . status
 
 
 -------------------------------------------------------------------------------
@@ -111,33 +122,28 @@ isEyes = (== Chow) . meldType
 
 {- Utilities functions -}
 
+meldType :: Meld -> MeldType
+meldType (CMeld _ _) = Chow
+meldType (PMeld _ _) = Pung
+meldType (KMeld _ _) = Kong
+meldType (EMeld _ _) = Eyes
+
+
 shiftMeld :: Meld -> Meld
 shiftMeld m =
   case m of
-    (Meld Chow s ts) ->
+    (CMeld s ts) ->
       case head . sort $ ts of
-        (Wrap (CTile c))   -> chowHelper s c c1 CTile
-        (Wrap (BTile b))   -> chowHelper s b b1 BTile
-        (Wrap (KTile k))   -> chowHelper s k k1 KTile
+        (CTile c)   -> chowHelper s c c1 CTile
+        (BTile b)   -> chowHelper s b b1 BTile
+        (KTile k)   -> chowHelper s k k1 KTile
       where
-        chowHelper :: Status -> Values -> Tile Suit -> (Values -> Tile Suit) -> Meld
-        chowHelper s v v1 tCtor =
+        chowHelper :: Status -> Values -> Tile -> (Values -> Tile) -> Meld
+        chowHelper s v t tCtor =
           if v < Seven
           then mkChow s . tCtor $ succ v
-          else mkChow s v1
-    (Meld Pung s ts)       -> shiftHelper mkPung s $ head . sort $ ts
-    (Meld Kong s ts)       -> shiftHelper mkKong s $ head . sort $ ts
-    (Meld Eyes s ts)       -> shiftHelper mkEyes s $ head . sort $ ts
-  where
-    shiftHelper :: (forall t. Pungable t => Status -> Tile t -> Meld)
-                -> Status
-                -> WrapTile
-                -> Meld
-    shiftHelper mCtor s wt =
-      case wt of
-        (Wrap t@(CTile _)) -> mCtor s $ dora t
-        (Wrap t@(BTile _)) -> mCtor s $ dora t
-        (Wrap t@(KTile _)) -> mCtor s $ dora t
-        (Wrap t@(WTile _)) -> mCtor s $ dora t
-        (Wrap t@(DTile _)) -> mCtor s $ dora t
+          else mkChow s t
+    (PMeld s ts)       -> mkPung s $ dora . head . sort $ ts
+    (KMeld s ts)       -> mkKong s $ dora . head . sort $ ts
+    (EMeld s ts)       -> mkEyes s $ dora . head . sort $ ts
 

@@ -2,7 +2,7 @@
 {-# LANGUAGE Rank2Types #-}
 
 -- |
--- Module      :  Game.Mahjong.Internal.Predicate
+-- Module      :  Game.Mahjong.Internal.Predicates
 -- Copyright   :  Joseph Ching 2015
 -- License     :  MIT
 --
@@ -12,7 +12,7 @@
 
 -- | Class definitions for various sets of predicates
 -- tile annd meld will implement
-module Game.Mahjong.Internal.Predicate where
+module Game.Mahjong.Internal.Predicates where
 
 import Game.Mahjong.Internal.Meld
 import Game.Mahjong.Internal.Tile
@@ -58,69 +58,36 @@ class ColorPred a where
 
 {- Instances for Tile -}
 
-instance SuitPred (Tile t) where
-  isCoin                = (==) Coin . tileType
-  isBamboo              = (==) Bamboo . tileType 
+instance SuitPred Tile where
+  isCoin                = (==) Coin      . tileType
+  isBamboo              = (==) Bamboo    . tileType 
   isCharacter           = (==) Character . tileType 
 
-  isSimple              = and . zipWith id [isSuit, not . isTerminal] . repeat
+  isSimple              = and . zipWith id [isSuit, not . isTerminal]     . repeat
   isTerminal  (CTile v) = elem v [One, Nine]
   isTerminal  (BTile v) = elem v [One, Nine]
   isTerminal  (KTile v) = elem v [One, Nine]
   isTerminal  _         = False
   isSuit                = or . zipWith id [isCoin, isBamboo, isCharacter] . repeat
 
-instance HonorPred (Tile t) where
-  isWind                = (==) Wind . tileType
+instance HonorPred Tile where
+  isWind                = (==) Wind   . tileType
   isDragon              = (==) Dragon . tileType
 
-  isHonor               = or . zipWith id [isWind, isDragon] . repeat 
+  isHonor               = or . zipWith id [isWind, isDragon]    . repeat 
   isEdge                = or . zipWith id [isTerminal, isHonor] . repeat
 
-instance BonusPred (Tile t) where
+instance BonusPred Tile where
   isFlower              = (==) Flower . tileType
   isSeason              = (==) Season . tileType
   isAnimal              = (==) Animal . tileType
 
   isBonus               = or . zipWith id [isFlower, isSeason, isAnimal] . repeat
 
-instance ColorPred (Tile t) where
-  isRed                 = flip elem reds . Wrap
-  isGreen               = flip elem greens . Wrap
-  isBlue                = flip elem blues . Wrap
-
-
--------------------------------------------------------------------------------
-
-{- Instances for WrapTile -}
-
-instance SuitPred WrapTile where
-  isCoin      (Wrap t) = isCoin t
-  isBamboo    (Wrap t) = isBamboo t
-  isCharacter (Wrap t) = isCharacter t
-
-  isSimple    (Wrap t) = isSimple t
-  isTerminal  (Wrap t) = isTerminal t
-  isSuit      (Wrap t) = isSuit t
-
-instance HonorPred WrapTile where
-  isWind      (Wrap t) = isWind t
-  isDragon    (Wrap t) = isDragon t
-
-  isHonor     (Wrap t) = isHonor t
-  isEdge      (Wrap t) = isEdge t
-
-instance BonusPred WrapTile where
-  isFlower    (Wrap t) = isFlower t
-  isSeason    (Wrap t) = isSeason t
-  isAnimal    (Wrap t) = isAnimal t
-
-  isBonus     (Wrap t) = isBonus t
-
-instance ColorPred WrapTile where
-  isRed                = flip elem reds
-  isGreen              = flip elem greens
-  isBlue               = flip elem blues
+instance ColorPred Tile where
+  isRed                 = flip elem reds
+  isGreen               = flip elem greens
+  isBlue                = flip elem blues
 
 
 -------------------------------------------------------------------------------
@@ -128,28 +95,25 @@ instance ColorPred WrapTile where
 {- Instances for Meld -}
 
 instance SuitPred Meld where
-  isCoin      = predHelper isCoin
-  isBamboo    = predHelper isBamboo
-  isCharacter = predHelper isCharacter
-  
-  isSimple    = and . mapWrap isSimple . meldTiles
-  isTerminal  = or . mapWrap isTerminal . meldTiles
-  isSuit      = predHelper isSuit
+  isCoin      = all isCoin      . meldTiles
+  isBamboo    = all isBamboo    . meldTiles
+  isCharacter = all isCharacter . meldTiles
+
+  isSimple    = all isSimple   . meldTiles
+  isTerminal  = any isTerminal . meldTiles
+  isSuit      = all isSuit     . meldTiles
 
 instance HonorPred Meld where
-  isWind      = predHelper isWind
-  isDragon    = predHelper isDragon
+  isWind      = all isWind   . meldTiles
+  isDragon    = all isDragon . meldTiles
 
-  isHonor     = predHelper isHonor
-  isEdge      = predHelper isEdge
+  isHonor     = all isHonor . meldTiles
+  isEdge      = any isEdge  . meldTiles
 
 -- Meld doesn't have BonusPred instance
 
 instance ColorPred Meld where
-  isRed       = predHelper isRed
-  isGreen     = predHelper isGreen
-  isBlue      = predHelper isBlue
-
-predHelper :: (forall a. Tile a -> Bool) -> Meld -> Bool
-predHelper p = liftWrap p . head . meldTiles
+  isRed       = all isRed   . meldTiles
+  isGreen     = all isGreen . meldTiles
+  isBlue      = all isBlue  . meldTiles
 

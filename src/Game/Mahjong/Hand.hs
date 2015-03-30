@@ -24,15 +24,6 @@ module Game.Mahjong.Hand
   , getMelds, handTiles
 
 
-    -- * In progress hand
-  , InProgress
-
-    -- ** Funtions on an in progress hand
-  , newInProgress
-  , addTile, addMeld, addBonus
-  , inProgressTiles
-
-
     -- * Stats on a hand
   , HandStat(..)
 
@@ -58,17 +49,12 @@ h = Hand [mkChow Revealed c1, mkPung Revealed w2, mkKong Concealed b3, mkEyes Co
          [f2, s4]
 
 sp1 :: Hand
-sp1 = Special [Wrap b1, Wrap b1, Wrap b1, Wrap b2, Wrap b3, Wrap b4, Wrap b5, Wrap b6, Wrap b7, Wrap b8, Wrap b9, Wrap b9, Wrap b9]
-              (Wrap b5)
+sp1 = Special [b1, b1, b1, b2, b3, b4, b5, b6, b7, b8, b9, b9, b9]
+              (b5)
               [f3]
 
 sp2 :: Hand
-sp2 = Special [Wrap c1, Wrap c9, Wrap b1, Wrap b9, Wrap k1, Wrap k9, Wrap w1, Wrap w2, Wrap w3, Wrap w4, Wrap d1, Wrap d2, Wrap d3]
-              (Wrap c1)
+sp2 = Special [c1, c9, b1, b9, k1, k9, w1, w2, w3, w4, d1, d2, d3]
+              (c1)
               [f2]
-
-ip :: InProgress
-ip = InProgress [Wrap c1, Wrap c3, Wrap b5, Wrap b6, Wrap b7, Wrap d3, Wrap d3]
-                [mkPung Revealed w1, mkChow Revealed b3]
-                [f3]
 

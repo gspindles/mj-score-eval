@@ -11,14 +11,9 @@
 module Game.Mahjong.Tile
   ( -- * Tile data
     TileType
-  , Tile, Tiles
-  , Suit, Honor, Bonus
-  , Chowable, Pungable
+  , Tile
 
-    -- * Constructors ':: Tile a -> WrapTile'
-  , mkWrap
-
-    -- * Tile aliases ':: WrapTile'
+    -- * Tile aliases ':: Tile'
   , c1, c2, c3, c4, c5, c6, c7, c8, c9
   , b1, b2, b3, b4, b5, b6, b7, b8, b9
   , k1, k2, k3, k4, k5, k6, k7, k8, k9
@@ -27,7 +22,7 @@ module Game.Mahjong.Tile
   , f1, f2, f3, f4
   , s1, s2, s3, s4
 
-    -- * Tile collections ':: Tiles'
+    -- * Tile collections ':: [Tile]'
   , coins, bamboos, characters, winds, dragons, flowers, seasons
   , simples, terminals, suits, honors, edges, bonuses
   , reds, greens
@@ -35,8 +30,6 @@ module Game.Mahjong.Tile
 
     -- * Utility functions
   , tileType
---, liftWrap, liftWrapT, liftWrap2
---, mapWrap, mapWrapT
   , dora, reverseDora
   , mjSet, getWall, impureWall
 ) where
@@ -51,13 +44,13 @@ import System.Random
 
 {- Wall building -}
 
-mjSet :: Tiles
+mjSet :: [Tile]
 mjSet      = (concatMap (take 4 . repeat) $ regulars) ++ bonuses
 
-getWall :: Int -> Tiles
+getWall :: Int -> [Tile]
 getWall a  = fst $ fisherYates (mkStdGen a) mjSet
 
-impureWall :: IO Tiles
+impureWall :: IO [Tile]
 impureWall = do
   r <- randNumber
   return $ getWall r

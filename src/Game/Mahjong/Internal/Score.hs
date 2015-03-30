@@ -16,7 +16,7 @@ module Game.Mahjong.Internal.Score where
 import Data.Maybe
 import Game.Mahjong.Internal.Hand
 import Game.Mahjong.Internal.Meld
-import Game.Mahjong.Internal.Predicate
+import Game.Mahjong.Internal.Predicates
 import Game.Mahjong.Pattern
 
 
@@ -91,28 +91,25 @@ isAllPungs = scoreHelper f p
 
 -- 2.2 Concealed pungs
 
-isTwoConcealedPungs :: ScoreFunc
-isTwoConcealedPungs = scoreHelper f p
+isTwoConcealedPungs, isThreeConcealedPungs, isFourConcealedPungs, isConcealedPungs :: ScoreFunc
+isTwoConcealedPungs   = scoreHelper f p
   where
     f = (== 2) . concealedHelper
     p = twoConcealedPungs
 
-isThreeConcealedPungs :: ScoreFunc
 isThreeConcealedPungs = scoreHelper f p
   where
     f = (== 3) . concealedHelper
     p = threeConcealedPungs
 
-isFourConcealedPungs :: ScoreFunc
-isFourConcealedPungs = scoreHelper f p
+isFourConcealedPungs  = scoreHelper f p
   where
     f = (== 4) . concealedHelper
     p = fourConcealedPungs
 
 -- Will be using this one, the 3 above are just for completion really.
-isConcealedPungs :: ScoreFunc
-isConcealedPungs p =
-  let count = concealedHelper p
+isConcealedPungs p    =
+  let count           = concealedHelper p
   in case count of
     2 -> Just twoConcealedPungs
     3 -> Just threeConcealedPungs
@@ -120,23 +117,52 @@ isConcealedPungs p =
     _ -> Nothing
 
 concealedHelper :: (Hand, HandStat) -> Int
-concealedHelper = length . filter (\x -> isPung x && isConcealed x) . getMelds . fst
+concealedHelper       = length . filter (\x -> isPung x && isConcealed x) . getMelds . fst
 
 
 -- 2.3 Kongs
-{-
-oneKong, twoKongs, threeKongs, fourKongs :: ScoreFunc
-oneKong, twoKongs, threeKongs, fourKongs = undefined
 
+isOneKong, isTwoKongs, isThreeKongs, isFourKongs, isKongs :: ScoreFunc
+isOneKong   = scoreHelper f g
+  where
+    f = (== 1) . numOfKongs . snd
+    p = oneKong
+
+isTwoKong   = scoreHelper f g
+  where
+    f = (== 2) . numOfKongs . snd
+    p = twoKongs
+
+isThreeKong = scoreHelper f g
+  where
+    f = (== 3) . numOfKongs . snd
+    p = threeKongs
+
+isFourKong  = scoreHelper f g
+  where
+    f = (== 4) . numOfKongs . snd
+    p = fourKongs
+
+-- Will be using this one, the 4 above are just for completeness sake.
+isKongs p   =
+  let count = numOfKongs . snd $ p
+  in case count of
+    1 -> Just onKong
+    2 -> Just twoKongs
+    3 -> Just threeKongs
+    4 -> Just fourKongs
+    _ -> Nothing
 
 -- | 3.0 Identical Sets
+{-
 twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows :: ScoreFunc
 twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows = undefined
-
+-}
 
 -- | 4.0 Similar Sets
 
 -- 4.1 Similar chows
+{-
 threeSimilarChows :: ScoreFunc
 threeSimilarChows = undefined
 

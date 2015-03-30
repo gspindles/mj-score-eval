@@ -1,5 +1,5 @@
 -- |
--- Module      :  Game.Mahjong.Internal.Hand
+-- Module      :  Game.Mahjong.Experimental.Hand
 -- Copyright   :  Joseph Ching 2015
 -- License     :  MIT
 --
@@ -9,7 +9,7 @@
 
 -- | Data definition of a hand
 --   along with hand evaluation functions
-module Game.Mahjong.Internal.Hand where
+module Game.Mahjong.Experimental.Hand where
 
 import Data.List (intersperse, sort)
 import Data.Monoid
@@ -25,14 +25,21 @@ import Game.Mahjong.Internal.Tile
 -- | A complete hand when a player has won
 data Hand =
     NoHand
-  | Hand    { melds    :: [Meld]  -- ^ completed / concealed meld
-            , lastMeld :: Meld    -- ^ the last meld that wins the game
-            , bonusH   :: [Tile]  -- ^ just a list of bonus tiles
+  | Hand    { melds    :: [Meld]        -- ^ completed / concealed meld
+            , lastMeld :: Meld          -- ^ the last meld that wins the game
+            , bonusH   :: [Tile Bonus]  -- ^ just a list of bonus tiles
             }
-  | Special { tileSet  :: [Tile]  -- ^ the set of onhand tile
-            , lastTile :: Tile    -- ^ the last tile obtained
-            , bonusS   :: [Tile]  -- ^ any bonus tiles
+  | Special { tileSet  :: Tiles         -- ^ the set of onhand tile
+            , lastTile :: WrapTile      -- ^ the last tile obtained
+            , bonusS   :: [Tile Bonus]  -- ^ any bonus tiles
             }
+
+-- | An inprogress hand during game play, before winning
+data InProgress =
+  InProgress { onHand  :: Tiles         -- ^ hidden on hand tiles
+             , melded  :: [Meld]        -- ^ list of revealed meld
+             , bonusIP :: [Tile Bonus]  -- ^ list of revealed bonus tiles
+             }
 
 -- | Stat on a hand
 data HandStat =
@@ -54,15 +61,19 @@ data HandStat =
 {- Data instances -}
 
 instance Show Hand where
-  show h    =
-    case h of
-      NoHand          -> "NoHand"
-      (Hand m l b)    -> join'' "  " m
-             ++ delim ++ show l
-             ++ delim ++ joinSort b
-      (Special t l b) -> "/" ++ joinSort t ++ "/"
-                    ++ delim ++ show l
-                    ++ delim ++ joinSort b
+  show h = case h of
+    NoHand          -> "NoHand"
+    (Hand m l b)    -> join'' "  " m
+           ++ delim ++ show l
+           ++ delim ++ joinSort b
+    (Special t l b) -> "/" ++ joinSort t ++ "/"
+                  ++ delim ++ show l
+                  ++ delim ++ joinSort b
+
+instance Show InProgress where
+  show (InProgress o m b) = "/" ++ joinSort o ++ "/"
+                       ++ delim ++ (join'' "  " m)
+                       ++ delim ++ (joinSort b)
 
 join'' :: Show a => String -> [a] -> String
 join'' d    = concat . intersperse d . map show
@@ -82,27 +93,49 @@ delim       = "  |  "
 noHand :: Hand
 noHand                       = NoHand
 
-mkHand :: [Meld] -> Meld -> [Tile] -> Hand
-mkHand ts t tbs
-  | all isBonus tbs = Hand ts t tbs
-  | otherwise                = NoHand
+mkHand :: [Meld] -> Meld -> [Tile Bonus] -> Hand
+mkHand                       = Hand
 
-mkSpecial :: [Tile] -> Tile -> [Tile] -> Hand
-mkSpecial ts t tbs
-  | all isBonus tbs = Special ts t tbs
-  | otherwise                = NoHand
+mkSpecial :: Tiles -> Tile a -> [Tile Bonus] -> Hand
+mkSpecial ts t tbs           = Special ts (mkWrap t) tbs
 
 getMelds :: Hand -> [Meld]
 getMelds (NoHand       )     = []
 getMelds (Hand    m l _)     = l : m
 getMelds (Special m l _)     = []  -- | TODO: come back to this later
 
-handTiles :: Hand -> [Tile]
-handTiles (NoHand         )  = []
-handTiles (Hand   ms lm bs)  = sort (mts ++ bs)
+handTiles :: Hand -> Tiles
+handTiles (NoHand          ) = []
+handTiles (Hand    ms lm bs) = sort (mts ++ bts)
   where
     mts = concatMap meldTiles (lm : ms)
-handTiles (Special ts lt bs) = sort (ts ++ [lt] ++ bs)
+    bts = map mkWrap bs
+handTiles (Special ts lt bs) = sort (ts ++ [lt] ++ bts)
+  where
+    bts = map mkWrap bs
+
+
+-------------------------------------------------------------------------------
+
+{- Functions for in progress hand -}
+
+newInProgress :: InProgress
+newInProgress                          = InProgress [] [] []
+
+addTile :: InProgress -> WrapTile -> InProgress
+addTile (InProgress oh ms bip) w       = InProgress (sort $ w : oh) ms bip
+
+addMeld :: InProgress -> Meld -> InProgress
+addMeld (InProgress oh ms bip) m       = InProgress oh (m : ms) bip
+
+addBonus :: InProgress -> Tile Bonus -> InProgress
+addBonus (InProgress oh ms bip) b      = InProgress oh ms (b : bip)
+
+inProgressTiles :: InProgress -> Tiles
+inProgressTiles (InProgress oh ms bip) = sort (oh ++ mts ++ bts)
+  where
+    mts = concatMap meldTiles ms
+    bts = map mkWrap bip
 
 
 -------------------------------------------------------------------------------

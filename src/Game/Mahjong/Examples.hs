@@ -1,5 +1,5 @@
 -- |
--- Module      :  Game.Mahjong.Example
+-- Module      :  Game.Mahjong.Examples
 -- Copyright   :  Joseph Ching 2015
 -- License     :  MIT
 --
@@ -9,7 +9,7 @@
 
 -- | Data definition of tiles
 --   along with tile related functions
-module Game.Mahjong.Example
+module Game.Mahjong.Examples
 
 where
 
@@ -416,11 +416,11 @@ pureOneSuitHandEx2 = mkHand
 
 nineGatesEx :: Hand
 nineGatesEx = mkSpecial
-  [ mkWrap b1, mkWrap b1, mkWrap b1
-  , mkWrap b2, mkWrap b3, mkWrap b4
-  , mkWrap b5
-  , mkWrap b6, mkWrap b7, mkWrap b8
-  , mkWrap b9, mkWrap b9, mkWrap b9
+  [ b1, b1, b1
+  , b2, b3, b4
+  , b5
+  , b6, b7, b8
+  , b9, b9, b9
   ]
   b5
   [f3]
@@ -836,11 +836,11 @@ allBlueEx = mkHand
 
 thirteenOrphanEx :: Hand
 thirteenOrphanEx = mkSpecial
-  [ mkWrap c1, mkWrap c9
-  , mkWrap b1, mkWrap b9
-  , mkWrap k1, mkWrap k9
-  , mkWrap w1, mkWrap w2, mkWrap w3, mkWrap w4
-  , mkWrap d1, mkWrap d2, mkWrap d3
+  [ c1, c9
+  , b1, b9
+  , k1, k9
+  , w1, w2, w3, w4
+  , d1, d2, d3
   ]
   c1
   [f4]
