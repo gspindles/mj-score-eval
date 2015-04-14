@@ -370,8 +370,8 @@ threeMothersEx = mkHand
 
 -- | 6.0 Suit Patterns
 
-mixedOneSuitHandEx1 :: Hand
-mixedOneSuitHandEx1 = mkHand
+mixedOneSuitEx1 :: Hand
+mixedOneSuitEx1 = mkHand
   [ mkPung r k5
   , mkPung r w1
   , mkChow r k2
@@ -380,8 +380,8 @@ mixedOneSuitHandEx1 = mkHand
   (mkChow r k7)
   []
 
-mixedOneSuitHandEx2 :: Hand
-mixedOneSuitHandEx2 = mkHand
+mixedOneSuitEx2 :: Hand
+mixedOneSuitEx2 = mkHand
   [ mkEyes c c2
   , mkEyes c c5
   , mkEyes c c7
@@ -392,8 +392,8 @@ mixedOneSuitHandEx2 = mkHand
   (mkEyes r d1)
   [s3]
 
-pureOneSuitHandEx1 :: Hand
-pureOneSuitHandEx1 = mkHand
+pureOneSuitEx1 :: Hand
+pureOneSuitEx1 = mkHand
   [ mkPung r k1
   , mkChow r k3
   , mkChow r k4
@@ -402,8 +402,8 @@ pureOneSuitHandEx1 = mkHand
   (mkPung r k8)
   [f3]
 
-pureOneSuitHandEx2 :: Hand
-pureOneSuitHandEx2 = mkHand
+pureOneSuitEx2 :: Hand
+pureOneSuitEx2 = mkHand
   [ mkEyes c c1
   , mkEyes c c2
   , mkEyes c c4

@@ -13,10 +13,12 @@
 --   and utility functions
 module Game.Mahjong.Internal.Score where
 
+import Data.List (inits, tails)
 import Data.Maybe
 import Game.Mahjong.Internal.Hand
 import Game.Mahjong.Internal.Meld
 import Game.Mahjong.Internal.Predicates
+import Game.Mahjong.Internal.Tile
 import Game.Mahjong.Pattern
 
 
@@ -37,6 +39,11 @@ scoreHelper f p h =
   then Just p
   else Nothing
 
+scoreHelpers :: [(Hand, HandStat) -> Bool] -> Pattern -> ScoreFunc
+scoreHelpers fs p h =
+  if or . zipWith id fs . repeat $ h
+  then Just p
+  else Nothing
 
 {- 1.0 Trivial Patterns -}
 
@@ -158,23 +165,54 @@ threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwi = undefined
 -- 5.2 Consecutive pungs
 threeConsecutivePungs, fourConsecutivePungs, threeMothers :: ScoreFunc
 threeConsecutivePungs, fourConsecutivePungs, threeMothers = undefined
+-}
 
 
 
 {- 6.0 Suit Patterns -}
 
 -- 6.1 Mixed and pure
-mixedOneSuit, pureOneSuit :: ScoreFunc
-mixedOneSuit, pureOneSuit = undefined
+isMixedOneSuit :: ScoreFunc
+isMixedOneSuit     = scoreHelpers fs p
+  where
+    fs = [ all (\t -> isCoin t      || isHonor t) . handTiles . fst
+         , all (\t -> isBamboo t    || isHonor t) . handTiles . fst
+         , all (\t -> isCharacter t || isHonor t) . handTiles . fst
+         ]
+    p  = mixedOneSuit
+
+isPureOneSuit :: ScoreFunc
+isPureOneSuit      = scoreHelpers fs p
+  where
+    fs = [ all isCoin      . handTiles . fst
+         , all isBamboo    . handTiles . fst
+         , all isCharacter . handTiles . fst
+         ]
+    p  = pureOneSuit
+
 
 -- 6.2 Nine Gates
-nineGates :: ScoreFunc
-nineGates = undefined
+
+-- | only consider pure version
+isNineGates :: ScoreFunc
+isNineGates ((Special ts lt _), _)
+  | map CTile pattern == ts && isCoin      lt = Just nineGates
+  | map BTile pattern == ts && isBamboo    lt = Just nineGates
+  | map KTile pattern == ts && isCharacter lt = Just nineGates
+  | otherwise                                 = Nothing
+  where
+    pattern = (replicate 2 One) ++ [One .. Nine] ++ (replicate 2 Nine)
+isNineGates (_, _) = Nothing
+
+shiftCons :: a -> [a] -> [[a]]
+shiftCons x xs = zipWith (\i t -> i ++ [x] ++ t) (inits xs) (tails xs)
+
 
 
 
 {- 7.0 Terminal Tiles -}
 
+{-
 -- 7.1 Chow and pungs
 twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: ScoreFunc
 twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain = undefined

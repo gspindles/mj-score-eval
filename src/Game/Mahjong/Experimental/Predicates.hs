@@ -12,10 +12,10 @@
 
 -- | Class definitions for various sets of predicates
 -- tile annd meld will implement
-module Game.Mahjong.Internal.Predicates where
+module Game.Mahjong.Experimental.Predicates where
 
-import Game.Mahjong.Internal.Meld
-import Game.Mahjong.Internal.Tile
+import Game.Mahjong.Experimental.Meld
+import Game.Mahjong.Experimental.Tile
 
 -------------------------------------------------------------------------------
 

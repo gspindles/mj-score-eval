@@ -14,7 +14,7 @@
 --   along with predicates on melds
 module Game.Mahjong.Experimental.Meld where
 
-import Game.Mahjong.Internal.Tile
+import Game.Mahjong.Experimental.Tile
 import Data.List (intercalate, sort)
 
 

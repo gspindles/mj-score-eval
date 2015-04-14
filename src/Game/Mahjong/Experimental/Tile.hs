@@ -263,8 +263,8 @@ seasons    = map (Wrap . STile) [Spring ..]
 animals    = map (Wrap . ATile) [Cat ..]
 
 simples, terminals, suits, honors, edges, bonuses, extras :: Tiles
-simples    = concatMap (\x -> tail . init $ x) [coins, bamboos, characters]
-terminals  = concatMap (\x -> [head x, last x]) [coins, bamboos, characters]
+simples    = [coins, bamboos, characters] >>= (\x -> tail . init $ x)
+terminals  = [coins, bamboos, characters] >>= (\x -> [head x, last x])
 suits      = coins ++ bamboos ++ characters
 honors     = winds ++ dragons
 edges      = terminals ++ honors

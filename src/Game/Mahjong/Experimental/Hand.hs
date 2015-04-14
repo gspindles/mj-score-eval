@@ -13,9 +13,9 @@ module Game.Mahjong.Experimental.Hand where
 
 import Data.List (intersperse, sort)
 import Data.Monoid
-import Game.Mahjong.Internal.Meld
-import Game.Mahjong.Internal.Predicates
-import Game.Mahjong.Internal.Tile
+import Game.Mahjong.Experimental.Meld
+import Game.Mahjong.Experimental.Predicates
+import Game.Mahjong.Experimental.Tile
 
 
 -------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ handTiles :: Hand -> Tiles
 handTiles (NoHand          ) = []
 handTiles (Hand    ms lm bs) = sort (mts ++ bts)
   where
-    mts = concatMap meldTiles (lm : ms)
+    mts = meldTiles =<< (lm : ms)
     bts = map mkWrap bs
 handTiles (Special ts lt bs) = sort (ts ++ [lt] ++ bts)
   where
@@ -134,7 +134,7 @@ addBonus (InProgress oh ms bip) b      = InProgress oh ms (b : bip)
 inProgressTiles :: InProgress -> Tiles
 inProgressTiles (InProgress oh ms bip) = sort (oh ++ mts ++ bts)
   where
-    mts = concatMap meldTiles ms
+    mts = meldTiles =<< ms
     bts = map mkWrap bip
 
 

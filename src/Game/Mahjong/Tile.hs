@@ -45,7 +45,7 @@ import System.Random
 {- Wall building -}
 
 mjSet :: [Tile]
-mjSet      = (concatMap (take 4 . repeat) $ regulars) ++ bonuses
+mjSet      = (regulars >>= take 4 . repeat) ++ bonuses
 
 getWall :: Int -> [Tile]
 getWall a  = fst $ fisherYates (mkStdGen a) mjSet

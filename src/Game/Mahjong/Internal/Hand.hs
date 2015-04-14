@@ -95,7 +95,7 @@ mkSpecial ts t tbs
 getMelds :: Hand -> [Meld]
 getMelds (NoHand       )              = []
 getMelds (Hand    m l _)              = l : m
-getMelds (Special m l _)              = []  -- | TODO: come back to this later
+getMelds (Special t l _)              = []  -- | TODO: come back to this later
 
 handTiles :: Hand -> [Tile]
 handTiles (NoHand         )           = []
