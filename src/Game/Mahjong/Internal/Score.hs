@@ -38,35 +38,41 @@ scoreHelper f p h =
   else Nothing
 
 
--- | 1.0 Trivial Patterns
+{- 1.0 Trivial Patterns -}
+
+-- | check for chicken hand
 isChicken :: ScoreFunc
 isChicken       = \_ -> Just chicken
 
+-- | check if the hand consists of all chows
 isAllChows :: ScoreFunc
 isAllChows      = scoreHelper f p
   where
     f  = (>= 4) . numOfChows . snd
---  f  = all isChow . getMelds . fst
     p  = allChows
 
+-- | check for concealed hand
 isConcealedHand :: ScoreFunc
 isConcealedHand = scoreHelper f p
   where
     f  = all isConcealed . melds . fst
     p  = concealed
 
+-- | check for self drawing the winning tile
 isSelfDrawn :: ScoreFunc
 isSelfDrawn     = scoreHelper f p
   where
     f  = isConcealed . lastMeld . fst
     p  = selfDrawn
 
+-- | check for all simple hand
 isAllSimples :: ScoreFunc
 isAllSimples    = scoreHelper f p
   where
     f  = all isSimple . getMelds . fst
     p  = allSimples
 
+-- | check if the hand consists of all 3 suit types and 2 honor types
 isAllTypes :: ScoreFunc
 isAllTypes      = scoreHelper f p
   where
@@ -78,10 +84,12 @@ isIllegalCall :: ScoreFunc
 isIllegalCall   = \_ -> Just illegalCall
 
 
--- | 2.0 Pungs and Kongs
+
+{- 2.0 Pungs and Kongs -}
 
 -- 2.1 Pung
 
+-- | check if the hand consists of all pungs
 isAllPungs :: ScoreFunc
 isAllPungs = scoreHelper f p
   where
@@ -89,25 +97,11 @@ isAllPungs = scoreHelper f p
 --  f = all isPung . getMelds . fst
     p = allPungs
 
+
 -- 2.2 Concealed pungs
 
-isTwoConcealedPungs, isThreeConcealedPungs, isFourConcealedPungs, isConcealedPungs :: ScoreFunc
-isTwoConcealedPungs   = scoreHelper f p
-  where
-    f = (== 2) . concealedHelper
-    p = twoConcealedPungs
-
-isThreeConcealedPungs = scoreHelper f p
-  where
-    f = (== 3) . concealedHelper
-    p = threeConcealedPungs
-
-isFourConcealedPungs  = scoreHelper f p
-  where
-    f = (== 4) . concealedHelper
-    p = fourConcealedPungs
-
--- Will be using this one, the 3 above are just for completion really.
+-- | check for the number of concealed pungs
+isConcealedPungs :: ScoreFunc
 isConcealedPungs p    =
   let count           = concealedHelper p
   in case count of
@@ -122,28 +116,8 @@ concealedHelper       = length . filter (\x -> isPung x && isConcealed x) . getM
 
 -- 2.3 Kongs
 
-isOneKong, isTwoKongs, isThreeKongs, isFourKongs, isKongs :: ScoreFunc
-isOneKong    = scoreHelper f p
-  where
-    f = (== 1) . numOfKongs . snd
-    p = oneKong
-
-isTwoKongs   = scoreHelper f p
-  where
-    f = (== 2) . numOfKongs . snd
-    p = twoKongs
-
-isThreeKongs = scoreHelper f p
-  where
-    f = (== 3) . numOfKongs . snd
-    p = threeKongs
-
-isFourKongs  = scoreHelper f p
-  where
-    f = (== 4) . numOfKongs . snd
-    p = fourKongs
-
--- Will be using this one, the 4 above are just for completeness sake.
+-- | check for the number of kongs
+isKongs :: ScoreFunc
 isKongs p    =
   let count  = numOfKongs . snd $ p
   in case count of
@@ -153,13 +127,16 @@ isKongs p    =
     4 -> Just fourKongs
     _ -> Nothing
 
--- | 3.0 Identical Sets
+
+
+{- 3.0 Identical Sets -}
 {-
 twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows :: ScoreFunc
 twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows = undefined
 -}
 
--- | 4.0 Similar Sets
+
+{- 4.0 Similar Sets -}
 
 -- 4.1 Similar chows
 {-
@@ -171,7 +148,8 @@ littleThreeSimilarPungs, threeSimilarPung :: ScoreFunc
 littleThreeSimilarPungs, threeSimilarPung = undefined
 
 
--- | 5.0 Consecutive Sets 
+
+{- 5.0 Consecutive Sets -}
 
 -- 5.1 Consecutive chows
 threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwi :: ScoreFunc
@@ -182,7 +160,8 @@ threeConsecutivePungs, fourConsecutivePungs, threeMothers :: ScoreFunc
 threeConsecutivePungs, fourConsecutivePungs, threeMothers = undefined
 
 
--- | 6.0 Suit Patterns
+
+{- 6.0 Suit Patterns -}
 
 -- 6.1 Mixed and pure
 mixedOneSuit, pureOneSuit :: ScoreFunc
@@ -193,7 +172,8 @@ nineGates :: ScoreFunc
 nineGates = undefined
 
 
--- | 7.0 Terminal Tiles
+
+{- 7.0 Terminal Tiles -}
 
 -- 7.1 Chow and pungs
 twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: ScoreFunc
@@ -204,7 +184,8 @@ mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTer
 mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals = undefined
 
 
--- | 8.0 Honor Tiles
+
+{- 8.0 Honor Tiles -}
 
 -- 8.1 Dragons
 dragonPung, littleThreeDragons, bigThreeDragons :: ScoreFunc
@@ -219,7 +200,8 @@ allHonors, allHonorPairs :: ScoreFunc
 allHonors, allHonorPairs = undefined
 
 
--- | 9.0 Seven Pairs
+
+{- 9.0 Seven Pairs -}
 
 -- 9.1 Basic seven pairs
 sevenPairs :: ScoreFunc
@@ -228,19 +210,28 @@ sevenPairs = undefined
 -- 9.2 Specialized seven pairs
 sevenShiftedPairs, grandChariot, bambooForest, numberNeighborhood :: ScoreFunc
 sevenShiftedPairs, grandChariot, bambooForest, numberNeighborhood = undefined
+-}
 
 
--- | 10.0 Color Hands
-allGreen, allRed :: ScoreFunc
-allGreen, allRed = undefined
+{- 10.0 Color Hands -}
+
+isColorHand :: ScoreFunc
+isColorHand (h, _)
+  | all isRed   . handTiles $ h = Just allRed
+  | all isGreen . handTiles $ h = Just allGreen
+  | otherwise                   = Nothing
 
 
--- | 11.0 Irregular Hands
+
+{- 11.0 Irregular Hands -}
+
+{-
 thirteenOrphans :: ScoreFunc
 thirteenOrphans = undefined
 
 
--- | 12.0 Incidental bonuses
+
+{- 12.0 Incidental bonuses -}
 
 -- 12.1 Final tile
 finalDraw, finalDiscard :: ScoreFunc
@@ -257,19 +248,20 @@ robbingAKong = undefined
 -- 12.4 Blessings / First tile
 blessingOfHeaven, blessingOfEarth :: ScoreFunc
 blessingOfHeaven, blessingOfEarth = undefined
-
-
--- | 13.0 Bonus Tiles
-
--- 13.1 Basic flower points
-bonusFlowerSeason :: ScoreFunc
-bonusFlowerSeason = undefined
-
--- 13.2 Flower kong
-fourFlowers, fourSeasons :: ScoreFunc
-fourFlowers, fourSeasons = undefined
-
--- 12.3 Both sets of bonus tile
-allBonusTiles :: ScoreFunc
-allBonusTiles = undefined
 -}
+
+
+
+{- 13.0 Bonus Tiles -}
+
+calculateBonus :: ScoreFunc
+calculateBonus (h, _)
+  | numBonuses == 8 = Just allBonusTiles
+  | numFlowers == 4 = Just fourFlowers
+  | numSeasons == 4 = Just fourSeasons
+  | otherwise       = Just $ updateScore bonusFlowerSeason numBonuses
+  where
+    numFlowers = length . filter isFlower . bonus $ h
+    numSeasons = length . filter isSeason . bonus $ h
+    numBonuses = numFlowers + numSeasons
+

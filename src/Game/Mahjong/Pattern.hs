@@ -7,11 +7,14 @@
 -- Stability   :  experimental
 -- Portability :  portable
 
--- | Data definition of hand patterns
+-- Data definition of hand patterns
 --   and declaration for all accepted patterns
 module Game.Mahjong.Pattern
   ( -- * The `Pattern` type
     Pattern
+
+    -- * Utility function
+  , updateScore
 
 
     -- * 1.0 Trivial Patterns
@@ -142,7 +145,7 @@ data Pattern =
 
 {- Hand List -}
 
--- | 1.0 Trivial Patterns
+-- 1.0 Trivial Patterns
 
 chicken, allChows, concealed, selfDrawn, allSimples, allTypes, illegalCall :: Pattern
 chicken     = Pattern "Chicken Hand"   "雞和"   1
@@ -154,7 +157,7 @@ allTypes    = Pattern "All Types"      "五門齊" 10
 illegalCall = Pattern "Illegal Call"   "詐和"   (-30)
 
 
--- | 2.0 Pungs and Kongs
+-- 2.0 Pungs and Kongs
 
 allPungs, twoConcealedPungs, threeConcealedPungs, fourConcealedPungs :: Pattern
 allPungs            = Pattern "All Pungs"             "對對和" 30
@@ -169,7 +172,7 @@ threeKongs          = Pattern "Three Kongs" "三槓" 120
 fourKongs           = Pattern "Four Kongs"  "四槓" 480
 
 
--- | 3.0 Identical Chows
+-- 3.0 Identical Chows
 
 twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows :: Pattern
 twoIdenticalChows      = Pattern "Identical Chow"            "一般高"     10
@@ -178,7 +181,7 @@ threeIdenticalChows    = Pattern "Three Identical Chows"     "一色三同順" 1
 fourIdenticalChows     = Pattern "Four Identical Chows"      "一色四同順" 480
 
 
--- | 4.0 Similar Sets
+-- 4.0 Similar Sets
 
 threeSimilarChows :: Pattern
 threeSimilarChows       = Pattern "Three Similar Chows" "三色同順" 35
@@ -188,7 +191,7 @@ littleThreeSimilarPungs = Pattern "Little Three Similar Pungs" "三色小同刻"
 threeSimilarPungs       = Pattern "Three Similar Pungs"        "三色同刻"   120
 
 
--- | 5.0 Consecutive Sets
+-- 5.0 Consecutive Sets
 
 threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice, fourConsecutiveChows :: Pattern
 threeConsecutiveChows      = Pattern "Three Consecutive Chows"       "三連順"   30
@@ -202,7 +205,7 @@ fourConsecutivePungs       = Pattern "Four Consecutive Pungs"  "四連刻"   200
 threeMothers               = Pattern "Three Mothers"           "三娘教子" 400
 
 
--- | 6.0 Suit Patterns
+-- 6.0 Suit Patterns
 
 mixedOneSuit, pureOneSuit :: Pattern
 mixedOneSuit       = Pattern "Mixed One-Suit"       "混一色"     40
@@ -212,7 +215,7 @@ nineGates :: Pattern
 nineGates          = Pattern "Nine Gates" "九蓮寶燈" 480
 
 
--- | 7.0 Terminal Tiles
+-- 7.0 Terminal Tiles
 
 twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: Pattern
 twoTailedTerminalChows  = Pattern "Two-Tailed Terminal Chows" "老少配"   5
@@ -228,7 +231,7 @@ mixedGreaterTerminals   = Pattern "Mixed Greater Terminals" "混么九"     100
 pureGreaterTerminals    = Pattern "Pure Greater Terminals"  "清么九"     400
 
 
--- | 8.0 Honor Tiles
+-- 8.0 Honor Tiles
 
 windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds :: Pattern
 windPung           = Pattern "Wind Pung"          "風刻"   5
@@ -247,7 +250,7 @@ allHonors          = Pattern "All Honors"      "字一色" 320
 allHonorPairs      = Pattern "All Honor Pairs" "大七星" 480
 
 
--- | 9.0 Seven Pairs
+-- 9.0 Seven Pairs
 
 sevenPairs :: Pattern
 sevenPairs         = Pattern "Seven Pairs" "七對子" 30
@@ -259,7 +262,7 @@ bambooForest       = Pattern "Bamboo Forest"       "大竹林" 400
 numberNeighborhood = Pattern "Number Neighborhood" "大數隣" 400
 
 
--- | 10.0 Color Hands
+-- 10.0 Color Hands
 
 allGreen, allRed, allBlue :: Pattern
 allGreen = Pattern "All Green" "緑一色" 400
@@ -267,13 +270,13 @@ allRed   = Pattern "All Red"   "紅孔雀" 480
 allBlue  = Pattern "All Blue"  "藍一色" 400 -- not exported
 
 
--- | 11.0 Irregular Hands
+-- 11.0 Irregular Hands
 
 thirteenOrphans :: Pattern
 thirteenOrphans = Pattern "Thirteen Orphans" "十三么九" 160
 
 
--- | 12.0 Incidental bonuses
+-- 12.0 Incidental bonuses
 
 finalDraw, finalDiscard :: Pattern
 finalDraw        = Pattern "Final Draw"    "海底撈月" 10
@@ -291,7 +294,7 @@ blessingOfHeaven = Pattern "Blessing of Heaven" "天和" 155
 blessingOfEarth  = Pattern "Blessing of Earth"  "地和" 155
 
 
--- | 13.0 Bonus Tiles
+-- 13.0 Bonus Tiles
 
 bonusFlowerSeason :: Pattern
 bonusFlowerSeason = Pattern "Non-seat Flower" "花季牌" 2
@@ -302,4 +305,16 @@ fourSeasons       = Pattern "Four Seasons" "齊四季" 10
 
 allBonusTiles :: Pattern
 allBonusTiles     = Pattern "All Bonus Tiles" "八仙過海" 50
+
+
+
+-------------------------------------------------------------------------------
+
+{- Utility functions -}
+
+-- | This function assumes that the 2 patterns are identical and simply add their points up;
+-- no checking is done. Intended use is for adding points from dragon pungs, similar chows,
+-- bonus tiles, etc…
+updateScore :: Pattern -> Int -> Pattern
+updateScore (Pattern e c p) n = Pattern e c (p * n)
 

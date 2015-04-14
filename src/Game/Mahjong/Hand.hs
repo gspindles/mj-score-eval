@@ -17,11 +17,11 @@ module Game.Mahjong.Hand
   , noHand, mkHand, mkSpecial
 
     -- ** Hand accessors
-  , melds, lastMeld, bonusH
-  , tileSet, lastTile, bonusS
+  , melds, lastMeld, bonus
+  , tileSet, lastTile
 
     -- ** Functions on a completed hand
-  , getMelds, handTiles
+  , getMelds, handTiles, handTilesWithBonus
 
 
     -- * Stats on a hand

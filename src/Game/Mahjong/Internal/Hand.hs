@@ -27,11 +27,11 @@ data Hand =
     NoHand
   | Hand    { melds    :: [Meld]  -- ^ completed / concealed meld
             , lastMeld :: Meld    -- ^ the last meld that wins the game
-            , bonusH   :: [Tile]  -- ^ just a list of bonus tiles
+            , bonus    :: [Tile]  -- ^ just a list of bonus tiles
             }
   | Special { tileSet  :: [Tile]  -- ^ the set of onhand tile
             , lastTile :: Tile    -- ^ the last tile obtained
-            , bonusS   :: [Tile]  -- ^ any bonus tiles
+            , bonus    :: [Tile]  -- ^ any bonus tiles
             }
 
 -- | Stat on a hand
@@ -80,29 +80,34 @@ delim       = "  |  "
 {- Functions for complete hand -}
 
 noHand :: Hand
-noHand                       = NoHand
+noHand                                = NoHand
 
 mkHand :: [Meld] -> Meld -> [Tile] -> Hand
 mkHand ts t tbs
-  | all isBonus tbs = Hand ts t tbs
-  | otherwise                = NoHand
+  | all isBonus tbs                   = Hand ts t tbs
+  | otherwise                         = NoHand
 
 mkSpecial :: [Tile] -> Tile -> [Tile] -> Hand
 mkSpecial ts t tbs
   | all isBonus tbs = Special ts t tbs
-  | otherwise                = NoHand
+  | otherwise                         = NoHand
 
 getMelds :: Hand -> [Meld]
-getMelds (NoHand       )     = []
-getMelds (Hand    m l _)     = l : m
-getMelds (Special m l _)     = []  -- | TODO: come back to this later
+getMelds (NoHand       )              = []
+getMelds (Hand    m l _)              = l : m
+getMelds (Special m l _)              = []  -- | TODO: come back to this later
 
 handTiles :: Hand -> [Tile]
-handTiles (NoHand         )  = []
-handTiles (Hand   ms lm bs)  = sort (mts ++ bs)
+handTiles (NoHand         )           = []
+handTiles (Hand    ms lm _)           = sort $ (lm : ms) >>= meldTiles 
+handTiles (Special ts lt _)           = sort (ts ++ [lt])
+
+handTilesWithBonus :: Hand -> [Tile]
+handTilesWithBonus (NoHand         )  = []
+handTilesWithBonus (Hand    ms lm bs) = sort (mts ++ bs)
   where
-    mts = concatMap meldTiles (lm : ms)
-handTiles (Special ts lt bs) = sort (ts ++ [lt] ++ bs)
+    mts = (lm : ms) >>= meldTiles
+handTilesWithBonus (Special ts lt bs) = sort (ts ++ [lt] ++ bs)
 
 
 -------------------------------------------------------------------------------
