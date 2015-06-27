@@ -110,7 +110,13 @@ instance HonorPred Meld where
   isHonor     = all isHonor . meldTiles
   isEdge      = any isEdge  . meldTiles
 
--- Meld doesn't have BonusPred instance
+-- Any bonus tile found within a meld will make this true
+instance BonusPred Meld where
+  isFlower    = any isFlower . meldTiles
+  isSeason    = any isSeason . meldTiles
+  isAnimal    = any isAnimal . meldTiles
+
+  isBonus     = any isBonus . meldTiles
 
 instance ColorPred Meld where
   isRed       = all isRed   . meldTiles

@@ -14,7 +14,7 @@ module Game.Mahjong.Hand
     Hand
 
     -- ** constructors
-  , noHand, mkHand, mkSpecial
+  , mkHand, mkSpecial
 
     -- ** Hand accessors
   , melds, lastMeld, bonus
@@ -43,18 +43,18 @@ import Game.Mahjong.Internal.Tile
 
 {- Example for repl -}
 
-h :: Hand
-h = Hand [mkChow Revealed c1, mkPung Revealed w2, mkKong Concealed b3, mkEyes Concealed d1]
-         (mkChow Revealed k7)
-         [f2, s4]
+h :: Maybe Hand
+h = mkHand [mkChow Revealed c1, mkPung Revealed w2, mkKong Concealed b3, mkEyes Concealed d1]
+           (mkChow Revealed k7)
+           [f2, s4]
 
-sp1 :: Hand
-sp1 = Special [b1, b1, b1, b2, b3, b4, b5, b6, b7, b8, b9, b9, b9]
-              (b5)
-              [f3]
+sp1 :: Maybe Hand
+sp1 = mkSpecial [b1, b1, b1, b2, b3, b4, b5, b6, b7, b8, b9, b9, b9]
+                (b5)
+                [f3]
 
-sp2 :: Hand
-sp2 = Special [c1, c9, b1, b9, k1, k9, w1, w2, w3, w4, d1, d2, d3]
-              (c1)
-              [f2]
+sp2 :: Maybe Hand
+sp2 = mkSpecial [c1, c9, b1, b9, k1, k9, w1, w2, w3, w4, d1, d2, d3]
+                (c1)
+                [f2]
 

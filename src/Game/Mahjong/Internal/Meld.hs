@@ -12,7 +12,7 @@
 module Game.Mahjong.Internal.Meld where
 
 import Game.Mahjong.Internal.Tile
-import Data.List (intercalate, sort)
+import Data.List (intercalate)
 
 
 -------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ instance Show Meld where
   show (KMeld s ts)     = show s ++ join' " " ts ++ "}"
   show (EMeld s ts)     = show s ++ join' " " ts ++ ")"
 
-  showList ms s         = intercalate "  " . map show $ ms
+  showList ms _         = intercalate "  " . map show $ ms
 
 join' :: Show a => String -> [a] -> String
 join' delim             = intercalate delim . map show
@@ -58,43 +58,44 @@ join' delim             = intercalate delim . map show
 
 -------------------------------------------------------------------------------
 
-{- Unsafe meld generation -}
+{- Safe meld generation -}
 
 -- | Given a suit tile, takes 2 successors and a chow.
 -- In the case Eight or Nine is provided, the chow will just be Seven Eight Nine.
 -- Given a non suit tile, return an error message.
-mkChow :: Status -> Tile -> Meld
+mkChow :: Status -> Tile -> Maybe Meld
 mkChow s t              =
   case t of
-    (CTile c)           -> chowHelper s c CTile
-    (BTile b)           -> chowHelper s b BTile
-    (KTile k)           -> chowHelper s k KTile
-    _                   -> error "Can only make a chow with suit tiles."
-  where
-    chowHelper :: Status -> Values -> (Values -> Tile) -> Meld
-    chowHelper s v tCtor =
-      if elem v [Eight, Nine]
-      then CMeld s . map tCtor $ [Seven, Eight, Nine]
-      else CMeld s . map tCtor . take 3 . iterate succ $ v
+    (CTile c)           -> Just $ chowHelper CTile s c
+    (BTile b)           -> Just $ chowHelper BTile s b
+    (KTile k)           -> Just $ chowHelper KTile s k
+    _                   -> Nothing
 
-mkPung, mkKong, mkEyes :: Status -> Tile -> Meld
-mkPung s t              = meldHelper PMeld Pung s t 3
-mkKong s t              = meldHelper KMeld Kong s t 4
-mkEyes s t              = meldHelper EMeld Eyes s t 2
+chowHelper :: (Values -> Tile) -> Status -> Values -> Meld
+chowHelper tCtor s v =
+  if elem v [Eight, Nine]
+  then CMeld s . map tCtor $ [Seven, Eight, Nine]
+  else CMeld s . map tCtor . take 3 . iterate succ $ v
 
-meldHelper :: (Status -> [Tile] -> Meld)
-           -> MeldType -> Status -> Tile -> Int
-           -> Meld
-meldHelper mCtor mt s t n =
+mkPung, mkKong, mkEyes :: Status -> Tile -> Maybe Meld
+mkPung s t              = meldHelper1 PMeld s t 3
+mkKong s t              = meldHelper1 KMeld s t 4
+mkEyes s t              = meldHelper1 EMeld s t 2
+
+meldHelper1 :: (Status -> [Tile] -> Meld)
+           -> Status -> Tile -> Int
+           -> Maybe Meld
+meldHelper1 mCtor s t n =
   case t of
-    (CTile c)           -> mCtor s $ replicate n t
-    (BTile b)           -> mCtor s $ replicate n t
-    (KTile k)           -> mCtor s $ replicate n t
-    (WTile w)           -> mCtor s $ replicate n t
-    (DTile d)           -> mCtor s $ replicate n t
-    _                   ->
-      let msg = "Cannot make a " ++ show mt ++ " out of bonus tiles."
-      in error msg
+    (FTile _)           -> Nothing
+    (STile _)           -> Nothing
+    (ATile _)           -> Nothing
+    _                   -> Just $ meldHelper2 mCtor s t n
+
+meldHelper2 :: (Status -> [Tile] -> Meld)
+           -> Status -> Tile -> Int
+           -> Meld
+meldHelper2 mCtor s t n = mCtor s $ replicate n t
 
 
 -------------------------------------------------------------------------------
@@ -113,7 +114,7 @@ isRevealed  = (==) Revealed  . status
 isChow, isPung, isKong, isEyes :: Meld -> Bool
 isChow = (== Chow) . meldType
 -- kong does get counted as pung
-isPung = foldr (||) False . zipWith id [(== Pung), (== Kong)] . repeat . meldType
+isPung = or . zipWith id [(== Pung), (== Kong)] . repeat . meldType
 isKong = (== Kong) . meldType
 isEyes = (== Chow) . meldType
 
@@ -133,17 +134,17 @@ shiftMeld :: Meld -> Meld
 shiftMeld m =
   case m of
     (CMeld s ts) ->
-      case head . sort $ ts of
-        (CTile c)   -> chowHelper s c c1 CTile
-        (BTile b)   -> chowHelper s b b1 BTile
-        (KTile k)   -> chowHelper s k k1 KTile
+      case minimum ts of
+        (CTile c)   -> shiftHelper CTile c
+        (BTile b)   -> shiftHelper BTile b
+        (KTile k)   -> shiftHelper KTile k
       where
-        chowHelper :: Status -> Values -> Tile -> (Values -> Tile) -> Meld
-        chowHelper s v t tCtor =
+        shiftHelper :: (Values -> Tile) -> Values -> Meld
+        shiftHelper tCtor v =
           if v < Seven
-          then mkChow s . tCtor $ succ v
-          else mkChow s t
-    (PMeld s ts)       -> mkPung s $ dora . head . sort $ ts
-    (KMeld s ts)       -> mkKong s $ dora . head . sort $ ts
-    (EMeld s ts)       -> mkEyes s $ dora . head . sort $ ts
+          then chowHelper tCtor s $ succ v
+          else chowHelper tCtor s One 
+    (PMeld s ts)       -> meldHelper2 PMeld s (dora . minimum $ ts) 3
+    (KMeld s ts)       -> meldHelper2 KMeld s (dora . minimum $ ts) 4
+    (EMeld s ts)       -> meldHelper2 EMeld s (dora . minimum $ ts) 2
 

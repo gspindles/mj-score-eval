@@ -14,7 +14,6 @@
 module Game.Mahjong.Internal.Score where
 
 import Data.List (inits, tails)
-import Data.Maybe
 import Game.Mahjong.Internal.Hand
 import Game.Mahjong.Internal.Meld
 import Game.Mahjong.Internal.Predicates
@@ -206,7 +205,6 @@ isNineGates (_, _) = Nothing
 
 shiftCons :: a -> [a] -> [[a]]
 shiftCons x xs = zipWith (\i t -> i ++ [x] ++ t) (inits xs) (tails xs)
-
 
 
 

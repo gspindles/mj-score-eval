@@ -21,6 +21,7 @@ import Data.Maybe (fromJust)
 {- Data definition -}
 
 -- | The tile types
+-- for meta and generation purposes
 data TileType = Coin | Bamboo | Character | Wind | Dragon | Flower | Season | Animal
                 deriving (Bounded, Enum, Eq, Ord)
 
@@ -72,7 +73,7 @@ instance Show TileType where
       reps = ["C", "B", "K", "W", "D", "F", "S", "A"]
 
 instance Show Values where
-  show v          = show $ showHelper v [1..] [One .. Nine]
+  show v          = show $ showHelper v ([1..] :: [Int]) [One .. Nine]
 
 instance Show Winds where
   show w          = showHelper w reps [East .. North]
@@ -87,13 +88,16 @@ instance Show Dragons where
       reps = ["R", "G", "W"]
 
 instance Show Flowers where
-  show f          = show $ showHelper f [1..] [PlumBlossom .. BambooTree]
+  show f          = show $ showHelper f infInts [PlumBlossom .. BambooTree]
 
 instance Show Seasons where
-  show s          = show $ showHelper s [1..] [Spring .. Winter]
+  show s          = show $ showHelper s infInts [Spring .. Winter]
 
 instance Show Animals where
-  show a          = show $ showHelper a [1..] [Cat .. Centipede]
+  show a          = show $ showHelper a infInts [Cat .. Centipede]
+
+infInts :: [Int]
+infInts = [1..]
 
 instance Show Tile where
   show (CTile c)  = "C" ++ show c

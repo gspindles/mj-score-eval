@@ -11,8 +11,8 @@
 --   along with hand evaluation functions
 module Game.Mahjong.Internal.Hand where
 
-import Data.List (intersperse, sort)
-import Data.Monoid
+import Data.List (intercalate, sort)
+import Data.Maybe (fromJust, isJust)
 import Game.Mahjong.Internal.Meld
 import Game.Mahjong.Internal.Predicates
 import Game.Mahjong.Internal.Tile
@@ -24,8 +24,7 @@ import Game.Mahjong.Internal.Tile
 
 -- | A complete hand when a player has won
 data Hand =
-    NoHand
-  | Hand    { melds    :: [Meld]  -- ^ completed / concealed meld
+    Hand    { melds    :: [Meld]  -- ^ completed / concealed meld
             , lastMeld :: Meld    -- ^ the last meld that wins the game
             , bonus    :: [Tile]  -- ^ just a list of bonus tiles
             }
@@ -33,6 +32,93 @@ data Hand =
             , lastTile :: Tile    -- ^ the last tile obtained
             , bonus    :: [Tile]  -- ^ any bonus tiles
             }
+
+
+-------------------------------------------------------------------------------
+
+{- Data instances -}
+
+instance Show Hand where
+  show h    =
+    case h of
+      (Hand m l b)    -> join'' "  " m
+             ++ delim ++ show l
+             ++ delim ++ joinSort b
+      (Special t l b) -> "/" ++ joinSort t ++ "/"
+                    ++ delim ++ show l
+                    ++ delim ++ joinSort b
+
+join'' :: Show a => String -> [a] -> String
+join'' d    = intercalate d . map show
+
+joinSort :: (Ord a, Show a) => [a] -> String
+joinSort [] = "[]"
+joinSort ls = join'' " " . sort $ ls
+
+delim :: String
+delim       = "  |  "
+
+
+-------------------------------------------------------------------------------
+
+{- Functions for hand -}
+
+mkHand :: [Maybe Meld] -> Maybe Meld -> [Tile] -> Maybe Hand
+mkHand ms lm tbs                      =
+  if handCheck meldCheck
+  then Just $ Hand (fromJust meldList) (fromJust lm) tbs
+  else Nothing
+  where
+    meldList :: Maybe [Meld]
+    meldList                          = sequenceA ms
+
+    meldCheck :: Bool
+    meldCheck = isJust meldList && (fromJust . fmap (and . fmap (not . isBonus)) $ meldList)
+
+    handCheck :: Bool -> Bool
+    handCheck mc                      = mc
+      && (and . zipWith id [isJust, fromJust . fmap (not . isBonus)] $ repeat lm)
+      && all isBonus tbs
+
+mkSpecial :: [Tile] -> Tile -> [Tile] -> Maybe Hand
+mkSpecial ts lt tbs
+  | specialCheck                      = Just $ Special ts lt tbs
+  | otherwise                         = Nothing
+  where
+    specialCheck ::  Bool
+    specialCheck                      = all (not . isBonus) (lt : ts) && all isBonus tbs
+
+getMelds :: Hand -> [Meld]
+getMelds (Hand    m l _)              = l : m
+getMelds Special{}                    = []  -- | TODO: come back to this later
+
+handTiles :: Hand -> [Tile]
+handTiles (Hand    ms lm _)           = sort $ (lm : ms) >>= meldTiles 
+handTiles (Special ts lt _)           = sort (ts ++ [lt])
+
+handTilesWithBonus :: Hand -> [Tile]
+handTilesWithBonus (Hand    ms lm bs) = sort (mts ++ bs)
+  where
+    mts = (lm : ms) >>= meldTiles
+handTilesWithBonus (Special ts lt bs) = sort (ts ++ [lt] ++ bs)
+
+addBonus :: Hand -> Tile -> Hand
+addBonus hand b                       = hand { bonus = b : bonus hand }
+
+-- special hand are not constructed like this
+addMeld :: Hand -> Maybe Meld -> Maybe Hand
+addMeld h@(Hand ms _ _) m             =
+  case m of
+    Nothing -> Nothing
+    Just ts ->
+      if not . isBonus $ ts
+      then Just $ h { melds = fromJust m : ms }
+      else Nothing
+addMeld Special{}       _             = Nothing 
+
+-------------------------------------------------------------------------------
+
+{- Functions for stats on hand -}
 
 -- | Stat on a hand
 data HandStat =
@@ -49,76 +135,6 @@ data HandStat =
            , numOfEyes       :: Int   -- ^ The number of eyes
            } deriving Show
 
--------------------------------------------------------------------------------
-
-{- Data instances -}
-
-instance Show Hand where
-  show h    =
-    case h of
-      NoHand          -> "NoHand"
-      (Hand m l b)    -> join'' "  " m
-             ++ delim ++ show l
-             ++ delim ++ joinSort b
-      (Special t l b) -> "/" ++ joinSort t ++ "/"
-                    ++ delim ++ show l
-                    ++ delim ++ joinSort b
-
-join'' :: Show a => String -> [a] -> String
-join'' d    = concat . intersperse d . map show
-
-joinSort :: (Ord a, Show a) => [a] -> String
-joinSort [] = "[]"
-joinSort ls = join'' " " . sort $ ls
-
-delim :: String
-delim       = "  |  "
-
-
--------------------------------------------------------------------------------
-
-{- Functions for complete hand -}
-
-noHand :: Hand
-noHand                                = NoHand
-
-mkHand :: [Meld] -> Meld -> [Tile] -> Hand
-mkHand ts t tbs
-  | all isBonus tbs                   = Hand ts t tbs
-  | otherwise                         = NoHand
-
-mkSpecial :: [Tile] -> Tile -> [Tile] -> Hand
-mkSpecial ts t tbs
-  | all isBonus tbs = Special ts t tbs
-  | otherwise                         = NoHand
-
-getMelds :: Hand -> [Meld]
-getMelds (NoHand       )              = []
-getMelds (Hand    m l _)              = l : m
-getMelds (Special t l _)              = []  -- | TODO: come back to this later
-
-handTiles :: Hand -> [Tile]
-handTiles (NoHand         )           = []
-handTiles (Hand    ms lm _)           = sort $ (lm : ms) >>= meldTiles 
-handTiles (Special ts lt _)           = sort (ts ++ [lt])
-
-handTilesWithBonus :: Hand -> [Tile]
-handTilesWithBonus (NoHand         )  = []
-handTilesWithBonus (Hand    ms lm bs) = sort (mts ++ bs)
-  where
-    mts = (lm : ms) >>= meldTiles
-handTilesWithBonus (Special ts lt bs) = sort (ts ++ [lt] ++ bs)
-
-
--------------------------------------------------------------------------------
-
-{- Functions for stats on hand -}
-
--- I should use a lens library for all this but w/e idk yolo lol.
--- All of this just so I don't have multiple iterations through a hand's melds.
--- As a punishment for ugliness, I'm not allowed to align those ='s obsessively.
-
--- On a side note, HandStat should be isomorphic to 11-tuple
 instance Monoid HandStat where
   mempty =
     HandStat 0 0 0
@@ -147,12 +163,12 @@ numOfEdges  = sum . zipWith id [numOfTerminals, numOfDragons, numOfWinds] . repe
 numOfMelds  = sum . zipWith id [numOfChows, numOfPungs, numOfEyes] . repeat
 
 handStatStep :: Meld -> HandStat -> HandStat
-handStatStep m hs = mappend hs $ step m
+handStatStep m hs = mappend hs step
   where
     -- Used `toHandStat . map binary . zipWith id [funcs] . repeat` in the past;
     -- however, converting a list of 11 elements over to HandStat was unsightly.
-    step :: Meld -> HandStat
-    step m =
+    step :: HandStat
+    step =
       HandStat { numOfCoins      = binary . isCoin      $ m
                , numOfBamboos    = binary . isBamboo    $ m
                , numOfCharacters = binary . isCharacter $ m

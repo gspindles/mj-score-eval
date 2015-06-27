@@ -12,7 +12,7 @@ module Game.Mahjong.Meld
   ( -- * Meld status
     Status(..)
 
-    -- * Constructors ':: Status -> Tile t -> Meld'
+    -- * Constructors ':: Status -> Tile t -> Maybe Meld'
   , mkChow, mkPung, mkKong, mkEyes
 
     -- * Meld accessors
