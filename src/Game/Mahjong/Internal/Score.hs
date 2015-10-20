@@ -16,7 +16,7 @@ module Game.Mahjong.Internal.Score where
 import Data.List (inits, tails)
 import Game.Mahjong.Internal.Hand
 import Game.Mahjong.Internal.Meld
-import Game.Mahjong.Internal.Predicates
+import Game.Mahjong.Internal.Class
 import Game.Mahjong.Internal.Tile
 import Game.Mahjong.Pattern
 
@@ -26,7 +26,7 @@ import Game.Mahjong.Pattern
 {- Data definition -}
 
 -- | Newtype for scoring functions
-type ScoreFunc = (Hand, HandStat) -> Maybe Pattern
+type ScoreFunc = (Hand, HandStat) -> [Pattern]
 
 -------------------------------------------------------------------------------
 
@@ -35,59 +35,64 @@ type ScoreFunc = (Hand, HandStat) -> Maybe Pattern
 scoreHelper :: ((Hand, HandStat) -> Bool) -> Pattern -> ScoreFunc
 scoreHelper f p h =
   if f h
-  then Just p
-  else Nothing
+  then [p]
+  else []
 
 scoreHelpers :: [(Hand, HandStat) -> Bool] -> Pattern -> ScoreFunc
 scoreHelpers fs p h =
   if or . zipWith id fs . repeat $ h
-  then Just p
-  else Nothing
+  then [p]
+  else []
+
+-- | singleton = (:[])
+singleton :: a -> [a]
+singleton = pure
+
 
 {- 1.0 Trivial Patterns -}
 
 -- | check for chicken hand
 isChicken :: ScoreFunc
-isChicken       = \_ -> Just chicken
+isChicken = \_ -> singleton chicken
 
 -- | check if the hand consists of all chows
 isAllChows :: ScoreFunc
-isAllChows      = scoreHelper f p
+isAllChows = scoreHelper f p
   where
-    f  = (>= 4) . numOfChows . snd
-    p  = allChows
+    f = (>= 4) . numOfChows . snd
+    p = allChows
 
 -- | check for concealed hand
 isConcealedHand :: ScoreFunc
 isConcealedHand = scoreHelper f p
   where
-    f  = all isConcealed . melds . fst
-    p  = concealed
+    f = all isConcealed . melds . fst
+    p = concealed
 
 -- | check for self drawing the winning tile
 isSelfDrawn :: ScoreFunc
-isSelfDrawn     = scoreHelper f p
+isSelfDrawn = scoreHelper f p
   where
-    f  = isConcealed . lastMeld . fst
-    p  = selfDrawn
+    f = isConcealed . lastMeld . fst
+    p = selfDrawn
 
 -- | check for all simple hand
 isAllSimples :: ScoreFunc
-isAllSimples    = scoreHelper f p
+isAllSimples = scoreHelper f p
   where
-    f  = all isSimple . getMelds . fst
-    p  = allSimples
+    f = all isSimple . getMelds . fst
+    p = allSimples
 
 -- | check if the hand consists of all 3 suit types and 2 honor types
 isAllTypes :: ScoreFunc
-isAllTypes      = scoreHelper f p
+isAllTypes = scoreHelper f p
   where
     f  = all (>= 1) . zipWith id ns . repeat . snd
     p  = allTypes
     ns = [numOfCoins, numOfBamboos, numOfCharacters, numOfWinds, numOfDragons]
 
 isIllegalCall :: ScoreFunc
-isIllegalCall   = \_ -> Just illegalCall
+isIllegalCall = \_ -> singleton illegalCall
 
 
 
@@ -108,30 +113,30 @@ isAllPungs = scoreHelper f p
 
 -- | check for the number of concealed pungs
 isConcealedPungs :: ScoreFunc
-isConcealedPungs p    =
-  let count           = concealedHelper p
+isConcealedPungs p =
+  let count = concealedHelper p
   in case count of
-    2 -> Just twoConcealedPungs
-    3 -> Just threeConcealedPungs
-    4 -> Just fourConcealedPungs
-    _ -> Nothing
+    2 -> singleton twoConcealedPungs
+    3 -> singleton threeConcealedPungs
+    4 -> singleton fourConcealedPungs
+    _ -> []
 
 concealedHelper :: (Hand, HandStat) -> Int
-concealedHelper       = length . filter (\x -> isPung x && isConcealed x) . getMelds . fst
+concealedHelper = length . filter (\x -> isPung x && isConcealed x) . getMelds . fst
 
 
 -- 2.3 Kongs
 
 -- | check for the number of kongs
 isKongs :: ScoreFunc
-isKongs p    =
-  let count  = numOfKongs . snd $ p
+isKongs p =
+  let count = numOfKongs . snd $ p
   in case count of
-    1 -> Just oneKong
-    2 -> Just twoKongs
-    3 -> Just threeKongs
-    4 -> Just fourKongs
-    _ -> Nothing
+    1 -> singleton oneKong
+    2 -> singleton twoKongs
+    3 -> singleton threeKongs
+    4 -> singleton fourKongs
+    _ -> []
 
 
 
@@ -158,8 +163,8 @@ littleThreeSimilarPungs, threeSimilarPung = undefined
 {- 5.0 Consecutive Sets -}
 
 -- 5.1 Consecutive chows
-threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwi :: ScoreFunc
-threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwi = undefined
+threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice :: ScoreFunc
+threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice = undefined
 
 -- 5.2 Consecutive pungs
 threeConsecutivePungs, fourConsecutivePungs, threeMothers :: ScoreFunc
@@ -172,7 +177,7 @@ threeConsecutivePungs, fourConsecutivePungs, threeMothers = undefined
 
 -- 6.1 Mixed and pure
 isMixedOneSuit :: ScoreFunc
-isMixedOneSuit     = scoreHelpers fs p
+isMixedOneSuit = scoreHelpers fs p
   where
     fs = [ all (\t -> isCoin t      || isHonor t) . handTiles . fst
          , all (\t -> isBamboo t    || isHonor t) . handTiles . fst
@@ -181,7 +186,7 @@ isMixedOneSuit     = scoreHelpers fs p
     p  = mixedOneSuit
 
 isPureOneSuit :: ScoreFunc
-isPureOneSuit      = scoreHelpers fs p
+isPureOneSuit = scoreHelpers fs p
   where
     fs = [ all isCoin      . handTiles . fst
          , all isBamboo    . handTiles . fst
@@ -195,17 +200,16 @@ isPureOneSuit      = scoreHelpers fs p
 -- | only consider pure version
 isNineGates :: ScoreFunc
 isNineGates ((Special ts lt _), _)
-  | map CTile pattern == ts && isCoin      lt = Just nineGates
-  | map BTile pattern == ts && isBamboo    lt = Just nineGates
-  | map KTile pattern == ts && isCharacter lt = Just nineGates
-  | otherwise                                 = Nothing
+  | map CTile pattern == ts && isCoin      lt = singleton nineGates
+  | map BTile pattern == ts && isBamboo    lt = singleton nineGates
+  | map KTile pattern == ts && isCharacter lt = singleton nineGates
+  | otherwise                                 = []
   where
     pattern = (replicate 2 One) ++ [One .. Nine] ++ (replicate 2 Nine)
-isNineGates (_, _) = Nothing
+isNineGates (_, _) = []
 
 shiftCons :: a -> [a] -> [[a]]
 shiftCons x xs = zipWith (\i t -> i ++ [x] ++ t) (inits xs) (tails xs)
-
 
 
 {- 7.0 Terminal Tiles -}
@@ -251,11 +255,11 @@ sevenShiftedPairs, grandChariot, bambooForest, numberNeighborhood = undefined
 
 {- 10.0 Color Hands -}
 
-isColorHand :: ScoreFunc
-isColorHand (h, _)
-  | all isRed   . handTiles $ h = Just allRed
-  | all isGreen . handTiles $ h = Just allGreen
-  | otherwise                   = Nothing
+calculateColor :: ScoreFunc
+calculateColor (h, _)
+  | all isRed   . handTiles $ h = singleton allRed
+  | all isGreen . handTiles $ h = singleton allGreen
+  | otherwise                   = []
 
 
 
@@ -292,10 +296,10 @@ blessingOfHeaven, blessingOfEarth = undefined
 
 calculateBonus :: ScoreFunc
 calculateBonus (h, _)
-  | numBonuses == 8 = Just allBonusTiles
-  | numFlowers == 4 = Just fourFlowers
-  | numSeasons == 4 = Just fourSeasons
-  | otherwise       = Just $ updateScore bonusFlowerSeason numBonuses
+  | numBonuses == 8 = singleton allBonusTiles
+  | numFlowers == 4 = singleton fourFlowers
+  | numSeasons == 4 = singleton fourSeasons
+  | otherwise       = singleton $ updateScore bonusFlowerSeason numBonuses
   where
     numFlowers = length . filter isFlower . bonus $ h
     numSeasons = length . filter isSeason . bonus $ h

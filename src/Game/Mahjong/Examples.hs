@@ -850,25 +850,25 @@ thirteenOrphanEx = mkSpecial
 -- | 12.0 Incidental Bonuses
 
 finalDrawEx :: Maybe Hand
-finalDrawEx = undefined
+finalDrawEx = chickenEx
 
 finalDiscardEx :: Maybe Hand
-finalDiscardEx = undefined
+finalDiscardEx = chickenEx
 
 winOnKongEx :: Maybe Hand
-winOnKongEx = undefined
+winOnKongEx = chickenEx
 
 winOnBonusTileEx :: Maybe Hand
-winOnBonusTileEx = undefined
+winOnBonusTileEx = chickenEx
 
 robbingKongEx :: Maybe Hand
-robbingKongEx = undefined
+robbingKongEx = chickenEx
 
 blessingOfHeavenEx :: Maybe Hand
-blessingOfHeavenEx = undefined
+blessingOfHeavenEx = chickenEx
 
 blessingOfEarthEx :: Maybe Hand
-blessingOfEarthEx = undefined
+blessingOfEarthEx = chickenEx
 
 
 -- | 13.0 Bonus Tiles

@@ -23,9 +23,7 @@ module Game.Mahjong.Meld
 
     -- * Predicates for the type of meld ':: Meld -> Bool'
   , isChow, isPung, isKong, isEyes
-
-    -- * Utilities functions
-  , shiftMeld
   ) where
 
 import Game.Mahjong.Internal.Meld
+

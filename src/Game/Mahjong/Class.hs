@@ -1,5 +1,5 @@
 -- |
--- Module      :  Game.Mahjong.Tile.Predicates
+-- Module      :  Game.Mahjong.Tile.Class
 -- Copyright   :  Joseph Ching 2015
 -- License     :  MIT
 --
@@ -8,7 +8,7 @@
 -- Portability :  portable
 
 -- | Various predicates on tile types
-module Game.Mahjong.Tile.Predicates
+module Game.Mahjong.Tile.Class
   ( -- * Suit predicates ':: a -> Bool'
     isCoin, isBamboo, isCharacter
   , isSimple, isTerminal, isSuit
@@ -25,7 +25,4 @@ module Game.Mahjong.Tile.Predicates
   , isRed, isGreen, isBlue
   ) where
 
-import Game.Mahjong.Internal.Meld
-import Game.Mahjong.Internal.Predicates
-import Game.Mahjong.Internal.Tile
-
+import Game.Mahjong.Internal.Class

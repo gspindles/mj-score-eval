@@ -22,44 +22,81 @@ import Data.Maybe (fromJust)
 
 -- | The tile types
 -- for meta and generation purposes
-data TileType = Coin | Bamboo | Character | Wind | Dragon | Flower | Season | Animal
-                deriving (Bounded, Enum, Eq, Ord)
+data TileType
+  = Coin
+  | Bamboo
+  | Character
+  | Wind
+  | Dragon
+  | Flower
+  | Season 
+  | Animal
+    deriving (Bounded, Enum, Eq, Ord)
 
 -- | The tile values from one to nine for the 3 suits
-data Values   = One | Two | Three | Four | Five | Six | Seven | Eight | Nine
-                deriving (Bounded, Enum, Eq, Ord)
+data Values
+  = One 
+  | Two 
+  | Three
+  | Four
+  | Five
+  | Six
+  | Seven
+  | Eight
+  | Nine
+    deriving (Bounded, Enum, Eq, Ord)
 
 -- | The four winds
-data Winds    = East | South | West | North
-                deriving (Bounded, Enum, Eq, Ord)
+data Winds
+  = East
+  | South
+  | West
+  | North
+    deriving (Bounded, Enum, Eq, Ord)
 
 -- | The three dragons
-data Dragons  = Red | Green | White
-                deriving (Bounded, Enum, Eq, Ord)
+data Dragons
+  = Red
+  | Green
+  | White
+    deriving (Bounded, Enum, Eq, Ord)
 
 -- | The four flowers
-data Flowers  = PlumBlossom | Orchid | Chrysanthemum | BambooTree
-                deriving (Bounded, Enum, Eq, Ord)
+data Flowers
+  = PlumBlossom
+  | Orchid
+  | Chrysanthemum
+  | BambooTree
+    deriving (Bounded, Enum, Eq, Ord)
 
 -- | The four seasons
-data Seasons  = Spring | Summer | Autumn | Winter
-                deriving (Bounded, Enum, Eq, Ord)
+data Seasons
+  = Spring
+  | Summer
+  | Autumn
+  | Winter
+    deriving (Bounded, Enum, Eq, Ord)
 
 -- | The four animals
-data Animals  = Cat | Mouse | Cockerel | Centipede
-                deriving (Bounded, Enum, Eq, Ord)
-
+data Animals
+  = Cat
+  | Mouse
+  | Cockerel
+  | Centipede
+    deriving (Bounded, Enum, Eq, Ord)
 
 -- | The 8 kinds of tiles
-data Tile     = CTile Values   -- ^ Coin Tile
-              | BTile Values   -- ^ Bamboo Tile
-              | KTile Values   -- ^ Character Tile
-              | WTile Winds    -- ^ Wind Tile
-              | DTile Dragons  -- ^ Dragon Tile
-              | FTile Flowers  -- ^ Flower Tile
-              | STile Seasons  -- ^ Season Tile
-              | ATile Animals  -- ^ Animal Tile
-                deriving (Eq, Ord)
+-- Really wish I can sigma type this
+data Tile
+  = CTile Values   -- ^ Coin Tile
+  | BTile Values   -- ^ Bamboo Tile
+  | KTile Values   -- ^ Character Tile
+  | WTile Winds    -- ^ Wind Tile
+  | DTile Dragons  -- ^ Dragon Tile
+  | FTile Flowers  -- ^ Flower Tile
+  | STile Seasons  -- ^ Season Tile
+  | ATile Animals  -- ^ Animal Tile
+    deriving (Eq, Ord)
 
 
 -------------------------------------------------------------------------------
@@ -67,34 +104,34 @@ data Tile     = CTile Values   -- ^ Coin Tile
 {- Class instances -}
 
 instance Show TileType where
-  show tt         = showHelper tt reps [Coin .. Animal]
+  show tt  = showHelper tt reps [Coin .. Animal]
     where
       reps :: [String]
       reps = ["C", "B", "K", "W", "D", "F", "S", "A"]
 
 instance Show Values where
-  show v          = show $ showHelper v ([1..] :: [Int]) [One .. Nine]
+  show v = show $ showHelper v ([1..] :: [Int]) [One .. Nine]
 
 instance Show Winds where
-  show w          = showHelper w reps [East .. North]
+  show w   = showHelper w reps [East .. North]
     where
       reps :: [String]
       reps = ["E", "S", "W", "N"]
 
 instance Show Dragons where
-  show d          = showHelper d reps [Red .. White]
+  show d   = showHelper d reps [Red .. White]
     where
       reps :: [String]
       reps = ["R", "G", "W"]
 
 instance Show Flowers where
-  show f          = show $ showHelper f infInts [PlumBlossom .. BambooTree]
+  show f = show $ showHelper f infInts [PlumBlossom .. BambooTree]
 
 instance Show Seasons where
-  show s          = show $ showHelper s infInts [Spring .. Winter]
+  show s = show $ showHelper s infInts [Spring .. Winter]
 
 instance Show Animals where
-  show a          = show $ showHelper a infInts [Cat .. Centipede]
+  show a = show $ showHelper a infInts [Cat .. Centipede]
 
 infInts :: [Int]
 infInts = [1..]
@@ -226,62 +263,4 @@ tileType (DTile _) = Dragon
 tileType (FTile _) = Flower
 tileType (STile _) = Season
 tileType (ATile _) = Animal
-
-
--------------------------------------------------------------------------------
-
-{- Dora -}
-
-class Dora a where
-  dora        :: a -> a
-  reverseDora :: a -> a
-
-instance Dora Values where
-  dora                  = doraHelper
-  reverseDora           = rDoraHelper
-
-instance Dora Winds where
-  dora                  = doraHelper
-  reverseDora           = rDoraHelper
-
-instance Dora Dragons where
-  dora                  = doraHelper
-  reverseDora           = rDoraHelper
-
-instance Dora Flowers where
-  dora                  = doraHelper
-  reverseDora           = rDoraHelper
-
-instance Dora Seasons where
-  dora                  = doraHelper
-  reverseDora           = rDoraHelper
-
-instance Dora Animals where
-  dora                  = doraHelper
-  reverseDora           = rDoraHelper
-
-instance Dora Tile where
-  dora        (CTile c) = CTile $ dora c
-  dora        (BTile b) = BTile $ dora b
-  dora        (KTile k) = KTile $ dora k
-  dora        (WTile w) = WTile $ dora w
-  dora        (DTile d) = DTile $ dora d
-  dora        (FTile f) = FTile $ dora f
-  dora        (STile s) = STile $ dora s
-  dora        (ATile a) = ATile $ dora a
-
-  reverseDora (CTile c) = CTile $ reverseDora c
-  reverseDora (BTile b) = BTile $ reverseDora b
-  reverseDora (KTile k) = KTile $ reverseDora k
-  reverseDora (WTile w) = WTile $ reverseDora w
-  reverseDora (DTile d) = DTile $ reverseDora d
-  reverseDora (FTile f) = FTile $ reverseDora f
-  reverseDora (STile s) = STile $ reverseDora s
-  reverseDora (ATile a) = ATile $ reverseDora a
-
-doraHelper  :: (Bounded a, Enum a, Eq a) => a -> a
-doraHelper a            = if a == maxBound then minBound else succ a
-
-rDoraHelper :: (Bounded a, Enum a, Eq a) => a -> a
-rDoraHelper a           = if a == minBound then maxBound else pred a
 

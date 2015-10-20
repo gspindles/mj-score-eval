@@ -35,9 +35,21 @@ module Game.Mahjong.Tile
 ) where
 
 import Data.Map (Map, insert, (!), elems, singleton)
+import Game.Mahjong.Internal.Class (next, prev)
 import Game.Mahjong.Internal.Tile
-import System.IO.Unsafe
-import System.Random
+import System.IO.Unsafe (unsafePerformIO)
+import System.Random (randomR, randomIO, mkStdGen, RandomGen)
+
+
+-------------------------------------------------------------------------------
+
+{- Dora -}
+
+dora :: Tile -> Tile
+dora = next
+
+reverseDora :: Tile -> Tile
+reverseDora = prev
 
 
 -------------------------------------------------------------------------------
