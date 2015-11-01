@@ -1,5 +1,5 @@
 -- |
--- Module      :  Game.Mahjong.Tile.Class
+-- Module      :  Game.Mahjong.Class
 -- Copyright   :  Joseph Ching 2015
 -- License     :  MIT
 --
@@ -8,21 +8,87 @@
 -- Portability :  portable
 
 -- | Various predicates on tile types
-module Game.Mahjong.Tile.Class
-  ( -- * Suit predicates ':: a -> Bool'
-    isCoin, isBamboo, isCharacter
-  , isSimple, isTerminal, isSuit
+module Game.Mahjong.Class (
+  -- * Tile predicates type class
+  TilePred(..),
 
-    -- * Honor predicates ':: a -> Bool'
-  , isWind, isDragon
-  , isHonor, isEdge
 
-    -- * Bonus predicates ':: a -> bool'
-  , isFlower, isSeason, isAnimal
-  , isBonus
+  -- * Loop type class
+  Loop(..),
 
-    -- * Color predicates ':: a -> Bool'
-  , isRed, isGreen, isBlue
-  ) where
 
-import Game.Mahjong.Internal.Class
+  -- * Helper functions
+  anyCond, allCond, sumCond,
+  nextHelper, prevHelper
+) where
+
+
+-------------------------------------------------------------------------------
+-- TilePred typeclass
+-------------------------------------------------------------------------------
+
+class TilePred a where
+  -- | Predicates for suit
+  isCoin      :: a -> Bool
+  isBamboo    :: a -> Bool
+  isCharacter :: a -> Bool
+
+  isSimple    :: a -> Bool
+  isTerminal  :: a -> Bool
+  isSuit      :: a -> Bool
+
+  -- | Predicates for honor
+  isWind      :: a -> Bool
+  isDragon    :: a -> Bool
+
+  isHonor     :: a -> Bool
+  isEdge      :: a -> Bool
+
+  -- | Predicates for bonus
+  isFlower    :: a -> Bool
+  isSeason    :: a -> Bool
+  isAnimal    :: a -> Bool
+
+  isBonus     :: a -> Bool
+
+  -- | Predicates for color
+  isRed       :: a -> Bool
+  isGreen     :: a -> Bool
+  isBlue      :: a -> Bool
+
+
+-------------------------------------------------------------------------------
+-- Loop typeclass
+-------------------------------------------------------------------------------
+
+-- | Loop type class.
+class Loop a where
+  next :: a -> a
+  prev :: a -> a
+
+
+-------------------------------------------------------------------------------
+-- Utility Functions
+-------------------------------------------------------------------------------
+
+anyCond :: [(a -> Bool)] -> a -> Bool
+anyCond fs x = or $ map (\f -> f x) fs
+
+allCond :: [(a -> Bool)] -> a -> Bool
+allCond fs = and . zipWith id fs . repeat
+
+sumCond :: Num n => [(a -> n)] -> a -> n
+sumCond fs = sum . zipWith ($) fs . repeat
+
+nextHelper :: (Bounded a, Enum a, Eq a) => a -> a
+nextHelper a =
+  if a == maxBound
+  then minBound
+  else succ a
+
+prevHelper :: (Bounded a, Enum a, Eq a) => a -> a
+prevHelper a =
+  if a == minBound
+  then maxBound
+  else pred a
+

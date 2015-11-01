@@ -9,31 +9,20 @@
 
 -- | Meta tile and meld data definition
 --   along with methods for generation of particular kinds of melds
-module Game.Mahjong.Meld.Generate
-  ( -- Data definition
-    TileType(..), MeldType(..), Status(..)
+module Game.Mahjong.Meld.Generate (
+) where
 
-   -- * Constructors ':: Status -> Tile t -> Meld'
-    mkChow, mkPung, mkKong, mkEyes
-
-    -- * Predicates for the type of meld ':: Meld -> Bool'
-  , isChow, isPung, isKong, isEyes
-
-    -- * predicate for meld base on tile type ':: Meld -> Bool'
-  , isCoinM, isBambooM, isCharacterM, isWindM, isDragonM
-  , isSimpleM, isTerminalM, isSuitM, isHonorM, isEdgeM
-  , isRedM, isGreenM, isBlueM
-  ) where
+import Game.Mahjong.Meld
+import Game.Mahjong.Tile
 
 import Data.List (nub, unfoldr)
-import Game.Mahjong.Internal.Meld
-import Game.Mahjong.Tile
 import System.IO.Unsafe (unsafePerformIO)
 import System.Random
 
 
-
-{- Get a Tile -}
+--------------------------------------------------------------------------------
+-- Get a Tile
+--------------------------------------------------------------------------------
 
 helper :: [Tile] -> Int -> Tile
 helper ts x = ts !! mod x (length ts)
