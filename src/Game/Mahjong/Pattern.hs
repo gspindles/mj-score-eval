@@ -7,127 +7,127 @@
 -- Stability   :  experimental
 -- Portability :  portable
 
--- Data definition of hand patterns
+-- | Data definition of hand patterns
 --   and declaration for all accepted patterns
-module Game.Mahjong.Pattern
-  ( -- * The `Pattern` type
-    Pattern
+module Game.Mahjong.Pattern (
+  -- * The `Pattern` type
+  Pattern,
 
-    -- * Utility function
-  , updateScore
-
-
-    -- * 1.0 Trivial Patterns
-  , chicken, allChows, concealed, selfDrawn, allSimples, allTypes, illegalCall
+  -- * Utility function
+  updateScore,
 
 
-    -- * 2.0 Pungs and Kongs
-
-    -- ** 2.1 Pung
-  , allPungs
-
-    -- ** 2.2 Concealed pungs
-  , twoConcealedPungs, threeConcealedPungs, fourConcealedPungs
-
-    -- ** 2.3 Kongs
-  , oneKong, twoKongs, threeKongs, fourKongs
+  -- * 1.0 Trivial Patterns
+  chicken, allChows, concealed, selfDrawn, allSimples, allTypes, illegalCall,
 
 
-    -- * 3.0 Identical Sets
-  , twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows
+  -- * 2.0 Pungs and Kongs
+
+  -- ** 2.1 Pung
+  allPungs,
+
+  -- ** 2.2 Concealed pungs
+  twoConcealedPungs, threeConcealedPungs, fourConcealedPungs,
+
+  -- ** 2.3 Kongs
+  oneKong, twoKongs, threeKongs, fourKongs,
 
 
-    -- * 4.0 Similar Sets
-
-    -- ** 4.1 Similar chows
-  , threeSimilarChows
-
-    -- ** 4.2 Similar pungs
-  , littleThreeSimilarPungs, threeSimilarPungs
+  -- * 3.0 Identical Sets
+  twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows,
 
 
-    -- * 5.0 Consecutive Sets 
+  -- * 4.0 Similar Sets
 
-    -- ** 5.1 Consecutive chows
-  , threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice, fourConsecutiveChows
+  -- ** 4.1 Similar chows
+  threeSimilarChows,
 
-    -- ** 5.2 Consecutive pungs
-  , threeConsecutivePungs, fourConsecutivePungs, threeMothers
-
-
-    -- * 6.0 Suit Patterns
-
-    -- ** 6.1 Mixed and pure
-  , mixedOneSuit, pureOneSuit
-
-    -- ** 6.2 Nine Gates
-  , nineGates
+  -- ** 4.2 Similar pungs
+  littleThreeSimilarPungs, threeSimilarPungs,
 
 
-    -- * 7.0 Terminal Tiles
+  -- * 5.0 Consecutive Sets
 
-    -- ** 7.1 Chow and pungs
-  , twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain
+  -- ** 5.1 Consecutive chows
+  threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice, fourConsecutiveChows,
 
-    -- ** 7.2 Mixed and pure
-  , mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals
-
-
-    -- * 8.0 Honor Tiles
-
-    -- ** 8.1 Dragons
-  , dragonPung, littleThreeDragons, bigThreeDragons
-
-    -- ** 8.2 Winds
-  , windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds
-
-    -- ** 8.3 Pure honors
-  , allHonors, allHonorPairs
+  -- ** 5.2 Consecutive pungs
+  threeConsecutivePungs, fourConsecutivePungs, threeMothers,
 
 
-    -- * 9.0 Seven Pairs
+  -- * 6.0 Suit Patterns
 
-    -- ** 9.1 Basic seven pairs
-  , sevenPairs
+  -- ** 6.1 Mixed and pure
+  mixedOneSuit, pureOneSuit,
 
-    -- ** 9.2 Specialized seven pairs
-  , sevenShiftedPairs, grandChariot, bambooForest, numberNeighborhood
-
-
-    -- * 10.0 Color Hands
-  , allRed, allGreen
+  -- ** 6.2 Nine Gates
+  nineGates,
 
 
-    -- * 11.0 Irregular Hands
-  , thirteenOrphans
+  -- * 7.0 Terminal Tiles
+
+  -- ** 7.1 Chow and pungs
+  twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain,
+
+  -- ** 7.2 Mixed and pure
+  mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals,
 
 
-    -- * 12.0 Incidental bonuses
+  -- * 8.0 Honor Tiles
 
-    -- ** 12.1 Final tile
-  , finalDraw, finalDiscard
+  -- ** 8.1 Dragons
+  dragonPung, littleThreeDragons, bigThreeDragons,
 
-    -- ** 12.2 Winning on displacement tile
-  , winOnKong, winOnBonusTile
+  -- ** 8.2 Winds
+  windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds,
 
-    -- ** 12.3 Robbing a kong
-  , robbingAKong
-
-    -- ** 12.4 Blessings / First tile
-  , blessingOfHeaven, blessingOfEarth
+  -- ** 8.3 Pure honors
+  allHonors, allHonorPairs,
 
 
-    -- * 13.0 Bonus Tiles
+  -- * 9.0 Seven Pairs
 
-    -- ** 13.1 Basic flower points
-  , bonusFlowerSeason
+  -- ** 9.1 Basic seven pairs
+  sevenPairs,
 
-    -- ** 13.2 Flower kong
-  , fourFlowers, fourSeasons
+  -- ** 9.2 Specialized seven pairs
+  sevenShiftedPairs, grandChariot, bambooForest, numberNeighborhood,
 
-    -- ** 12.3 Both sets of bonus tile
-  , allBonusTiles
-  ) where
+
+  -- * 10.0 Color Hands
+  allRed, allGreen,
+
+
+  -- * 11.0 Irregular Hands
+  thirteenOrphans,
+
+
+  -- * 12.0 Incidental bonuses
+
+  -- ** 12.1 Final tile
+  finalDraw, finalDiscard,
+
+  -- ** 12.2 Winning on displacement tile
+  winOnKong, winOnBonusTile,
+
+  -- ** 12.3 Robbing a kong
+  robbingAKong,
+
+  -- ** 12.4 Blessings / First tile
+  blessingOfHeaven, blessingOfEarth,
+
+
+  -- * 13.0 Bonus Tiles
+
+  -- ** 13.1 Basic flower points
+  bonusFlowerSeason,
+
+  -- ** 13.2 Flower kong
+  fourFlowers, fourSeasons,
+
+  -- ** 12.3 Both sets of bonus tile
+  allBonusTiles
+) where
 
 
 -------------------------------------------------------------------------------
