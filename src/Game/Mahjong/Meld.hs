@@ -30,8 +30,6 @@ module Game.Mahjong.Meld (
 import Game.Mahjong.Class
 import Game.Mahjong.Tile
 
-import Data.List (intercalate)
-
 
 -------------------------------------------------------------------------------
 -- Data definitions
@@ -73,13 +71,10 @@ instance Pretty Status where
 -- Kong ends with },
 -- Eye ends with ).
 instance Pretty Meld where
-  pp (CMeld s ts) = pp s ++ join' " " ts ++ ">"
-  pp (PMeld s ts) = pp s ++ join' " " ts ++ "]"
-  pp (KMeld s ts) = pp s ++ join' " " ts ++ "}"
-  pp (EMeld s ts) = pp s ++ join' " " ts ++ ")"
-
-join' :: Pretty a => String -> [a] -> String
-join' delim = intercalate delim . map pp
+  pp (CMeld s ts) = pp s ++ joinPP " " ts ++ ">"
+  pp (PMeld s ts) = pp s ++ joinPP " " ts ++ "]"
+  pp (KMeld s ts) = pp s ++ joinPP " " ts ++ "}"
+  pp (EMeld s ts) = pp s ++ joinPP " " ts ++ ")"
 
 
 -------------------------------------------------------------------------------

@@ -23,10 +23,11 @@ module Game.Mahjong.Class (
 
   -- * Helper functions
   anyCond, allCond, sumCond,
-  nextHelper, prevHelper
+  nextHelper, prevHelper,
+  joinPP
 ) where
 
-import Data.List (intersperse)
+import Data.List (intercalate)
 
 -------------------------------------------------------------------------------
 -- TilePred typeclass
@@ -112,4 +113,7 @@ prevHelper a =
   if a == minBound
   then maxBound
   else pred a
+
+joinPP :: Pretty a => String -> [a] -> String
+joinPP delim = intercalate delim . fmap pp
 

@@ -42,7 +42,7 @@ import Game.Mahjong.Class
 import Game.Mahjong.Meld
 import Game.Mahjong.Tile
 
-import Data.List (intercalate, sort)
+import Data.List (sort)
 import Data.Maybe (fromJust, isJust)
 
 
@@ -72,19 +72,16 @@ data Hand
 instance Pretty Hand where
   pp h =
     case h of
-      (Hand m l b)    -> join'' "  " m
+      (Hand m l b)    -> joinPP "  " m
              ++ delim ++ pp l
              ++ delim ++ joinSort b
       (Special t l b) -> "/" ++ joinSort t ++ "/"
                     ++ delim ++ pp l
                     ++ delim ++ joinSort b
 
-join'' :: Pretty a => String -> [a] -> String
-join'' d = intercalate d . map pp
-
 joinSort :: (Ord a, Pretty a) => [a] -> String
 joinSort [] = "[]"
-joinSort ls = join'' " " . sort $ ls
+joinSort ls = joinPP " " . sort $ ls
 
 delim :: String
 delim = "  |  "
