@@ -41,7 +41,7 @@ import Data.List (intercalate)
 data Status
   = Revealed
   | Concealed
-    deriving (Bounded, Enum, Eq, Ord)
+    deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | Meld types
 data MeldType
@@ -57,28 +57,29 @@ data Meld
   | PMeld { status :: Status, meldTiles :: [Tile] }
   | KMeld { status :: Status, meldTiles :: [Tile] }
   | EMeld { status :: Status, meldTiles :: [Tile] }
-    deriving (Eq)
+    deriving (Eq, Show)
 
 
 -------------------------------------------------------------------------------
 -- Typeclass instances
 -------------------------------------------------------------------------------
 
-instance Show Status where
-  show Revealed  = "\\"
-  show Concealed = "/"
+instance Pretty Status where
+  pp Revealed  = "+"
+  pp Concealed = "-"
 
--- | show unfinished stuff (), then revealed <>, then concealed [], then bonus {}
-instance Show Meld where
-  show (CMeld s ts) = show s ++ join' " " ts ++ ">"
-  show (PMeld s ts) = show s ++ join' " " ts ++ "]"
-  show (KMeld s ts) = show s ++ join' " " ts ++ "}"
-  show (EMeld s ts) = show s ++ join' " " ts ++ ")"
+-- | Chow ends with >,
+-- Pung ends with ],
+-- Kong ends with },
+-- Eye ends with ).
+instance Pretty Meld where
+  pp (CMeld s ts) = pp s ++ join' " " ts ++ ">"
+  pp (PMeld s ts) = pp s ++ join' " " ts ++ "]"
+  pp (KMeld s ts) = pp s ++ join' " " ts ++ "}"
+  pp (EMeld s ts) = pp s ++ join' " " ts ++ ")"
 
-  showList ms _     = intercalate "  " . map show $ ms
-
-join' :: Show a => String -> [a] -> String
-join' delim = intercalate delim . map show
+join' :: Pretty a => String -> [a] -> String
+join' delim = intercalate delim . map pp
 
 
 -------------------------------------------------------------------------------

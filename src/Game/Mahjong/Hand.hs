@@ -62,26 +62,27 @@ data Hand
     , lastTile :: Tile    -- ^ the last tile obtained
     , bonus    :: [Tile]  -- ^ any bonus tiles
     }
+  deriving (Eq, Show)
 
 
 -------------------------------------------------------------------------------
 -- Typecass instances
 -------------------------------------------------------------------------------
 
-instance Show Hand where
-  show h =
+instance Pretty Hand where
+  pp h =
     case h of
       (Hand m l b)    -> join'' "  " m
-             ++ delim ++ show l
+             ++ delim ++ pp l
              ++ delim ++ joinSort b
       (Special t l b) -> "/" ++ joinSort t ++ "/"
-                    ++ delim ++ show l
+                    ++ delim ++ pp l
                     ++ delim ++ joinSort b
 
-join'' :: Show a => String -> [a] -> String
-join'' d = intercalate d . map show
+join'' :: Pretty a => String -> [a] -> String
+join'' d = intercalate d . map pp
 
-joinSort :: (Ord a, Show a) => [a] -> String
+joinSort :: (Ord a, Pretty a) => [a] -> String
 joinSort [] = "[]"
 joinSort ls = join'' " " . sort $ ls
 

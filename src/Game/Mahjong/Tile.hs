@@ -35,14 +35,13 @@ module Game.Mahjong.Tile (
   tileType, isEightOrNine,
 
   -- ** Wall building
-  mjSet, getWall, impureWall
+  mjSet, getWall, randomWall
 ) where
 
 import Game.Mahjong.Class
 
 import Data.Map (Map, insert, (!), elems, singleton)
 import Data.Maybe (fromJust)
-import System.IO.Unsafe (unsafePerformIO)
 import System.Random (randomR, randomIO, mkStdGen, RandomGen)
 
 
@@ -60,7 +59,7 @@ data TileType
   | Flower
   | Season
   | Animal
-    deriving (Bounded, Enum, Eq, Ord)
+    deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | The tile values from one to nine for the 3 suits.
 data Values
@@ -73,7 +72,7 @@ data Values
   | Seven
   | Eight
   | Nine
-    deriving (Bounded, Enum, Eq, Ord)
+    deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | The four wind value.
 data Winds
@@ -81,14 +80,14 @@ data Winds
   | South
   | West
   | North
-    deriving (Bounded, Enum, Eq, Ord)
+    deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | The three dragon values.
 data Dragons
   = Red
   | Green
   | White
-    deriving (Bounded, Enum, Eq, Ord)
+    deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | The four flowers.
 data Flowers
@@ -96,7 +95,7 @@ data Flowers
   | Orchid
   | Chrysanthemum
   | BambooTree
-    deriving (Bounded, Enum, Eq, Ord)
+    deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | The four seasons.
 data Seasons
@@ -104,7 +103,7 @@ data Seasons
   | Summer
   | Autumn
   | Winter
-    deriving (Bounded, Enum, Eq, Ord)
+    deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | The four animals.
 data Animals
@@ -112,7 +111,7 @@ data Animals
   | Mouse
   | Cockerel
   | Centipede
-    deriving (Bounded, Enum, Eq, Ord)
+    deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | The 8 kinds of tiles.
 --   Really wish I can sigma type this
@@ -125,58 +124,58 @@ data Tile
   | FTile Flowers  -- ^ Flower Tile
   | STile Seasons  -- ^ Season Tile
   | ATile Animals  -- ^ Animal Tile
-    deriving (Eq, Ord)
+    deriving (Eq, Ord, Show)
 
 
 -------------------------------------------------------------------------------
 -- Typeclass instances
 -------------------------------------------------------------------------------
 
-instance Show TileType where
-  show tt  = showHelper tt reps [Coin .. Animal]
+instance Pretty TileType where
+  pp tt    = ppHelper tt reps [Coin .. Animal]
     where
       reps :: [String]
       reps = ["C", "B", "K", "W", "D", "F", "S", "A"]
 
-instance Show Values where
-  show v = show $ showHelper v ([1..] :: [Int]) [One .. Nine]
+instance Pretty Values where
+  pp v = pp $ ppHelper v ([1..] :: [Int]) [One .. Nine]
 
-instance Show Winds where
-  show w   = showHelper w reps [East .. North]
+instance Pretty Winds where
+  pp w     = ppHelper w reps [East .. North]
     where
       reps :: [String]
       reps = ["E", "S", "W", "N"]
 
-instance Show Dragons where
-  show d   = showHelper d reps [Red .. White]
+instance Pretty Dragons where
+  pp d     = ppHelper d reps [Red .. White]
     where
       reps :: [String]
       reps = ["R", "G", "W"]
 
-instance Show Flowers where
-  show f = show $ showHelper f infInts [PlumBlossom .. BambooTree]
+instance Pretty Flowers where
+  pp f = pp $ ppHelper f infInts [PlumBlossom .. BambooTree]
 
-instance Show Seasons where
-  show s = show $ showHelper s infInts [Spring .. Winter]
+instance Pretty Seasons where
+  pp s = pp $ ppHelper s infInts [Spring .. Winter]
 
-instance Show Animals where
-  show a = show $ showHelper a infInts [Cat .. Centipede]
+instance Pretty Animals where
+  pp a = pp $ ppHelper a infInts [Cat .. Centipede]
 
 infInts :: [Int]
 infInts = [1..]
 
-instance Show Tile where
-  show (CTile c)  = "C" ++ show c
-  show (BTile b)  = "B" ++ show b
-  show (KTile k)  = "K" ++ show k
-  show (WTile w)  = "W" ++ show w
-  show (DTile d)  = "D" ++ show d
-  show (FTile f)  = "F" ++ show f
-  show (STile s)  = "S" ++ show s
-  show (ATile a)  = "A" ++ show a
+instance Pretty Tile where
+  pp (CTile c)  = "C" ++ pp c
+  pp (BTile b)  = "B" ++ pp b
+  pp (KTile k)  = "K" ++ pp k
+  pp (WTile w)  = "W" ++ pp w
+  pp (DTile d)  = "D" ++ pp d
+  pp (FTile f)  = "F" ++ pp f
+  pp (STile s)  = "S" ++ pp s
+  pp (ATile a)  = "A" ++ pp a
 
-showHelper :: (Eq a) => a -> [b] -> [a] -> b
-showHelper a reps = fromJust . lookup a . flip zip reps
+ppHelper :: (Eq a) => a -> [b] -> [a] -> b
+ppHelper a reps = fromJust . lookup a . flip zip reps
 
 instance TilePred Tile where
   isCoin                = (==) Coin      . tileType
@@ -441,15 +440,15 @@ mjSet      = (regulars >>= take 4 . repeat) ++ bonuses
 getWall :: Int -> [Tile]
 getWall a  = fst $ fisherYates (mkStdGen a) mjSet
 
--- | Creates an impure wall
-impureWall :: IO [Tile]
-impureWall = do
+-- | Creates an random wall
+randomWall :: IO [Tile]
+randomWall = do
   r <- randNumber
   return $ getWall r
 
 -- | gets a random number
 randNumber :: IO Int
-randNumber = return $ mod (unsafePerformIO randomIO) 144
+randNumber = fmap (flip mod 144 . abs) randomIO
 
 -- | Fisher Yates Algorithm
 -- | Source:  http://www.haskell.org/haskellwiki/Random_shuffle

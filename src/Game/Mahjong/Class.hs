@@ -17,11 +17,16 @@ module Game.Mahjong.Class (
   Loop(..),
 
 
+  -- * Pretty type class
+  Pretty(..),
+
+
   -- * Helper functions
   anyCond, allCond, sumCond,
   nextHelper, prevHelper
 ) where
 
+import Data.List (intersperse)
 
 -------------------------------------------------------------------------------
 -- TilePred typeclass
@@ -68,11 +73,27 @@ class Loop a where
 
 
 -------------------------------------------------------------------------------
+-- Pretty typeclass
+-------------------------------------------------------------------------------
+
+-- | Pretty type class.
+class Show a => Pretty a where
+  pp :: a -> String
+
+instance Pretty Int where
+  pp = show
+
+instance Pretty a => Pretty (Maybe a) where
+  pp (Just a) = pp a
+  pp Nothing  = ""
+
+
+-------------------------------------------------------------------------------
 -- Utility Functions
 -------------------------------------------------------------------------------
 
 anyCond :: [(a -> Bool)] -> a -> Bool
-anyCond fs x = or $ map (\f -> f x) fs
+anyCond fs x = or $ map ($ x) fs
 
 allCond :: [(a -> Bool)] -> a -> Bool
 allCond fs = and . zipWith id fs . repeat
