@@ -126,8 +126,8 @@ Consecutive sets are sets in the same suit in consecutive numbers. The patterns 
 #### 5.1.1 Three Consecutive Chows (三連順) : 30
 Three chows in consecutive number in the same suit with either
 
-    step 1: sequences of (n)(n+1)(n+2), (n+1)(n+2)(n+3), (n+2)(n+3)(n+4)
-    step 2: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6).
+    sequences of 1 step: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)
+    sequences of 2 step: (n)(n+1)(n+2)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)
 
 Example: ![k1]![k2]![k3]  ![k2]![k3]![k4]  ![k3]![k4]![k5]
 
@@ -143,8 +143,8 @@ Example: ![k1]![k2]![k3]  ![k4]![k5]![k6]  ![k7]![k8]![k9]
 #### 5.1.3 Three Consecutive Chows Twice (雙三連順) : 50
 Two of three consecutive chows in the same suit either
 
-    At the start: sequences of (n)(n+1)(n+2), (n+1)(n+2)(n+3), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6)
-    At the end: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+3)(n+4)(n+5), (n+4)(n+5)(n+6)
+    diverges at the start: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)
+    converges at the end : (n)(n+1)(n+2)  (n+2)(n+3)(n+4)  (n+3)(n+4)(n+5)  (n+4)(n+5)(n+6)
 
 Example: ![k1]![k2]![k3]  ![k2]![k3]![k4]  ![k3]![k4]![k5]  ![k5]![k6]![k7]  (chow #1,2,3 and #1,3,4 makes two consecutive chows)
 
@@ -153,8 +153,8 @@ Example: ![k1]![k2]![k3]  ![k3]![k4]![k5]  ![k4]![k5]![k6]  ![k5]![k6]![k7]  (ch
 #### 5.1.4 Four Consecutive Chows (四連順) : 100
 Four chows in consecutive number in the same suit with either
 
-    step 1: sequences of (n)(n+1)(n+2), (n+1)(n+2)(n+3), (n+2)(n+3)(n+4), (n+3)(n+4)(n+5)
-    step 2: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6), (n+6)(n+7)(n+8)
+    sequences of 1 step: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)  (n+3)(n+4)(n+5)
+    sequences of 2 step: (n)(n+1)(n+2)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)  (n+6)(n+7)(n+8)
 
 Example: ![k1]![k2]![k3]  ![k2]![k3]![k4]  ![k3]![k4]![k5]  ![k4]![k5]![k6]
 
