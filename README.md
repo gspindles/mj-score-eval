@@ -322,22 +322,22 @@ Example: ![k2]![k2]  ![k6]![k6]  ![c1]![c1]  ![c7]![c7] ![dw]![dw]  ![ww]![ww]  
 #### 9.1.2 Seven Shifted Pairs (連七對) : 320
 The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
 
-Example: ![c1]![c1]  ![c2]![c2]  ![c3]![c3]  ![c4]![c4]  ![c5]![c5]  ![c6]![c6]  ![c7]![c7]  ![c8]![c8]
+Example: ![c1]![c1]  ![c2]![c2]  ![c3]![c3]  ![c4]![c4]  ![c5]![c5]  ![c6]![c6]  ![c7]![c7]
 
 #### 9.1.3 Grand Chariot (大車輪) : 400
 Seven shifted pairs from 2 to 8 of the coin suit.
 
-Pattern: ![c2]![c2]  ![c3]![c3]  ![c4]![c4]  ![c5]![c5]  ![c6]![c6]  ![c7]![c7]  ![c8]![c8]  ![c9]![c9]
+Pattern: ![c2]![c2]  ![c3]![c3]  ![c4]![c4]  ![c5]![c5]  ![c6]![c6]  ![c7]![c7]  ![c8]![c8]
 
 #### 9.1.4 Bamboo Forest (大竹林) : 400
 Seven shifted pairs from 2 to 8 of the bamboo suit.
 
-Pattern: ![b2]![b2]  ![b3]![b3]  ![b4]![b4]  ![b5]![b5]  ![b6]![b6]  ![b7]![b7]  ![b8]![b8]  ![b9]![b9]
+Pattern: ![b2]![b2]  ![b3]![b3]  ![b4]![b4]  ![b5]![b5]  ![b6]![b6]  ![b7]![b7]  ![b8]![b8]
 
 #### 9.1.5 Number Neighborhood (大數隣) : 400
 Seven shifted pairs from 2 to 8 of the character suit.
 
-Pattern: ![k2]![k2]  ![k3]![k3]  ![k4]![k4]  ![k5]![k5]  ![k6]![k6]  ![k7]![k7]  ![k8]![k8]  ![k9]![k9]
+Pattern: ![k2]![k2]  ![k3]![k3]  ![k4]![k4]  ![k5]![k5]  ![k6]![k6]  ![k7]![k7]  ![k8]![k8]
 
 
 ### 10.0 Color Hands
