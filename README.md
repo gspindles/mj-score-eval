@@ -125,6 +125,7 @@ Consecutive sets are sets in the same suit in consecutive numbers. The patterns 
 
 #### 5.1.1 Three Consecutive Chows (三連順) : 30
 Three chows in consecutive number in the same suit with
+
     step 1: a (n)(n+1)(n+2) sequence, a (n+1)(n+2)(n+3) sequence, and a (n+2)(n+3)(n+4) sequence;
     or step 2: a (n)(n+1)(n+2) sequence, a (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence.
 
@@ -140,6 +141,7 @@ Example: ![k1]![k2]![k3] ![k4]![k5]![k6] ![k7]![k8]![k9]
 
 #### 5.1.3 Three Consecutive Chows Twice (雙三連順) : 50
 Two of three consecutive chows in the same suit.
+
     At the start: (n)(n+1)(n+2) sequence, (n+1)(n+2)(n+3) sequence, (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence;
     or at the end: (n)(n+1)(n+2) sequence, (n+2)(n+3)(n+4) sequence, (n+3)(n+4)(n+5) sequence, and a (n+4)(n+5)(n+6) sequence.
 
@@ -149,6 +151,7 @@ Example: ![k1]![k2]![k3] ![k3]![k4]![k5] ![k4]![k5]![k6] ![k5]![k6]![k7] (chow #
 
 #### 5.1.4 Four Consecutive Chows (四連順) : 100
 Four chows in consecutive number in the same suit with
+
     step 1: a (n)(n+1)(n+2) sequence, a (n+1)(n+2)(n+3) sequence, a (n+2)(n+3)(n+4) sequence, and a (n+3)(n+4)(n+5);
     or step 2: a (n)(n+1)(n+2) sequence, a (n+2)(n+3)(n+4) sequence, a (n+4)(n+5)(n+6) sequence, and a (n+6)(n+7)(n+8) sequence.
 
