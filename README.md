@@ -12,12 +12,11 @@ The scoring is based on the [Zung Jung scoring system](http://www.zj-mahjong.inf
 ### 1.0 Trivial Patterns
 
 #### 1.1 Chicken Hand (雞和) : 1
-Basic winning hand that doesn't satisfy any patterns aside from having bonus tiles.
+Basic minimal winning hand that doesn't satisfy any patterns other than having bonus tiles.
 
 
 #### 1.2 All Chows (平和) : 5
-The hand contains 4 Chows; no Pungs/kongs.
-(There are no other restrictions as to the eyes pair, single call, or concealed hand.)
+The hand contains 4 Chows; no pungs / kongs.
 
 
 #### 1.3 Concealed Hand (門前清) : 5
@@ -25,15 +24,15 @@ A regular hand which is concealed, without melding any exposed sets before winni
 
 
 #### 1.4 Self Drawn (自摸) : 5
-self drawn the winning tile to complete the hand.
+Self draw the winning tile to complete the hand.
 
 
 #### 1.5 All Simples (斷么九) : 5
-The hand consists entirely of middle number tiles (2 to 8); no terminals or honors.
+The hand consists entirely of middle number [simple] tiles (2 to 8); no terminals nor honors.
 
 
 #### 1.6 All Types (五門齊) : 10
-The hand consists of 5 tile types coin, bamboo, character, wind and dragon.
+A hand consisting of all 5 tile types: the 4 melds and eyes are each of different tile types.
 
 
 #### 1.7 Illegal Call (詐和) : -30
@@ -44,17 +43,17 @@ Declares mahjong accidentally when the hand is not ready.
 ### 2.0 Pungs and Kongs
 
 #### 2.1 All Pungs (對對和) : 30
-The hand contains 4 set of Pungs/kongs; no Chows.
+The hand contains 4 set of pungs / kongs; no chows.
 
 
 #### 2.2.1 Two Concealed Pungs (兩暗刻) : 5
-The hand contains two concealed Pungs/concealed kongs.
+The hand contains two concealed pungs / concealed kongs.
 
 #### 2.2.2 Three Concealed Pungs (三暗刻) : 30
-The hand contains three concealed Pungs/concealed kongs.
+The hand contains three concealed pungs / concealed kongs.
 
 #### 2.2.3 Four Concealed Pungs (四暗刻) : 125
-The hand contains four concealed Pungs/concealed kongs.
+The hand contains four concealed pungs / concealed kongs.
 
 
 #### 2.3.1 One Kong (一槓) : 5
@@ -77,19 +76,19 @@ Identical sets are sets in the same suit in the same numbers. Obviously, only Ch
 
 #### 3.1.1 Two Identical Chows (一般高) : 10
 Two Chows in the same suit in the same numbers.
-Example: 3筒 4筒 5筒, 3筒 4筒 5筒
+Example: ![c3]![c4]![c5] ![c3]![c4]![c5]
 
 #### 3.1.2 Two Identical Chows Twice (兩般高) : 60
 The hand contains two groups of "Two Identical Chows".
-Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 7萬 8萬 9萬, 7萬 8萬 9萬
+Example: ![c3]![c4]![c5] ![c3]![c4]![c5] ![c7]![c8]![c9] ![c7]![c8]![c9]
 
 #### 3.1.3 Three Identical Chows (一色三同順) : 120
 Three Chows in the same suit in the same numbers.
-Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
+Example: ![c3]![c4]![c5] ![c3]![c4]![c5] ![c3]![c4]![c5]
 
 #### 3.1.4 Four Identical Chows (一色四同順) : 480
 Four Chows in the same suit in the same numbers.
-Example: 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒, 3筒 4筒 5筒
+Example: ![c3]![c4]![c5] ![c3]![c4]![c5] ![c3]![c4]![c5] ![c3]![c4]![c5]
 
 
 
@@ -100,16 +99,16 @@ In Zung Jung, all 3 suits must be present; 2-suit patterns are not recognized.
 
 #### 4.1 Three Similar Chows (三色同順) : 35
 Three Chows in the same numbers across three different suits.
-Example: 3筒 4筒 5筒, 3索 4索 5索, 3萬 4萬 5萬
+Example: ![c3]![c4]![c5] ![b3]![b4]![b5] ![k3]![k4]![k5]
 
 
 #### 4.2.1 Little Three Similar Pungs (三色小同刻) : 30
 Two Pungs/kongs in the same number in two different suits, and the eye pair in the same number in the third suit.
-Example: 4筒 4筒 4筒, 4萬 4萬 4萬, 4索 4索(eye)
+Example: ![c4]![c4]![c4] ![k4]![k4]![k4] ![b4]![b4]
 
 #### 4.2.2 Three Similar Pungs (三色同刻) : 120
 Three Pungs/kongs in the same number across three different suits.
-Example: 4筒 4筒 4筒, 4萬 4萬 4萬, 4索 4索 4索
+Example: ![c4]![c4]![c4] ![k4]![k4]![k4] ![b4]![b4]![b4]
 
 
 
@@ -119,36 +118,36 @@ Consecutive sets are sets in the same suit in consecutive numbers. The patterns 
 
 #### 5.1.1 Three Consecutive Chows (三連順) : 30
 Three chows in consecutive number in the same suit with step 1: a (n)(n+1)(n+2) sequence, a (n+1)(n+2)(n+3) sequence, and a (n+2)(n+3)(n+4) sequence; or step 2: a (n)(n+1)(n+2) sequence, a (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence.
-Example: 1萬 2萬 3萬, 2萬 3萬 4萬, 3萬 4萬 5萬
-Example: 1萬 2萬 3萬, 3萬 4萬 5萬, 5萬 6萬 7萬
+Example: ![k1]![k1]![k3] ![k1]![k3]![k4] ![k3]![k4]![k5]
+Example: ![k1]![k1]![k3] ![k3]![k4]![k5] ![k5]![k6]![k7]
 
 #### 5.1.2 Nine-Tile Straight (一氣通貫) : 40
 A "123" sequence, a "456" sequence, and a "789" sequence, all in the same suit.
 (The hand must contain exactly the three Chows listed above.)
-Example: 1萬 2萬 3萬, 4萬 5萬 6萬, 7萬 8萬 9萬
+Example: ![k1]![k1]![k3] ![k4]![k5]![k6] ![k7]![k8]![k9]
 
 #### 5.1.3 Three Consecutive Chows Twice (雙三連順) : 50
 Two of three consecutive chows in the same suit.  At the start: (n)(n+1)(n+2) sequence, (n+1)(n+2)(n+3) sequence, (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence; or at the end: (n)(n+1)(n+2) sequence, (n+2)(n+3)(n+4) sequence, (n+3)(n+4)(n+5) sequence, and a (n+4)(n+5)(n+6) sequence.
-Example: 1萬 2萬 3萬, 2萬 3萬 4萬, 3萬 4萬 5萬, 5萬 6萬 7萬 (Chow #1,2,3 and #1,3,4 makes two consecutive chows)
-Example: 1萬 2萬 3萬, 3萬 4萬 5萬, 4萬 5萬 6萬, 5萬 6萬 7萬 (Chow #1,2,4 and #2,3,4 makes two consecutive chows)
+Example: ![k1]![k1]![k3] ![k1]![k3]![k4] ![k3]![k4]![k5] ![k5]![k6]![k7] (Chow #1,2,3 and #1,3,4 makes two consecutive chows)
+Example: ![k1]![k1]![k3] ![k3]![k4]![k5] ![k4]![k5]![k6] ![k5]![k6]![k7] (Chow #1,2,4 and #2,3,4 makes two consecutive chows)
 
 #### 5.1.4 Four Consecutive Chows (四連順) : 100
 Four chows in consecutive number in the same suit with step 1: a (n)(n+1)(n+2) sequence, a (n+1)(n+2)(n+3) sequence, a (n+2)(n+3)(n+4) sequence, and a (n+3)(n+4)(n+5); or step 2: a (n)(n+1)(n+2) sequence, a (n+2)(n+3)(n+4) sequence, a (n+4)(n+5)(n+6) sequence, and a (n+6)(n+7)(n+8) sequence.
-Example: 1萬 2萬 3萬, 2萬 3萬 4萬, 3萬 4萬 5萬, 4萬 5萬 6萬
-Example: 1萬 2萬 3萬, 3萬 4萬 5萬, 5萬 6萬 7萬, 7萬 8萬 9萬
+Example: ![k1]![k1]![k3] ![k1]![k3]![k4] ![k3]![k4]![k5] ![k4]![k5]![k6]
+Example: ![k1]![k1]![k3] ![k3]![k4]![k5] ![k5]![k6]![k7] ![k7]![k8]![k9]
 
 
 #### 5.2.1 Three Consecutive Pungs (三連刻) : 100
 Three Pungs/kongs in consecutive numbers in the same suit.
-Example: 4萬 4萬 4萬, 5萬 5萬 5萬, 6萬 6萬 6萬
+Example: ![k4]![k4]![k4] ![k5]![k5]![k5] ![k6]![k6]![k6]
 
 #### 5.2.2 Four Consecutive Pungs (四連刻) : 200
 Four Pungs/kongs in consecutive numbers in the same suit.
-Example: 4萬 4萬 4萬, 5萬 5萬 5萬, 6萬 6萬 6萬, 7萬 7萬 7萬
+Example: ![k4]![k4]![k4] ![k5]![k5]![k5] ![k6]![k6]![k6] ![k7]![k7]![k7]
 
 #### 5.2.3 Three Mothers (三娘教子) : 400
 Hand consist of three consecutive triples and sequence of the same three tiles remaining.
-Example: 4萬 4萬 4萬, 5萬 5萬 5萬, 6萬 6萬 6萬, 7萬 7萬 7萬, 5萬 6萬 7萬
+Example: ![k4]![k4]![k4] ![k5]![k5]![k5] ![k6]![k6]![k6] ![k7]![k7]![k7] ![k5]![k6]![k7]
 
 
 
@@ -182,30 +181,30 @@ The hand consists of the pattern 111-123-789-999 in a suit.
 
 #### 7.1.5 Little Mountain (小山滿) : 320
 Pure one-suit hand satisfying pure lesser terminals, using up only six terminals of one suit.
-Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 7筒 8筒 9筒, 1筒 1筒
-Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 9筒 9筒
+Example: ![c1]![c2]![c3] ![c1]![c2]![c3] ![c7]![c8]![c9] ![c7]![c8]![c9] ![c1]![c1]
+Example: ![c1]![c2]![c3] ![c1]![c2]![c3] ![c1]![c2]![c3] ![c7]![c8]![c9] ![c9]![c9]
 
 #### 7.1.6 Big Mountain (大山滿) : 400
 Pure one-suit hand satisfying pure lesser terminals, using up all eight terminals of one suit.
-Example: 1筒 1筒 1筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 7筒 8筒 9筒, 9筒 9筒
-Example: 1筒 2筒 3筒, 1筒 2筒 3筒, 7筒 8筒 9筒, 9筒 9筒 9筒, 1筒 1筒
+Example: ![c1]![c1]![c1] ![c1]![c2]![c3] ![c7]![c8]![c9] ![c7]![c8]![c9] ![c9]![c9]
+Example: ![c1]![c2]![c3] ![c1]![c2]![c3] ![c7]![c8]![c9] ![c9]![c9]![c9] ![c1]![c1]
 
 
 #### 7.2.1 Mixed Lesser Terminals (混全帶么九) : 40
 Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal tile or an honor tile.
-Example: 1索 1索 1索, 1萬 2萬 3萬, 7筒 8筒 9筒, 中 中 中, 9萬 9萬
+Example: ![b1]![b1]![b1] ![k1]![k1]![k3] ![c7]![c8]![c9] ![dr]![dr]![dr] ![k9]![k9]
 
 #### 7.2.2 Pure Lesser Terminals (純全帶么九) : 50
 Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal number tile.
-Example: 1索 2索 3索, 1萬 1萬 1萬, 7萬 8萬 9萬, 9筒 9筒 9筒, 1索 1索
+Example: ![b1]![s2]![b3] ![k1]![k1]![k1] ![k7]![k8]![k9] ![c9]![c9]![c9] ![b1]![b1]
 
 #### 7.2.3 Mixed Greater Terminals (混么九) : 100
 An "All Pungs" or "Seven Pairs" hand which consists entirely of terminal tiles and honor tiles. (Not applicable to a "Thirteen Terminals" hand.)
-Example: 9索 9索 9索, 1萬 1萬 1萬, 西 西 西, 發 發 發, 1筒 1筒
+Example: ![s9]![s9]![s9] ![k1]![k1]![k1] ![ww]![ww]![ww] ![dg]![dg]![dg] ![c1]![c1]
 
 #### 7.2.4 Pure Greater Terminals (清么九) : 400
 The hand consists entirely of terminal number tiles.
-Example: 1索 1索 1索, 9萬 9萬 9萬, 1筒 1筒 1筒, 9筒 9筒 9筒, 9索 9索
+Example: ![b1]![b1]![b1] ![k9]![k9]![k9] ![c1]![c1]![c1] ![c9]![c9]![c9] ![s9]![s9]
 
 
 
@@ -217,19 +216,19 @@ Note: Seat wind and Prevailing Wind are not recognized.
 
 #### 8.1.2 Little Three Winds (小三風) : 30
 Two triplet/kongs of Winds, plus a pair of Winds as the eyes.
-Example: 西 西 西, 北 北 北, 東 東(eyes)
+Example: ![ww]![ww]![ww] ![wn]![wn]![wn] ![we]![we]
 
 #### 8.1.3 Big Three Winds (大三風) : 120
 Three triplet/kongs of Winds.
-Example: 東 東 東, 南 南 南, 北 北 北
+Example: ![we]![we]![we] ![ws]![ws]![ws] ![wn]![wn]![wn]
 
 #### 8.1.4 Little Four Winds (小四喜) : 320
 Three triplet/kongs of Winds, plus a pair of Winds as the eyes.
-Example: 東 東 東, 西 西 西, 北 北 北, 南 南(eyes)
+Example: ![we]![we]![we] ![ww]![ww]![ww] ![wn]![wn]![wn] ![ws]![ws]
 
 #### 8.1.5 Big Four Winds (大四喜) : 400
 Four triplet/kongs of Winds.
-東 東 東, 南 南 南, 西 西 西, 北 北 北
+![we]![we]![we] ![ws]![ws]![ws] ![ww]![ww]![ww] ![wn]![wn]![wn]
 
 
 #### 8.2.1 Dragon Pung (箭刻) : 10 per set
@@ -237,12 +236,12 @@ A triplet/kongs of a dragon tile.
 
 #### 8.2.2 Little Three Dragons (小三元) : 40 -> 60
 Two triplet/kongs of Dragons, plus a pair of Dragons as the eyes.
-Example: 白 白 白, 中 中 中, 發 發(eyes)
+Example: ![dw]![dw]![dw] ![dr]![dr]![dr] ![dg]![dg]
 (This hand always includes two Dragon Pungs, so it scores at least 40+10+10=60 points.)
 
 #### 8.2.3 Big Three Dragons (大三元) : 130 -> 160
 Three triplet/kongs of Dragons.
-白 白 白, 發 發 發, 中 中 中
+![dw]![dw]![dw] ![dg]![dg]![dg] ![dr]![dr]![dr]
 (This hand always includes three Dragon Pungs, so it scores at least 130+10+10+10=160 points.)
 
 
@@ -260,7 +259,7 @@ Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cann
 
 #### 9.1.1 Seven Pairs (七對子) : 35
 The hand consists of seven pairs.
-Example: 2索 2索, 6萬 6萬, 1筒 1筒, 7筒 7筒, 白 白, 西 西, 北 北
+Example: ![s2]![s2] ![k6]![k6] ![c1]![c1] ![c7]7筒, ![dw]![dw] ![ww]![ww] ![wn]![wn]
 
 #### 9.1.2 Seven Shifted Pairs (連七對) : 320
 The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
@@ -348,3 +347,56 @@ A complete set of all 4 Season tiles.
 
 #### 13.3 All Bonus Tiles (八仙過海) : 80
 Gathering all flowers and seasons to instantly win the game.  If a player has 7 of the bonus tile and another player draws the last remaining bonus tile, then the first said player can steal and win.
+
+
+[c1]: web/img/gif/c1.gif "C1"
+[c2]: web/img/gif/c2.gif "C2"
+[c3]: web/img/gif/c3.gif "C3"
+[c4]: web/img/gif/c4.gif "C4"
+[c5]: web/img/gif/c5.gif "C5"
+[c6]: web/img/gif/c6.gif "C6"
+[c7]: web/img/gif/c7.gif "C7"
+[c8]: web/img/gif/c8.gif "C8"
+[c9]: web/img/gif/c9.gif "C9"
+
+[b1]: web/img/gif/b1.gif "B1"
+[b2]: web/img/gif/b2.gif "B2"
+[b3]: web/img/gif/b3.gif "B3"
+[b4]: web/img/gif/b4.gif "B4"
+[b5]: web/img/gif/b5.gif "B5"
+[b6]: web/img/gif/b6.gif "B6"
+[b7]: web/img/gif/b7.gif "B7"
+[b8]: web/img/gif/b8.gif "B8"
+[b9]: web/img/gif/b9.gif "B9"
+
+[k1]: web/img/gif/k1.gif "K1"
+[k2]: web/img/gif/k2.gif "K2"
+[k3]: web/img/gif/k3.gif "K3"
+[k4]: web/img/gif/k4.gif "K4"
+[k5]: web/img/gif/k5.gif "K5"
+[k6]: web/img/gif/k6.gif "K6"
+[k7]: web/img/gif/k7.gif "K7"
+[k8]: web/img/gif/k8.gif "K8"
+[k9]: web/img/gif/k9.gif "K9"
+
+[we]: web/img/gif/we.gif "WE"
+[ws]: web/img/gif/ws.gif "WS"
+[ww]: web/img/gif/ww.gif "WW"
+[wn]: web/img/gif/wn.gif "WN"
+
+[dr]: web/img/gif/dr.gif "DR"
+[dg]: web/img/gif/dg.gif "DG"
+[dw]: web/img/gif/dw.gif "DW"
+
+[f1]: web/img/gif/f1.gif "F1"
+[f2]: web/img/gif/f2.gif "F2"
+[f3]: web/img/gif/f3.gif "F3"
+[f4]: web/img/gif/f4.gif "F4"
+
+[s1]: web/img/gif/s1.gif "S1"
+[s2]: web/img/gif/s2.gif "S2"
+[s3]: web/img/gif/s3.gif "S3"
+[s4]: web/img/gif/s4.gif "S4"
+
+[bk]: web/img/gif/back.gif "Hidden"
+
