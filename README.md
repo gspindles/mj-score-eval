@@ -5,7 +5,7 @@ A minor mahjong evaluation program for fun.
 
 ### Mahjong Scoring Guide
 
-The scoring is based on the [Zung Jung scoring system](http://home.netvigator.com/~tarot/Mahjong/ZungJung/zj33_patterns_eng.html), but includes hands that are not included in the Zung Jung scoring system as well.
+The scoring is based on the [Zung Jung scoring system](http://www.zj-mahjong.info/), but includes hands that are not included in the Zung Jung scoring system as well.
 
 
 

@@ -16,11 +16,8 @@ module Game.Mahjong.Hand (
   -- ** Constructors
   mkHand, mkSpecial,
 
-  -- ** Hand accessors
-  melds, lastMeld, bonus,
-  tileSet, lastTile,
-
   -- ** Functions on a completed hand
+  bonus,
   getMelds, handTiles, handTilesWithBonus,
 
 
@@ -42,7 +39,7 @@ import Game.Mahjong.Class
 import Game.Mahjong.Meld
 import Game.Mahjong.Tile
 
-import Data.List (sort)
+import Data.List (nub, sort)
 import Data.Maybe (fromJust, isJust)
 
 
@@ -52,16 +49,10 @@ import Data.Maybe (fromJust, isJust)
 
 -- | A completed hand when a player has won
 data Hand
-  = Hand
-    { melds    :: [Meld]  -- ^ completed / concealed meld
-    , lastMeld :: Meld    -- ^ the last meld that wins the game
-    , bonus    :: [Tile]  -- ^ just a list of bonus tiles
-    }
-  | Special
-    { tileSet  :: [Tile]  -- ^ the set of onhand tile
-    , lastTile :: Tile    -- ^ the last tile obtained
-    , bonus    :: [Tile]  -- ^ any bonus tiles
-    }
+  = Hand [Meld] [Tile]
+    -- Takes a list of meld, and a list of bonus tiles
+  | Special [Tile] Tile [Tile]
+    -- Takes the set of onhand tile, the last tile, and a list of bonus tiles
   deriving (Eq, Show)
 
 
@@ -72,10 +63,9 @@ data Hand
 instance Pretty Hand where
   pp h =
     case h of
-      (Hand m l b)    -> joinPP "  " m
-             ++ delim ++ pp l
-             ++ delim ++ joinSort b
-      (Special t l b) -> "/" ++ joinSort t ++ "/"
+      (Hand m b)      -> joinPP "  " m
+                    ++ delim ++ joinSort b
+      (Special t l b) -> "-/" ++ joinSort t ++ "/"
                     ++ delim ++ pp l
                     ++ delim ++ joinSort b
 
@@ -91,59 +81,49 @@ delim = "  |  "
 -- Functions for hand
 -------------------------------------------------------------------------------
 
-mkHand :: [Maybe Meld] -> Maybe Meld -> [Tile] -> Maybe Hand
-mkHand ms lm tbs =
-  if handCheck meldCheck
-  then Just $ Hand (fromJust meldList) (fromJust lm) tbs
+mkHand :: [Maybe Meld] -> [Tile] -> Maybe Hand
+mkHand ms bts =
+  if all isJust ms && all isBonus bts
+  then Just $ Hand (fromJust $ sequenceA ms) bts
   else Nothing
-  where
-    meldList :: Maybe [Meld]
-    meldList = sequenceA ms
-
-    meldCheck :: Bool
-    meldCheck = isJust meldList
-      && (fromJust . fmap (and . fmap (not . isBonus)) $ meldList)
-
-    handCheck :: Bool -> Bool
-    handCheck mc = mc
-      && allCond [isJust, fromJust . fmap (not . isBonus)] lm
-      && all isBonus tbs
 
 mkSpecial :: [Tile] -> Tile -> [Tile] -> Maybe Hand
-mkSpecial ts lt tbs
-  | specialCheck = Just $ Special ts lt tbs
+mkSpecial ts lt bts
+  | specialCheck = Just $ Special ts lt bts
   | otherwise    = Nothing
   where
-    specialCheck ::  Bool
-    specialCheck = all (not . isBonus) (lt : ts) && all isBonus tbs
+    specialCheck :: Bool
+    specialCheck = all (not . isBonus) (lt : ts)
+                && all isBonus bts
 
 getMelds :: Hand -> [Meld]
-getMelds (Hand    m l _) = l : m
-getMelds Special{}       = []  -- | TODO: come back to this later
+getMelds (Hand ms _) = ms
+getMelds Special{}   = []  -- | TODO: come back to this later
 
 handTiles :: Hand -> [Tile]
-handTiles (Hand    ms lm _) = sort $ (lm : ms) >>= meldTiles
+handTiles (Hand    ms _)    = sort $ ms >>= meldTiles
 handTiles (Special ts lt _) = sort (ts ++ [lt])
 
 handTilesWithBonus :: Hand -> [Tile]
-handTilesWithBonus (Hand ms lm bs)    = sort (mts ++ bs)
-  where
-    mts = (lm : ms) >>= meldTiles
-handTilesWithBonus (Special ts lt bs) = sort (ts ++ [lt] ++ bs)
+handTilesWithBonus (Hand ms bs)       = sort $ (ms >>= meldTiles) ++ bs
+handTilesWithBonus (Special ts lt bs) = sort $ ts ++ [lt] ++ bs
 
 addBonus :: Hand -> Tile -> Hand
-addBonus hand b = hand { bonus = b : bonus hand }
+addBonus (Hand ms bts) b       = Hand ms $ nub $ b : bts
+addBonus (Special ts lt bts) b = Special ts lt $ nub $ b : bts
 
 -- special hand are not constructed like this
+-- new melds are added at the end
 addMeld :: Hand -> Maybe Meld -> Maybe Hand
-addMeld h@(Hand ms _ _) m =
+addMeld (Hand ms bts) m =
   case m of
     Nothing -> Nothing
-    Just ts ->
-      if not . isBonus $ ts
-      then Just $ h { melds = fromJust m : ms }
-      else Nothing
-addMeld Special{}       _ = Nothing
+    Just _  -> Just $ Hand (ms ++ pure (fromJust m)) bts
+addMeld Special{}     _ = Nothing
+
+bonus :: Hand -> [Tile]
+bonus (Hand _ bts)      = bts
+bonus (Special _ _ bts) = bts
 
 
 -------------------------------------------------------------------------------
@@ -152,8 +132,8 @@ addMeld Special{}       _ = Nothing
 
 -- | Stat on a hand
 data HandStat =
-  HandStat
-    { numOfCoins      :: Int   -- ^ The number of coin melds
+  HandStat {
+      numOfCoins      :: Int   -- ^ The number of coin melds
     , numOfBamboos    :: Int   -- ^ The number of bamboo melds
     , numOfCharacters :: Int   -- ^ The number of character melds
     , numOfWinds      :: Int   -- ^ The number of wind melds
@@ -234,17 +214,22 @@ handStat = foldr handStatStep mempty . getMelds
 -------------------------------------------------------------------------------
 
 h :: Maybe Hand
-h = mkHand [mkChow Revealed c1, mkPung Revealed ws, mkKong Concealed b3, mkEyes Concealed dr]
-           (mkChow Revealed k7)
-           [f2, s4]
+h = mkHand [
+    mkChow Revealed c1
+  , mkPung Revealed ws
+  , mkKong Concealed b3
+  , mkEyes Concealed dr
+  , mkChow Revealed k7
+  ]
+  [f2, s4]
 
 sp1 :: Maybe Hand
 sp1 = mkSpecial [b1, b1, b1, b2, b3, b4, b5, b6, b7, b8, b9, b9, b9]
-                (b5)
+                b5
                 [f3]
 
 sp2 :: Maybe Hand
 sp2 = mkSpecial [c1, c9, b1, b9, k1, k9, we, ws, ww, wn, dr, dg, dw]
-                (c1)
+                c1
                 [f2]
 

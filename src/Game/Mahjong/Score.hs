@@ -66,14 +66,14 @@ isAllChows = scoreHelper f p
 isConcealedHand :: ScoreFunc
 isConcealedHand = scoreHelper f p
   where
-    f = all isConcealed . melds . fst
+    f = all isConcealed . getMelds . fst
     p = concealed
 
 -- | check for self drawing the winning tile
 isSelfDrawn :: ScoreFunc
 isSelfDrawn = scoreHelper f p
   where
-    f = isConcealed . lastMeld . fst
+    f = isConcealed . last . getMelds . fst
     p = selfDrawn
 
 -- | check for all simple hand

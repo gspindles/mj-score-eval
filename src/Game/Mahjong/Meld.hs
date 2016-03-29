@@ -15,10 +15,10 @@ module Game.Mahjong.Meld (
   Meld,
 
   -- ** Constructors
-  mkChow, mkPung, mkKong, mkEyes,
+  mkChow, mkPung, mkKong, mkEyes, mkMeld,
 
   -- ** Meld accessors
-  meldType, status, meldTiles,
+  status, meldType, meldTiles,
 
   -- ** Predicates for the status of meld
   isConcealed, isRevealed,
@@ -51,10 +51,11 @@ data MeldType
 
 -- | Meld data
 data Meld
-  = CMeld { status :: Status, meldTiles :: [Tile] }
-  | PMeld { status :: Status, meldTiles :: [Tile] }
-  | KMeld { status :: Status, meldTiles :: [Tile] }
-  | EMeld { status :: Status, meldTiles :: [Tile] }
+  = Meld {
+      status :: Status
+    , meldType :: MeldType
+    , meldTiles :: [Tile]
+    }
     deriving (Eq, Show)
 
 
@@ -71,10 +72,16 @@ instance Pretty Status where
 -- Kong ends with },
 -- Eye ends with ).
 instance Pretty Meld where
-  pp (CMeld s ts) = pp s ++ joinPP " " ts ++ ">"
-  pp (PMeld s ts) = pp s ++ joinPP " " ts ++ "]"
-  pp (KMeld s ts) = pp s ++ joinPP " " ts ++ "}"
-  pp (EMeld s ts) = pp s ++ joinPP " " ts ++ ")"
+  pp (Meld s mt ts) =
+    pp s ++ enclose mt (joinPP " " ts)
+    where
+      enclose :: MeldType -> String -> String
+      enclose mt ts =
+        case mt of
+          Chow -> "<" ++ ts ++ ">"
+          Pung -> "[" ++ ts ++ "]"
+          Kong -> "{" ++ ts ++ "}"
+          Eyes -> "(" ++ ts ++ ")"
 
 
 -------------------------------------------------------------------------------
@@ -87,31 +94,37 @@ instance Pretty Meld where
 mkChow :: Status -> Tile -> Maybe Meld
 mkChow s t =
   if isSuit t && not (isEightOrNine t)
-  then Just $ CMeld s $ take 3 $ iterate next t
+  then Just $ Meld s Chow $ take 3 $ iterate next t
   else Nothing
 
 -- | Given a tile, attemps to make a Pung.
 --   Bonus tile results in Nothing.
 mkPung :: Status -> Tile -> Maybe Meld
-mkPung s t = meldHelper PMeld s t 3
+mkPung s t = meldHelper s Pung t 3
 
 -- | Given a tile, attemps to make a Kong.
 --   Bonus tile results in Nothing.
 mkKong :: Status -> Tile -> Maybe Meld
-mkKong s t = meldHelper PMeld s t 4
+mkKong s t = meldHelper s Kong t 4
 
 -- | Given a tile, attemp to make a pair of Eyes.
 --   Bonus tile results in Nothing.
 mkEyes :: Status -> Tile -> Maybe Meld
-mkEyes s t = meldHelper PMeld s t 2
+mkEyes s t = meldHelper s Eyes t 2
 
-meldHelper :: (Status -> [Tile] -> Meld)
-            -> Status -> Tile -> Int
-            -> Maybe Meld
-meldHelper ctor s t n =
-  if not $ isBonus t
-  then Just $ ctor s $ replicate n t
-  else Nothing
+meldHelper :: Status -> MeldType -> Tile -> Int -> Maybe Meld
+meldHelper s mt t n
+  | not $ isBonus t = Just $ Meld s mt $ replicate n t
+  | otherwise       = Nothing
+
+-- | Attemps to create a meld with parameters given.
+mkMeld :: Status -> MeldType -> Tile -> Maybe Meld
+mkMeld s mt t =
+  case mt of
+    Chow -> mkChow s t
+    Pung -> mkPung s t
+    Kong -> mkKong s t
+    Eyes -> mkEyes s t
 
 
 -------------------------------------------------------------------------------
@@ -150,18 +163,6 @@ isEyes = (== Chow) . meldType
 
 
 -------------------------------------------------------------------------------
--- Utilities functions
--------------------------------------------------------------------------------
-
--- | Gets the type of meld.
-meldType :: Meld -> MeldType
-meldType (CMeld _ _) = Chow
-meldType (PMeld _ _) = Pung
-meldType (KMeld _ _) = Kong
-meldType (EMeld _ _) = Eyes
-
-
--------------------------------------------------------------------------------
 -- Class Instances
 -------------------------------------------------------------------------------
 
@@ -193,22 +194,7 @@ instance TilePred Meld where
   isBlue      = all isBlue  . meldTiles
 
 instance Loop Meld where
-  next m =
-    case m of
-      (CMeld s ts) -> loopHelper CMeld s ts next
-      (PMeld s ts) -> loopHelper PMeld s ts next
-      (KMeld s ts) -> loopHelper KMeld s ts next
-      (EMeld s ts) -> loopHelper EMeld s ts next
+  next (Meld s mt ts) = Meld s mt $ map next ts
 
-  prev m =
-    case m of
-      (CMeld s ts) -> loopHelper CMeld s ts prev
-      (PMeld s ts) -> loopHelper PMeld s ts prev
-      (KMeld s ts) -> loopHelper KMeld s ts prev
-      (EMeld s ts) -> loopHelper EMeld s ts prev
-
-loopHelper :: (Status -> [Tile] -> Meld)
-           -> Status -> [Tile] -> (Tile -> Tile)
-           -> Meld
-loopHelper ctor s ts f = ctor s $ map f ts
+  prev (Meld s mt ts) = Meld s mt $ map prev ts
 

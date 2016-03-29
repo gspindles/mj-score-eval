@@ -30,3 +30,4 @@ __pycache__
 
 # back up stuff
 *.bak
+proto/*

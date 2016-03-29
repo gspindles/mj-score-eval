@@ -99,7 +99,7 @@ module Game.Mahjong.Pattern (
 
 
   -- * 11.0 Irregular Hands
-  thirteenOrphans,
+  thirteenOrphansImpure, thirteenOrphansPure,
 
 
   -- * 12.0 Incidental bonuses
@@ -211,6 +211,7 @@ mixedOneSuit, pureOneSuit :: Pattern
 mixedOneSuit       = Pattern "Mixed One-Suit"       "混一色"     40
 pureOneSuit        = Pattern "Pure One-Suit"        "清一色"     80
 
+-- | NOTE: pure version only, impure version doens't count.
 nineGates :: Pattern
 nineGates          = Pattern "Nine Gates" "九蓮寶燈" 480
 
@@ -272,8 +273,9 @@ allBlue  = Pattern "All Blue"  "藍一色" 400 -- not exported
 
 -- 11.0 Irregular Hands
 
-thirteenOrphans :: Pattern
-thirteenOrphans = Pattern "Thirteen Orphans" "十三么九" 160
+thirteenOrphansImpure, thirteenOrphansPure :: Pattern
+thirteenOrphansImpure = Pattern "Thirteen Orphans (Impure)" "十三么九"        160
+thirteenOrphansPure = Pattern "Thirteen Orphans (Pure)"   "十三么九 十三面" 320
 
 
 -- 12.0 Incidental bonuses
@@ -312,9 +314,10 @@ allBonusTiles     = Pattern "All Bonus Tiles" "八仙過海" 50
 
 {- Utility functions -}
 
--- | This function assumes that the 2 patterns are identical and simply add their points up;
--- no checking is done. Intended use is for adding points from dragon pungs, similar chows,
--- bonus tiles, etc…
+-- | This function assumes that the 2 patterns are identical
+--   and simply add their points up; no checking is done.
+--   Intended use is for adding points from dragon pungs,
+--   similar chows, bonus tiles, etc…
 updateScore :: Pattern -> Int -> Pattern
 updateScore (Pattern e c p) n = Pattern e c (p * n)
 
