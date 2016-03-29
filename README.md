@@ -28,7 +28,7 @@ Self draw the winning tile to complete the hand.
 
 
 #### 1.5 All Simples (斷么九) : 5
-The hand consists entirely of middle number [simple] tiles (2 to 8); no terminals nor honors.
+The hand consists entirely of middle number [simple]  tiles (2 to 8); no terminals nor honors.
 
 
 #### 1.6 All Types (五門齊) : 10
@@ -77,22 +77,22 @@ Identical sets are sets in the same suit in the same numbers. Obviously, only ch
 #### 3.1.1 Two Identical Chows (一般高) : 10
 Two chows in the same suit in the same numbers.
 
-Example: ![c3]![c4]![c5] ![c3]![c4]![c5]
+Example: ![c3]![c4]![c5]  ![c3]![c4]![c5]
 
 #### 3.1.2 Two Identical Chows Twice (兩般高) : 60
 The hand contains two groups of "Two Identical Chows".
 
-Example: ![c3]![c4]![c5] ![c3]![c4]![c5] ![c7]![c8]![c9] ![c7]![c8]![c9]
+Example: ![c3]![c4]![c5]  ![c3]![c4]![c5]  ![c7]![c8]![c9]  ![c7]![c8]![c9]
 
 #### 3.1.3 Three Identical Chows (一色三同順) : 120
 Three chows in the same suit in the same numbers.
 
-Example: ![c3]![c4]![c5] ![c3]![c4]![c5] ![c3]![c4]![c5]
+Example: ![c3]![c4]![c5]  ![c3]![c4]![c5]  ![c3]![c4]![c5]
 
 #### 3.1.4 Four Identical Chows (一色四同順) : 480
 Four chows in the same suit in the same numbers.
 
-Example: ![c3]![c4]![c5] ![c3]![c4]![c5] ![c3]![c4]![c5] ![c3]![c4]![c5]
+Example: ![c3]![c4]![c5]  ![c3]![c4]![c5]  ![c3]![c4]![c5]  ![c3]![c4]![c5]
 
 
 
@@ -104,18 +104,18 @@ In Zung Jung, all 3 suits must be present; 2-suit patterns are not recognized.
 #### 4.1 Three Similar Chows (三色同順) : 35
 Three chows in the same numbers across three different suits.
 
-Example: ![c3]![c4]![c5] ![b3]![b4]![b5] ![k3]![k4]![k5]
+Example: ![c3]![c4]![c5]  ![b3]![b4]![b5]  ![k3]![k4]![k5]
 
 
 #### 4.2.1 Little Three Similar Pungs (三色小同刻) : 30
 Two pungs / kongs in the same number in two different suits, and the eye pair in the same number in the third suit.
 
-Example: ![c4]![c4]![c4] ![k4]![k4]![k4] ![b4]![b4]
+Example: ![c4]![c4]![c4]  ![k4]![k4]![k4]  ![b4]![b4]
 
 #### 4.2.2 Three Similar Pungs (三色同刻) : 120
 Three pungs / kongs in the same number across three different suits.
 
-Example: ![c4]![c4]![c4] ![k4]![k4]![k4] ![b4]![b4]![b4]
+Example: ![c4]![c4]![c4]  ![k4]![k4]![k4]  ![b4]![b4]![b4]
 
 
 
@@ -126,54 +126,54 @@ Consecutive sets are sets in the same suit in consecutive numbers. The patterns 
 #### 5.1.1 Three Consecutive Chows (三連順) : 30
 Three chows in consecutive number in the same suit with
 
-    step 1: a (n)(n+1)(n+2) sequence, a (n+1)(n+2)(n+3) sequence, and a (n+2)(n+3)(n+4) sequence;
-    or step 2: a (n)(n+1)(n+2) sequence, a (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence.
+    step 1: sequences of (n)(n+1)(n+2), (n+1)(n+2)(n+3), (n+2)(n+3)(n+4)
+    or step 2: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6).
 
-Example: ![k1]![k2]![k3] ![k2]![k3]![k4] ![k3]![k4]![k5]
+Example: ![k1]![k2]![k3]  ![k2]![k3]![k4]  ![k3]![k4]![k5]
 
-Example: ![k1]![k2]![k3] ![k3]![k4]![k5] ![k5]![k6]![k7]
+Example: ![k1]![k2]![k3]  ![k3]![k4]![k5]  ![k5]![k6]![k7]
 
 #### 5.1.2 Nine-Tile Straight (一氣通貫) : 40
 A "123" sequence, a "456" sequence, and a "789" sequence, all in the same suit.
 (The hand must contain exactly the three chows listed above.)
 
-Example: ![k1]![k2]![k3] ![k4]![k5]![k6] ![k7]![k8]![k9]
+Example: ![k1]![k2]![k3]  ![k4]![k5]![k6]  ![k7]![k8]![k9]
 
 #### 5.1.3 Three Consecutive Chows Twice (雙三連順) : 50
 Two of three consecutive chows in the same suit.
 
-    At the start: (n)(n+1)(n+2) sequence, (n+1)(n+2)(n+3) sequence, (n+2)(n+3)(n+4) sequence, and a (n+4)(n+5)(n+6) sequence;
-    or at the end: (n)(n+1)(n+2) sequence, (n+2)(n+3)(n+4) sequence, (n+3)(n+4)(n+5) sequence, and a (n+4)(n+5)(n+6) sequence.
+    At the start: sequences of (n)(n+1)(n+2), (n+1)(n+2)(n+3), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6)
+    or at the end: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+3)(n+4)(n+5), (n+4)(n+5)(n+6)
 
-Example: ![k1]![k2]![k3] ![k2]![k3]![k4] ![k3]![k4]![k5] ![k5]![k6]![k7] (chow #1,2,3 and #1,3,4 makes two consecutive chows)
+Example: ![k1]![k2]![k3]  ![k2]![k3]![k4]  ![k3]![k4]![k5]  ![k5]![k6]![k7]  (chow #1,2,3 and #1,3,4 makes two consecutive chows)
 
-Example: ![k1]![k2]![k3] ![k3]![k4]![k5] ![k4]![k5]![k6] ![k5]![k6]![k7] (chow #1,2,4 and #2,3,4 makes two consecutive chows)
+Example: ![k1]![k2]![k3]  ![k3]![k4]![k5]  ![k4]![k5]![k6]  ![k5]![k6]![k7]  (chow #1,2,4 and #2,3,4 makes two consecutive chows)
 
 #### 5.1.4 Four Consecutive Chows (四連順) : 100
 Four chows in consecutive number in the same suit with
 
-    step 1: a (n)(n+1)(n+2) sequence, a (n+1)(n+2)(n+3) sequence, a (n+2)(n+3)(n+4) sequence, and a (n+3)(n+4)(n+5);
-    or step 2: a (n)(n+1)(n+2) sequence, a (n+2)(n+3)(n+4) sequence, a (n+4)(n+5)(n+6) sequence, and a (n+6)(n+7)(n+8) sequence.
+    step 1: sequences of (n)(n+1)(n+2), (n+1)(n+2)(n+3), (n+2)(n+3)(n+4), (n+3)(n+4)(n+5)
+    or step 2: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6), (n+6)(n+7)(n+8)
 
-Example: ![k1]![k2]![k3] ![k2]![k3]![k4] ![k3]![k4]![k5] ![k4]![k5]![k6]
+Example: ![k1]![k2]![k3]  ![k2]![k3]![k4]  ![k3]![k4]![k5]  ![k4]![k5]![k6]
 
-Example: ![k1]![k2]![k3] ![k3]![k4]![k5] ![k5]![k6]![k7] ![k7]![k8]![k9]
+Example: ![k1]![k2]![k3]  ![k3]![k4]![k5]  ![k5]![k6]![k7]  ![k7]![k8]![k9]
 
 
 #### 5.2.1 Three Consecutive Pungs (三連刻) : 100
 Three pungs / kongs in consecutive numbers in the same suit.
 
-Example: ![k4]![k4]![k4] ![k5]![k5]![k5] ![k6]![k6]![k6]
+Example: ![k4]![k4]![k4]  ![k5]![k5]![k5]  ![k6]![k6]![k6]
 
 #### 5.2.2 Four Consecutive Pungs (四連刻) : 200
 Four pungs / kongs in consecutive numbers in the same suit.
 
-Example: ![k4]![k4]![k4] ![k5]![k5]![k5] ![k6]![k6]![k6] ![k7]![k7]![k7]
+Example: ![k4]![k4]![k4]  ![k5]![k5]![k5]  ![k6]![k6]![k6]  ![k7]![k7]![k7]
 
 #### 5.2.3 Three Mothers (三娘教子) : 400
 Hand consist of three consecutive triples and sequence of the same three tiles remaining.
 
-Example: ![k4]![k4]![k4] ![k5]![k5]![k5] ![k6]![k6]![k6] ![k7]![k7]![k7] ![k5]![k6]![k7]
+Example: ![k5]![k5]![k5]  ![k6]![k6]![k6]  ![k7]![k7]![k7]  ![k5]![k6]![k7]
 
 
 
@@ -208,37 +208,37 @@ The hand consists of the pattern 111-123-789-999 in a suit.
 #### 7.1.5 Little Mountain (小山滿) : 320
 Pure one-suit hand satisfying pure lesser terminals, using up only six terminals of one suit.
 
-Example: ![c1]![c2]![c3] ![c1]![c2]![c3] ![c7]![c8]![c9] ![c7]![c8]![c9] ![c1]![c1]
+Example: ![c1]![c2]![c3]  ![c1]![c2]![c3]  ![c7]![c8]![c9]  ![c7]![c8]![c9]  ![c1]![c1]
 
-Example: ![c1]![c2]![c3] ![c1]![c2]![c3] ![c1]![c2]![c3] ![c7]![c8]![c9] ![c9]![c9]
+Example: ![c1]![c2]![c3]  ![c1]![c2]![c3]  ![c1]![c2]![c3]  ![c7]![c8]![c9]  ![c9]![c9]
 
 #### 7.1.6 Big Mountain (大山滿) : 400
 Pure one-suit hand satisfying pure lesser terminals, using up all eight terminals of one suit.
 
-Example: ![c1]![c1]![c1] ![c1]![c2]![c3] ![c7]![c8]![c9] ![c7]![c8]![c9] ![c9]![c9]
+Example: ![c1]![c1]![c1]  ![c1]![c2]![c3]  ![c7]![c8]![c9]  ![c7]![c8]![c9]  ![c9]![c9]
 
-Example: ![c1]![c2]![c3] ![c1]![c2]![c3] ![c7]![c8]![c9] ![c9]![c9]![c9] ![c1]![c1]
+Example: ![c1]![c2]![c3]  ![c1]![c2]![c3]  ![c7]![c8]![c9]  ![c9]![c9]![c9]  ![c1]![c1]
 
 
 #### 7.2.1 Mixed Lesser Terminals (混全帶么九) : 40
 Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal tile or an honor tile.
 
-Example: ![b1]![b1]![b1] ![k1]![k2]![k3] ![c7]![c8]![c9] ![dr]![dr]![dr] ![k9]![k9]
+Example: ![b1]![b1]![b1]  ![k1]![k2]![k3]  ![c7]![c8]![c9]  ![dr]![dr]![dr]  ![k9]![k9]
 
 #### 7.2.2 Pure Lesser Terminals (純全帶么九) : 50
 Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal number tile.
 
-Example: ![b1]![s2]![b3] ![k1]![k1]![k1] ![k7]![k8]![k9] ![c9]![c9]![c9] ![b1]![b1]
+Example: ![b1]![s2]![b3]  ![k1]![k1]![k1]  ![k7]![k8]![k9]  ![c9]![c9]![c9]  ![b1]![b1]
 
 #### 7.2.3 Mixed Greater Terminals (混么九) : 100
 An "All Pungs" or "Seven Pairs" hand which consists entirely of terminal tiles and honor tiles. (Not applicable to a "Thirteen Terminals" hand.)
 
-Example: ![s9]![s9]![s9] ![k1]![k1]![k1] ![ww]![ww]![ww] ![dg]![dg]![dg] ![c1]![c1]
+Example: ![s9]![s9]![s9]  ![k1]![k1]![k1]  ![ww]![ww]![ww]  ![dg]![dg]![dg]  ![c1]![c1]
 
 #### 7.2.4 Pure Greater Terminals (清么九) : 400
 The hand consists entirely of terminal number tiles.
 
-Example: ![b1]![b1]![b1] ![k9]![k9]![k9] ![c1]![c1]![c1] ![c9]![c9]![c9] ![s9]![s9]
+Example: ![b1]![b1]![b1]  ![k9]![k9]![k9]  ![c1]![c1]![c1]  ![c9]![c9]![c9]  ![s9]![s9]
 
 
 
@@ -251,21 +251,21 @@ Note: Seat wind and Prevailing Wind are not recognized.
 #### 8.1.2 Little Three Winds (小三風) : 30
 Two triplet/kongs of Winds, plus a pair of Winds as the eyes.
 
-Example: ![ww]![ww]![ww] ![wn]![wn]![wn] ![we]![we]
+Example: ![ww]![ww]![ww]  ![wn]![wn]![wn]  ![we]![we]
 
 #### 8.1.3 Big Three Winds (大三風) : 120
 Three triplet/kongs of Winds.
 
-Example: ![we]![we]![we] ![ws]![ws]![ws] ![wn]![wn]![wn]
+Example: ![we]![we]![we]  ![ws]![ws]![ws]  ![wn]![wn]![wn]
 
 #### 8.1.4 Little Four Winds (小四喜) : 320
 Three triplet/kongs of Winds, plus a pair of Winds as the eyes.
 
-Example: ![we]![we]![we] ![ww]![ww]![ww] ![wn]![wn]![wn] ![ws]![ws]
+Example: ![we]![we]![we]  ![ww]![ww]![ww]  ![wn]![wn]![wn]  ![ws]![ws]
 
 #### 8.1.5 Big Four Winds (大四喜) : 400
 Four triplet/kongs of Winds.
-![we]![we]![we] ![ws]![ws]![ws] ![ww]![ww]![ww] ![wn]![wn]![wn]
+![we]![we]![we]  ![ws]![ws]![ws]  ![ww]![ww]![ww]  ![wn]![wn]![wn]
 
 
 #### 8.2.1 Dragon Pung (箭刻) : 10 per set
@@ -274,7 +274,7 @@ A triplet/kongs of a dragon tile.
 #### 8.2.2 Little Three Dragons (小三元) : 40 -> 60
 Two pungs / kongs of Dragons, plus a pair of Dragons as the eyes.
 
-Example: ![dw]![dw]![dw] ![dr]![dr]![dr] ![dg]![dg]
+Example: ![dw]![dw]![dw]  ![dr]![dr]![dr]  ![dg]![dg]
 (This hand always includes two Dragon pungs, so it scores at least 40+10+10=60 points.)
 
 #### 8.2.3 Big Three Dragons (大三元) : 130 -> 160
@@ -282,7 +282,7 @@ Three pungs / kongs of Dragons.
 
 (This hand always includes three Dragon pungs, so it scores at least 130+10+10+10=160 points.)
 
-Pattern: ![dw]![dw]![dw] ![dg]![dg]![dg] ![dr]![dr]![dr]
+Pattern: ![dw]![dw]![dw]  ![dg]![dg]![dg]  ![dr]![dr]![dr]
 
 
 #### 8.3.1 All Honor Pungs (字一色) : 320
@@ -300,7 +300,7 @@ Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cann
 #### 9.1.1 Seven Pairs (七對子) : 35
 The hand consists of seven pairs.
 
-Example: ![s2]![s2] ![k6]![k6] ![c1]![c1] ![c7]7筒, ![dw]![dw] ![ww]![ww] ![wn]![wn]
+Example: ![s2]![s2]  ![k6]![k6]  ![c1]![c1]  ![c7]7筒, ![dw]![dw]  ![ww]![ww]  ![wn]![wn]
 
 #### 9.1.2 Seven Shifted Pairs (連七對) : 320
 The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
