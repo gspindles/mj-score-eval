@@ -124,10 +124,10 @@ Example: ![c4]![c4]![c4]  ![k4]![k4]![k4]  ![b4]![b4]![b4]
 Consecutive sets are sets in the same suit in consecutive numbers. The patterns here require three or more such sets.
 
 #### 5.1.1 Three Consecutive Chows (三連順) : 30
-Three chows in consecutive number in the same suit with
+Three chows in consecutive number in the same suit with either
 
     step 1: sequences of (n)(n+1)(n+2), (n+1)(n+2)(n+3), (n+2)(n+3)(n+4)
-    or step 2: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6).
+    step 2: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6).
 
 Example: ![k1]![k2]![k3]  ![k2]![k3]![k4]  ![k3]![k4]![k5]
 
@@ -135,25 +135,26 @@ Example: ![k1]![k2]![k3]  ![k3]![k4]![k5]  ![k5]![k6]![k7]
 
 #### 5.1.2 Nine-Tile Straight (一氣通貫) : 40
 A "123" sequence, a "456" sequence, and a "789" sequence, all in the same suit.
-(The hand must contain exactly the three chows listed above.)
+
+Note: the hand must contain exactly the three chows listed above.
 
 Example: ![k1]![k2]![k3]  ![k4]![k5]![k6]  ![k7]![k8]![k9]
 
 #### 5.1.3 Three Consecutive Chows Twice (雙三連順) : 50
-Two of three consecutive chows in the same suit.
+Two of three consecutive chows in the same suit either
 
     At the start: sequences of (n)(n+1)(n+2), (n+1)(n+2)(n+3), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6)
-    or at the end: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+3)(n+4)(n+5), (n+4)(n+5)(n+6)
+    At the end: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+3)(n+4)(n+5), (n+4)(n+5)(n+6)
 
 Example: ![k1]![k2]![k3]  ![k2]![k3]![k4]  ![k3]![k4]![k5]  ![k5]![k6]![k7]  (chow #1,2,3 and #1,3,4 makes two consecutive chows)
 
 Example: ![k1]![k2]![k3]  ![k3]![k4]![k5]  ![k4]![k5]![k6]  ![k5]![k6]![k7]  (chow #1,2,4 and #2,3,4 makes two consecutive chows)
 
 #### 5.1.4 Four Consecutive Chows (四連順) : 100
-Four chows in consecutive number in the same suit with
+Four chows in consecutive number in the same suit with either
 
     step 1: sequences of (n)(n+1)(n+2), (n+1)(n+2)(n+3), (n+2)(n+3)(n+4), (n+3)(n+4)(n+5)
-    or step 2: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6), (n+6)(n+7)(n+8)
+    step 2: sequences of (n)(n+1)(n+2), (n+2)(n+3)(n+4), (n+4)(n+5)(n+6), (n+6)(n+7)(n+8)
 
 Example: ![k1]![k2]![k3]  ![k2]![k3]![k4]  ![k3]![k4]![k5]  ![k4]![k5]![k6]
 
@@ -189,6 +190,10 @@ The hand consists entirely of number tiles in one suit.
 #### 6.2 Nine Gates (九蓮寶燈) : 480
 A 9-way call hand, with "1112345678999" in one suit in your hand, and winning on any one tile in the same suit.
 
+Note: pure version only, impure version doesn't count.
+
+Pattern: ![c1]![c1]![c1]![c2]![c3]![c4]![c5]![c6]![c7]![c8]![c9]![c9]![c9]
+
 
 
 ### 7.0 Terminal Tiles
@@ -199,11 +204,17 @@ The Greater patterns consist of terminal tiles only, while the Lesser patterns i
 #### 7.1.1 Two-Tailed Terminal Chows (老少順) : 5
 A sequece of 123 and 789 in the same suit.
 
+Example: ![b1]![b2]![b3]  ![b7]![b8]![b9]
+
 #### 7.1.2 Two-Tailed Terminal Pungs (老少刻) : 15
-A triplet/kongs of 1s and 9s in the same suit.
+A pung / kong of 1s and 9s in the same suit.
+
+Example: ![k1]![k1]![k1]  ![k9]![k9]![k9]
 
 #### 7.1.3 Two-Tailed Terminals (老少么九) : 200
 The hand consists of the pattern 111-123-789-999 in a suit.
+
+Example: ![c1]![c1]![c1]  ![c1]![c2]![c3]  ![c7]![c8]![c9]  ![c9]![c9]![c9]
 
 #### 7.1.5 Little Mountain (小山滿) : 320
 Pure one-suit hand satisfying pure lesser terminals, using up only six terminals of one suit.
@@ -231,7 +242,9 @@ Every of the 4 sets in the hand, as well as the pair of eyes, includes a termina
 Example: ![b1]![s2]![b3]  ![k1]![k1]![k1]  ![k7]![k8]![k9]  ![c9]![c9]![c9]  ![b1]![b1]
 
 #### 7.2.3 Mixed Greater Terminals (混么九) : 100
-An "All Pungs" or "Seven Pairs" hand which consists entirely of terminal tiles and honor tiles. (Not applicable to a "Thirteen Terminals" hand.)
+An "All Pungs" or "Seven Pairs" hand which consists entirely of terminal tiles and honor tiles. 
+
+Note: not applicable to a "Thirteen Terminals" hand.
 
 Example: ![s9]![s9]![s9]  ![k1]![k1]![k1]  ![ww]![ww]![ww]  ![dg]![dg]![dg]  ![c1]![c1]
 
@@ -245,42 +258,44 @@ Example: ![b1]![b1]![b1]  ![k9]![k9]![k9]  ![c1]![c1]![c1]  ![c9]![c9]![c9]  ![s
 ### 8.0 Honor Tiles
 
 #### 8.1.1 Wind Pung (風刻) : 5
-A triplet/kongs of a wind tile.
+A pungs / kongs of a wind tile.
 Note: Seat wind and Prevailing Wind are not recognized.
 
 #### 8.1.2 Little Three Winds (小三風) : 30
-Two triplet/kongs of Winds, plus a pair of Winds as the eyes.
+Two pungs / kongs of Winds, plus a pair of Winds as the eyes.
 
 Example: ![ww]![ww]![ww]  ![wn]![wn]![wn]  ![we]![we]
 
 #### 8.1.3 Big Three Winds (大三風) : 120
-Three triplet/kongs of Winds.
+Three pungs / kongs of Winds.
 
 Example: ![we]![we]![we]  ![ws]![ws]![ws]  ![wn]![wn]![wn]
 
 #### 8.1.4 Little Four Winds (小四喜) : 320
-Three triplet/kongs of Winds, plus a pair of Winds as the eyes.
+Three pungs / kongs of Winds, plus a pair of Winds as the eyes.
 
 Example: ![we]![we]![we]  ![ww]![ww]![ww]  ![wn]![wn]![wn]  ![ws]![ws]
 
 #### 8.1.5 Big Four Winds (大四喜) : 400
-Four triplet/kongs of Winds.
-![we]![we]![we]  ![ws]![ws]![ws]  ![ww]![ww]![ww]  ![wn]![wn]![wn]
+Four pungs / kongs of Winds.
+
+Pattern: ![we]![we]![we]  ![ws]![ws]![ws]  ![ww]![ww]![ww]  ![wn]![wn]![wn]
 
 
 #### 8.2.1 Dragon Pung (箭刻) : 10 per set
-A triplet/kongs of a dragon tile.
+A pungs / kongs of a dragon tile.
 
 #### 8.2.2 Little Three Dragons (小三元) : 40 -> 60
 Two pungs / kongs of Dragons, plus a pair of Dragons as the eyes.
 
+Note: this hand always includes two Dragon pungs, so it scores at least 40+10+10=60 points.
+
 Example: ![dw]![dw]![dw]  ![dr]![dr]![dr]  ![dg]![dg]
-(This hand always includes two Dragon pungs, so it scores at least 40+10+10=60 points.)
 
 #### 8.2.3 Big Three Dragons (大三元) : 130 -> 160
 Three pungs / kongs of Dragons.
 
-(This hand always includes three Dragon pungs, so it scores at least 130+10+10+10=160 points.)
+Note: this hand always includes three Dragon pungs, so it scores at least 130+10+10+10=160 points.
 
 Pattern: ![dw]![dw]![dw]  ![dg]![dg]![dg]  ![dr]![dr]![dr]
 
@@ -291,6 +306,8 @@ The hand consists entirely of honor tiles.
 #### 8.3.2 All Honor Pairs (大七星) : 480
 The hand consists of pairs of each wind tiles and pairs of each dragon tiles.
 
+Pattern: ![we]![we] ![ws]![ws] ![ww]![ww] ![wn]![wn] ![dr]![dr] ![dg]![dg] ![dw]![dw] 
+
 
 
 ### 9.0 Seven Pairs
@@ -300,7 +317,7 @@ Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cann
 #### 9.1.1 Seven Pairs (七對子) : 35
 The hand consists of seven pairs.
 
-Example: ![s2]![s2]  ![k6]![k6]  ![c1]![c1]  ![c7]7筒, ![dw]![dw]  ![ww]![ww]  ![wn]![wn]
+Example: ![k2]![k2]  ![k6]![k6]  ![c1]![c1]  ![c7]![c7] ![dw]![dw]  ![ww]![ww]  ![wn]![wn]
 
 #### 9.1.2 Seven Shifted Pairs (連七對) : 320
 The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
@@ -331,9 +348,20 @@ The hand consists of tiles from the set 1, 3, 5, 7 bamboo and the red dragon til
 
 Irregular Hands are hands that do not consist of 4 sets and a pair. Irregular hands do not count for "Concealed Hand".
 
-#### 11.1 Thirteen Orphans (十三么九) : 160
+Thirthen orphans can rob kong.
+
+#### 11.1.1 Thirteen Orphans (Impure) (十三么九) : 160
 Among the 13 types of terminals and honors, the hand contains one pair of one type, and one tile each of the other 12 types.
-If there are more than one winner in the game from the same discard, this hand has higher priority.
+
+Note: The impure version has the eye pair completed already, and is missing a specific terminal / honor to complete the pattern.
+
+
+#### 11.1.2 Thirteen Orphans (Pure) (十三么九 十三面) : 320
+Gather all 13 types of terminals and honors, and win by waiting on any of the 13 possible tiles.
+
+Note: The pure version completed the pattern already, and thus have 13 possible waits.
+
+Pattern: ![c1]![c9]![b1]![b9]![k1]![k9]![we]![ws]![ww]![wn]![dr]![dg]![dw]
 
 
 
@@ -351,12 +379,12 @@ Winning on a discarded "riverbed" tile (the last discard by the player who has d
 #### 12.2 Win on Kongs (嶺上開花) : 10
 Self-draw win on a "supplement" tile after declaring a kongs.
 
-(If the supplement tile is also the seabed tile, both patterns can be counted.)
+Note: If the supplement tile is also the seabed tile, both patterns can be counted.
 
 #### 12.2 Win on Bonus Tile (花上自摸) : 10
 Self-draw win on a "supplement" tile after drawing a bonus tile.
 
-(If the supplement tile is also the seabed tile, both patterns can be counted.)
+Note: If the supplement tile is also the seabed tile, both patterns can be counted.
 
 
 #### 12.3 Robbing a Kongs (搶槓) : 10
@@ -366,12 +394,12 @@ Winning by robbing a kongs (when another player makes a "Little exposed kongs").
 #### 12.4.1 Blessing of Heaven (天和) : 155
 East winning with his initial 14-tile hand.
 
-(Does not count if East has made a concealed kongs.)
+Note: Does not count if East has made a concealed kong.
 
 #### 12.4.2 Blessing of Earth (地和) : 155
 A non-East player calling with his initial 13-tile hand, and winning on East's very first discard.
 
-Does not count if East has made a concealed kongs.
+Note: Does not count if East has made a concealed kong.
 
 
 
@@ -391,7 +419,9 @@ A complete set of all 4 Season tiles.
 
 
 #### 13.3 All Bonus Tiles (八仙過海) : 80
-Gathering all flowers and seasons to instantly win the game.  If a player has 7 of the bonus tile and another player draws the last remaining bonus tile, then the first said player can steal and win.
+Gathering all flowers and seasons to instantly win the game.
+
+If a player has 7 of the bonus tile and another player draws the last remaining bonus tile, then the first said player can steal and win.
 
 
 [c1]: web/img/gif/c1.gif "C1"
