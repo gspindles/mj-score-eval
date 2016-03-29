@@ -217,14 +217,14 @@ The hand consists of the pattern 111-123-789-999 in a suit.
 Example: ![c1]![c1]![c1]  ![c1]![c2]![c3]  ![c7]![c8]![c9]  ![c9]![c9]![c9]
 
 #### 7.1.5 Little Mountain (小山滿) : 320
-Pure one-suit hand satisfying pure lesser terminals, using up only six terminals of one suit.
+Pure one-suit hand satisfying "Pure Lesser Terminals", using up exactly six terminals of one suit.
 
 Example: ![c1]![c2]![c3]  ![c1]![c2]![c3]  ![c7]![c8]![c9]  ![c7]![c8]![c9]  ![c1]![c1]
 
 Example: ![c1]![c2]![c3]  ![c1]![c2]![c3]  ![c1]![c2]![c3]  ![c7]![c8]![c9]  ![c9]![c9]
 
 #### 7.1.6 Big Mountain (大山滿) : 400
-Pure one-suit hand satisfying pure lesser terminals, using up all eight terminals of one suit.
+Pure one-suit hand satisfying "Pure Lesser Terminals", using up all eight terminals of one suit.
 
 Example: ![c1]![c1]![c1]  ![c1]![c2]![c3]  ![c7]![c8]![c9]  ![c7]![c8]![c9]  ![c9]![c9]
 
@@ -239,19 +239,19 @@ Example: ![b1]![b1]![b1]  ![k1]![k2]![k3]  ![c7]![c8]![c9]  ![dr]![dr]![dr]  ![k
 #### 7.2.2 Pure Lesser Terminals (純全帶么九) : 50
 Every of the 4 sets in the hand, as well as the pair of eyes, includes a terminal number tile.
 
-Example: ![b1]![s2]![b3]  ![k1]![k1]![k1]  ![k7]![k8]![k9]  ![c9]![c9]![c9]  ![b1]![b1]
+Example: ![b1]![b2]![b3]  ![k1]![k1]![k1]  ![k7]![k8]![k9]  ![c9]![c9]![c9]  ![b1]![b1]
 
 #### 7.2.3 Mixed Greater Terminals (混么九) : 100
 An "All Pungs" or "Seven Pairs" hand which consists entirely of terminal tiles and honor tiles. 
 
 Note: not applicable to a "Thirteen Terminals" hand.
 
-Example: ![s9]![s9]![s9]  ![k1]![k1]![k1]  ![ww]![ww]![ww]  ![dg]![dg]![dg]  ![c1]![c1]
+Example: ![b9]![b9]![b9]  ![k1]![k1]![k1]  ![ww]![ww]![ww]  ![dg]![dg]![dg]  ![c1]![c1]
 
 #### 7.2.4 Pure Greater Terminals (清么九) : 400
 The hand consists entirely of terminal number tiles.
 
-Example: ![b1]![b1]![b1]  ![k9]![k9]![k9]  ![c1]![c1]![c1]  ![c9]![c9]![c9]  ![s9]![s9]
+Example: ![b1]![b1]![b1]  ![k9]![k9]![k9]  ![c1]![c1]![c1]  ![c9]![c9]![c9]  ![b9]![b9]
 
 
 
@@ -414,15 +414,19 @@ Note: Upon drawing the last flower/season to complete a flower/season kongs, pla
 #### 13.2.1 All Flowers (齊四花) : 15
 A complete set of all 4 Flower tiles.
 
+Pattern: ![f1]![f2]![f3]![f4]
+
 #### 13.2.2 All Seasons (齊四季) : 15
 A complete set of all 4 Season tiles.
 
+Pattern: ![s1]![s2]![s3]![s4]
 
 #### 13.3 All Bonus Tiles (八仙過海) : 80
 Gathering all flowers and seasons to instantly win the game.
 
 If a player has 7 of the bonus tile and another player draws the last remaining bonus tile, then the first said player can steal and win.
 
+Pattern: ![f1]![f2]![f3]![f4]  ![s1]![s2]![s3]![s4]
 
 [c1]: web/img/gif/c1.gif "C1"
 [c2]: web/img/gif/c2.gif "C2"
