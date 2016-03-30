@@ -121,11 +121,6 @@ data Animals
   | Centipede
     deriving (Bounded, Enum, Eq, Ord, Show)
 
-
--------------------------------------------------------------------------------
--- Sigma
--------------------------------------------------------------------------------
-
 -- | pi quantify the tile type
 data instance Sing (tt :: TileType) where
   SC :: Sing Coin
@@ -212,7 +207,7 @@ instance Ord Tile where
   compare (Tile SF v1) (Tile SF v2) = compare v1 v2
   compare (Tile SS v1) (Tile SS v2) = compare v1 v2
   compare (Tile SA v1) (Tile SA v2) = compare v1 v2
-  compare (Tile t1 _ ) (Tile t2 _ ) = compare (demote t1) (demote t2)
+  compare (Tile t1 _ ) (Tile t2 _ ) = singOrd t1 t2
 
 
 instance Pretty TileType where
@@ -492,10 +487,12 @@ tileType (Tile tt _) = demote tt
 isEightOrNine :: Tile -> Bool
 isEightOrNine (Tile tt tv) =
   case tt of
-    SC -> tv == Eight || tv == Nine
-    SB -> tv == Eight || tv == Nine
-    SK -> tv == Eight || tv == Nine
+    SC -> eightOrNine tv
+    SB -> eightOrNine tv
+    SK -> eightOrNine tv
     _  -> False
+  where
+    eightOrNine tv = tv == Eight || tv == Nine
 
 
 -------------------------------------------------------------------------------
