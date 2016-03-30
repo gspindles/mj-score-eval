@@ -1,3 +1,10 @@
+{-# LANGUAGE ConstraintKinds    #-}
+{-# LANGUAGE DataKinds          #-}
+{-# LANGUAGE FlexibleContexts   #-}
+{-# LANGUAGE GADTs              #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE TypeFamilies       #-}
+
 -- |
 -- Module      :  Game.Mahjong.Tile
 -- Copyright   :  Joseph Ching 2015
@@ -43,6 +50,7 @@ import Game.Mahjong.Class
 import Data.Map (Map, insert, (!), elems, singleton)
 import Data.Maybe (fromJust)
 import System.Random (randomR, randomIO, mkStdGen, RandomGen)
+import Data.Singletons (Sing)
 
 
 -------------------------------------------------------------------------------
@@ -113,23 +121,99 @@ data Animals
   | Centipede
     deriving (Bounded, Enum, Eq, Ord, Show)
 
--- | The 8 kinds of tiles.
---   Really wish I can sigma type this
-data Tile
-  = CTile Values   -- ^ Coin Tile
-  | BTile Values   -- ^ Bamboo Tile
-  | KTile Values   -- ^ Character Tile
-  | WTile Winds    -- ^ Wind Tile
-  | DTile Dragons  -- ^ Dragon Tile
-  | FTile Flowers  -- ^ Flower Tile
-  | STile Seasons  -- ^ Season Tile
-  | ATile Animals  -- ^ Animal Tile
-    deriving (Eq, Ord, Show)
+
+-------------------------------------------------------------------------------
+-- Sigma
+-------------------------------------------------------------------------------
+
+-- | pi quantify the tile type
+data instance Sing (tt :: TileType) where
+  SC :: Sing Coin
+  SB :: Sing Bamboo
+  SK :: Sing Character
+  SW :: Sing Wind
+  SD :: Sing Dragon
+  SF :: Sing Flower
+  SS :: Sing Season
+  SA :: Sing Animal
+
+-- | map the tile type to their value type
+type family TileValue (tt :: TileType) where
+  TileValue Coin      = Values
+  TileValue Bamboo    = Values
+  TileValue Character = Values
+  TileValue Wind      = Winds
+  TileValue Dragon    = Dragons
+  TileValue Flower    = Flowers
+  TileValue Season    = Seasons
+  TileValue Animal    = Animals
+
+type Ctxt tt = (
+    Show (TileValue tt)
+  , Pretty (TileValue tt)
+  , Eq (TileValue tt)
+  , Ord (TileValue tt)
+  , Loop (TileValue tt)
+  )
+
+-- | sigma Tile definition
+data Tile where
+  Tile :: Ctxt tt => Sing (tt :: TileType) -> TileValue tt -> Tile
 
 
 -------------------------------------------------------------------------------
 -- Typeclass instances
 -------------------------------------------------------------------------------
+
+instance Show (Sing (tt :: TileType)) where
+  show st = show $ demote st
+
+deriving instance Show Tile
+
+
+instance Eq (Sing (tt :: TileType)) where
+  st1 == st2 = singEq st1 st2
+
+singEq :: Sing (t1 :: TileType) -> Sing (t2 :: TileType) -> Bool
+singEq SC SC = True
+singEq SB SB = True
+singEq SK SK = True
+singEq SW SW = True
+singEq SD SD = True
+singEq SF SF = True
+singEq SS SS = True
+singEq SA SA = True
+singEq _  _  = False
+
+instance Eq Tile where
+  (Tile SC v1) == (Tile SC v2) = v1 == v2
+  (Tile SB v1) == (Tile SB v2) = v1 == v2
+  (Tile SK v1) == (Tile SK v2) = v1 == v2
+  (Tile SW v1) == (Tile SW v2) = v1 == v2
+  (Tile SD v1) == (Tile SD v2) = v1 == v2
+  (Tile SF v1) == (Tile SF v2) = v1 == v2
+  (Tile SS v1) == (Tile SS v2) = v1 == v2
+  (Tile SA v1) == (Tile SA v2) = v1 == v2
+  (Tile _  _ ) == (Tile _  _ ) = False
+
+
+instance Ord (Sing (tt :: TileType)) where
+  compare st1 st2 = singOrd st1 st2
+
+singOrd :: Sing (t1 :: TileType) -> Sing (t2 :: TileType) -> Ordering
+singOrd st1 st2 = compare (demote st1) (demote st2)
+
+instance Ord Tile where
+  compare (Tile SC v1) (Tile SC v2) = compare v1 v2
+  compare (Tile SB v1) (Tile SB v2) = compare v1 v2
+  compare (Tile SK v1) (Tile SK v2) = compare v1 v2
+  compare (Tile SW v1) (Tile SW v2) = compare v1 v2
+  compare (Tile SD v1) (Tile SD v2) = compare v1 v2
+  compare (Tile SF v1) (Tile SF v2) = compare v1 v2
+  compare (Tile SS v1) (Tile SS v2) = compare v1 v2
+  compare (Tile SA v1) (Tile SA v2) = compare v1 v2
+  compare (Tile t1 _ ) (Tile t2 _ ) = compare (demote t1) (demote t2)
+
 
 instance Pretty TileType where
   pp tt    = ppHelper tt reps [Coin .. Animal]
@@ -164,18 +248,15 @@ instance Pretty Animals where
 infInts :: [Int]
 infInts = [1..]
 
+instance Pretty (Sing (tt :: TileType)) where
+  pp st = pp $ demote st
+
 instance Pretty Tile where
-  pp (CTile c)  = "C" ++ pp c
-  pp (BTile b)  = "B" ++ pp b
-  pp (KTile k)  = "K" ++ pp k
-  pp (WTile w)  = "W" ++ pp w
-  pp (DTile d)  = "D" ++ pp d
-  pp (FTile f)  = "F" ++ pp f
-  pp (STile s)  = "S" ++ pp s
-  pp (ATile a)  = "A" ++ pp a
+  pp (Tile tt tv)  = pp tt ++ pp tv
 
 ppHelper :: (Eq a) => a -> [b] -> [a] -> b
 ppHelper a reps = fromJust . lookup a . flip zip reps
+
 
 instance TilePred Tile where
   isCoin                = (==) Coin      . tileType
@@ -183,10 +264,11 @@ instance TilePred Tile where
   isCharacter           = (==) Character . tileType
 
   isSimple              = allCond [isSuit, not . isTerminal]
-  isTerminal  (CTile v) = elem v [One, Nine]
-  isTerminal  (BTile v) = elem v [One, Nine]
-  isTerminal  (KTile v) = elem v [One, Nine]
-  isTerminal  _         = False
+  isTerminal (Tile t v) = case t of
+                            SC -> elem v [One, Nine]
+                            SB -> elem v [One, Nine]
+                            SK -> elem v [One, Nine]
+                            _  -> False
   isSuit                = anyCond [isCoin, isBamboo, isCharacter]
 
   isWind                = (==) Wind   . tileType
@@ -204,6 +286,7 @@ instance TilePred Tile where
   isRed                 = flip elem reds
   isGreen               = flip elem greens
   isBlue                = flip elem blues
+
 
 instance Loop Values where
   next = nextHelper
@@ -230,23 +313,8 @@ instance Loop Animals where
   prev = prevHelper
 
 instance Loop Tile where
-  next (CTile c) = CTile $ next c
-  next (BTile b) = BTile $ next b
-  next (KTile k) = KTile $ next k
-  next (WTile w) = WTile $ next w
-  next (DTile d) = DTile $ next d
-  next (FTile f) = FTile $ next f
-  next (STile s) = STile $ next s
-  next (ATile a) = ATile $ next a
-
-  prev (CTile c) = CTile $ prev c
-  prev (BTile b) = BTile $ prev b
-  prev (KTile k) = KTile $ prev k
-  prev (WTile w) = WTile $ prev w
-  prev (DTile d) = DTile $ prev d
-  prev (FTile f) = FTile $ prev f
-  prev (STile s) = STile $ prev s
-  prev (ATile a) = ATile $ prev a
+  next (Tile t v) = Tile t $ next v
+  prev (Tile t v) = Tile t $ prev v
 
 
 -------------------------------------------------------------------------------
@@ -254,66 +322,66 @@ instance Loop Tile where
 -------------------------------------------------------------------------------
 
 c1, c2, c3, c4, c5, c6, c7, c8, c9 :: Tile
-c1 = CTile One
-c2 = CTile Two
-c3 = CTile Three
-c4 = CTile Four
-c5 = CTile Five
-c6 = CTile Six
-c7 = CTile Seven
-c8 = CTile Eight
-c9 = CTile Nine
+c1 = Tile SC One
+c2 = Tile SC Two
+c3 = Tile SC Three
+c4 = Tile SC Four
+c5 = Tile SC Five
+c6 = Tile SC Six
+c7 = Tile SC Seven
+c8 = Tile SC Eight
+c9 = Tile SC Nine
 
 b1, b2, b3, b4, b5, b6, b7, b8, b9 :: Tile
-b1 = BTile One
-b2 = BTile Two
-b3 = BTile Three
-b4 = BTile Four
-b5 = BTile Five
-b6 = BTile Six
-b7 = BTile Seven
-b8 = BTile Eight
-b9 = BTile Nine
+b1 = Tile SB One
+b2 = Tile SB Two
+b3 = Tile SB Three
+b4 = Tile SB Four
+b5 = Tile SB Five
+b6 = Tile SB Six
+b7 = Tile SB Seven
+b8 = Tile SB Eight
+b9 = Tile SB Nine
 
 k1, k2, k3, k4, k5, k6, k7, k8, k9 :: Tile
-k1 = KTile One
-k2 = KTile Two
-k3 = KTile Three
-k4 = KTile Four
-k5 = KTile Five
-k6 = KTile Six
-k7 = KTile Seven
-k8 = KTile Eight
-k9 = KTile Nine
+k1 = Tile SK One
+k2 = Tile SK Two
+k3 = Tile SK Three
+k4 = Tile SK Four
+k5 = Tile SK Five
+k6 = Tile SK Six
+k7 = Tile SK Seven
+k8 = Tile SK Eight
+k9 = Tile SK Nine
 
 we, ws, ww, wn :: Tile
-we = WTile East
-ws = WTile South
-ww = WTile West
-wn = WTile North
+we = Tile SW East
+ws = Tile SW South
+ww = Tile SW West
+wn = Tile SW North
 
 dr, dg, dw :: Tile
-dr = DTile Red
-dg = DTile Green
-dw = DTile White
+dr = Tile SD Red
+dg = Tile SD Green
+dw = Tile SD White
 
 f1, f2, f3, f4 :: Tile
-f1 = FTile PlumBlossom
-f2 = FTile Orchid
-f3 = FTile Chrysanthemum
-f4 = FTile BambooTree
+f1 = Tile SF PlumBlossom
+f2 = Tile SF Orchid
+f3 = Tile SF Chrysanthemum
+f4 = Tile SF BambooTree
 
 s1, s2, s3, s4 :: Tile
-s1 = STile Spring
-s2 = STile Summer
-s3 = STile Autumn
-s4 = STile Winter
+s1 = Tile SS Spring
+s2 = Tile SS Summer
+s3 = Tile SS Autumn
+s4 = Tile SS Winter
 
 a1, a2, a3, a4 :: Tile
-a1 = ATile Cat
-a2 = ATile Mouse
-a3 = ATile Cockerel
-a4 = ATile Centipede
+a1 = Tile SA Cat
+a2 = Tile SA Mouse
+a3 = Tile SA Cockerel
+a4 = Tile SA Centipede
 
 
 -------------------------------------------------------------------------------
@@ -322,35 +390,35 @@ a4 = ATile Centipede
 
 -- | List of coin tiles.
 coins :: [Tile]
-coins = map CTile [One ..]
+coins = map (Tile SC) [One ..]
 
 -- | List of bamboo tiles.
 bamboos :: [Tile]
-bamboos = map BTile [One ..]
+bamboos = map (Tile SB) [One ..]
 
 -- | List of character tiles.
 characters :: [Tile]
-characters = map KTile [One ..]
+characters = map (Tile SK) [One ..]
 
 -- | List of wind tiles.
 winds :: [Tile]
-winds = map WTile [East ..]
+winds = map (Tile SW) [East ..]
 
 -- | List of dragon tiles.
 dragons :: [Tile]
-dragons = map DTile [Red ..]
+dragons = map (Tile SD) [Red ..]
 
 -- | List of flower tiles.
 flowers :: [Tile]
-flowers = map FTile [PlumBlossom ..]
+flowers = map (Tile SF) [PlumBlossom ..]
 
 -- | List of season tiles.
 seasons :: [Tile]
-seasons = map STile [Spring ..]
+seasons = map (Tile SS) [Spring ..]
 
 -- | List of animal tiles.
 animals :: [Tile]
-animals = map ATile [Cat ..]
+animals = map (Tile SA) [Cat ..]
 
 -- | List of simple tiles.
 simples :: [Tile]
@@ -382,15 +450,15 @@ extras = bonuses ++ animals
 
 -- | List of red tiles.
 reds :: [Tile]
-reds = map BTile [One, Five, Seven, Nine] ++ [DTile Red]
+reds = map (Tile SB) [One, Five, Seven, Nine] ++ [Tile SD Red]
 
 -- | List of green tiles.
 greens :: [Tile]
-greens = map BTile [Two, Three, Four, Six, Eight] ++ [DTile Green]
+greens = map (Tile SB) [Two, Three, Four, Six, Eight] ++ [Tile SD Green]
 
 -- | List of blue tiles.
 blues :: [Tile]
-blues = [CTile Eight] ++ winds ++ [DTile White]
+blues = [Tile SC Eight] ++ winds ++ [Tile SD White]
 
 -- | List of all regular tiles without bonus tiles.
 regulars :: [Tile]
@@ -405,27 +473,29 @@ allTiles   = regulars ++ bonuses
 -- Utility functions
 -------------------------------------------------------------------------------
 
+-- | demote singleton to value
+demote :: Sing (tt :: TileType) -> TileType
+demote SC = Coin
+demote SB = Bamboo
+demote SK = Character
+demote SW = Wind
+demote SD = Dragon
+demote SF = Flower
+demote SS = Season
+demote SA = Animal
+
 -- | Gets the type of tile.
 tileType :: Tile -> TileType
-tileType (CTile _) = Coin
-tileType (BTile _) = Bamboo
-tileType (KTile _) = Character
-tileType (WTile _) = Wind
-tileType (DTile _) = Dragon
-tileType (FTile _) = Flower
-tileType (STile _) = Season
-tileType (ATile _) = Animal
+tileType (Tile tt _) = demote tt
 
 -- | Is the value of a suit tile 8 or 9?
 isEightOrNine :: Tile -> Bool
-isEightOrNine t =
-  case t of
-    (CTile v) -> eightOrNine v
-    (BTile v) -> eightOrNine v
-    (KTile v) -> eightOrNine v
-    _         -> False
-  where
-    eightOrNine v = v == Eight || v == Nine
+isEightOrNine (Tile tt tv) =
+  case tt of
+    SC -> tv == Eight || tv == Nine
+    SB -> tv == Eight || tv == Nine
+    SK -> tv == Eight || tv == Nine
+    _  -> False
 
 
 -------------------------------------------------------------------------------
