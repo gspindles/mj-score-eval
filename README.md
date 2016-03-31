@@ -9,7 +9,7 @@ The scoring is based on the [Zung Jung scoring system](http://www.zj-mahjong.inf
 
 The patterns are split into 13 broad category. Within each category [0] are families [0.0] of patterns [0.0.0]. When scoring, you can match patterns across multiple families, but only one pattern match from each family, so pick the highest points pattern match from that family!  For example, suppose a hand satisfies `Self Drawn : 5` and `Three Kongs : 120`, then lesser patterns such as `One Kongs : 5` and `Two Kong : 20` from the same family in `Pungs and Kongs` category do not get counted, unless specifically noted otherwise.
 
-Hands may satisfies paterns from multiple families, thus scoring the sum of points from each individual patterns.  However, this additive scoring caps at a maximum of 320 points limit. There are quite a few patterns, called `Limit Hands`, that rewards points beyond this 320 points limit.  However, they are their own cap - creating a hand that satisfies multiple limit patterns will simply score the highest point value among them.  For example, a hand satisfying `All Honor Pungs : 320` and `Big Four Winds : 400` will simly rewards the higher value of 400 point.
+Hands may satisfies paterns from multiple families, thus scoring the sum of points from each individual patterns.  However, this additive scoring caps at a maximum of 320 points limit. There are quite a few patterns, called `Limit Hands`, that rewards points beyond this 320 points limit.  However, they are their own cap - creating a hand that satisfies multiple limit patterns will simply score the highest point value among them.  For example, a hand satisfying `All Honor Pungs : 320` and `Big Four Winds : 400` will simly reward the higher value of 400 point.
 
 ---
 
@@ -33,7 +33,7 @@ Self draw the winning tile to complete the hand.
 
 
 #### 1.5 All Simples : 斷么九 : 5
-The hand consists entirely of middle number [simple]  tiles (2 to 8); no terminals nor honors.
+A hand consists entirely of middle number [simple]  tiles (2 to 8); no terminals nor honors.
 
 
 #### 1.6 All Types : 五門齊 : 10
@@ -50,7 +50,7 @@ Declares mahjong accidentally when the hand is not ready.
 ### 2.0 Pungs and Kongs
 
 #### 2.1 All Pungs : 對對和 : 30
-The hand contains 4 set of pungs / kongs; no chows.
+A hand consisting of 4 set of pungs / kongs; no chows.
 
 Example:&ensp;![c2]![c2]![c2]&ensp;![b3]![b3]![b3]&ensp;![k8]![k8]![k8]![k8]&ensp;![we]![we]![we]
 
