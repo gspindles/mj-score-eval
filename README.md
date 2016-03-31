@@ -7,6 +7,10 @@ A minor mahjong evaluation program for fun.
 
 The scoring is based on the [Zung Jung scoring system](http://www.zj-mahjong.info/), but includes hands that are not included in the Zung Jung scoring system as well.
 
+The patterns are split into 13 broad category. Within each category [0] are families [0.0] of patterns [0.0.0]. When scoring, you can match patterns across multiple families, but only one pattern match from each family, so pick the highest points pattern match from that family!  For example, suppose a hand satisfies `Self Drawn : 5` and `Three Kongs : 120`, then lesser patterns such as `One Kongs : 5` and `Two Kong : 20` from the same family in `Pungs and Kongs` category do not get counted, unless specifically noted otherwise.
+
+Hands may satisfies paterns from multiple families, thus scoring the sum of points from each individual patterns.  However, this additive scoring caps at a maximum of 320 points limit. There are quite a few patterns, called `Limit Hands`, that rewards points beyond this 320 points limit.  However, they are their own cap - creating a hand that satisfies multiple limit patterns will simply score the highest point value among them.  For example, a hand satisfying `All Honor Pungs : 320` and `Big Four Winds : 400` will simly rewards the higher value of 400 point.
+
 ---
 
 ### 1.0 Trivial Patterns
@@ -59,6 +63,8 @@ The hand contains three concealed pungs / concealed kongs.
 
 #### 2.2.3 Four Concealed Pungs : 四暗刻 : 125
 The hand contains four concealed pungs / concealed kongs.
+
+Note: `Four Concealed Pungs` is always `Concealed Hand`, so it scores at least 125+5=130 points.
 
 
 #### 2.3.1 One Kong : 一槓 : 5
@@ -285,7 +291,7 @@ Example:&ensp;![c1]![c1]&ensp;![b1]![b1]&ensp;![k1]![k1]&ensp;![k9]![k9]&ensp;![
 #### 7.2.4 Pure Greater Terminals : 清么九 : 400
 The hand consists entirely of terminal tiles.
 
-Example:&ensp;![b1]![b1]![b1]&ensp;![k9]![k9]![k9]&ensp;![c1]![c1]![c1]&ensp;![c9]![c9]![c9]&ensp;![b9]![b9]
+Example:&ensp;![c1]![c1]![c1]&ensp;![c9]![c9]![c9]&ensp;![b1]![b1]![b1]&ensp;![b9]![b9]![b9]&ensp;![k9]![k9]
 
 ---
 
@@ -357,8 +363,10 @@ Pattern:&ensp;![we]![we]&ensp;![ws]![ws]&ensp;![ww]![ww]&ensp;![wn]![wn]&ensp;![
 
 Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cannot count those patterns which specifically require chows, pungs, or kongs, but it can count for other patterns without such requirements. Four identical tiles can count as two pairs as long as kongs is not declared.
 
-#### 9.1.1 Seven Pairs : 七對子 : 35
+#### 9.1.1 Seven Pairs : 七對子 : 35 -> 40
 The hand consists of seven pairs.
+
+Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 35+5=40 points.
 
 Example:&ensp;![k2]![k2]&ensp;![k6]![k6]&ensp;![c1]![c1]&ensp;![c7]![c7]&ensp;![dw]![dw]&ensp;![ww]![ww]&ensp;![wn]![wn]
 
@@ -435,12 +443,12 @@ Lucky bonuses for winning on rare opportunities.
 Winning on a discarded `riverbed` tile (the last discard by the player who has drawn the seabed tile).
 
 
-#### 12.2 Win on Kongs : 嶺上開花 : 10
+#### 12.2.1 Win on Kongs : 嶺上開花 : 10
 `Self Drawn` win on a `supplement` tile after declaring a kong.
 
 Note: if the supplement tile is also the seabed tile, both patterns can be counted.
 
-#### 12.2 Win on Bonus Tile : 花上自摸 : 10
+#### 12.2.2 Win on Bonus Tile : 花上自摸 : 10
 `Self Drawn` win on a `supplement` tile after drawing a bonus tile.
 
 Note: if the supplement tile is also the seabed tile, both patterns can be counted.
@@ -469,17 +477,17 @@ Flowers tiles only provide bonus points, they do NOT contribute to having the mi
 #### 13.1 Bonus Flower / Bonus Season : 花季牌 : 2 per tile
 Each flower or season bonus tile is worth 2 points unless completing the set.
 
-#### 13.2.1 All Flowers : 齊四花 : 15
+#### 13.1.1 All Flowers : 齊四花 : 15
 A complete set of all 4 Flower tiles.
 
 Pattern:&ensp;![f1]![f2]![f3]![f4]
 
-#### 13.2.2 All Seasons : 齊四季 : 15
+#### 13.1.2 All Seasons : 齊四季 : 15
 A complete set of all 4 Season tiles.
 
 Pattern:&ensp;![s1]![s2]![s3]![s4]
 
-#### 13.3 All Bonus Tiles : 八仙過海 : 80
+#### 13.1.3 All Bonus Tiles : 八仙過海 : 80
 A complete set of all 8 bonus tiles.
 
 Pattern:&ensp;![f1]![f2]![f3]![f4]&ensp;![s1]![s2]![s3]![s4]
