@@ -211,27 +211,19 @@ Example:&ensp;![b1]![b1]&ensp;![b2]![b2]&ensp;![b4]![b4]&ensp;![b5]![b5]&ensp;![
 #### 6.2 Nine Gates (九蓮寶燈) : 480
 A 9-way call hand, with `1112345678999` in one suit in your hand, and winning on any one tile in the same suit.
 
+    with 1 => 111 123 456 789 99
+    with 2 => 111 22 345 678 999
+    with 3 => 11 123 345 678 999
+    with 4 => 111 234 456 789 99
+    with 5 => 111 234 55 678 999
+    with 6 => 11 123 456 678 999
+    with 7 => 111 234 567 789 99
+    with 8 => 111 234 567 88 999
+    with 9 => 11 123 456 789 999
+
 Note: pure version only, impure version doesn't count.
 
 Pattern:&ensp;![c1]![c1]![c1]![c2]![c3]![c4]![c5]![c6]![c7]![c8]![c9]![c9]![c9]
-
-with ![c1]&ensp;=>&ensp;![c1]![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c4]![c5]![c6]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]
-
-with ![c2]&ensp;=>&ensp;![c1]![c1]![c1]&ensp;![c2]![c2]&ensp;![c3]![c4]![c5]&ensp;![c6]![c7]![c8]&ensp;![c9]![c9]![c9]
-
-with ![c3]&ensp;=>&ensp;![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c3]![c4]![c5]&ensp;![c6]![c7]![c8]&ensp;![c9]![c9]![c9]
-
-with ![c4]&ensp;=>&ensp;![c1]![c1]![c1]&ensp;![c2]![c3]![c4]&ensp;![c4]![c5]![c6]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]
-
-with ![c5]&ensp;=>&ensp;![c1]![c1]![c1]&ensp;![c2]![c3]![c4]&ensp;![c5]![c5]&ensp;![c6]![c7]![c8]&ensp;![c9]![c9]![c9]
-
-with ![c6]&ensp;=>&ensp;![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c4]![c5]![c6]&ensp;![c6]![c7]![c8]&ensp;![c9]![c9]![c9]
-
-with ![c7]&ensp;=>&ensp;![c1]![c1]![c1]&ensp;![c2]![c3]![c4]&ensp;![c5]![c6]![c7]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]
-
-with ![c8]&ensp;=>&ensp;![c1]![c1]![c1]&ensp;![c2]![c3]![c4]&ensp;![c5]![c6]![c7]&ensp;![c8]![c8]&ensp;![c9]![c9]![c9]
-
-with ![c9]&ensp;=>&ensp;![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c4]![c5]![c6]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]![c9]
 
 ---
 
