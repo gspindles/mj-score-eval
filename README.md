@@ -160,9 +160,9 @@ Two of `Three Consecutive Chows` in the same suit that either
     diverges at the start: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)
     converges at the end : (n)(n+1)(n+2)  (n+2)(n+3)(n+4)  (n+3)(n+4)(n+5)  (n+4)(n+5)(n+6)
 
-Example:&ensp;![k1]![k2]![k3]&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k5]![k6]![k7]&ensp;_chow #1,2,3 and #1,3,4 makes two consecutive chows_
+Example:&ensp;![k1]![k2]![k3]&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k5]![k6]![k7]&ensp;_chows #1,2,3 and #1,3,4 makes 2 `Three Consecutive Chows`_
 
-Example:&ensp;![k1]![k2]![k: ]&nsp;![k3]![k4]![k5]&ensp;![k4]![k5]![k6]&ensp;![k5]![k6]![k7]&ensp;_chow #1,2,4 and #2,3,4 makes two consecutive chows_
+Example:&ensp;![k1]![k2]![k3]&nsp;![k3]![k4]![k5]&ensp;![k4]![k5]![k6]&ensp;![k5]![k6]![k7]&ensp;_chows #1,2,4 and #2,3,4 makes 2 `Three Consecutive Chows`_
 
 #### 5.1.4 Four Consecutive Chows : 四連順 : 100
 Four chows in consecutive number in the same suit with either
@@ -204,9 +204,9 @@ Example:&ensp;![b2]![b2]&ensp;![b4]![b4]&ensp;![b7]![b7]&ensp;![b8]![b8]&ensp;![
 #### 6.1.2 Pure One-Suit : 清一色 : 80
 The hand consists entirely of number tiles in one suit.
 
-Example:&ensp;![c2]![c3]![c4]&ensp;![c3]![c4]![c5]&ensp;![c6]![c6]![c6]&ensp;![c7]![c8]![c9]&ensp;![c8]![c8]
+Example:&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k6]![k6]![k6]&ensp;![k7]![k8]![k9]&ensp;![k8]![k8]
 
-Example:&ensp;![b1]![b1]&ensp;![b2]![b2]&ensp;![b4]![b4]&ensp;![b5]![b5]&ensp;![b7]![b7]&ensp;![b8]![b8]&ensp;![b9]![b9]
+Example:&ensp;![k1]![k1]&ensp;![k2]![k2]&ensp;![k4]![k4]&ensp;![k5]![k5]&ensp;![k7]![k7]&ensp;![k8]![k8]&ensp;![k9]![k9]
 
 #### 6.2 Nine Gates : 九蓮寶燈 : 480
 A 9-way call hand, with `1112345678999` in one suit in your hand, and winning on any one tile in the same suit.
@@ -279,6 +279,8 @@ An `All Pungs` or `Seven Pairs` hand which consists entirely of terminal and hon
 Note: not applicable to a `Thirteen Terminals` hand.
 
 Example:&ensp;![b9]![b9]![b9]&ensp;![k1]![k1]![k1]&ensp;![ww]![ww]![ww]&ensp;![dg]![dg]![dg]&ensp;![c1]![c1]
+
+Example:&ensp;![c1]![c1]&ensp;![b1]![b1]&ensp;![k1]![k1]&ensp;![k9]![k9]&ensp;![we]![we]&ensp;![wn]![wn]&ensp;![dw]![dw]
 
 #### 7.2.4 Pure Greater Terminals : 清么九 : 400
 The hand consists entirely of terminal tiles.
