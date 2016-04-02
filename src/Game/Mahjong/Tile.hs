@@ -39,7 +39,7 @@ module Game.Mahjong.Tile (
   regulars, allTiles,
 
   -- ** Utility functions
-  tileType, isEightOrNine,
+  tileType, tileValue, isEightOrNine, isSameTileType,
 
   -- ** Wall building
   mjSet, getWall, randomWall
@@ -47,6 +47,7 @@ module Game.Mahjong.Tile (
 
 import Game.Mahjong.Class
 
+import Data.List (nub, sort)
 import Data.Map (Map, insert, (!), elems, singleton)
 import Data.Maybe (fromJust)
 import System.Random (randomR, randomIO, mkStdGen, RandomGen)
@@ -144,10 +145,12 @@ type family TileValue (tt :: TileType) where
   TileValue Animal    = Animals
 
 type Ctxt tt = (
-    Show (TileValue tt)
-  , Pretty (TileValue tt)
+    Bounded (TileValue tt)
+  , Enum (TileValue tt)
   , Eq (TileValue tt)
   , Ord (TileValue tt)
+  , Pretty (TileValue tt)
+  , Show (TileValue tt)
   , Loop (TileValue tt)
   )
 
@@ -483,6 +486,10 @@ demote SA = Animal
 tileType :: Tile -> TileType
 tileType (Tile tt _) = demote tt
 
+-- | Gets the numeric value of the tile.
+tileValue :: Tile -> Int
+tileValue (Tile _ tv) = fromEnum tv + 1
+
 -- | Is the value of a suit tile 8 or 9?
 isEightOrNine :: Tile -> Bool
 isEightOrNine (Tile tt tv) =
@@ -493,6 +500,10 @@ isEightOrNine (Tile tt tv) =
     _  -> False
   where
     eightOrNine tv = tv == Eight || tv == Nine
+
+-- | Check if the list of tiles have the same tile type
+isSameTileType :: [Tile] -> Bool
+isSameTileType = (==) 1 . length . nub . fmap tileType
 
 
 -------------------------------------------------------------------------------

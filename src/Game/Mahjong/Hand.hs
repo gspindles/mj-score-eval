@@ -11,14 +11,17 @@
 --   along with hand evaluation functions
 module Game.Mahjong.Hand (
   -- * A completed mahjong hand
-  Hand,
+  HandInfo(..), Hand,
 
   -- ** Constructors
   mkHand, mkSpecial,
 
   -- ** Functions on a completed hand
-  bonus,
-  getMelds, handTiles, handTilesWithBonus,
+  isSpecial,
+  getMelds, getHandTiles, getBonus, getHandInfo, hasHandInfo,
+
+  -- ** update functions
+  addBonus, addHandInfo,
 
 
   -- * Stats on a hand
@@ -47,12 +50,27 @@ import Data.Maybe (fromJust, isJust)
 -- Data definition
 -------------------------------------------------------------------------------
 
+-- | Hand information.
+--   These are for hands that satisfies special requirements
+--   rather than matching specific patterns.
+data HandInfo
+  = OnFirstDraw
+  | OnFirstDiscard
+  | OnSeabed
+  | OnRiverbed
+  | OnKongSupplement
+  | OnBonusSupplement
+  | OnKongRobbing
+    deriving (Eq, Ord, Show)
+
 -- | A completed hand when a player has won
 data Hand
-  = Hand [Meld] [Tile]
-    -- Takes a list of meld, and a list of bonus tiles
-  | Special [Tile] Tile [Tile]
-    -- Takes the set of onhand tile, the last tile, and a list of bonus tiles
+  = Hand [Meld] [Tile] (Maybe HandInfo)
+    -- Takes a list of meld, a list of bonus tiles
+    -- and maybe additional hand info.
+  | Special [Tile] Tile [Tile] (Maybe HandInfo)
+    -- Takes the set of onhand tile, the last tile,
+    -- a list of bonus tiles, and maybe additional hand info.
   deriving (Eq, Show)
 
 
@@ -63,67 +81,94 @@ data Hand
 instance Pretty Hand where
   pp h =
     case h of
-      (Hand m b)      -> joinPP "  " m
-                    ++ delim ++ joinSort b
-      (Special t l b) -> "-/" ++ joinSort t ++ "/"
-                    ++ delim ++ pp l
-                    ++ delim ++ joinSort b
+      (Hand m b i)      -> joinPP "  " m
+                       ++ delim ++ joinSort b
+                       ++ info i
+      (Special t l b i) -> "-/" ++ joinSort t ++ "/"
+                       ++ delim ++ pp l
+                       ++ delim ++ joinSort b
+                       ++ info i
+    where
+      info i =
+        case i of
+          Just hi -> delim ++ show hi
+          Nothing -> ""
+
+      delim = "  |  "
+
+
 
 joinSort :: (Ord a, Pretty a) => [a] -> String
 joinSort [] = "[]"
 joinSort ls = joinPP " " . sort $ ls
-
-delim :: String
-delim = "  |  "
 
 
 -------------------------------------------------------------------------------
 -- Functions for hand
 -------------------------------------------------------------------------------
 
-mkHand :: [Maybe Meld] -> [Tile] -> Maybe Hand
-mkHand ms bts =
+mkHand :: [Maybe Meld] -> [Tile] -> Maybe HandInfo -> Maybe Hand
+mkHand ms bts hi =
   if all isJust ms && all isBonus bts
-  then Just $ Hand (fromJust $ sequenceA ms) bts
+  then Just $ Hand (fromJust $ sequenceA ms) bts hi
   else Nothing
 
-mkSpecial :: [Tile] -> Tile -> [Tile] -> Maybe Hand
-mkSpecial ts lt bts
-  | specialCheck = Just $ Special ts lt bts
+mkSpecial :: [Tile] -> Tile -> [Tile] -> Maybe HandInfo -> Maybe Hand
+mkSpecial ts lt bts hi
+  | specialCheck = Just $ Special ts lt bts hi
   | otherwise    = Nothing
   where
     specialCheck :: Bool
     specialCheck = all (not . isBonus) (lt : ts)
                 && all isBonus bts
 
+isSpecial :: Hand -> Bool
+isSpecial (Hand _ _ _)      = False
+isSpecial (Special _ _ _ _) = True
+
 getMelds :: Hand -> [Meld]
-getMelds (Hand ms _) = ms
+getMelds (Hand ms _ _) = ms
 getMelds Special{}   = []  -- | TODO: come back to this later
 
-handTiles :: Hand -> [Tile]
-handTiles (Hand    ms _)    = sort $ ms >>= meldTiles
-handTiles (Special ts lt _) = sort (ts ++ [lt])
+getHandTiles :: Hand -> [Tile]
+getHandTiles (Hand    ms _ _)    = sort $ ms >>= meldTiles
+getHandTiles (Special ts lt _ _) = sort (ts ++ [lt])
 
-handTilesWithBonus :: Hand -> [Tile]
-handTilesWithBonus (Hand ms bs)       = sort $ (ms >>= meldTiles) ++ bs
-handTilesWithBonus (Special ts lt bs) = sort $ ts ++ [lt] ++ bs
+getBonus :: Hand -> [Tile]
+getBonus (Hand _ bts _)      = bts
+getBonus (Special _ _ bts _) = bts
 
-addBonus :: Hand -> Tile -> Hand
-addBonus (Hand ms bts) b       = Hand ms $ nub $ b : bts
-addBonus (Special ts lt bts) b = Special ts lt $ nub $ b : bts
+getHandInfo :: Hand -> Maybe HandInfo
+getHandInfo (Hand _ _ hi)      = hi
+getHandInfo (Special _ _ _ hi) = hi
+
+hasHandInfo :: Hand -> Bool
+hasHandInfo = (== Nothing) . getHandInfo
 
 -- special hand are not constructed like this
 -- new melds are added at the end
 addMeld :: Hand -> Maybe Meld -> Maybe Hand
-addMeld (Hand ms bts) m =
+addMeld (Hand ms bts hi) m =
   case m of
     Nothing -> Nothing
-    Just _  -> Just $ Hand (ms ++ pure (fromJust m)) bts
-addMeld Special{}     _ = Nothing
+    Just _  -> Just $ Hand (ms ++ pure (fromJust m)) bts hi
+addMeld Special{}     _    = Nothing
 
-bonus :: Hand -> [Tile]
-bonus (Hand _ bts)      = bts
-bonus (Special _ _ bts) = bts
+-- Add bonus tile to a hand
+addBonus :: Hand -> Tile -> Hand
+addBonus (Hand ms bts hi) b       = Hand ms (nub $ b : bts) hi
+addBonus (Special ts lt bts hi) b = Special ts lt (nub $ b : bts) hi
+
+-- Add additional information about winning conditions to a hand
+addHandInfo :: Hand -> HandInfo -> Hand
+addHandInfo h@(Hand ms bts hi)       nhi =
+  case hi of
+    Nothing -> Hand ms bts (Just nhi)
+    Just _  -> h
+addHandInfo s@(Special ts lt bts hi) nhi =
+  case hi of
+    Nothing -> Special ts lt bts (Just nhi)
+    Just _  -> s
 
 
 -------------------------------------------------------------------------------
@@ -222,14 +267,17 @@ h = mkHand [
   , mkChow Revealed k7
   ]
   [f2, s4]
+  Nothing
 
 sp1 :: Maybe Hand
 sp1 = mkSpecial [b1, b1, b1, b2, b3, b4, b5, b6, b7, b8, b9, b9, b9]
                 b5
                 [f3]
+                (Just OnSeabed)
 
 sp2 :: Maybe Hand
 sp2 = mkSpecial [c1, c9, b1, b9, k1, k9, we, ws, ww, wn, dr, dg, dw]
                 c1
                 [f2]
+                (Just OnRiverbed)
 

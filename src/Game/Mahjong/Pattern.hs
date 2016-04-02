@@ -66,10 +66,10 @@ module Game.Mahjong.Pattern (
 
   -- * 7.0 Terminal Tiles
 
-  -- ** 7.1 Chow and pungs
+  -- ** 7.1 Chow and Pung
   twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain,
 
-  -- ** 7.2 Mixed and pure
+  -- ** 7.2 Mixed and Pure
   mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals,
 
 
@@ -275,7 +275,7 @@ allBlue  = Pattern "All Blue"  "藍一色" 400 -- not exported
 
 thirteenOrphansImpure, thirteenOrphansPure :: Pattern
 thirteenOrphansImpure = Pattern "Thirteen Orphans (Impure)" "十三么九"        160
-thirteenOrphansPure = Pattern "Thirteen Orphans (Pure)"   "十三么九 十三面" 320
+thirteenOrphansPure = Pattern "Thirteen Orphans (Pure)"     "十三么九 十三面" 320
 
 
 -- 12.0 Incidental bonuses

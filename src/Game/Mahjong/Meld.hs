@@ -159,7 +159,7 @@ isKong = (== Kong) . meldType
 
 -- | Is the meld a pair of eyes?
 isEyes :: Meld -> Bool
-isEyes = (== Chow) . meldType
+isEyes = (== Eyes) . meldType
 
 
 -------------------------------------------------------------------------------
