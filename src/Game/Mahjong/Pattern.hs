@@ -75,11 +75,11 @@ module Game.Mahjong.Pattern (
 
   -- * 8.0 Honor Tiles
 
-  -- ** 8.1 Dragons
-  dragonPung, littleThreeDragons, bigThreeDragons,
-
-  -- ** 8.2 Winds
+  -- ** 8.1 Winds
   windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds,
+
+  -- ** 8.2 Dragons
+  dragonPung, littleThreeDragons, bigThreeDragons,
 
   -- ** 8.3 Pure honors
   allHonors, allHonorPairs,

@@ -15,6 +15,7 @@ module Game.Mahjong.Hand (
 
   -- ** Constructors
   mkHand, mkSpecial,
+  mkHand1, mkSpecial1,
 
   -- ** Functions on a completed hand
   isSpecial,
@@ -107,14 +108,22 @@ joinSort ls = joinPP " " . sort $ ls
 -- Functions for hand
 -------------------------------------------------------------------------------
 
-mkHand :: [Maybe Meld] -> [Tile] -> Maybe HandInfo -> Maybe Hand
-mkHand ms bts hi =
+mkHand :: [Meld] -> [Tile] -> Maybe HandInfo -> Hand
+mkHand = Hand
+
+mkSpecial :: [Tile] -> Tile -> [Tile] -> Maybe HandInfo -> Hand
+mkSpecial = Special
+
+-- | This is the safe version that does validation
+mkHand1 :: [Maybe Meld] -> [Tile] -> Maybe HandInfo -> Maybe Hand
+mkHand1 ms bts hi =
   if all isJust ms && all isBonus bts
   then Just $ Hand (fromJust $ sequenceA ms) bts hi
   else Nothing
 
-mkSpecial :: [Tile] -> Tile -> [Tile] -> Maybe HandInfo -> Maybe Hand
-mkSpecial ts lt bts hi
+-- | This is the safe version that does validation
+mkSpecial1 :: [Tile] -> Tile -> [Tile] -> Maybe HandInfo -> Maybe Hand
+mkSpecial1 ts lt bts hi
   | specialCheck = Just $ Special ts lt bts hi
   | otherwise    = Nothing
   where
@@ -131,8 +140,8 @@ getMelds (Hand ms _ _) = ms
 getMelds Special{}   = []  -- | TODO: come back to this later
 
 getHandTiles :: Hand -> [Tile]
-getHandTiles (Hand    ms _ _)    = sort $ ms >>= meldTiles
-getHandTiles (Special ts lt _ _) = sort (ts ++ [lt])
+getHandTiles (Hand    ms _ _)    = ms >>= meldTiles
+getHandTiles (Special ts lt _ _) = (ts ++ [lt])
 
 getBonus :: Hand -> [Tile]
 getBonus (Hand _ bts _)      = bts
@@ -259,7 +268,7 @@ handStat = foldr handStatStep mempty . getMelds
 -------------------------------------------------------------------------------
 
 h :: Maybe Hand
-h = mkHand [
+h = mkHand1 [
     mkChow Revealed c1
   , mkPung Revealed ws
   , mkKong Concealed b3
@@ -270,13 +279,13 @@ h = mkHand [
   Nothing
 
 sp1 :: Maybe Hand
-sp1 = mkSpecial [b1, b1, b1, b2, b3, b4, b5, b6, b7, b8, b9, b9, b9]
+sp1 = mkSpecial1 [b1, b1, b1, b2, b3, b4, b5, b6, b7, b8, b9, b9, b9]
                 b5
                 [f3]
                 (Just OnSeabed)
 
 sp2 :: Maybe Hand
-sp2 = mkSpecial [c1, c9, b1, b9, k1, k9, we, ws, ww, wn, dr, dg, dw]
+sp2 = mkSpecial1 [c1, c9, b1, b9, k1, k9, we, ws, ww, wn, dr, dg, dw]
                 c1
                 [f2]
                 (Just OnRiverbed)

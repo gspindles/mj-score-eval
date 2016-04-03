@@ -219,6 +219,16 @@ isNineGates (_, _) = []
 shiftCons :: a -> [a] -> [[a]]
 shiftCons x xs = zipWith (\i t -> i ++ [x] ++ t) (inits xs) (tails xs)
 -}
+matchNineGates :: ScoreFunc
+matchNineGates (h, _)
+  | isSpecial h && isOneSuit && matchPattern = pure nineGates
+  | otherwise                                = []
+  where
+    handTiles    = getHandTiles h
+    isOneSuit    = isSameTileType handTiles
+    matchPattern = matchValuePattern (init handTiles) pat
+    pat          = [1, 1] ++ [1..9] ++ [9, 9]
+
 
 
 {- 7.0 Terminal Tiles -}
@@ -231,18 +241,19 @@ twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundl
 -- 7.2 Mixed and pure
 mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals :: ScoreFunc
 mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals = undefined
-
+-}
 
 
 {- 8.0 Honor Tiles -}
 
--- 8.1 Dragons
-dragonPung, littleThreeDragons, bigThreeDragons :: ScoreFunc
-dragonPung, littleThreeDragons, bigThreeDragons = undefined
-
--- 8.2 Winds
+{-
+-- 8.1 Winds
 windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds :: ScoreFunc
 windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds = undefined
+
+-- 8.2 Dragons
+dragonPung, littleThreeDragons, bigThreeDragons :: ScoreFunc
+dragonPung, littleThreeDragons, bigThreeDragons = undefined
 
 -- 8.3 Pure honors
 allHonors, allHonorPairs :: ScoreFunc

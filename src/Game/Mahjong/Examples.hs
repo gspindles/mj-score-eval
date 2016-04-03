@@ -33,7 +33,7 @@ c = Concealed
 -- | 1.0 Trivial Patterns
 
 chickenEx :: Maybe Hand
-chickenEx = mkHand
+chickenEx = mkHand1
   [ mkChow r c7
   , mkPung r k2
   , mkChow r k7
@@ -44,7 +44,7 @@ chickenEx = mkHand
   Nothing
 
 allChowsEx :: Maybe Hand
-allChowsEx = mkHand
+allChowsEx = mkHand1
   [ mkChow r b4
   , mkChow r c7
   , mkChow r b2
@@ -55,7 +55,7 @@ allChowsEx = mkHand
   Nothing
 
 concealedEx :: Maybe Hand
-concealedEx = mkHand
+concealedEx = mkHand1
   [ mkChow c c7
   , mkPung c we
   , mkChow c k1
@@ -66,7 +66,7 @@ concealedEx = mkHand
   Nothing
 
 selfDrawnEx :: Maybe Hand
-selfDrawnEx = mkHand
+selfDrawnEx = mkHand1
   [ mkChow c c7
   , mkPung r we
   , mkChow r k1
@@ -77,7 +77,7 @@ selfDrawnEx = mkHand
   Nothing
 
 allSimplesEx1 :: Maybe Hand
-allSimplesEx1 = mkHand
+allSimplesEx1 = mkHand1
   [ mkChow r b4
   , mkChow r c6
   , mkPung c b3
@@ -88,7 +88,7 @@ allSimplesEx1 = mkHand
   Nothing
 
 allSimplesEx2 :: Maybe Hand
-allSimplesEx2 = mkHand
+allSimplesEx2 = mkHand1
   [ mkEyes c c2
   , mkEyes c c5
   , mkEyes c c8
@@ -101,7 +101,7 @@ allSimplesEx2 = mkHand
   Nothing
 
 allTypesEx :: Maybe Hand
-allTypesEx = mkHand
+allTypesEx = mkHand1
   [ mkChow r c7
   , mkPung r ws
   , mkPung c k4
@@ -116,7 +116,7 @@ allTypesEx = mkHand
 -- | 2.0 Identical Chows
 
 twoIdenticalChowsEx :: Maybe Hand
-twoIdenticalChowsEx = mkHand
+twoIdenticalChowsEx = mkHand1
   [ mkChow r b4
   , mkChow c c6
   , mkChow r c6
@@ -128,7 +128,7 @@ twoIdenticalChowsEx = mkHand
 
 
 twoIdenticalChowsTwiceEx :: Maybe Hand
-twoIdenticalChowsTwiceEx = mkHand
+twoIdenticalChowsTwiceEx = mkHand1
   [ mkChow r b4
   , mkChow c c6
   , mkChow r c6
@@ -139,7 +139,7 @@ twoIdenticalChowsTwiceEx = mkHand
   Nothing
 
 threeIdenticalChowsEx :: Maybe Hand
-threeIdenticalChowsEx = mkHand
+threeIdenticalChowsEx = mkHand1
   [ mkChow r b4
   , mkChow r b4
   , mkChow c c6
@@ -150,7 +150,7 @@ threeIdenticalChowsEx = mkHand
   Nothing
 
 fourIdenticalChowsEx :: Maybe Hand
-fourIdenticalChowsEx = mkHand
+fourIdenticalChowsEx = mkHand1
   [ mkChow r b4
   , mkChow r b4
   , mkChow c b4
@@ -165,7 +165,7 @@ fourIdenticalChowsEx = mkHand
 -- | 3.0 Pungs and Kongs
 
 allPungsEx :: Maybe Hand
-allPungsEx = mkHand
+allPungsEx = mkHand1
   [ mkPung r b4
   , mkPung c dg
   , mkKong c k6
@@ -176,7 +176,7 @@ allPungsEx = mkHand
   Nothing
 
 twoConcealedPungsEx :: Maybe Hand
-twoConcealedPungsEx = mkHand
+twoConcealedPungsEx = mkHand1
   [ mkPung c b4
   , mkPung c c3
   , mkChow r k2
@@ -187,7 +187,7 @@ twoConcealedPungsEx = mkHand
   Nothing
 
 threeConcealedPungsEx :: Maybe Hand
-threeConcealedPungsEx = mkHand
+threeConcealedPungsEx = mkHand1
   [ mkPung c b4
   , mkKong c c3
   , mkChow r k2
@@ -198,7 +198,7 @@ threeConcealedPungsEx = mkHand
   Nothing
 
 fourConcealedPungsEx :: Maybe Hand
-fourConcealedPungsEx = mkHand
+fourConcealedPungsEx = mkHand1
   [ mkPung c b4
   , mkPung c c3
   , mkPung c k2
@@ -210,7 +210,7 @@ fourConcealedPungsEx = mkHand
 
 
 oneKongEx :: Maybe Hand
-oneKongEx = mkHand
+oneKongEx = mkHand1
   [ mkKong r c3
   , mkChow c b2
   , mkPung r b9
@@ -221,7 +221,7 @@ oneKongEx = mkHand
   Nothing
 
 twoKongsEx :: Maybe Hand
-twoKongsEx = mkHand
+twoKongsEx = mkHand1
   [ mkKong r c3
   , mkChow c b2
   , mkKong r b9
@@ -232,7 +232,7 @@ twoKongsEx = mkHand
   Nothing
 
 threeKongsEx :: Maybe Hand
-threeKongsEx = mkHand
+threeKongsEx = mkHand1
   [ mkKong r c3
   , mkChow c b2
   , mkKong r b9
@@ -243,7 +243,7 @@ threeKongsEx = mkHand
   Nothing
 
 fourKongsEx :: Maybe Hand
-fourKongsEx = mkHand
+fourKongsEx = mkHand1
   [ mkKong r c3
   , mkKong c b2
   , mkKong r b9
@@ -258,7 +258,7 @@ fourKongsEx = mkHand
 -- | 4.0 Similar Sets
 
 threeSimilarChowsEx :: Maybe Hand
-threeSimilarChowsEx = mkHand
+threeSimilarChowsEx = mkHand1
   [ mkChow r k3
   , mkChow r b3
   , mkPung r dw
@@ -270,7 +270,7 @@ threeSimilarChowsEx = mkHand
 
 
 littleThreeSimilarPungsEx :: Maybe Hand
-littleThreeSimilarPungsEx = mkHand
+littleThreeSimilarPungsEx = mkHand1
   [ mkPung r c6
   , mkKong r k6
   , mkChow c c1
@@ -281,7 +281,7 @@ littleThreeSimilarPungsEx = mkHand
   Nothing
 
 threeSimilarPungsEx :: Maybe Hand
-threeSimilarPungsEx = mkHand
+threeSimilarPungsEx = mkHand1
   [ mkPung r c6
   , mkKong r k6
   , mkChow c c1
@@ -296,7 +296,7 @@ threeSimilarPungsEx = mkHand
 -- | 5.0 Consecutive Sets
 
 threeConsecutiveChowsEx1 :: Maybe Hand
-threeConsecutiveChowsEx1 = mkHand
+threeConsecutiveChowsEx1 = mkHand1
   [ mkChow r c1
   , mkChow r c2
   , mkChow c c3
@@ -307,7 +307,7 @@ threeConsecutiveChowsEx1 = mkHand
   Nothing
 
 threeConsecutiveChowsEx2 :: Maybe Hand
-threeConsecutiveChowsEx2 = mkHand
+threeConsecutiveChowsEx2 = mkHand1
   [ mkChow r c1
   , mkChow r c3
   , mkChow c c5
@@ -318,7 +318,7 @@ threeConsecutiveChowsEx2 = mkHand
   Nothing
 
 nineTileStraightEx :: Maybe Hand
-nineTileStraightEx = mkHand
+nineTileStraightEx = mkHand1
   [ mkChow r b1
   , mkChow r b4
   , mkPung c ww
@@ -329,7 +329,7 @@ nineTileStraightEx = mkHand
   Nothing
 
 threeConsecutiveChowsTwiceEx1 :: Maybe Hand
-threeConsecutiveChowsTwiceEx1 = mkHand
+threeConsecutiveChowsTwiceEx1 = mkHand1
   [ mkChow r c2
   , mkChow r c3
   , mkChow c c4
@@ -340,7 +340,7 @@ threeConsecutiveChowsTwiceEx1 = mkHand
   Nothing
 
 threeConsecutiveChowsTwiceEx2 :: Maybe Hand
-threeConsecutiveChowsTwiceEx2 = mkHand
+threeConsecutiveChowsTwiceEx2 = mkHand1
   [ mkChow r c2
   , mkChow r c4
   , mkChow c c5
@@ -351,7 +351,7 @@ threeConsecutiveChowsTwiceEx2 = mkHand
   Nothing
 
 fourConsecutiveChowsEx1 :: Maybe Hand
-fourConsecutiveChowsEx1 = mkHand
+fourConsecutiveChowsEx1 = mkHand1
   [ mkChow r c1
   , mkChow r c2
   , mkChow c c3
@@ -362,7 +362,7 @@ fourConsecutiveChowsEx1 = mkHand
   Nothing
 
 fourConsecutiveChowsEx2 :: Maybe Hand
-fourConsecutiveChowsEx2 = mkHand
+fourConsecutiveChowsEx2 = mkHand1
   [ mkChow r c1
   , mkChow r c3
   , mkChow c c5
@@ -374,7 +374,7 @@ fourConsecutiveChowsEx2 = mkHand
 
 
 threeConsecutivePungsEx :: Maybe Hand
-threeConsecutivePungsEx = mkHand
+threeConsecutivePungsEx = mkHand1
   [ mkPung r k5
   , mkPung r k6
   , mkChow c c2
@@ -385,7 +385,7 @@ threeConsecutivePungsEx = mkHand
   Nothing
 
 fourConsecutivePungsEx :: Maybe Hand
-fourConsecutivePungsEx = mkHand
+fourConsecutivePungsEx = mkHand1
   [ mkPung r k5
   , mkPung r k6
   , mkChow r k7
@@ -396,7 +396,7 @@ fourConsecutivePungsEx = mkHand
   Nothing
 
 threeMothersEx :: Maybe Hand
-threeMothersEx = mkHand
+threeMothersEx = mkHand1
   [ mkPung r k5
   , mkPung r k6
   , mkChow r k5
@@ -411,7 +411,7 @@ threeMothersEx = mkHand
 -- | 6.0 Suit Patterns
 
 mixedOneSuitEx1 :: Maybe Hand
-mixedOneSuitEx1 = mkHand
+mixedOneSuitEx1 = mkHand1
   [ mkPung r k5
   , mkPung r we
   , mkChow r k2
@@ -422,7 +422,7 @@ mixedOneSuitEx1 = mkHand
   Nothing
 
 mixedOneSuitEx2 :: Maybe Hand
-mixedOneSuitEx2 = mkHand
+mixedOneSuitEx2 = mkHand1
   [ mkEyes c c2
   , mkEyes c c5
   , mkEyes c c7
@@ -435,7 +435,7 @@ mixedOneSuitEx2 = mkHand
   Nothing
 
 pureOneSuitEx1 :: Maybe Hand
-pureOneSuitEx1 = mkHand
+pureOneSuitEx1 = mkHand1
   [ mkPung r k1
   , mkChow r k3
   , mkChow r k4
@@ -446,7 +446,7 @@ pureOneSuitEx1 = mkHand
   Nothing
 
 pureOneSuitEx2 :: Maybe Hand
-pureOneSuitEx2 = mkHand
+pureOneSuitEx2 = mkHand1
   [ mkEyes c c1
   , mkEyes c c2
   , mkEyes c c4
@@ -460,7 +460,7 @@ pureOneSuitEx2 = mkHand
 
 
 nineGatesEx :: Maybe Hand
-nineGatesEx = mkSpecial
+nineGatesEx = mkSpecial1
   [ b1, b1, b1
   , b2, b3, b4
   , b5
@@ -476,7 +476,7 @@ nineGatesEx = mkSpecial
 -- | 7.0 Terminal Tiles
 
 twoTailedTerminalChowsEx1 :: Maybe Hand
-twoTailedTerminalChowsEx1 = mkHand
+twoTailedTerminalChowsEx1 = mkHand1
   [ mkChow r b1
   , mkChow r b7
   , mkPung c k3
@@ -487,7 +487,7 @@ twoTailedTerminalChowsEx1 = mkHand
   Nothing
 
 twoTailedTerminalChowsEx2 :: Maybe Hand
-twoTailedTerminalChowsEx2 = mkHand
+twoTailedTerminalChowsEx2 = mkHand1
   [ mkChow r b1
   , mkChow r b7
   , mkChow c k1
@@ -498,7 +498,7 @@ twoTailedTerminalChowsEx2 = mkHand
   Nothing
 
 twoTailedTerminalPungsEx1 :: Maybe Hand
-twoTailedTerminalPungsEx1 = mkHand
+twoTailedTerminalPungsEx1 = mkHand1
   [ mkPung r b1
   , mkPung r b9
   , mkPung c we
@@ -509,7 +509,7 @@ twoTailedTerminalPungsEx1 = mkHand
   Nothing
 
 twoTailedTerminalPungsEx2 :: Maybe Hand
-twoTailedTerminalPungsEx2 = mkHand
+twoTailedTerminalPungsEx2 = mkHand1
   [ mkPung r b1
   , mkPung r b9
   , mkPung c k1
@@ -520,7 +520,7 @@ twoTailedTerminalPungsEx2 = mkHand
   Nothing
 
 twoTailedTerminalsEx1 :: Maybe Hand
-twoTailedTerminalsEx1 = mkHand
+twoTailedTerminalsEx1 = mkHand1
   [ mkPung r b1
   , mkPung r b9
   , mkChow c b1
@@ -531,7 +531,7 @@ twoTailedTerminalsEx1 = mkHand
   Nothing
 
 twoTailedTerminalsEx2 :: Maybe Hand
-twoTailedTerminalsEx2 = mkHand
+twoTailedTerminalsEx2 = mkHand1
   [ mkPung r b1
   , mkPung r b9
   , mkChow c b1
@@ -542,7 +542,7 @@ twoTailedTerminalsEx2 = mkHand
   Nothing
 
 littleBoundlessMountainHandx1 :: Maybe Hand
-littleBoundlessMountainHandx1 = mkHand
+littleBoundlessMountainHandx1 = mkHand1
   [ mkPung r b1
   , mkPung r b9
   , mkChow c b1
@@ -553,7 +553,7 @@ littleBoundlessMountainHandx1 = mkHand
   Nothing
 
 littleBoundlessMountainEx2 :: Maybe Hand
-littleBoundlessMountainEx2 = mkHand
+littleBoundlessMountainEx2 = mkHand1
   [ mkChow r k1
   , mkChow r k1
   , mkChow c k1
@@ -564,7 +564,7 @@ littleBoundlessMountainEx2 = mkHand
   Nothing
 
 bigBoundlessMountainEx1 :: Maybe Hand
-bigBoundlessMountainEx1 = mkHand
+bigBoundlessMountainEx1 = mkHand1
   [ mkPung r k1
   , mkChow c k1
   , mkChow r k7
@@ -575,7 +575,7 @@ bigBoundlessMountainEx1 = mkHand
   Nothing
 
 bigBoundlessMountainEx2 :: Maybe Hand
-bigBoundlessMountainEx2 = mkHand
+bigBoundlessMountainEx2 = mkHand1
   [ mkChow r k1
   , mkChow c k1
   , mkChow r k7
@@ -587,7 +587,7 @@ bigBoundlessMountainEx2 = mkHand
 
 
 mixedLesserTerminalEx :: Maybe Hand
-mixedLesserTerminalEx = mkHand
+mixedLesserTerminalEx = mkHand1
   [ mkChow r c1
   , mkPung r c9
   , mkChow c b1
@@ -598,7 +598,7 @@ mixedLesserTerminalEx = mkHand
   Nothing
 
 pureLesserTerminalEx :: Maybe Hand
-pureLesserTerminalEx = mkHand
+pureLesserTerminalEx = mkHand1
   [ mkChow r c1
   , mkPung r c9
   , mkChow r b1
@@ -609,7 +609,7 @@ pureLesserTerminalEx = mkHand
   Nothing
 
 mixedGreaterTerminalEx1 :: Maybe Hand
-mixedGreaterTerminalEx1 = mkHand
+mixedGreaterTerminalEx1 = mkHand1
   [ mkPung r c1
   , mkPung r c9
   , mkPung r we
@@ -620,7 +620,7 @@ mixedGreaterTerminalEx1 = mkHand
   Nothing
 
 mixedGreaterTerminalEx2 :: Maybe Hand
-mixedGreaterTerminalEx2 = mkHand
+mixedGreaterTerminalEx2 = mkHand1
   [ mkEyes c c9
   , mkEyes c b9
   , mkEyes c k1
@@ -633,7 +633,7 @@ mixedGreaterTerminalEx2 = mkHand
   Nothing
 
 pureGreaterTerminalEx1 :: Maybe Hand
-pureGreaterTerminalEx1 = mkHand
+pureGreaterTerminalEx1 = mkHand1
   [ mkPung r c1
   , mkPung r c9
   , mkPung r b1
@@ -644,7 +644,7 @@ pureGreaterTerminalEx1 = mkHand
   Nothing
 
 pureGreaterTerminalEx2 :: Maybe Hand
-pureGreaterTerminalEx2 = mkHand
+pureGreaterTerminalEx2 = mkHand1
   [ mkEyes c c1
   , mkEyes c c9
   , mkEyes c b1
@@ -661,7 +661,7 @@ pureGreaterTerminalEx2 = mkHand
 -- | 8.0 Honor Tiles
 
 windPungEx :: Maybe Hand
-windPungEx = mkHand
+windPungEx = mkHand1
   [ mkPung r c8
   , mkChow r b3
   , mkChow r k7
@@ -672,7 +672,7 @@ windPungEx = mkHand
   Nothing
 
 littleThreeWindsEx :: Maybe Hand
-littleThreeWindsEx = mkHand
+littleThreeWindsEx = mkHand1
   [ mkPung r ws
   , mkPung r wn
   , mkChow r c3
@@ -683,7 +683,7 @@ littleThreeWindsEx = mkHand
   Nothing
 
 bigThreeWindsEx :: Maybe Hand
-bigThreeWindsEx = mkHand
+bigThreeWindsEx = mkHand1
   [ mkPung r ws
   , mkPung r wn
   , mkChow r c3
@@ -694,7 +694,7 @@ bigThreeWindsEx = mkHand
   Nothing
 
 littleFourWindsEx :: Maybe Hand
-littleFourWindsEx = mkHand
+littleFourWindsEx = mkHand1
   [ mkPung r ws
   , mkPung c ww
   , mkPung r wn
@@ -705,7 +705,7 @@ littleFourWindsEx = mkHand
   Nothing
 
 bigFourWindsEx :: Maybe Hand
-bigFourWindsEx = mkHand
+bigFourWindsEx = mkHand1
   [ mkPung r ws
   , mkPung c ww
   , mkPung r wn
@@ -717,7 +717,7 @@ bigFourWindsEx = mkHand
 
 
 dragonPungEx :: Maybe Hand
-dragonPungEx = mkHand
+dragonPungEx = mkHand1
   [ mkChow r c1
   , mkChow r k2
   , mkPung r dr
@@ -728,7 +728,7 @@ dragonPungEx = mkHand
   Nothing
 
 littleThreeDragonsEx :: Maybe Hand
-littleThreeDragonsEx = mkHand
+littleThreeDragonsEx = mkHand1
   [ mkPung r dr
   , mkPung r dg
   , mkChow c b3
@@ -739,7 +739,7 @@ littleThreeDragonsEx = mkHand
   Nothing
 
 bigThreeDragonsEx :: Maybe Hand
-bigThreeDragonsEx = mkHand
+bigThreeDragonsEx = mkHand1
   [ mkPung r dr
   , mkPung r dg
   , mkChow c b3
@@ -751,7 +751,7 @@ bigThreeDragonsEx = mkHand
 
 
 allHonorsEx1 :: Maybe Hand
-allHonorsEx1 = mkHand
+allHonorsEx1 = mkHand1
   [ mkPung r we
   , mkPung r wn
   , mkPung r dr
@@ -762,7 +762,7 @@ allHonorsEx1 = mkHand
   Nothing
 
 allHonorsEx2 :: Maybe Hand
-allHonorsEx2 = mkHand
+allHonorsEx2 = mkHand1
   [ mkEyes c we
   , mkEyes c ww
   , mkEyes c ww
@@ -775,7 +775,7 @@ allHonorsEx2 = mkHand
   Nothing
 
 allHonorPairsEx :: Maybe Hand
-allHonorPairsEx = mkHand
+allHonorPairsEx = mkHand1
   [ mkEyes c we
   , mkEyes c ws
   , mkEyes c ww
@@ -792,7 +792,7 @@ allHonorPairsEx = mkHand
 -- | 9.0 Seven Pairs
 
 sevenPairsEx1 :: Maybe Hand
-sevenPairsEx1 = mkHand
+sevenPairsEx1 = mkHand1
   [ mkEyes c c2
   , mkEyes c c5
   , mkEyes c c8
@@ -805,7 +805,7 @@ sevenPairsEx1 = mkHand
   Nothing
 
 sevenPairsEx2 :: Maybe Hand
-sevenPairsEx2 = mkHand
+sevenPairsEx2 = mkHand1
   [ mkEyes c c2
   , mkEyes c c2
   , mkEyes c c8
@@ -818,7 +818,7 @@ sevenPairsEx2 = mkHand
   Nothing
 
 sevenShiftedPairsEx1 :: Maybe Hand
-sevenShiftedPairsEx1 = mkHand
+sevenShiftedPairsEx1 = mkHand1
   [ mkEyes c c1
   , mkEyes c c2
   , mkEyes c c3
@@ -831,7 +831,7 @@ sevenShiftedPairsEx1 = mkHand
   Nothing
 
 sevenShiftedPairsEx2 :: Maybe Hand
-sevenShiftedPairsEx2 = mkHand
+sevenShiftedPairsEx2 = mkHand1
   [ mkEyes c b3
   , mkEyes c b4
   , mkEyes c b5
@@ -844,7 +844,7 @@ sevenShiftedPairsEx2 = mkHand
   Nothing
 
 grandChariotEx :: Maybe Hand
-grandChariotEx = mkHand
+grandChariotEx = mkHand1
   [ mkEyes c c2
   , mkEyes c c3
   , mkEyes c c4
@@ -857,7 +857,7 @@ grandChariotEx = mkHand
   Nothing
 
 bambooForestEx :: Maybe Hand
-bambooForestEx = mkHand
+bambooForestEx = mkHand1
   [ mkEyes c b2
   , mkEyes c b3
   , mkEyes c b4
@@ -870,7 +870,7 @@ bambooForestEx = mkHand
   Nothing
 
 numberNeighborhoodEx :: Maybe Hand
-numberNeighborhoodEx = mkHand
+numberNeighborhoodEx = mkHand1
   [ mkEyes c k2
   , mkEyes c k3
   , mkEyes c k4
@@ -887,7 +887,7 @@ numberNeighborhoodEx = mkHand
 -- | 10.0 Color Hands
 
 allGreenEx :: Maybe Hand
-allGreenEx = mkHand
+allGreenEx = mkHand1
   [ mkChow r b2
   , mkChow r b2
   , mkPung r b6
@@ -898,7 +898,7 @@ allGreenEx = mkHand
   Nothing
 
 allRedEx :: Maybe Hand
-allRedEx = mkHand
+allRedEx = mkHand1
   [ mkPung r b1
   , mkPung r b5
   , mkPung c b7
@@ -909,7 +909,7 @@ allRedEx = mkHand
   Nothing
 
 allBlueEx :: Maybe Hand
-allBlueEx = mkHand
+allBlueEx = mkHand1
   [ mkPung c c8
   , mkPung r ws
   , mkPung r ww
@@ -924,7 +924,7 @@ allBlueEx = mkHand
 -- | 11.0 Irregular Hands
 
 thirteenOrphanImpureEx :: Maybe Hand
-thirteenOrphanImpureEx = mkSpecial
+thirteenOrphanImpureEx = mkSpecial1
   [ c1, c1
   , b1, b9
   , k1, k9
@@ -936,7 +936,7 @@ thirteenOrphanImpureEx = mkSpecial
   Nothing
 
 thirteenOrphanPureEx :: Maybe Hand
-thirteenOrphanPureEx = mkSpecial
+thirteenOrphanPureEx = mkSpecial1
   [ c1, c9
   , b1, b9
   , k1, k9
@@ -976,7 +976,7 @@ blessingOfEarthEx  = fmap (flip addHandInfo OnFirstDiscard) chickenEx
 -- | 13.0 Bonus Tiles
 
 bonusTile :: Maybe Hand
-bonusTile = mkHand
+bonusTile = mkHand1
   [ mkChow r c2
   , mkPung r b2
   , mkChow r b7
@@ -987,7 +987,7 @@ bonusTile = mkHand
   Nothing
 
 fourFlowersEx :: Maybe Hand
-fourFlowersEx = mkHand
+fourFlowersEx = mkHand1
   [ mkChow r b7
   , mkPung r k4
   , mkChow r k7
@@ -998,7 +998,7 @@ fourFlowersEx = mkHand
   Nothing
 
 fourSeasonsEx :: Maybe Hand
-fourSeasonsEx = mkHand
+fourSeasonsEx = mkHand1
   [ mkChow r c3
   , mkPung r b4
   , mkChow r k3
@@ -1009,7 +1009,7 @@ fourSeasonsEx = mkHand
   Nothing
 
 allBonusTileEx :: Maybe Hand
-allBonusTileEx = mkHand
+allBonusTileEx = mkHand1
   [ mkChow r c7
   , mkPung r b2
   , mkChow r b7
