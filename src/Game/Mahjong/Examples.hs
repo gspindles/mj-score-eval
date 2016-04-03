@@ -541,12 +541,12 @@ twoTailedTerminalsEx2 = mkHand1
   [s1]
   Nothing
 
-littleBoundlessMountainHandx1 :: Maybe Hand
-littleBoundlessMountainHandx1 = mkHand1
-  [ mkPung r b1
-  , mkPung r b9
+littleBoundlessMountainEx1 :: Maybe Hand
+littleBoundlessMountainEx1 = mkHand1
+  [ mkChow r b1
+  , mkChow r b7
   , mkChow c b1
-  , mkEyes c b5
+  , mkEyes c b1
   , mkChow r b7
   ]
   [f1]
@@ -586,8 +586,8 @@ bigBoundlessMountainEx2 = mkHand1
   Nothing
 
 
-mixedLesserTerminalEx :: Maybe Hand
-mixedLesserTerminalEx = mkHand1
+mixedLesserTerminalsEx :: Maybe Hand
+mixedLesserTerminalsEx = mkHand1
   [ mkChow r c1
   , mkPung r c9
   , mkChow c b1
@@ -597,8 +597,8 @@ mixedLesserTerminalEx = mkHand1
   []
   Nothing
 
-pureLesserTerminalEx :: Maybe Hand
-pureLesserTerminalEx = mkHand1
+pureLesserTerminalsEx :: Maybe Hand
+pureLesserTerminalsEx = mkHand1
   [ mkChow r c1
   , mkPung r c9
   , mkChow r b1
@@ -608,8 +608,8 @@ pureLesserTerminalEx = mkHand1
   [f3]
   Nothing
 
-mixedGreaterTerminalEx1 :: Maybe Hand
-mixedGreaterTerminalEx1 = mkHand1
+mixedGreaterTerminalsEx1 :: Maybe Hand
+mixedGreaterTerminalsEx1 = mkHand1
   [ mkPung r c1
   , mkPung r c9
   , mkPung r we
@@ -619,8 +619,8 @@ mixedGreaterTerminalEx1 = mkHand1
   [f1, s2]
   Nothing
 
-mixedGreaterTerminalEx2 :: Maybe Hand
-mixedGreaterTerminalEx2 = mkHand1
+mixedGreaterTerminalsEx2 :: Maybe Hand
+mixedGreaterTerminalsEx2 = mkHand1
   [ mkEyes c c9
   , mkEyes c b9
   , mkEyes c k1
@@ -632,8 +632,8 @@ mixedGreaterTerminalEx2 = mkHand1
   []
   Nothing
 
-pureGreaterTerminalEx1 :: Maybe Hand
-pureGreaterTerminalEx1 = mkHand1
+pureGreaterTerminalsEx1 :: Maybe Hand
+pureGreaterTerminalsEx1 = mkHand1
   [ mkPung r c1
   , mkPung r c9
   , mkPung r b1
@@ -643,8 +643,8 @@ pureGreaterTerminalEx1 = mkHand1
   [s3]
   Nothing
 
-pureGreaterTerminalEx2 :: Maybe Hand
-pureGreaterTerminalEx2 = mkHand1
+pureGreaterTerminalsEx2 :: Maybe Hand
+pureGreaterTerminalsEx2 = mkHand1
   [ mkEyes c c1
   , mkEyes c c9
   , mkEyes c b1

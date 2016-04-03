@@ -280,13 +280,13 @@ h = mkHand1 [
 
 sp1 :: Maybe Hand
 sp1 = mkSpecial1 [b1, b1, b1, b2, b3, b4, b5, b6, b7, b8, b9, b9, b9]
-                b5
-                [f3]
-                (Just OnSeabed)
+                 b5
+                 [f3]
+                 (Just OnSeabed)
 
 sp2 :: Maybe Hand
 sp2 = mkSpecial1 [c1, c9, b1, b9, k1, k9, we, ws, ww, wn, dr, dg, dw]
-                c1
-                [f2]
-                (Just OnRiverbed)
+                 c1
+                 [f2]
+                 (Just OnRiverbed)
 

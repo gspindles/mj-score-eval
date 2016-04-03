@@ -212,7 +212,7 @@ isChow = (== Chow) . meldType
 -- | Is the meld a pung?
 --   kong does get counted as pung.
 isPung :: Meld -> Bool
-isPung = allCond [(== Pung), (== Kong)] . meldType
+isPung = anyCond [(== Pung), (== Kong)] . meldType
 
 -- | Is the meld a kong?
 isKong :: Meld -> Bool
@@ -484,9 +484,15 @@ dragonEyes = [drr, dgg, dww]
 meldTileMatch :: Meld -> Meld -> Bool -> Bool
 meldTileMatch m1 m2 k =
   if k
-  then (nub $ meldTiles m1) == (nub $ meldTiles m2)
+  then ignoreMeldTypeEq (meldType m1) (meldType m2)
+    && (nub $ meldTiles m1) == (nub $ meldTiles m2)
   else meldType m1 == meldType m2
     && meldTiles m1 == meldTiles m2
+  where
+    ignoreMeldTypeEq :: MeldType -> MeldType -> Bool
+    ignoreMeldTypeEq Pung Kong = True
+    ignoreMeldTypeEq Kong Pung = True
+    ignoreMeldTypeEq mt1  mt2  = mt1 == mt2
 
 -- | flip betwen revealed and concealed status
 flipStatus :: Meld -> Meld

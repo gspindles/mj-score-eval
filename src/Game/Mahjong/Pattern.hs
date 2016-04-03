@@ -11,7 +11,7 @@
 --   and declaration for all accepted patterns
 module Game.Mahjong.Pattern (
   -- * The `Pattern` type
-  Pattern,
+  Pattern, name, chinese, score,
 
   -- * Utility function
   updateScore,
@@ -129,10 +129,13 @@ module Game.Mahjong.Pattern (
   allBonusTiles
 ) where
 
+import Game.Mahjong.Class
+
 
 -------------------------------------------------------------------------------
+-- Data Declaration
+-------------------------------------------------------------------------------
 
-{- Data Declaration -}
 
 data Pattern =
   Pattern { name    :: String  -- ^ the english name
@@ -142,8 +145,16 @@ data Pattern =
 
 
 -------------------------------------------------------------------------------
+-- Hands List
+-------------------------------------------------------------------------------
 
-{- Hand List -}
+instance Pretty Pattern where
+  pp (Pattern n c s) = n ++ " : " ++ show s
+
+
+-------------------------------------------------------------------------------
+-- Hands List
+-------------------------------------------------------------------------------
 
 -- 1.0 Trivial Patterns
 

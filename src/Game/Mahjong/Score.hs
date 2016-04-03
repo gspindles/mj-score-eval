@@ -10,6 +10,12 @@
 -- | Functions for scoring mahjong patterns
 --   and evaluate score
 module Game.Mahjong.Score where
+--  -- ** Utiliy Functions
+--  sortPatterns, containsMeld,
+--
+--  -- ** score functions
+--  matchForPatterns
+--) where
 
 import Game.Mahjong.Examples
 import Game.Mahjong.Hand
@@ -18,8 +24,11 @@ import Game.Mahjong.Class
 import Game.Mahjong.Tile
 import Game.Mahjong.Pattern
 
-import Data.List (inits, nub, sort, tails)
+import Data.List (inits, nub, sort, sortBy, tails)
+import Data.Ord (comparing)
 
+import Data.Maybe (fromJust)
+extract h = (fromJust h, handStat $ fromJust h)
 
 -------------------------------------------------------------------------------
 -- Data definition
@@ -30,8 +39,43 @@ type ScoreFunc = (Hand, HandStat) -> [Pattern]
 
 
 -------------------------------------------------------------------------------
--- Utility functions
+-- Scoring functions
 -------------------------------------------------------------------------------
+
+-- | get a list of patterns the hand satisfies, sorted by highest points desc
+matchForPatterns :: Hand -> [Pattern]
+matchForPatterns hand =
+  if null patterns
+  then pure chicken
+  else patterns ++ bonusPats
+  where
+    stat      = (hand, handStat hand)
+    patterns  = (<->>) matchers stat
+    matchers  = [ -- add more as they get added
+                  matchTerminals
+                , matchHonors
+                , matchSevenPairs
+                , matchColors
+                , matchIrregular
+                , matchIncidentals
+                ]
+    bonusPats = matchBonus stat
+
+
+-- | mappend for score functions
+--   concats the resulting patterns from each matcher
+(<->>) :: [a -> [b]] -> a -> [b]
+(<->>) sfs = concat . zipWith id sfs . repeat
+
+-- | sort the patterns by score
+sortPatterns :: [Pattern] -> [Pattern]
+sortPatterns = reverse . sortBy (comparing score)
+
+-- | Check if the hand contains the given melds
+containsMelds :: Hand -> [Meld] -> Bool
+containsMelds h = all (\m -> meldElem (getMelds h) m)
+  where
+    meldElem xs x = any (\m -> meldTileMatch x m True) xs
 
 matchValuePattern :: [Tile] -> [Int] -> Bool
 matchValuePattern ts is =
@@ -57,10 +101,6 @@ scoreHelpers fs p h =
 -------------------------------------------------------------------------------
 
 {- 1.0 Trivial Patterns -}
-
--- | check for chicken hand
-isChicken :: ScoreFunc
-isChicken = \_ -> pure chicken
 
 -- | check if the hand consists of all chows
 isAllChows :: ScoreFunc
@@ -106,45 +146,31 @@ isIllegalCall = \_ -> pure illegalCall
 {- 2.0 Pungs and Kongs -}
 
 -- 2.1 Pung
-
--- | check if the hand consists of all pungs
-isAllPungs :: ScoreFunc
-isAllPungs = scoreHelper f p
-  where
-    f = (>= 4) . numOfPungs . snd
---  f = all isPung . getMelds . fst
-    p = allPungs
-
-
 -- 2.2 Concealed pungs
-
--- | check for the number of concealed pungs
-isConcealedPungs :: ScoreFunc
-isConcealedPungs p =
-  let count = concealedHelper p
-  in case count of
-    2 -> pure twoConcealedPungs
-    3 -> pure threeConcealedPungs
-    4 -> pure fourConcealedPungs
-    _ -> []
-
-concealedHelper :: (Hand, HandStat) -> Int
-concealedHelper = length . filter (\x -> isPung x && isConcealed x) . getMelds . fst
-
+matchPungs :: ScoreFunc
+matchPungs (h, hs)
+  | count == 4 = acc ++ pure fourConcealedPungs
+  | count == 3 = acc ++ pure threeConcealedPungs
+  | count == 2 = acc ++ pure twoConcealedPungs
+  | otherwise  = acc
+  where
+    melds = getMelds h
+    count = length $ filter (\m -> isPung m && isConcealed m) melds
+    acc   = if numOfPungs hs >= 4
+            then pure allPungs
+            else []
 
 -- 2.3 Kongs
+matchKongs :: ScoreFunc
+matchKongs (_, hs)
+  | numOfKongs hs == 4 = pure fourKongs
+  | numOfKongs hs == 3 = pure threeKongs
+  | numOfKongs hs == 2 = pure twoKongs
+  | numOfKongs hs == 1 = pure oneKong
+  | otherwise          = []
 
--- | check for the number of kongs
-isKongs :: ScoreFunc
-isKongs p =
-  let count = numOfKongs . snd $ p
-  in case count of
-    1 -> pure oneKong
-    2 -> pure twoKongs
-    3 -> pure threeKongs
-    4 -> pure fourKongs
-    _ -> []
-
+matchPungsAndKongs :: ScoreFunc
+matchPungsAndKongs = (<->>) [matchPungs, matchKongs]
 
 
 {- 3.0 Identical Sets -}
@@ -233,32 +259,91 @@ matchNineGates (h, _)
 
 {- 7.0 Terminal Tiles -}
 
-{-
 -- 7.1 Chow and pungs
-twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: ScoreFunc
-twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain = undefined
+matchTerminals1 :: ScoreFunc
+matchTerminals1 (h, _)
+  | isSameTileType tiles && matchBM              = pure bigBoundlessMountain
+  | isSameTileType tiles && all isTerminal melds = pure littleBoundlessMountain
+  | or $ fmap (containsMelds h) pat2             = pure twoTailedTerminals
+  | otherwise                                    = accChows ++ accPungs
+  where
+    melds    = getMelds h
+    tiles    = getHandTiles h
+    patBM1   = [1, 1, 1, 1, 2, 2, 3, 3, 7, 8, 9, 9, 9, 9]
+    patBM2   = [1, 1, 1, 1, 2, 3, 7, 7, 8, 8, 9, 9, 9, 9]
+    matchBM  = matchValuePattern tiles patBM1
+            || matchValuePattern tiles patBM2
+
+    pat2     = [ [c111, c123, c789, c999]
+               , [b111, b123, b789, b999]
+               , [k111, k123, k789, k999]
+               ]
+
+    patChows  = [ [c123, c789], [b123, b789], [k123, k789] ]
+    patPungs  = [ [c111, c999], [b111, b999], [k111, k999] ]
+    chowCount = length . filter (== True) . fmap (containsMelds h) $ patChows
+    pungCount = length . filter (== True) . fmap (containsMelds h) $ patPungs
+    accChows  = take chowCount $ repeat twoTailedTerminalChows
+    accPungs  = take pungCount $ repeat twoTailedTerminalPungs
 
 -- 7.2 Mixed and pure
-mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals :: ScoreFunc
-mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals = undefined
--}
+matchTerminals2 :: ScoreFunc
+matchTerminals2 (h, hs)
+  | all isTerminal tiles             = pure pureGreaterTerminals
+  | all isEdge     tiles             = pure mixedGreaterTerminals
+  | all isTerminal melds && hasChows = pure pureLesserTerminals
+  | all isEdge     melds && hasChows = pure mixedLesserTerminals
+  | otherwise                        = []
+  where
+    melds    = getMelds h
+    tiles    = getHandTiles h
+    hasChows = numOfChows hs > 0
 
+matchTerminals :: ScoreFunc
+matchTerminals = (<->>) [matchTerminals1, matchTerminals2]
 
 {- 8.0 Honor Tiles -}
 
-{-
 -- 8.1 Winds
-windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds :: ScoreFunc
-windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds = undefined
+matchWinds :: ScoreFunc
+matchWinds (h, _)
+  | numPungs == 4                 = acc ++ pure bigFourWinds
+  | numPungs == 3 && numEyes == 1 = acc ++ pure littleFourWinds
+  | numPungs == 3 && numEyes == 0 = acc ++ pure bigThreeWinds
+  | numPungs == 2 && numEyes == 1 = acc ++ pure littleThreeWinds
+  | otherwise                     = acc
+  where
+    windMelds = filter isWind $ getMelds h
+    numPungs  = length $ filter isPung windMelds
+    numEyes   = length $ filter isEyes windMelds
+    acc       = take numPungs $ repeat windPung
 
 -- 8.2 Dragons
-dragonPung, littleThreeDragons, bigThreeDragons :: ScoreFunc
-dragonPung, littleThreeDragons, bigThreeDragons = undefined
+matchDragons :: ScoreFunc
+matchDragons (h, _)
+  | numPungs == 3                 = acc ++ pure bigThreeDragons
+  | numPungs == 2 && numEyes == 1 = acc ++ pure littleThreeDragons
+  | otherwise                     = acc
+  where
+    dragonMelds = filter isDragon $ getMelds h
+    numPungs    = length $ filter isPung dragonMelds
+    numEyes     = length $ filter isEyes dragonMelds
+    acc         = take numPungs $ repeat dragonPung
 
 -- 8.3 Pure honors
-allHonors, allHonorPairs :: ScoreFunc
-allHonors, allHonorPairs = undefined
--}
+matchPureHonors :: ScoreFunc
+matchPureHonors (h, _)
+  | all isEyes melds && match7Stars = pure allHonorPairs
+  | all isHonor melds               = pure allHonors
+  | otherwise                       = []
+  where
+    melds       = getMelds h
+    match7Stars = sort (getHandTiles h) == pat
+    pat         = honors >>= double
+    double      = \x -> [x, x]
+
+matchHonors :: ScoreFunc
+matchHonors = (<->>) [matchWinds, matchDragons, matchPureHonors]
 
 
 {- 9.0 Seven Pairs -}
@@ -290,8 +375,8 @@ matchSevenPairs (h, hs)
 
 {- 10.0 Color Hands -}
 
-matchColor :: ScoreFunc
-matchColor (h, _)
+matchColors :: ScoreFunc
+matchColors (h, _)
   | all isRed   . getHandTiles $ h = pure allRed
   | all isGreen . getHandTiles $ h = pure allGreen
   | otherwise                      = []
@@ -311,8 +396,8 @@ matchIrregular (h, _)
 
 {- 12.0 Incidental bonuses -}
 
-matchIncidental :: ScoreFunc
-matchIncidental (h, _) =
+matchIncidentals :: ScoreFunc
+matchIncidentals (h, _) =
   case getHandInfo h of
     Nothing -> []
     Just hi ->

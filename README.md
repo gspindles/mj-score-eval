@@ -237,12 +237,12 @@ Pattern:&ensp;![c1]![c1]![c1]![c2]![c3]![c4]![c5]![c6]![c7]![c8]![c9]![c9]![c9]
 
 Terminals are the 1 and 9 numbered suit tiles.  The greater patterns only consider pungs of terminal tiles, while the lesser patterns also involve `123` and `789` chows.
 
-#### 7.1.1 Two-Tailed Terminal Chows : 老少順 : 5
+#### 7.1.1 Two-Tailed Terminal Chows : 老少順 : 5 per set
 A sequece of 123 and 789 in the same suit.
 
 Example:&ensp;![b1]![b2]![b3]&ensp;![b7]![b8]![b9]
 
-#### 7.1.2 Two-Tailed Terminal Pungs : 老少刻 : 15
+#### 7.1.2 Two-Tailed Terminal Pungs : 老少刻 : 15 per set
 A pung / kong of 1s and 9s in the same suit.
 
 Example:&ensp;![k1]![k1]![k1]&ensp;![k9]![k9]![k9]
