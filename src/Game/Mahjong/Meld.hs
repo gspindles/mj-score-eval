@@ -481,8 +481,8 @@ dragonEyes = [drr, dgg, dww]
 -------------------------------------------------------------------------------
 
 -- | The bool: False takes into consideration that pung and kong are different
-meldTileMatch :: Meld -> Meld -> Bool -> Bool
-meldTileMatch m1 m2 k =
+meldTileMatch :: Bool -> Meld -> Meld  -> Bool
+meldTileMatch k m1 m2 =
   if k
   then ignoreMeldTypeEq (meldType m1) (meldType m2)
     && (nub $ meldTiles m1) == (nub $ meldTiles m2)

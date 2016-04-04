@@ -167,9 +167,9 @@ fourIdenticalChowsEx = mkHand1
 allPungsEx :: Maybe Hand
 allPungsEx = mkHand1
   [ mkPung r b4
-  , mkPung c dg
+  , mkPung r dg
   , mkKong c k6
-  , mkPung c dg
+  , mkPung c dw
   , mkEyes r b3
   ]
   [f3]

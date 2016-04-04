@@ -186,7 +186,7 @@ fourKongs           = Pattern "Four Kongs"  "四槓" 480
 -- 3.0 Identical Chows
 
 twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows :: Pattern
-twoIdenticalChows      = Pattern "Identical Chow"            "一般高"     10
+twoIdenticalChows      = Pattern "Two Identical Chows"       "一般高"     10
 twoIdenticalChowsTwice = Pattern "Two Identical Chows Twice" "兩般高"     60
 threeIdenticalChows    = Pattern "Three Identical Chows"     "一色三同順" 120
 fourIdenticalChows     = Pattern "Four Identical Chows"      "一色四同順" 480
