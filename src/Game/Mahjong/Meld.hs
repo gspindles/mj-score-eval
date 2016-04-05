@@ -77,7 +77,7 @@ data MeldType
   | Pung
   | Kong
   | Eyes
-    deriving (Eq, Show)
+    deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | Meld data
 data Meld

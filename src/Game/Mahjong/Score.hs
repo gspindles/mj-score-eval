@@ -24,7 +24,8 @@ import Game.Mahjong.Class
 import Game.Mahjong.Tile
 import Game.Mahjong.Pattern
 
-import Data.List (groupBy, inits, nub, sort, sortBy, tails)
+import Data.Foldable (foldr1)
+import Data.List (groupBy, inits, intersect, nub, sort, sortBy, tails)
 import Data.Ord (comparing)
 
 import Data.Maybe (fromJust)
@@ -100,6 +101,16 @@ histogram xs = zip keys counts
     keys   = nub xs
     counts = fmap (\x -> count (== x) xs) keys
 
+commonElems :: (Eq a, Foldable t) => t [a] -> [a]
+commonElems = foldr1 intersect
+
+filterAndGroupByTileType :: (Meld -> Bool) -> [Meld] -> [[[Tile]]]
+filterAndGroupByTileType f = projected
+  where
+    tt        = tileType . head . meldTiles
+    sorted    = sortBy (comparing tt) . filter f
+    groupings = groupBy (\m1 m2 -> tt m1 == tt m2) . sorted
+    projected = fmap (fmap meldTiles) . groupings
 
 -------------------------------------------------------------------------------
 -- Scoring functions
@@ -194,6 +205,7 @@ matchPungsAndKongs = (<->>) [ matchPungs
                             ]
 
 
+
 {- 3.0 Identical Sets -}
 
 -- 3.1 Identical sets
@@ -220,16 +232,27 @@ matchIdenticalSets (h, _)
 {- 4.0 Similar Sets -}
 
 -- 4.1 Similar chows
-{-
-threeSimilarChows :: ScoreFunc
-threeSimilarChows = undefined
-
 -- 4.2 Similar pungs
-littleThreeSimilarPungs, threeSimilarPung :: ScoreFunc
-littleThreeSimilarPungs, threeSimilarPung = undefined
+{-
+littleThreeSimilarPungs :: ScoreFunc
 -}
 matchSimilarSets :: ScoreFunc
-matchSimilarSets = undefined
+matchSimilarSets (h, _)
+  | similarCheck intersectionChow = pure threeSimilarChows
+  | similarCheck intersectionPung = pure threeSimilarPungs
+-- | _                             = pure littleThreeSimilarPungs
+  | otherwise                     = []
+  where
+    melds            = getMelds h
+    similarCheck     = \i -> length i >= 3 && (not $ null i)
+
+    checkChow        = \m -> isChow m && isSuit m
+    projectedChow    = filterAndGroupByTileType checkChow melds
+    intersectionChow = fmap commonElems projectedChow
+
+    checkPung        = \m -> isPung m && isSuit m
+    projectedPung    = filterAndGroupByTileType checkPung melds
+    intersectionPung = fmap commonElems projectedPung
 
 
 

@@ -285,7 +285,7 @@ threeSimilarPungsEx = mkHand1
   [ mkPung r c6
   , mkKong r k6
   , mkChow c c1
-  , mkPung r c6
+  , mkPung r b6
   , mkEyes r dg
   ]
   [s4]
