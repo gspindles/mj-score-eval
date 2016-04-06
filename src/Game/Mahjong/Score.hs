@@ -9,13 +9,10 @@
 
 -- | Functions for scoring mahjong patterns
 --   and evaluate score
-module Game.Mahjong.Score where
---  -- ** Utiliy Functions
---  sortPatterns, containsMeld,
---
---  -- ** score functions
---  matchForPatterns
---) where
+module Game.Mahjong.Score (
+    -- ** score functions
+    matchForPatterns
+) where
 
 import Game.Mahjong.Examples
 import Game.Mahjong.Hand
@@ -28,8 +25,6 @@ import Data.Foldable (foldr1)
 import Data.List (groupBy, inits, intersect, nub, sort, sortBy, tails)
 import Data.Ord (comparing)
 
-import Data.Maybe (fromJust)
-extract h = (fromJust h, handStat $ fromJust h)
 
 -------------------------------------------------------------------------------
 -- Data definition
@@ -48,15 +43,15 @@ matchForPatterns :: Hand -> [Pattern]
 matchForPatterns hand =
   if null patterns
   then pure chicken
-  else patterns ++ bonusPats
+  else sortPatterns $ patterns ++ bonusPats
   where
     stat      = (hand, handStat hand)
     patterns  = (<->>) matchers stat
     matchers  = [ matchTrivials         -- 1.  Trivival Patterns
                 , matchPungsAndKongs    -- 2.  Pungs & Kongs
                 , matchIdenticalSets    -- 3.  Identical Sets
---              , matchSimilarSets      -- 4.  Similar Sets
---              , matchConsecutiveSets  -- 5.  Consecutive Sets
+                , matchSimilarSets      -- 4.  Similar Sets
+                , matchConsecutiveSets  -- 5.  Consecutive Sets
                 , matchSuits            -- 6.  Suit Patterns
                 , matchTerminals        -- 7.  Terminal Tiles
                 , matchHonors           -- 8.  Honor Tiles
@@ -65,7 +60,7 @@ matchForPatterns hand =
                 , matchIrregular        -- 11. Irregular Hands
                 , matchIncidentals      -- 12. Incidental Bonuses
                 ]
-    bonusPats = matchBonus stat         -- 12. Bonus Tiles
+    bonusPats = matchBonus stat         -- 13. Bonus Tiles
 
 
 -- | mappend for score functions
@@ -111,6 +106,7 @@ filterAndGroupByTileType f = projected
     sorted    = sortBy (comparing tt) . filter f
     groupings = groupBy (\m1 m2 -> tt m1 == tt m2) . sorted
     projected = fmap (fmap meldTiles) . groupings
+
 
 -------------------------------------------------------------------------------
 -- Scoring functions
@@ -233,42 +229,144 @@ matchIdenticalSets (h, _)
 
 -- 4.1 Similar chows
 -- 4.2 Similar pungs
-{-
-littleThreeSimilarPungs :: ScoreFunc
--}
 matchSimilarSets :: ScoreFunc
 matchSimilarSets (h, _)
-  | similarCheck intersectionChow = pure threeSimilarChows
-  | similarCheck intersectionPung = pure threeSimilarPungs
--- | _                             = pure littleThreeSimilarPungs
-  | otherwise                     = []
+  | similarCheck intersectionChow  = pure threeSimilarChows
+  | similarCheck intersectionPung  = pure threeSimilarPungs
+  | length eye == 1 && hasLTSP eye = pure littleThreeSimilarPungs
+  | otherwise                      = []
   where
     melds            = getMelds h
     similarCheck     = \i -> length i >= 3 && (not $ null i)
 
     checkChow        = \m -> isChow m && isSuit m
     projectedChow    = filterAndGroupByTileType checkChow melds
-    intersectionChow = fmap commonElems projectedChow
+    intersectionChow = if null projectedChow
+                       then []
+                       else fmap commonElems projectedChow
 
     checkPung        = \m -> isPung m && isSuit m
     projectedPung    = filterAndGroupByTileType checkPung melds
-    intersectionPung = fmap commonElems projectedPung
+    intersectionPung = if null projectedPung
+                       then []
+                       else fmap commonElems projectedPung
+
+    eye              = filter (\m -> isEyes m && isSuit m) melds
+    hasLTSP          = containsMelds h . getLTSP . head . meldTiles . head
+    getLTSP et
+      | et == c1  = [ b111, k111 ]
+      | et == c2  = [ b222, k222 ]
+      | et == c3  = [ b333, k333 ]
+      | et == c4  = [ b444, k444 ]
+      | et == c5  = [ b555, k555 ]
+      | et == c6  = [ b666, k666 ]
+      | et == c7  = [ b777, k777 ]
+      | et == c8  = [ b888, k888 ]
+      | et == c9  = [ b999, k999 ]
+
+      | et == b1  = [ c111, k111 ]
+      | et == b2  = [ c222, k222 ]
+      | et == b3  = [ c333, k333 ]
+      | et == b4  = [ c444, k444 ]
+      | et == b5  = [ c555, k555 ]
+      | et == b6  = [ c666, k666 ]
+      | et == b7  = [ c777, k777 ]
+      | et == b8  = [ c888, k888 ]
+      | et == b9  = [ c999, k999 ]
+
+      | et == k1  = [ c111, b111 ]
+      | et == k2  = [ c222, b222 ]
+      | et == k3  = [ c333, b333 ]
+      | et == k4  = [ c444, b444 ]
+      | et == k5  = [ c555, b555 ]
+      | et == k6  = [ c666, b666 ]
+      | et == k7  = [ c777, b777 ]
+      | et == k8  = [ c888, b888 ]
+      | et == k9  = [ c999, b999 ]
+
+      | otherwise = []  -- shouldn't get here
 
 
 
 {- 5.0 Consecutive Sets -}
 
-{-
 -- 5.1 Consecutive chows
-threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice :: ScoreFunc
-threeConsecutiveChows, nineTileStraight, threeConsecutiveChowsTwice = undefined
+matchConsecutiveChows :: ScoreFunc
+matchConsecutiveChows (h, _)
+  | length sorted == 4 && fourConsCCheck   = pure fourConsecutiveChows
+  | length sorted == 4 && threeConsCTCheck = pure threeConsecutiveChowsTwice
+  | length sorted >= 3 && nineTSCheck      = pure nineTileStraight
+  | length sorted >= 3 && threeConsCCheck  = pure threeConsecutiveChows
+  | otherwise                              = []
+  where
+    melds            = getMelds h
+    chows            = filter (\m -> isChow m && isSuit m) melds
+    sorted           = sortBy (comparing meldTiles) chows
+    fstChow          = head sorted
+    sndChow          = head $ tail sorted
+
+    build4ConsC1     = take 4 . iterate next
+    build4ConsC2     = take 4 . iterate (next . next)
+    build3ConsCT1 m  = [ m
+                       , next m
+                       , next (next m)
+                       , next (next (next (next m)))
+                       ]
+    build3ConsCT2 m  = [ m
+                       , next (next m)
+                       , next (next (next m))
+                       , next (next (next (next m)))
+                       ]
+    build3ConsC1     = take 3 . iterate next
+    build3ConsC2     = take 3 . iterate (next . next)
+    build3ConsC3     = take 3 . iterate (next . next . next)
+    chow123s m       = any (meldTileMatch True m) [ c123, b123, k123 ]
+
+    fourConsCCheck   = ( chow123s fstChow
+                    && containsMelds h (build4ConsC2 fstChow) )
+                    || containsMelds h (build4ConsC1 fstChow)
+    threeConsCTCheck = containsMelds h (build3ConsCT1 fstChow)
+                    || containsMelds h (build3ConsCT2 fstChow)
+    nineTSCheck      = ( chow123s fstChow
+                    && containsMelds h (build3ConsC3 fstChow) )
+                    || ( chow123s sndChow
+                    && containsMelds h (build3ConsC2 sndChow) )
+    threeConsCCheck  = containsMelds h (build3ConsC1 fstChow)
+                    || containsMelds h (build3ConsC2 fstChow)
+                    || containsMelds h (build3ConsC1 sndChow)
+                    || containsMelds h (build3ConsC2 sndChow)
 
 -- 5.2 Consecutive pungs
-threeConsecutivePungs, fourConsecutivePungs, threeMothers :: ScoreFunc
-threeConsecutivePungs, fourConsecutivePungs, threeMothers = undefined
--}
+matchConsecutivePungs :: ScoreFunc
+matchConsecutivePungs (h, _)
+  | length sorted == 3 && threeMCheck     = pure threeMothers
+  | length sorted == 4 && fourConsPCheck  = pure fourConsecutivePungs
+  | length sorted >= 3 && threeConsPCheck = pure threeConsecutivePungs
+  | otherwise                             = []
+  where
+    melds           = getMelds h
+    pungs           = filter (\m -> isPung m && isSuit m) melds
+    sorted          = sortBy (comparing meldTiles) pungs
+    fstPung         = head sorted
+    sndPung         = head $ tail sorted
+
+    build3ConsP     = take 3 . iterate next
+    build4ConsP     = take 4 . iterate next
+    sonChow         = mkChow Revealed . head . meldTiles
+    hasSon (Just c) = containsMelds h [c]
+    hasSon Nothing  = False
+
+    threeMCheck     = containsMelds h (build3ConsP fstPung)
+                   && (hasSon $ sonChow fstPung)
+    fourConsPCheck  = containsMelds h (build4ConsP fstPung)
+    threeConsPCheck = containsMelds h (build3ConsP fstPung)
+                   || containsMelds h (build3ConsP sndPung)
+
 matchConsecutiveSets :: ScoreFunc
-matchConsecutiveSets = undefined
+matchConsecutiveSets = (<->>) [ matchConsecutiveChows
+                              , matchConsecutivePungs
+                              ]
+
 
 
 {- 6.0 Suit Patterns -}
@@ -308,6 +406,7 @@ matchSuits :: ScoreFunc
 matchSuits = (<->>) [ matchOneSuit
                     , matchNineGates
                     ]
+
 
 
 {- 7.0 Terminal Tiles -}
@@ -357,6 +456,8 @@ matchTerminals = (<->>) [ matchTerminals1
                         , matchTerminals2
                         ]
 
+
+
 {- 8.0 Honor Tiles -}
 
 -- 8.1 Winds
@@ -404,6 +505,7 @@ matchHonors = (<->>) [ matchWinds
                      ]
 
 
+
 {- 9.0 Seven Pairs -}
 
 matchSevenPairs :: ScoreFunc
@@ -431,6 +533,7 @@ matchSevenPairs (h, hs)
     double = \x -> [x, x]
 
 
+
 {- 10.0 Color Hands -}
 
 matchColors :: ScoreFunc
@@ -438,6 +541,7 @@ matchColors (h, _)
   | all isRed   . getHandTiles $ h = pure allRed
   | all isGreen . getHandTiles $ h = pure allGreen
   | otherwise                      = []
+
 
 
 {- 11.0 Irregular Hands -}
@@ -450,6 +554,7 @@ matchIrregular (h, _)
   where
     isPure   = (== edges) . sort . init . getHandTiles
     isImpure = (== edges) . sort . nub  . getHandTiles
+
 
 
 {- 12.0 Incidental bonuses -}
@@ -467,6 +572,7 @@ matchIncidentals (h, _) =
         OnKongSupplement  -> pure winOnKong
         OnBonusSupplement -> pure winOnBonusTile
         OnKongRobbing     -> pure robbingAKong
+
 
 
 {- 13.0 Bonus Tiles -}

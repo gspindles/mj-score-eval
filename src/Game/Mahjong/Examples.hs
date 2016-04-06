@@ -237,7 +237,7 @@ threeKongsEx = mkHand1
   , mkChow c b2
   , mkKong r b9
   , mkEyes c dg
-  , mkKong r k2
+  , mkKong r k5
   ]
   []
   Nothing
@@ -245,10 +245,10 @@ threeKongsEx = mkHand1
 fourKongsEx :: Maybe Hand
 fourKongsEx = mkHand1
   [ mkKong r c3
-  , mkKong c b2
+  , mkKong c b6
   , mkKong r b9
   , mkEyes c dg
-  , mkKong r k2
+  , mkKong r k5
   ]
   []
   Nothing
@@ -274,7 +274,7 @@ littleThreeSimilarPungsEx = mkHand1
   [ mkPung r c6
   , mkKong r k6
   , mkChow c c1
-  , mkEyes r c6
+  , mkEyes r b6
   , mkPung r dg
   ]
   [s4]
@@ -308,10 +308,10 @@ threeConsecutiveChowsEx1 = mkHand1
 
 threeConsecutiveChowsEx2 :: Maybe Hand
 threeConsecutiveChowsEx2 = mkHand1
-  [ mkChow r c1
-  , mkChow r c3
-  , mkChow c c5
-  , mkPung c b8
+  [ mkChow r b1
+  , mkChow r b3
+  , mkChow c b5
+  , mkPung c k8
   , mkEyes r dg
   ]
   [s1]
@@ -363,9 +363,9 @@ fourConsecutiveChowsEx1 = mkHand1
 
 fourConsecutiveChowsEx2 :: Maybe Hand
 fourConsecutiveChowsEx2 = mkHand1
-  [ mkChow r c1
-  , mkChow r c3
-  , mkChow c c5
+  [ mkChow r b1
+  , mkChow r b3
+  , mkChow c b5
   , mkChow c b7
   , mkEyes r k2
   ]
@@ -388,7 +388,7 @@ fourConsecutivePungsEx :: Maybe Hand
 fourConsecutivePungsEx = mkHand1
   [ mkPung r k5
   , mkPung r k6
-  , mkChow r k7
+  , mkPung r k7
   , mkEyes c dg
   , mkPung r k8
   ]
