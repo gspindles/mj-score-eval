@@ -253,14 +253,14 @@ The hand consists of the pattern `111 123 789 999` in a suit.
 Example:&ensp;![c1]![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]![c9]
 
 #### 7.1.5 Little Mountain : 小山滿 : 320
-Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up exactly __**6**__ terminal tiles of the suit.
+Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up exactly 6 terminal tiles of the suit.
 
 Example:&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c7]![c8]![c9]&ensp;![c1]![c1]
 
 Example:&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]
 
 #### 7.1.6 Big Mountain : 大山滿 : 400
-Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up all __**8**__ terminal tiles of the suit.
+Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up all 8 terminal tiles of the suit.
 
 Note: only 2 possible patterns - `11 123 123 789 999` or `111 123 789 789 99`
 

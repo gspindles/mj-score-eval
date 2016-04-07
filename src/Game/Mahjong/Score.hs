@@ -630,7 +630,9 @@ matchBonus (h, _)
     numBonuses = numFlowers + numSeasons
 
 
+
 {- Special hands -}
+
 matchSpecial :: ScoreFunc
 matchSpecial = (<->>) [ matchNineGates
                       , matchIrregular
