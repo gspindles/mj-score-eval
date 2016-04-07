@@ -24,7 +24,7 @@ module Game.Mahjong.Class (
   -- * Helper functions
   anyCond, allCond, sumCond,
   nextHelper, prevHelper,
-  joinPP
+  joinPP, showPP
 ) where
 
 import Data.List (intercalate)
@@ -117,3 +117,5 @@ prevHelper a =
 joinPP :: Pretty a => String -> [a] -> String
 joinPP delim = intercalate delim . fmap pp
 
+showPP :: Pretty p => p -> IO ()
+showPP = putStrLn . pp

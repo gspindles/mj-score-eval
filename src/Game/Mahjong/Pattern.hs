@@ -143,11 +143,6 @@ data Pattern =
           , score   :: Int     -- ^ the score
           } deriving (Eq, Show)
 
-
--------------------------------------------------------------------------------
--- Hands List
--------------------------------------------------------------------------------
-
 instance Pretty Pattern where
   pp (Pattern n c s) = n ++ " : " ++ show s
 
@@ -170,8 +165,10 @@ illegalCall = Pattern "Illegal Call"   "詐和"   (-30)
 
 -- 2.0 Pungs and Kongs
 
-allPungs, twoConcealedPungs, threeConcealedPungs, fourConcealedPungs :: Pattern
-allPungs            = Pattern "All Pungs"             "對對和" 30
+allPungs :: Pattern
+allPungs            = Pattern "All Pungs" "對對和" 30
+
+twoConcealedPungs, threeConcealedPungs, fourConcealedPungs :: Pattern
 twoConcealedPungs   = Pattern "Two Concealed Pungs"   "兩暗刻" 5
 threeConcealedPungs = Pattern "Three Concealed Pungs" "三暗刻" 30
 fourConcealedPungs  = Pattern "Four Concealed Pungs"  "四暗刻" 125
@@ -183,7 +180,7 @@ threeKongs          = Pattern "Three Kongs" "三槓" 120
 fourKongs           = Pattern "Four Kongs"  "四槓" 480
 
 
--- 3.0 Identical Chows
+-- 3.0 Identical Sets
 
 twoIdenticalChows, twoIdenticalChowsTwice, threeIdenticalChows, fourIdenticalChows :: Pattern
 twoIdenticalChows      = Pattern "Two Identical Chows"       "一般高"     10
@@ -232,9 +229,9 @@ nineGates          = Pattern "Nine Gates" "九蓮寶燈" 480
 twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: Pattern
 twoTailedTerminalChows  = Pattern "Two-Tailed Terminal Chows" "老少配"   5
 twoTailedTerminalPungs  = Pattern "Two-Tailed Terminal Pungs" "老少副"   15
-twoTailedTerminals      = Pattern "Two-Tailed Terminals"      "老少么九" 240
+twoTailedTerminals      = Pattern "Two-Tailed Terminals"      "老少么九" 200
 littleBoundlessMountain = Pattern "Little Boundless Mountain" "小山滿"   320
-bigBoundlessMountain    = Pattern "Big  Boundless Mountain"   "大山滿"   400
+bigBoundlessMountain    = Pattern "Big Boundless Mountain"    "大山滿"   400
 
 mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals :: Pattern
 mixedLesserTerminals    = Pattern "Mixed Lesser Terminals"  "混全帶么九" 40
@@ -286,7 +283,7 @@ allBlue  = Pattern "All Blue"  "藍一色" 400 -- not exported
 
 thirteenOrphansImpure, thirteenOrphansPure :: Pattern
 thirteenOrphansImpure = Pattern "Thirteen Orphans (Impure)" "十三么九"        160
-thirteenOrphansPure = Pattern "Thirteen Orphans (Pure)"     "十三么九 十三面" 320
+thirteenOrphansPure   = Pattern "Thirteen Orphans (Pure)"   "十三么九 十三面" 320
 
 
 -- 12.0 Incidental bonuses
@@ -310,20 +307,19 @@ blessingOfEarth  = Pattern "Blessing of Earth"  "地和" 155
 -- 13.0 Bonus Tiles
 
 bonusFlowerSeason :: Pattern
-bonusFlowerSeason = Pattern "Non-seat Flower" "花季牌" 2
+bonusFlowerSeason = Pattern "Bonus Tiles" "花季牌" 2
 
 fourFlowers, fourSeasons :: Pattern
-fourFlowers       = Pattern "Four Flowers" "齊四花" 10
-fourSeasons       = Pattern "Four Seasons" "齊四季" 10
+fourFlowers       = Pattern "Four Flowers" "齊四花" 20
+fourSeasons       = Pattern "Four Seasons" "齊四季" 20
 
 allBonusTiles :: Pattern
-allBonusTiles     = Pattern "All Bonus Tiles" "八仙過海" 50
-
+allBonusTiles     = Pattern "All Bonus Tiles" "八仙過海" 80
 
 
 -------------------------------------------------------------------------------
-
-{- Utility functions -}
+-- Utility functions
+-------------------------------------------------------------------------------
 
 -- | This function assumes that the 2 patterns are identical
 --   and simply add their points up; no checking is done.

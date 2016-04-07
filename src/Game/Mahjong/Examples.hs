@@ -46,10 +46,10 @@ chickenEx = mkHand1
 allChowsEx :: Maybe Hand
 allChowsEx = mkHand1
   [ mkChow r b4
-  , mkChow r c7
+  , mkChow r k7
   , mkChow r b2
   , mkChow c c1
-  , mkEyes c dr
+  , mkEyes r dr
   ]
   [f1, s2]
   Nothing
@@ -100,8 +100,8 @@ allSimplesEx2 = mkHand1
   [s3]
   Nothing
 
-allTypesEx :: Maybe Hand
-allTypesEx = mkHand1
+allTypesEx1 :: Maybe Hand
+allTypesEx1 = mkHand1
   [ mkChow r c7
   , mkPung r ws
   , mkPung c k4
@@ -111,58 +111,25 @@ allTypesEx = mkHand1
   [f1]
   Nothing
 
-
-
--- | 2.0 Identical Chows
-
-twoIdenticalChowsEx :: Maybe Hand
-twoIdenticalChowsEx = mkHand1
-  [ mkChow r b4
-  , mkChow c c6
-  , mkChow r c6
-  , mkEyes c k3
-  , mkPung r we
+allTypesEx2 :: Maybe Hand
+allTypesEx2 = mkHand1
+  [ mkEyes c c7
+  , mkEyes c ws
+  , mkEyes c k4
+  , mkEyes c b6
+  , mkEyes c dr
+  , mkEyes c dw
+  , mkEyes r ww
   ]
-  [s1]
+  [f1]
   Nothing
 
-
-twoIdenticalChowsTwiceEx :: Maybe Hand
-twoIdenticalChowsTwiceEx = mkHand1
-  [ mkChow r b4
-  , mkChow c c6
-  , mkChow r c6
-  , mkEyes c k3
-  , mkChow r b4
-  ]
-  [s1]
-  Nothing
-
-threeIdenticalChowsEx :: Maybe Hand
-threeIdenticalChowsEx = mkHand1
-  [ mkChow r b4
-  , mkChow r b4
-  , mkChow c c6
-  , mkEyes c k3
-  , mkChow r b4
-  ]
-  [s1]
-  Nothing
-
-fourIdenticalChowsEx :: Maybe Hand
-fourIdenticalChowsEx = mkHand1
-  [ mkChow r b4
-  , mkChow r b4
-  , mkChow c b4
-  , mkEyes c k3
-  , mkChow r b4
-  ]
-  [s1]
-  Nothing
+illegalCallEx :: Maybe Hand
+illegalCallEx = Nothing
 
 
 
--- | 3.0 Pungs and Kongs
+-- | 2.0 Pungs and Kongs
 
 allPungsEx :: Maybe Hand
 allPungsEx = mkHand1
@@ -197,8 +164,8 @@ threeConcealedPungsEx = mkHand1
   [s2]
   Nothing
 
-fourConcealedPungsEx :: Maybe Hand
-fourConcealedPungsEx = mkHand1
+fourConcealedPungsEx1 :: Maybe Hand
+fourConcealedPungsEx1 = mkHand1
   [ mkPung c b4
   , mkPung c c3
   , mkPung c k2
@@ -208,6 +175,16 @@ fourConcealedPungsEx = mkHand1
   [s2]
   Nothing
 
+fourConcealedPungsEx2 :: Maybe Hand
+fourConcealedPungsEx2 = mkHand1
+  [ mkPung c b4
+  , mkPung c c4
+  , mkPung c k4
+  , mkEyes c ws
+  , mkPung c k6
+  ]
+  [s2]
+  Nothing
 
 oneKongEx :: Maybe Hand
 oneKongEx = mkHand1
@@ -253,6 +230,54 @@ fourKongsEx = mkHand1
   []
   Nothing
 
+
+
+-- | 3.0 Identical Chows
+
+twoIdenticalChowsEx :: Maybe Hand
+twoIdenticalChowsEx = mkHand1
+  [ mkChow r b4
+  , mkChow c c6
+  , mkChow r c6
+  , mkEyes c k3
+  , mkPung r we
+  ]
+  [s1]
+  Nothing
+
+
+twoIdenticalChowsTwiceEx :: Maybe Hand
+twoIdenticalChowsTwiceEx = mkHand1
+  [ mkChow r b4
+  , mkChow c c6
+  , mkChow r c6
+  , mkEyes c k3
+  , mkChow r b4
+  ]
+  [s1]
+  Nothing
+
+threeIdenticalChowsEx :: Maybe Hand
+threeIdenticalChowsEx = mkHand1
+  [ mkChow r b4
+  , mkChow r b4
+  , mkChow c c6
+  , mkEyes c k3
+  , mkChow r b4
+  ]
+  [s1]
+  Nothing
+
+fourIdenticalChowsEx :: Maybe Hand
+fourIdenticalChowsEx = mkHand1
+  [ mkChow r b4
+  , mkChow r b4
+  , mkChow c b4
+  , mkEyes c k3
+  , mkChow r b4
+  ]
+  [s1]
+  Nothing
 
 
 -- | 4.0 Similar Sets
@@ -532,6 +557,28 @@ twoTailedTerminalsEx1 = mkHand1
 
 twoTailedTerminalsEx2 :: Maybe Hand
 twoTailedTerminalsEx2 = mkHand1
+  [ mkPung r b1
+  , mkPung r b9
+  , mkChow c b1
+  , mkEyes c ww
+  , mkChow r b7
+  ]
+  [s1]
+  Nothing
+
+twoTailedTerminalsEx3 :: Maybe Hand
+twoTailedTerminalsEx3 = mkHand1
+  [ mkPung r b1
+  , mkPung r b9
+  , mkChow c b1
+  , mkEyes c c9
+  , mkChow r b7
+  ]
+  [s1]
+  Nothing
+
+twoTailedTerminalsEx4 :: Maybe Hand
+twoTailedTerminalsEx4 = mkHand1
   [ mkPung r b1
   , mkPung r b9
   , mkChow c b1

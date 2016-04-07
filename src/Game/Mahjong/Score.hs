@@ -1,3 +1,6 @@
+{-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE TypeSynonymInstances #-}
+
 -- |
 -- Module      :  Game.Mahjong.Score
 -- Copyright   :  Joseph Ching 2015
@@ -11,7 +14,7 @@
 --   and evaluate score
 module Game.Mahjong.Score (
     -- ** score functions
-    matchForPatterns
+    scoreHand, calculateScore, matchForPatterns
 ) where
 
 import Game.Mahjong.Examples
@@ -21,14 +24,23 @@ import Game.Mahjong.Class
 import Game.Mahjong.Tile
 import Game.Mahjong.Pattern
 
-import Data.Foldable (foldr1)
+import Control.Applicative (liftA2)
+import Data.Foldable (foldr1, maximumBy)
 import Data.List (groupBy, inits, intersect, nub, sort, sortBy, tails)
+import Data.Monoid (Any(..), Sum(..))
 import Data.Ord (comparing)
 
 
 -------------------------------------------------------------------------------
 -- Data definition
 -------------------------------------------------------------------------------
+
+type ScoreResults = (Int, [Pattern])
+
+instance Pretty ScoreResults where
+  pp (total, patterns) = "Total: " ++ show total ++ "\n"
+                      ++ "Patterns:\n"
+                      ++ concatMap (\p -> "  " ++ pp p ++ "\n") patterns
 
 -- | Newtype for scoring functions
 type ScoreFunc = (Hand, HandStat) -> [Pattern]
@@ -38,6 +50,26 @@ type ScoreFunc = (Hand, HandStat) -> [Pattern]
 -- Scoring functions
 -------------------------------------------------------------------------------
 
+-- | Calculates the scoring results of the hand
+scoreHand :: Maybe Hand -> ScoreResults
+scoreHand Nothing  = (score illegalCall, pure illegalCall)
+scoreHand (Just h) = calculateScore $ matchForPatterns h
+
+-- | Calculate the total results among the patterns
+calculateScore :: [Pattern] -> ScoreResults
+calculateScore ps
+  | not (null limitHands) = (limitScore, limitHands)
+  | otherwise             = (handScore, ps)
+  where
+    limitHands = filter ((>= 320) . score) ps
+    limitScore = score $ maximumBy (comparing score) limitHands
+
+    scoreCap   = 320
+    handTotal  = getSum $ foldMap (Sum . score) ps
+    handScore  = if handTotal >= scoreCap
+                 then scoreCap
+                 else handTotal
+
 -- | get a list of patterns the hand satisfies, sorted by highest points desc
 matchForPatterns :: Hand -> [Pattern]
 matchForPatterns hand =
@@ -46,7 +78,8 @@ matchForPatterns hand =
   else sortPatterns $ patterns ++ bonusPats
   where
     stat      = (hand, handStat hand)
-    patterns  = (<->>) matchers stat
+    patterns  | isSpecial hand = matchSpecial stat
+              | otherwise      = (<->>) matchers stat
     matchers  = [ matchTrivials         -- 1.  Trivival Patterns
                 , matchPungsAndKongs    -- 2.  Pungs & Kongs
                 , matchIdenticalSets    -- 3.  Identical Sets
@@ -57,7 +90,6 @@ matchForPatterns hand =
                 , matchHonors           -- 8.  Honor Tiles
                 , matchSevenPairs       -- 9.  Seven Pairs
                 , matchColors           -- 10. Colors Hands
-                , matchIrregular        -- 11. Irregular Hands
                 , matchIncidentals      -- 12. Incidental Bonuses
                 ]
     bonusPats = matchBonus stat         -- 13. Bonus Tiles
@@ -96,16 +128,16 @@ histogram xs = zip keys counts
     keys   = nub xs
     counts = fmap (\x -> count (== x) xs) keys
 
-commonElems :: (Eq a, Foldable t) => t [a] -> [a]
-commonElems = foldr1 intersect
+commonElems :: (Eq a, Applicative f, Foldable t) => t (f [a]) -> f [a]
+commonElems = foldr1 (liftA2 intersect)
 
-filterAndGroupByTileType :: (Meld -> Bool) -> [Meld] -> [[[Tile]]]
+filterAndGroupByTileType :: (Meld -> Bool) -> [Meld] -> [[[Int]]]
 filterAndGroupByTileType f = projected
   where
     tt        = tileType . head . meldTiles
     sorted    = sortBy (comparing tt) . filter f
     groupings = groupBy (\m1 m2 -> tt m1 == tt m2) . sorted
-    projected = fmap (fmap meldTiles) . groupings
+    projected = fmap (fmap (fmap tileValue . meldTiles)) . groupings
 
 
 -------------------------------------------------------------------------------
@@ -160,9 +192,6 @@ matchTrivials = (<->>) [ matchAllChows
                        , matchAllSimples
                        , matchAllTypes
                        ]
-
-isIllegalCall :: ScoreFunc
-isIllegalCall = \_ -> pure illegalCall
 
 
 
@@ -237,19 +266,19 @@ matchSimilarSets (h, _)
   | otherwise                      = []
   where
     melds            = getMelds h
-    similarCheck     = \i -> length i >= 3 && (not $ null i)
+    similarCheck     = getAny . foldMap (Any . not . null)
 
     checkChow        = \m -> isChow m && isSuit m
     projectedChow    = filterAndGroupByTileType checkChow melds
-    intersectionChow = if null projectedChow
-                       then []
-                       else fmap commonElems projectedChow
+    intersectionChow = if length projectedChow == 3
+                       then commonElems projectedChow
+                       else []
 
     checkPung        = \m -> isPung m && isSuit m
     projectedPung    = filterAndGroupByTileType checkPung melds
-    intersectionPung = if null projectedPung
-                       then []
-                       else fmap commonElems projectedPung
+    intersectionPung = if length projectedPung == 3
+                       then commonElems projectedPung
+                       else []
 
     eye              = filter (\m -> isEyes m && isSuit m) melds
     hasLTSP          = containsMelds h . getLTSP . head . meldTiles . head
@@ -286,6 +315,18 @@ matchSimilarSets (h, _)
 
       | otherwise = []  -- shouldn't get here
 
+
+ms1 = [c111, b111, k111, c123, b222]
+ms2 = [c123, b123, k123, b111, k789]
+ms3 = [c123, c222, b333, c456, k666, k789]
+cc = \m -> isChow m && isSuit m
+cp = \m -> isPung m && isSuit m
+p1a = filterAndGroupByTileType cc ms1
+p1b = filterAndGroupByTileType cp ms1
+p2a = filterAndGroupByTileType cc ms2
+p2b = filterAndGroupByTileType cp ms2
+p3a = filterAndGroupByTileType cc ms3
+p3b = filterAndGroupByTileType cp ms3
 
 
 {- 5.0 Consecutive Sets -}
@@ -392,6 +433,7 @@ matchOneSuit (h, hs)
 
 -- 6.2 Nine Gates
 -- | only consider pure version
+-- | Moving this to matchSpecial scoring wise
 matchNineGates :: ScoreFunc
 matchNineGates (h, _)
   | isSpecial h && isOneSuit && matchPattern = pure nineGates
@@ -403,9 +445,7 @@ matchNineGates (h, _)
     pat          = [1, 1] ++ [1..9] ++ [9, 9]
 
 matchSuits :: ScoreFunc
-matchSuits = (<->>) [ matchOneSuit
-                    , matchNineGates
-                    ]
+matchSuits = (<->>) [ matchOneSuit ]
 
 
 
@@ -582,9 +622,16 @@ matchBonus (h, _)
   | numBonuses == 8 = pure allBonusTiles
   | numFlowers == 4 = pure fourFlowers
   | numSeasons == 4 = pure fourSeasons
-  | otherwise       = pure $ updateScore bonusFlowerSeason numBonuses
+  | numBonuses > 0  = pure $ updateScore bonusFlowerSeason numBonuses
+  | otherwise       = []
   where
     numFlowers = count isFlower . getBonus $ h
     numSeasons = count isSeason . getBonus $ h
     numBonuses = numFlowers + numSeasons
 
+
+{- Special hands -}
+matchSpecial :: ScoreFunc
+matchSpecial = (<->>) [ matchNineGates
+                      , matchIrregular
+                      ]

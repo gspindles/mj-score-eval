@@ -9,7 +9,7 @@ The scoring is based on the [Zung Jung scoring system](http://www.zj-mahjong.inf
 
 The patterns are split into 13 broad category. Within each category [0] are families [0.0] of patterns [0.0.0]. When scoring, you can match patterns across multiple families, but only one pattern match from each family, so pick the highest points pattern match from that family!  For example, suppose a hand satisfies `Self Drawn : 5` and `Three Kongs : 120`, then lesser patterns such as `One Kongs : 5` and `Two Kong : 20` from the same family in `Pungs and Kongs` category do not get counted, unless specifically noted otherwise.
 
-Hands may satisfies paterns from multiple families, thus scoring the sum of points from each individual patterns.  However, this additive scoring caps at a maximum of 320 points limit. There are quite a few patterns, called `Limit Hands`, that rewards points beyond this 320 points limit.  However, they are their own cap - creating a hand that satisfies multiple limit patterns will simply score the highest point value among them.  For example, a hand satisfying `All Honor Pungs : 320` and `Big Four Winds : 400` will simly reward the higher value of 400 point.
+Hands may satisfies patterns from multiple families, thus scoring the sum of points from each individual patterns.  However, this additive scoring caps at a maximum of 320 points limit. There are quite a few patterns, called `Limit Hands`, that rewards points at or beyond this 320 points limit.  However, they are their own cap - creating a hand that satisfies multiple limit patterns will simply score the highest point value among them.  For example, a hand satisfying `All Honor Pungs : 320` and `Big Four Winds : 400` will simply reward the higher value of 400 point.
 
 ---
 
@@ -168,7 +168,7 @@ Two of `Three Consecutive Chows` in the same suit that either
 
 Example:&ensp;![k1]![k2]![k3]&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k5]![k6]![k7]&ensp;_chows #1,2,3 and #1,3,4 makes 2 `Three Consecutive Chows`_
 
-Example:&ensp;![k1]![k2]![k3]&nsp;![k3]![k4]![k5]&ensp;![k4]![k5]![k6]&ensp;![k5]![k6]![k7]&ensp;_chows #1,2,4 and #2,3,4 makes 2 `Three Consecutive Chows`_
+Example:&ensp;![k1]![k2]![k3]&ensp;![k3]![k4]![k5]&ensp;![k4]![k5]![k6]&ensp;![k5]![k6]![k7]&ensp;_chows #1,2,4 and #2,3,4 makes 2 `Three Consecutive Chows`_
 
 #### 5.1.4 Four Consecutive Chows : 四連順 : 100
 Four chows in consecutive number in the same suit with either
@@ -214,8 +214,12 @@ Example:&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k6]![k6]![k6]&ensp;![k
 
 Example:&ensp;![k1]![k1]&ensp;![k2]![k2]&ensp;![k4]![k4]&ensp;![k5]![k5]&ensp;![k7]![k7]&ensp;![k8]![k8]&ensp;![k9]![k9]
 
-#### 6.2 Nine Gates : 九蓮寶燈 : 480
+#### 6.2 Nine Gates : 純正 九蓮寶燈 : 480
 A 9-way call hand, with `1112345678999` in one suit in your hand, and winning on any one tile in the same suit.
+
+Note: pure version only, impure version doesn't count.
+
+Pattern:&ensp;![c1]![c1]![c1]![c2]![c3]![c4]![c5]![c6]![c7]![c8]![c9]![c9]![c9]
 
     with 1 => 111 123 456 789 99
     with 2 => 111 22 345 678 999
@@ -226,10 +230,6 @@ A 9-way call hand, with `1112345678999` in one suit in your hand, and winning on
     with 7 => 111 234 567 789 99
     with 8 => 111 234 567 88 999
     with 9 => 11 123 456 789 999
-
-Note: pure version only, impure version doesn't count.
-
-Pattern:&ensp;![c1]![c1]![c1]![c2]![c3]![c4]![c5]![c6]![c7]![c8]![c9]![c9]![c9]
 
 ---
 
@@ -361,9 +361,11 @@ Pattern:&ensp;![we]![we]&ensp;![ws]![ws]&ensp;![ww]![ww]&ensp;![wn]![wn]&ensp;![
 
 ### 9.0 Seven Pairs
 
-Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cannot count those patterns which specifically require chows, pungs, or kongs, but it can count for other patterns without such requirements. Four identical tiles can count as two pairs as long as kongs is not declared.
+Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cannot count those patterns which specifically require chows, pungs, or kongs, but it can count for other patterns without such requirements.
 
-#### 9.1.1 Seven Pairs : 七對子 : 35 -> 40
+Note: Four identical tiles can count as two pairs as long as kongs is not declared.
+
+#### 9.1.1 Seven Pairs : 七對子 : 30 -> 35
 The hand consists of seven pairs.
 
 Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 35+5=40 points.
@@ -421,7 +423,7 @@ Among the 13 types of terminals and honors, the hand contains one pair of one ty
 Note: the impure version has the eye pair completed already, and is missing a specific terminal / honor to complete the pattern.
 Note: the impure version can rob a hidden kong.
 
-Example:&ensp;![c1]![c9]![b1]![b9]![k1]![k9]![we]![ws]![ws]![ww]![wn]![dr]![dg]![dw]&ensp;_=> wait for ![c9] to complete pattern_
+Example:&ensp;![c1]![b1]![b9]![k1]![k9]![we]![ws]![ws]![ww]![wn]![dr]![dg]![dw]&ensp;_=> wait for ![c9] to complete pattern_
 
 #### 11.1.2 Thirteen Orphans (Pure) : 十三么九 十三面 : 320
 Gather all 13 types of terminals and honors, and win by waiting on any of the 13 possible tiles.
@@ -477,12 +479,12 @@ Flowers tiles only provide bonus points, they do NOT contribute to having the mi
 #### 13.1 Bonus Flower / Bonus Season : 花季牌 : 2 per tile
 Each flower or season bonus tile is worth 2 points unless completing the set.
 
-#### 13.1.1 All Flowers : 齊四花 : 15
+#### 13.1.1 All Flowers : 齊四花 : 20
 A complete set of all 4 Flower tiles.
 
 Pattern:&ensp;![f1]![f2]![f3]![f4]
 
-#### 13.1.2 All Seasons : 齊四季 : 15
+#### 13.1.2 All Seasons : 齊四季 : 20
 A complete set of all 4 Season tiles.
 
 Pattern:&ensp;![s1]![s2]![s3]![s4]
