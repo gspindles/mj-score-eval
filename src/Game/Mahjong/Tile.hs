@@ -50,8 +50,8 @@ import Game.Mahjong.Class
 import Data.List (nub, sort)
 import Data.Map (Map, insert, (!), elems, singleton)
 import Data.Maybe (fromJust)
-import System.Random (randomR, randomIO, mkStdGen, RandomGen)
 import Data.Singletons (Sing)
+import System.Random (randomR, randomIO, mkStdGen, RandomGen)
 
 
 -------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ type Ctxt tt = (
   , Loop (TileValue tt)
   )
 
--- | sigma Tile definition
+-- | sigma tile definition
 data Tile where
   Tile :: Ctxt tt => Sing (tt :: TileType) -> TileValue tt -> Tile
 
@@ -526,7 +526,7 @@ randomWall = do
 
 -- | gets a random number
 randNumber :: IO Int
-randNumber = fmap (flip mod 144 . abs) randomIO
+randNumber = (flip mod 144 . abs) <$> randomIO
 
 -- | Fisher Yates Algorithm
 -- | Source:  http://www.haskell.org/haskellwiki/Random_shuffle

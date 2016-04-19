@@ -229,7 +229,7 @@ nineGates          = Pattern "Nine Gates" "九蓮寶燈" 480
 twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: Pattern
 twoTailedTerminalChows  = Pattern "Two-Tailed Terminal Chows" "老少配"   5
 twoTailedTerminalPungs  = Pattern "Two-Tailed Terminal Pungs" "老少副"   15
-twoTailedTerminals      = Pattern "Two-Tailed Terminals"      "老少么九" 200
+twoTailedTerminals      = Pattern "Two-Tailed Terminals"      "老少么九" 180
 littleBoundlessMountain = Pattern "Little Boundless Mountain" "小山滿"   320
 bigBoundlessMountain    = Pattern "Big Boundless Mountain"    "大山滿"   400
 

@@ -247,8 +247,10 @@ A pung / kong of 1s and 9s in the same suit.
 
 Example:&ensp;![k1]![k1]![k1]&ensp;![k9]![k9]![k9]
 
-#### 7.1.3 Two-Tailed Terminals : 老少么九 : 200
+#### 7.1.3 Two-Tailed Terminals : 老少么九 : 180 -> 200
 The hand consists of the pattern `111 123 789 999` in a suit.
+
+Note: this always includes `Two-Tailed Terminal Chows` and `Two-Tailed Terminal Pungs`, so it scores at least 180+5+15=200 points.
 
 Example:&ensp;![c1]![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]![c9]
 
@@ -342,7 +344,7 @@ Example:&ensp;![dw]![dw]![dw]&ensp;![dr]![dr]![dr]&ensp;![dg]![dg]
 #### 8.2.3 Big Three Dragons : 大三元 : 130 -> 160
 Three pungs / kongs of Dragons.
 
-Note: this hand always includes three Dragon pungs, so it scores at least 130+10+10+10=160 points.
+Note: this hand always includes three `Dragon Pung`s, so it scores at least 130+10+10+10=160 points.
 
 Pattern:&ensp;![dw]![dw]![dw]&ensp;![dg]![dg]![dg]&ensp;![dr]![dr]![dr]
 

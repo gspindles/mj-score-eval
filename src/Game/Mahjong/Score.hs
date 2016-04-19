@@ -26,7 +26,7 @@ import Game.Mahjong.Pattern
 
 import Control.Applicative (liftA2)
 import Data.Foldable (foldr1, maximumBy)
-import Data.List (groupBy, inits, intersect, nub, sort, sortBy, tails)
+import Data.List (group, groupBy, inits, intersect, nub, sort, sortBy, tails)
 import Data.Monoid (Any(..), Sum(..))
 import Data.Ord (comparing)
 
@@ -122,11 +122,10 @@ permutingCons x xs = zipWith (\i t -> i ++ [x] ++ t) (inits xs) (tails xs)
 count :: (a -> Bool) -> [a] -> Int
 count f = length . filter f
 
-histogram :: Eq a => [a] -> [(a, Int)]
-histogram xs = zip keys counts
+histogram :: Ord a => [a] -> [(a, Int)]
+histogram = fmap bar . group . sort
   where
-    keys   = nub xs
-    counts = fmap (\x -> count (== x) xs) keys
+    bar x = (head x, length x)
 
 commonElems :: (Eq a, Applicative f, Foldable t) => t (f [a]) -> f [a]
 commonElems = foldr1 (liftA2 intersect)
@@ -249,7 +248,7 @@ matchIdenticalSets (h, _)
     groupings = groupBy (\m1 m2 -> meldTiles m1 == meldTiles m2) sorted
     twoOrMore = filter (\g -> length g >= 2 && all isChow g) groupings
 
-    counts    = fmap length twoOrMore
+    counts    = length <$> twoOrMore
     twoCount  = count (== 2) counts
 
 
@@ -454,17 +453,18 @@ matchSuits = (<->>) [ matchOneSuit ]
 -- 7.1 Chow and pungs
 matchTerminals1 :: ScoreFunc
 matchTerminals1 (h, _)
-  | isSameTileType tiles && matchBM              = pure bigBoundlessMountain
-  | isSameTileType tiles && all isTerminal melds = pure littleBoundlessMountain
-  | or $ fmap (containsMelds h) pat2             = pure twoTailedTerminals
-  | otherwise                                    = accChows ++ accPungs
+  | isSameTileType tiles && matchBBM = acc ++ pure bigBoundlessMountain
+  | isSameTileType tiles && matchLBM = acc ++ pure littleBoundlessMountain
+  | or $ (containsMelds h) <$> pat2  = acc ++ pure twoTailedTerminals
+  | otherwise                        = acc
   where
     melds    = getMelds h
     tiles    = getHandTiles h
     patBM1   = [1, 1, 1, 1, 2, 2, 3, 3, 7, 8, 9, 9, 9, 9]
     patBM2   = [1, 1, 1, 1, 2, 3, 7, 7, 8, 8, 9, 9, 9, 9]
-    matchBM  = matchValuePattern tiles patBM1
+    matchBBM = matchValuePattern tiles patBM1
             || matchValuePattern tiles patBM2
+    matchLBM = all isTerminal melds
 
     pat2     = [ [c111, c123, c789, c999]
                , [b111, b123, b789, b999]
@@ -477,6 +477,7 @@ matchTerminals1 (h, _)
     pungCount = count (== True) . fmap (containsMelds h) $ patPungs
     accChows  = take chowCount $ repeat twoTailedTerminalChows
     accPungs  = take pungCount $ repeat twoTailedTerminalPungs
+    acc       = accChows ++ accPungs
 
 -- 7.2 Mixed and pure
 matchTerminals2 :: ScoreFunc

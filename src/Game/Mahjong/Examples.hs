@@ -409,12 +409,34 @@ threeConsecutivePungsEx = mkHand1
   []
   Nothing
 
-fourConsecutivePungsEx :: Maybe Hand
-fourConsecutivePungsEx = mkHand1
+fourConsecutivePungsEx1 :: Maybe Hand
+fourConsecutivePungsEx1 = mkHand1
+  [ mkPung r k5
+  , mkPung r k6
+  , mkPung r k7
+  , mkEyes c c8
+  , mkPung r k8
+  ]
+  [f2]
+  Nothing
+
+fourConsecutivePungsEx2 :: Maybe Hand
+fourConsecutivePungsEx2 = mkHand1
   [ mkPung r k5
   , mkPung r k6
   , mkPung r k7
   , mkEyes c dg
+  , mkPung r k8
+  ]
+  []
+  Nothing
+
+fourConsecutivePungsEx3 :: Maybe Hand
+fourConsecutivePungsEx3 = mkHand1
+  [ mkPung r k5
+  , mkPung r k6
+  , mkPung r k7
+  , mkEyes c k2
   , mkPung r k8
   ]
   []
@@ -998,25 +1020,25 @@ thirteenOrphanPureEx = mkSpecial1
 
 -- | 12.0 Incidental Bonuses
 finalDrawEx :: Maybe Hand
-finalDrawEx        = fmap (flip addHandInfo OnSeabed) chickenEx
+finalDrawEx        = (flip addHandInfo OnSeabed) <$> chickenEx
 
 finalDiscardEx :: Maybe Hand
-finalDiscardEx     = fmap (flip addHandInfo OnRiverbed) chickenEx
+finalDiscardEx     = (flip addHandInfo OnRiverbed) <$> chickenEx
 
 winOnKongEx :: Maybe Hand
-winOnKongEx        = fmap (flip addHandInfo OnKongSupplement) chickenEx
+winOnKongEx        = (flip addHandInfo OnKongSupplement) <$> chickenEx
 
 winOnBonusTileEx :: Maybe Hand
-winOnBonusTileEx   = fmap (flip addHandInfo OnBonusSupplement) chickenEx
+winOnBonusTileEx   = (flip addHandInfo OnBonusSupplement) <$> chickenEx
 
 robbingKongEx :: Maybe Hand
-robbingKongEx      = fmap (flip addHandInfo OnKongRobbing) chickenEx
+robbingKongEx      = (flip addHandInfo OnKongRobbing) <$> chickenEx
 
 blessingOfHeavenEx :: Maybe Hand
-blessingOfHeavenEx = fmap (flip addHandInfo OnFirstDraw) chickenEx
+blessingOfHeavenEx = (flip addHandInfo OnFirstDraw) <$> chickenEx
 
 blessingOfEarthEx :: Maybe Hand
-blessingOfEarthEx  = fmap (flip addHandInfo OnFirstDiscard) chickenEx
+blessingOfEarthEx  = (flip addHandInfo OnFirstDiscard) <$> chickenEx
 
 
 
