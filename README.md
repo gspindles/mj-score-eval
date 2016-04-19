@@ -417,7 +417,7 @@ Example:&ensp;![b1]![b2]![b1]&ensp;![b5]![b5]![b5]&ensp;![b7]![b7]![b7]&ensp;![b
 
 ### 11.0 Irregular Hands
 
-`Thirteen Orphans` hands do not count for `Concealed Hand`.
+`Thirteen Orphans` hand does not count for `Concealed Hand`, `All Types`, nor `Mixed Greater Terminals`.
 
 #### 11.1.1 Thirteen Orphans (Impure) : 十三么九 : 160
 Among the 13 types of terminals and honors, the hand contains one pair of one type, and one tile each of the other 12 types.
