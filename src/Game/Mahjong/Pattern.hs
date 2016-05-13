@@ -99,7 +99,7 @@ module Game.Mahjong.Pattern (
 
 
   -- * 11.0 Irregular Hands
-  thirteenOrphansImpure, thirteenOrphansPure,
+  thirteenOrphans,
 
 
   -- * 12.0 Incidental bonuses
@@ -160,7 +160,7 @@ concealed   = Pattern "Concealed Hand" "門前清" 5
 selfDrawn   = Pattern "Self Drawn"     "自摸"   5
 allSimples  = Pattern "All Simple"     "斷么九" 5
 allTypes    = Pattern "All Types"      "五門齊" 10
-illegalCall = Pattern "Illegal Call"   "詐和"   (-30)
+illegalCall = Pattern "Illegal Call"   "詐和"   (-40)
 
 
 -- 2.0 Pungs and Kongs
@@ -276,14 +276,13 @@ numberNeighborhood = Pattern "Number Neighborhood" "大數隣" 400
 allGreen, allRed, allBlue :: Pattern
 allGreen = Pattern "All Green" "緑一色" 400
 allRed   = Pattern "All Red"   "紅孔雀" 480
-allBlue  = Pattern "All Blue"  "藍一色" 400 -- not exported
+allBlue  = Pattern "All Blue"  "藍一色" 320 -- not exported
 
 
 -- 11.0 Irregular Hands
 
-thirteenOrphansImpure, thirteenOrphansPure :: Pattern
-thirteenOrphansImpure = Pattern "Thirteen Orphans (Impure)" "十三么九"        160
-thirteenOrphansPure   = Pattern "Thirteen Orphans (Pure)"   "十三么九 十三面" 320
+thirteenOrphans :: Pattern
+thirteenOrphans = Pattern "Thirteen Orphans (Impure)" "十三么九" 160
 
 
 -- 12.0 Incidental bonuses

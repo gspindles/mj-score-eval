@@ -589,12 +589,10 @@ matchColors (h, _)
 
 matchIrregular :: ScoreFunc
 matchIrregular (h, _)
-  | isSpecial h && isPure   h = pure thirteenOrphansPure
-  | isSpecial h && isImpure h = pure thirteenOrphansImpure
-  | otherwise   = []
+  | isSpecial h && isThirteenOrphans = pure thirteenOrphans
+  | otherwise                        = []
   where
-    isPure   = (== edges) . sort . init . getHandTiles
-    isImpure = (== edges) . sort . nub  . getHandTiles
+    isThirteenOrphans = (== edges) . sort . nub . getHandTiles $ h
 
 
 
@@ -623,7 +621,7 @@ matchBonus (h, _)
   | numBonuses == 8 = pure allBonusTiles
   | numFlowers == 4 = pure fourFlowers
   | numSeasons == 4 = pure fourSeasons
-  | numBonuses > 0  = pure $ updateScore bonusFlowerSeason numBonuses
+  | numBonuses >  0 = pure $ updateScore bonusFlowerSeason numBonuses
   | otherwise       = []
   where
     numFlowers = count isFlower . getBonus $ h

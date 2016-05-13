@@ -42,7 +42,7 @@ A hand consisting of all 5 tile types.
 Example:&ensp;![c3]![c4]![c5]&ensp;![b4]![b4]![b4]&ensp;![k7]![k8]![k9]&ensp;![wn]![wn]![wn]&ensp;![dr]![dr]
 
 
-#### 1.7 Illegal Call : 詐和 : -30
+#### 1.7 Illegal Call : 詐和 : -40
 Declares mahjong accidentally when the hand is not ready.
 
 ---
@@ -166,12 +166,16 @@ Two of `Three Consecutive Chows` in the same suit that either
     diverges at the start: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)
     converges at the end : (n)(n+1)(n+2)  (n+2)(n+3)(n+4)  (n+3)(n+4)(n+5)  (n+4)(n+5)(n+6)
 
+Note: this hand is always `All Chows`, so it scores at least 50+5=55 points.
+
 Example:&ensp;![k1]![k2]![k3]&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k5]![k6]![k7]&ensp;_chows #1,2,3 and #1,3,4 makes 2 `Three Consecutive Chows`_
 
 Example:&ensp;![k1]![k2]![k3]&ensp;![k3]![k4]![k5]&ensp;![k4]![k5]![k6]&ensp;![k5]![k6]![k7]&ensp;_chows #1,2,4 and #2,3,4 makes 2 `Three Consecutive Chows`_
 
 #### 5.1.4 Four Consecutive Chows : 四連順 : 100
 Four chows in consecutive number in the same suit with either
+
+Note: this hand is always `All Chows`, so it scores at least 100+5=105 points.
 
     increment by 1 step: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)  (n+3)(n+4)(n+5)
     increment by 2 step: (n)(n+1)(n+2)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)  (n+6)(n+7)(n+8)
@@ -188,6 +192,8 @@ Example:&ensp;![k4]![k4]![k4]&ensp;![k5]![k5]![k5]&ensp;![k6]![k6]![k6]
 
 #### 5.2.2 Four Consecutive Pungs : 四連刻 : 200
 Four pungs / kongs in consecutive numbers in the same suit.
+
+Note: this hand is always `All Pungs`, so it scores at least 200+30=230 points.
 
 Example:&ensp;![k4]![k4]![k4]&ensp;![k5]![k5]![k5]&ensp;![k6]![k6]![k6]&ensp;![k7]![k7]![k7]
 
@@ -217,7 +223,9 @@ Example:&ensp;![k1]![k1]&ensp;![k2]![k2]&ensp;![k4]![k4]&ensp;![k5]![k5]&ensp;![
 #### 6.2 Nine Gates : 純正 九蓮寶燈 : 480
 A 9-way call hand, with `1112345678999` in one suit in your hand, and winning on any one tile in the same suit.
 
-Note: pure version only, impure version doesn't count.
+Note: pure version only, impure version doesn't count.  That is, the pattern must be completed, you have to be 9-way calling.
+
+Example:  1112245678999 on hand, and self draws a 3, then the player _must_ discard the extra 2 in order to to qualify as 9-way calling. Otherwise, it's only `Pure One-Suit`.
 
 Pattern:&ensp;![c1]![c1]![c1]![c2]![c3]![c4]![c5]![c6]![c7]![c8]![c9]![c9]![c9]
 
@@ -365,12 +373,12 @@ Pattern:&ensp;![we]![we]&ensp;![ws]![ws]&ensp;![ww]![ww]&ensp;![wn]![wn]&ensp;![
 
 Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cannot count those patterns which specifically require chows, pungs, or kongs, but it can count for other patterns without such requirements.
 
-Note: Four identical tiles can count as two pairs as long as kongs is not declared.
+Note: Four identical tiles can count as two pairs as long as kong is not declared.
 
-#### 9.1.1 Seven Pairs : 七對子 : 30 -> 35
+#### 9.1.1 Seven Pairs : 七對子 : 30
 The hand consists of seven pairs.
 
-Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 35+5=40 points.
+Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 30+5=35 points.
 
 Example:&ensp;![k2]![k2]&ensp;![k6]![k6]&ensp;![c1]![c1]&ensp;![c7]![c7]&ensp;![dw]![dw]&ensp;![ww]![ww]&ensp;![wn]![wn]
 
@@ -419,20 +427,14 @@ Example:&ensp;![b1]![b2]![b1]&ensp;![b5]![b5]![b5]&ensp;![b7]![b7]![b7]&ensp;![b
 
 `Thirteen Orphans` hand does not count for `Concealed Hand`, `All Types`, nor `Mixed Greater Terminals`.
 
-#### 11.1.1 Thirteen Orphans (Impure) : 十三么九 : 160
+#### 11.1 Thirteen Orphans : 十三么九 : 160
 Among the 13 types of terminals and honors, the hand contains one pair of one type, and one tile each of the other 12 types.
 
-Note: the impure version has the eye pair completed already, and is missing a specific terminal / honor to complete the pattern.
-Note: the impure version can rob a hidden kong.
+Note: although 13-way call is very rare, there is no distinction between the pure vs impure version scoring wise. 
 
 Example:&ensp;![c1]![b1]![b9]![k1]![k9]![we]![ws]![ws]![ww]![wn]![dr]![dg]![dw]&ensp;_=> wait for ![c9] to complete pattern_
 
-#### 11.1.2 Thirteen Orphans (Pure) : 十三么九 十三面 : 320
-Gather all 13 types of terminals and honors, and win by waiting on any of the 13 possible tiles.
-
-Note: the pure version completed the pattern already, and thus have 13 possible waits.
-
-Pattern:&ensp;![c1]![c9]![b1]![b9]![k1]![k9]![we]![ws]![ww]![wn]![dr]![dg]![dw]
+Example:&ensp;![c1]![c9]![b1]![b9]![k1]![k9]![we]![ws]![ww]![wn]![dr]![dg]![dw]&ensp;_=> 13 possible waits_
 
 ---
 
@@ -459,7 +461,7 @@ Note: if the supplement tile is also the seabed tile, both patterns can be count
 
 
 #### 12.3 Robbing a Kong : 搶槓 : 10
-Winning by robbing a kong (when another player makes an exposed kongs, concealed kong does not count unless for `Impure Thirteen Orphans`).
+Winning by robbing a kong promotion. As for concealed kong, only `Thirteen Orphans` hand can rob a concealed kong.
 
 
 #### 12.4.1 Blessing of Heaven : 天和 : 155
@@ -481,17 +483,17 @@ Flowers tiles only provide bonus points, they do NOT contribute to having the mi
 #### 13.1 Bonus Flower / Bonus Season : 花季牌 : 2 per tile
 Each flower or season bonus tile is worth 2 points unless completing the set.
 
-#### 13.1.1 All Flowers : 齊四花 : 20
+#### 13.1.1 All Flowers : 齊四花 : 12 -> 20
 A complete set of all 4 Flower tiles.
 
 Pattern:&ensp;![f1]![f2]![f3]![f4]
 
-#### 13.1.2 All Seasons : 齊四季 : 20
+#### 13.1.2 All Seasons : 齊四季 : 12 -> 20
 A complete set of all 4 Season tiles.
 
 Pattern:&ensp;![s1]![s2]![s3]![s4]
 
-#### 13.1.3 All Bonus Tiles : 八仙過海 : 80
+#### 13.1.3 All Bonus Tiles : 八仙過海 : 64 -> 80
 A complete set of all 8 bonus tiles.
 
 Pattern:&ensp;![f1]![f2]![f3]![f4]&ensp;![s1]![s2]![s3]![s4]
