@@ -220,12 +220,12 @@ Example:&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k6]![k6]![k6]&ensp;![k
 
 Example:&ensp;![k1]![k1]&ensp;![k2]![k2]&ensp;![k4]![k4]&ensp;![k5]![k5]&ensp;![k7]![k7]&ensp;![k8]![k8]&ensp;![k9]![k9]
 
-#### 6.2 Nine Gates : 純正 九蓮寶燈 : 480
+#### 6.2 Nine Gates : 九蓮寶燈 : 480
 A 9-way call hand, with `1112345678999` in one suit in your hand, and winning on any one tile in the same suit.
 
 Note: pure version only, impure version doesn't count.  That is, the pattern must be completed, you have to be 9-way calling.
 
-Example:  1112245678999 on hand, and self draws a 3, then the player _must_ discard the extra 2 in order to to qualify as 9-way calling. Otherwise, it's only `Pure One-Suit`.
+Example:  1112245678999 on hand, and self draws a 3, then the player __must__ discard the extra 2 in order to to qualify as 9-way calling. Otherwise, it's only `Pure One-Suit`.
 
 Pattern:&ensp;![c1]![c1]![c1]![c2]![c3]![c4]![c5]![c6]![c7]![c8]![c9]![c9]![c9]
 
