@@ -1,12 +1,3 @@
--- |
--- Module      :  Game.Mahjong.Meld.Generate
--- Copyright   :  Joseph Ching 2015
--- License     :  MIT
---
--- Maintainer  :  joseph.m.ching@gmail.com
--- Stability   :  experimental
--- Portability :  portable
-
 -- | Meta tile and meld data definition
 --   along with methods for generation of particular kinds of melds
 module Game.Mahjong.Meld.Generate (

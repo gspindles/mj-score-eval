@@ -1,12 +1,3 @@
--- |
--- Module      :  Game.Mahjong.Meld
--- Copyright   :  Joseph Ching 2015
--- License     :  MIT
---
--- Maintainer  :  joseph.m.ching@gmail.com
--- Stability   :  experimental
--- Portability :  portable
-
 -- | Data definitions and instances for meld.
 module Game.Mahjong.Meld (
   -- * Meld, Meld types, and meld status

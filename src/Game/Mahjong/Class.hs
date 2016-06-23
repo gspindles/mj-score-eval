@@ -1,12 +1,3 @@
--- |
--- Module      :  Game.Mahjong.Class
--- Copyright   :  Joseph Ching 2015
--- License     :  MIT
---
--- Maintainer  :  joseph.m.ching@gmail.com
--- Stability   :  experimental
--- Portability :  portable
-
 -- | Various predicates on tile types
 module Game.Mahjong.Class (
   -- * Tile predicates type class

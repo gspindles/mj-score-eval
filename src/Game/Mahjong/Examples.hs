@@ -1,12 +1,3 @@
--- |
--- Module      :  Game.Mahjong.Examples
--- Copyright   :  Joseph Ching 2015
--- License     :  MIT
---
--- Maintainer  :  joseph.m.ching@gmail.com
--- Stability   :  experimental
--- Portability :  portable
-
 -- | Data definition of tiles
 --   along with tile related functions
 module Game.Mahjong.Examples where

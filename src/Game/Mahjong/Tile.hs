@@ -5,15 +5,6 @@
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE TypeFamilies       #-}
 
--- |
--- Module      :  Game.Mahjong.Tile
--- Copyright   :  Joseph Ching 2015
--- License     :  MIT
---
--- Maintainer  :  joseph.m.ching@gmail.com
--- Stability   :  experimental
--- Portability :  portable
-
 -- | Tile Module contains data definitions and class instances for tile.
 --   Additionally, this package also exports tile names, collections,
 --   some utility functions, as well as wall building.

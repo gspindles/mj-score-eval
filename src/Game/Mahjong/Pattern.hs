@@ -1,12 +1,3 @@
--- |
--- Module      :  Game.Mahjong.Pattern
--- Copyright   :  Joseph Ching 2015
--- License     :  MIT
---
--- Maintainer  :  joseph.m.ching@gmail.com
--- Stability   :  experimental
--- Portability :  portable
-
 -- | Data definition of hand patterns
 --   and declaration for all accepted patterns
 module Game.Mahjong.Pattern (
