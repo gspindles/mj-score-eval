@@ -38,7 +38,7 @@ module Game.Mahjong.Tile (
 
 import Game.Mahjong.Class
 
-import Data.List (nub, sort)
+import Data.List (nub)
 import Data.Map (Map, insert, (!), elems, singleton)
 import Data.Maybe (fromJust)
 import Data.Singletons (Sing)
@@ -115,25 +115,25 @@ data Animals
 
 -- | pi quantify the tile type
 data instance Sing (tt :: TileType) where
-  SC :: Sing Coin
-  SB :: Sing Bamboo
-  SK :: Sing Character
-  SW :: Sing Wind
-  SD :: Sing Dragon
-  SF :: Sing Flower
-  SS :: Sing Season
-  SA :: Sing Animal
+  SC :: Sing 'Coin
+  SB :: Sing 'Bamboo
+  SK :: Sing 'Character
+  SW :: Sing 'Wind
+  SD :: Sing 'Dragon
+  SF :: Sing 'Flower
+  SS :: Sing 'Season
+  SA :: Sing 'Animal
 
 -- | map the tile type to their value type
 type family TileValue (tt :: TileType) where
-  TileValue Coin      = Values
-  TileValue Bamboo    = Values
-  TileValue Character = Values
-  TileValue Wind      = Winds
-  TileValue Dragon    = Dragons
-  TileValue Flower    = Flowers
-  TileValue Season    = Seasons
-  TileValue Animal    = Animals
+  TileValue 'Coin      = Values
+  TileValue 'Bamboo    = Values
+  TileValue 'Character = Values
+  TileValue 'Wind      = Winds
+  TileValue 'Dragon    = Dragons
+  TileValue 'Flower    = Flowers
+  TileValue 'Season    = Seasons
+  TileValue 'Animal    = Animals
 
 type Ctxt tt = (
     Bounded (TileValue tt)
@@ -490,7 +490,7 @@ isEightOrNine (Tile tt tv) =
     SK -> eightOrNine tv
     _  -> False
   where
-    eightOrNine tv = tv == Eight || tv == Nine
+    eightOrNine v = v == Eight || v == Nine
 
 -- | Check if the list of tiles have the same tile type
 isSameTileType :: [Tile] -> Bool
@@ -528,7 +528,7 @@ fisherYates gen l  =
   where
     toElems (x, y) = (elems x, y)
     numerate       = zip [1..]
-    initial x gen  = (singleton 0 x, gen)
+    initial x g    = (singleton 0 x, g)
 
 -- | Step function for Fisher Yates Algorithm
 -- | Source:  http://www.haskell.org/haskellwiki/Random_shuffle

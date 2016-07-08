@@ -2,7 +2,6 @@
 --   along with tile related functions
 module Game.Mahjong.Examples where
 
-import Game.Mahjong.Class (pp)
 import Game.Mahjong.Hand
 import Game.Mahjong.Meld
 import Game.Mahjong.Tile

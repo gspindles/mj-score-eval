@@ -1,3 +1,5 @@
+{-# Language LambdaCase #-}
+
 -- | Data definition of a hand
 --   along with hand evaluation functions
 module Game.Mahjong.Hand (
@@ -24,10 +26,6 @@ module Game.Mahjong.Hand (
 
   -- ** Calculating hand stat
   handStat,
-
-
-  -- * Examples, TODO: remove later
-  h, sp1, sp2
 ) where
 
 import Game.Mahjong.Class
@@ -71,22 +69,19 @@ data Hand
 -------------------------------------------------------------------------------
 
 instance Pretty Hand where
-  pp h =
-    case h of
-      (Hand m b i)      -> joinPP "  " m
-                        ++ delim ++ joinSort b
-                        ++ info i
-      (Special t l b i) -> "-/" ++ joinSort t ++ "/"
-                        ++ delim ++ pp l
-                        ++ delim ++ joinSort b
-                        ++ info i
+  pp = \case
+    (Hand m b i)      -> joinPP "  " m
+                      ++ delim ++ joinSort b
+                      ++ info i
+    (Special t l b i) -> "-/" ++ joinSort t ++ "/"
+                      ++ delim ++ pp l
+                      ++ delim ++ joinSort b
+                      ++ info i
     where
-      info i =
-        case i of
-          Just hi -> delim ++ show hi
-          Nothing -> ""
+      info (Just hi)  = delim ++ show hi
+      info Nothing    = ""
 
-      delim = "  |  "
+      delim           = "  |  "
 
 joinSort :: (Ord a, Pretty a) => [a] -> String
 joinSort [] = "[]"
@@ -159,14 +154,8 @@ addBonus (Special ts lt bts hi) b = Special ts lt (nub $ b : bts) hi
 
 -- Add additional information about winning conditions to a hand
 addHandInfo :: Hand -> HandInfo -> Hand
-addHandInfo h@(Hand ms bts hi)       nhi =
-  case hi of
-    Nothing -> Hand ms bts (Just nhi)
-    Just _  -> h
-addHandInfo s@(Special ts lt bts hi) nhi =
-  case hi of
-    Nothing -> Special ts lt bts (Just nhi)
-    Just _  -> s
+addHandInfo (Hand ms bts _)       nhi = Hand ms bts (Just nhi)
+addHandInfo (Special ts lt bts _) nhi = Special ts lt bts (Just nhi)
 
 
 -------------------------------------------------------------------------------
@@ -250,32 +239,4 @@ handStatStep m hs = mappend hs step
 
 handStat :: Hand -> HandStat
 handStat = foldr handStatStep mempty . getMelds
-
-
--------------------------------------------------------------------------------
--- Examples for repl
--------------------------------------------------------------------------------
-
-h :: Maybe Hand
-h = mkHand1 [
-    mkChow Revealed c1
-  , mkPung Revealed ws
-  , mkKong Concealed b3
-  , mkEyes Concealed dr
-  , mkChow Revealed k7
-  ]
-  [f2, s4]
-  Nothing
-
-sp1 :: Maybe Hand
-sp1 = mkSpecial1 [b1, b1, b1, b2, b3, b4, b5, b6, b7, b8, b9, b9, b9]
-                 b5
-                 [f3]
-                 (Just OnSeabed)
-
-sp2 :: Maybe Hand
-sp2 = mkSpecial1 [c1, c9, b1, b9, k1, k9, we, ws, ww, wn, dr, dg, dw]
-                 c1
-                 [f2]
-                 (Just OnRiverbed)
 

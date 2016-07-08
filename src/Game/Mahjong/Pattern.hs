@@ -138,7 +138,7 @@ data Pattern =
           } deriving (Eq, Show)
 
 instance Pretty Pattern where
-  pp (Pattern n c s) = T.unpack n ++ " : " ++ show s
+  pp (Pattern n _ s) = T.unpack n ++ " : " ++ show s
 
 
 -------------------------------------------------------------------------------

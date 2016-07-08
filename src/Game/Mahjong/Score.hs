@@ -8,13 +8,13 @@ module Game.Mahjong.Score (
     scoreHand, calculateScore, matchForPatterns
 ) where
 
-import Game.Mahjong.Examples
 import Game.Mahjong.Hand
 import Game.Mahjong.Meld
 import Game.Mahjong.Class
 import Game.Mahjong.Tile
 import Game.Mahjong.Pattern
 
+import Control.Arrow ((&&&))
 import Control.Applicative (liftA2)
 import Data.Foldable (foldr1, maximumBy)
 import Data.List (group, groupBy, inits, intersect, nub, sort, sortBy, tails)
@@ -43,7 +43,7 @@ type ScoreFunc = (Hand, HandStat) -> [Pattern]
 
 -- | Calculates the scoring results of the hand
 scoreHand :: Maybe Hand -> ScoreResults
-scoreHand Nothing  = (score illegalCall, pure illegalCall)
+scoreHand Nothing  = score &&& pure $ illegalCall
 scoreHand (Just h) = calculateScore $ matchForPatterns h
 
 -- | Calculate the total results among the patterns
@@ -195,7 +195,7 @@ matchPungs (_, hs)
 
 -- 2.2 Concealed pungs
 matchConcealedPungs :: ScoreFunc
-matchConcealedPungs (h, hs)
+matchConcealedPungs (h, _)
   | counts == 4 = pure fourConcealedPungs
   | counts == 3 = pure threeConcealedPungs
   | counts == 2 = pure twoConcealedPungs
@@ -305,18 +305,6 @@ matchSimilarSets (h, _)
 
       | otherwise = []  -- shouldn't get here
 
-
-ms1 = [c111, b111, k111, c123, b222]
-ms2 = [c123, b123, k123, b111, k789]
-ms3 = [c123, c222, b333, c456, k666, k789]
-cc = \m -> isChow m && isSuit m
-cp = \m -> isPung m && isSuit m
-p1a = filterAndGroupByTileType cc ms1
-p1b = filterAndGroupByTileType cp ms1
-p2a = filterAndGroupByTileType cc ms2
-p2b = filterAndGroupByTileType cp ms2
-p3a = filterAndGroupByTileType cc ms3
-p3b = filterAndGroupByTileType cp ms3
 
 
 {- 5.0 Consecutive Sets -}

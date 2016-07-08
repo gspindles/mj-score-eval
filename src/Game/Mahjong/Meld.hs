@@ -44,7 +44,7 @@ module Game.Mahjong.Meld (
   coinEyes, bambooEyes, characterEyes, terminalEyes, windEyes, dragonEyes,
 
   -- ** Utility function
-  meldTileMatch, flipStatus
+  meldTileMatch
 ) where
 
 import Game.Mahjong.Class
@@ -60,6 +60,7 @@ import Data.List(nub)
 data Status
   = Revealed
   | Concealed
+  | Promoted
     deriving (Bounded, Enum, Eq, Ord, Show)
 
 -- | Meld types
@@ -87,6 +88,7 @@ data Meld
 instance Pretty Status where
   pp Revealed  = "+"
   pp Concealed = "-"
+  pp Promoted  = "|"
 
 -- | Chow ends with >,
 -- Pung ends with ],
@@ -94,15 +96,15 @@ instance Pretty Status where
 -- Eye ends with ).
 instance Pretty Meld where
   pp (Meld s mt ts) =
-    pp s ++ enclose mt (joinPP " " ts)
+    pp s ++ enclose
     where
-      enclose :: MeldType -> String -> String
-      enclose mt ts =
+      ppTiles = joinPP " " ts
+      enclose =
         case mt of
-          Chow -> "<" ++ ts ++ ">"
-          Pung -> "[" ++ ts ++ "]"
-          Kong -> "{" ++ ts ++ "}"
-          Eyes -> "(" ++ ts ++ ")"
+          Chow -> "<" ++ ppTiles ++ ">"
+          Pung -> "[" ++ ppTiles ++ "]"
+          Kong -> "{" ++ ppTiles ++ "}"
+          Eyes -> "(" ++ ppTiles ++ ")"
 
 -- | Instance for TilePred
 instance TilePred Meld where
@@ -484,11 +486,4 @@ meldTileMatch k m1 m2 =
     ignoreMeldTypeEq Pung Kong = True
     ignoreMeldTypeEq Kong Pung = True
     ignoreMeldTypeEq mt1  mt2  = mt1 == mt2
-
--- | flip betwen revealed and concealed status
-flipStatus :: Meld -> Meld
-flipStatus (Meld s mt ts) =
-  case s of
-    Revealed  -> Meld Concealed mt ts
-    Concealed -> Meld Revealed mt ts
 
