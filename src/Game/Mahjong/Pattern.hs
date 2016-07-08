@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- | Data definition of hand patterns
 --   and declaration for all accepted patterns
 module Game.Mahjong.Pattern (
@@ -122,6 +124,7 @@ module Game.Mahjong.Pattern (
 
 import Game.Mahjong.Class
 
+import qualified Data.Text as T
 
 -------------------------------------------------------------------------------
 -- Data Declaration
@@ -129,13 +132,13 @@ import Game.Mahjong.Class
 
 
 data Pattern =
-  Pattern { name    :: String  -- ^ the english name
-          , chinese :: String  -- ^ the chinese name
+  Pattern { name    :: T.Text  -- ^ the english name
+          , chinese :: T.Text  -- ^ the chinese name
           , score   :: Int     -- ^ the score
           } deriving (Eq, Show)
 
 instance Pretty Pattern where
-  pp (Pattern n c s) = n ++ " : " ++ show s
+  pp (Pattern n c s) = T.unpack n ++ " : " ++ show s
 
 
 -------------------------------------------------------------------------------

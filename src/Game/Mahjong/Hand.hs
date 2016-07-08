@@ -74,12 +74,12 @@ instance Pretty Hand where
   pp h =
     case h of
       (Hand m b i)      -> joinPP "  " m
-                       ++ delim ++ joinSort b
-                       ++ info i
+                        ++ delim ++ joinSort b
+                        ++ info i
       (Special t l b i) -> "-/" ++ joinSort t ++ "/"
-                       ++ delim ++ pp l
-                       ++ delim ++ joinSort b
-                       ++ info i
+                        ++ delim ++ pp l
+                        ++ delim ++ joinSort b
+                        ++ info i
     where
       info i =
         case i of
@@ -87,8 +87,6 @@ instance Pretty Hand where
           Nothing -> ""
 
       delim = "  |  "
-
-
 
 joinSort :: (Ord a, Pretty a) => [a] -> String
 joinSort [] = "[]"

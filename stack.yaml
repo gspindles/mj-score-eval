@@ -1,0 +1,18 @@
+flags: {}
+extra-package-dbs: []
+packages:
+- '.'
+extra-deps:
+- primitive-0.6.1.0
+- safe-0.3.9
+- singletons-2.2
+- syb-0.6
+- text-1.2.2.1
+- th-desugar-1.6
+- th-expand-syns-0.4.0.0
+- th-lift-0.7.6
+- th-lift-instances-0.1.9
+- th-orphans-0.13.1
+- th-reify-many-0.1.6
+- vector-0.11.0.0
+resolver: ghc-8.0.1

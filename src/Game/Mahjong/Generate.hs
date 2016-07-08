@@ -1,6 +1,6 @@
 -- | Meta tile and meld data definition
 --   along with methods for generation of particular kinds of melds
-module Game.Mahjong.Meld.Generate (
+module Game.Mahjong.Generate (
 ) where
 
 import Game.Mahjong.Meld

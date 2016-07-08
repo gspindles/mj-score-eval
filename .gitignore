@@ -8,10 +8,12 @@
 *.hi
 *.o
 *.hs.swp
-*.cabal
 .cabal-sandbox/*
 cabal.sandbox.config
 dist/*
+
+#stack
+.stack-work/*
 
 # python
 *.pyc
