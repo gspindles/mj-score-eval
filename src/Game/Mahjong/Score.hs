@@ -368,15 +368,16 @@ matchConsecutivePungs (h, _)
     sorted          = sortBy (comparing meldTiles) pungs
     fstPung         = head sorted
     sndPung         = head $ tail sorted
+    sonTiles        = fmap (head . meldTiles) sorted
 
     build3ConsP     = take 3 . iterate next
     build4ConsP     = take 4 . iterate next
-    sonChow         = mkChow Revealed . head . meldTiles
+    sonChow         = mkChow Revealed sonTiles
     hasSon (Just c) = containsMelds h [c]
     hasSon Nothing  = False
 
     threeMCheck     = containsMelds h (build3ConsP fstPung)
-                   && (hasSon $ sonChow fstPung)
+                   && (hasSon $ sonChow)
     fourConsPCheck  = containsMelds h (build4ConsP fstPung)
     threeConsPCheck = containsMelds h (build3ConsP fstPung)
                    || containsMelds h (build3ConsP sndPung)

@@ -6,13 +6,13 @@ module Game.Mahjong.Meld (
   Meld,
 
   -- ** Constructors
-  mkChow, mkPung, mkKong, mkEyes, mkMeld,
+  mkChow, mkPung, mkKong, mkEyes, mkMeld, promotePung,
 
   -- ** Meld accessors
   status, meldType, meldTiles,
 
   -- ** Predicates for the status of meld
-  isConcealed, isRevealed,
+  isConcealed, isRevealed, isPromoted,
 
   -- ** Predicates for the type of meld
   isChow, isPung, isKong, isEyes,
@@ -50,7 +50,7 @@ module Game.Mahjong.Meld (
 import Game.Mahjong.Class
 import Game.Mahjong.Tile
 
-import Data.List(nub)
+import Data.List (nub, sort)
 
 -------------------------------------------------------------------------------
 -- Data definitions
@@ -88,12 +88,10 @@ data Meld
 instance Pretty Status where
   pp Revealed  = "+"
   pp Concealed = "-"
-  pp Promoted  = "|"
+  pp Promoted  = "^"
 
--- | Chow ends with >,
--- Pung ends with ],
--- Kong ends with },
--- Eye ends with ).
+-- | Enclose melds in different brackets
+-- Chow: <>, Pung: [], Kong: {}, Eyes: ()
 instance Pretty Meld where
   pp (Meld s mt ts) =
     pp s ++ enclose
@@ -142,37 +140,40 @@ instance Loop Meld where
 -- Meld generation
 -------------------------------------------------------------------------------
 
--- | Given a tile, takes next 2 successors to make a chow.
---   Only Tile one to seven of the 3 suit types are valid input,
---   suit tile of value 8 or 9, and non suit tiles returns Nothing.
-mkChow :: Status -> Tile -> Maybe Meld
-mkChow s t =
-  if isSuit t && not (isEightOrNine t)
-  then Just $ Meld s Chow $ take 3 $ iterate next t
-  else Nothing
+-- | Tries to make a Chow.
+mkChow :: Status -> [Tile] -> Maybe Meld
+mkChow s ts
+  | s /= Promoted && areSuitTiles && sequenceOf3 && inSequence
+      = Just $ Meld s Chow ordered
+  | otherwise
+      =  Nothing
+  where
+    ordered      = sort ts
+    areSuitTiles = all isSuit ts
+    sequenceOf3  = length ts == 3
+    inSequence   = next (ordered !! 0) == ordered !! 1
+                && next (ordered !! 1) == ordered !! 2
 
--- | Given a tile, attemps to make a Pung.
---   Bonus tile results in Nothing.
-mkPung :: Status -> Tile -> Maybe Meld
-mkPung s t = meldHelper s Pung t 3
+-- | Tries to make a Pung.
+mkPung :: Status -> [Tile] -> Maybe Meld
+mkPung s ts
+  | s /= Promoted && length ts == 3 = meldHelper s Pung ts
+  | otherwise                      = Nothing
 
--- | Given a tile, attemps to make a Kong.
---   Bonus tile results in Nothing.
-mkKong :: Status -> Tile -> Maybe Meld
-mkKong s t = meldHelper s Kong t 4
+-- | Tries to make a Kong.
+mkKong :: Status -> [Tile] -> Maybe Meld
+mkKong s ts
+  | length ts == 4 = meldHelper s Kong ts
+  | otherwise      = Nothing
 
--- | Given a tile, attemp to make a pair of Eyes.
---   Bonus tile results in Nothing.
-mkEyes :: Status -> Tile -> Maybe Meld
-mkEyes s t = meldHelper s Eyes t 2
+-- | Tries to make an Eyes.
+mkEyes :: Status -> [Tile] -> Maybe Meld
+mkEyes s ts
+  | s /= Promoted && length ts == 2 = meldHelper s Eyes ts
+  | otherwise                      = Nothing
 
-meldHelper :: Status -> MeldType -> Tile -> Int -> Maybe Meld
-meldHelper s mt t n
-  | not $ isBonus t = Just $ Meld s mt $ replicate n t
-  | otherwise       = Nothing
-
--- | Attemps to create a meld with parameters given.
-mkMeld :: Status -> MeldType -> Tile -> Maybe Meld
+-- | Tries to make a meld.
+mkMeld :: Status -> MeldType -> [Tile] -> Maybe Meld
 mkMeld s mt t =
   case mt of
     Chow -> mkChow s t
@@ -180,6 +181,20 @@ mkMeld s mt t =
     Kong -> mkKong s t
     Eyes -> mkEyes s t
 
+-- | Tries to promote a Pung to a Kong.
+promotePung :: Meld -> Tile -> Maybe Meld
+promotePung (Meld Revealed Pung ts) t
+  | all (== t) ts = Just $ Meld Promoted Kong (t:ts)
+  | otherwise     = Nothing
+promotePung _ _   = Nothing
+
+meldHelper :: Status -> MeldType -> [Tile] -> Maybe Meld
+meldHelper s mt ts
+  | notBonusTiles && allSame = Just $ Meld s mt ts
+  | otherwise                = Nothing
+  where
+    notBonusTiles = all (not . isBonus) ts
+    allSame       = (== 1) . length . nub $ ts
 
 -------------------------------------------------------------------------------
 -- Predicates for status
@@ -193,6 +208,9 @@ isConcealed = (==) Concealed . status
 isRevealed :: Meld -> Bool
 isRevealed  = (==) Revealed  . status
 
+-- | Is the meld promoted to Kong?
+isPromoted :: Meld -> Bool
+isPromoted  = (==) Promoted  . status
 
 -------------------------------------------------------------------------------
 -- Predicates for meld types
