@@ -30,7 +30,7 @@ module Game.Mahjong.Tile (
   regulars, allTiles,
 
   -- ** Utility functions
-  tileType, tileValue, isEightOrNine, isSameTileType,
+  tileType, tileValue, isSameTileType,
 
   -- ** Wall building
   mjSet, getWall, randomWall
@@ -480,17 +480,6 @@ tileType (Tile tt _) = demote tt
 -- | Gets the numeric value of the tile.
 tileValue :: Tile -> Int
 tileValue (Tile _ tv) = fromEnum tv + 1
-
--- | Is the value of a suit tile 8 or 9?
-isEightOrNine :: Tile -> Bool
-isEightOrNine (Tile tt tv) =
-  case tt of
-    SC -> eightOrNine tv
-    SB -> eightOrNine tv
-    SK -> eightOrNine tv
-    _  -> False
-  where
-    eightOrNine v = v == Eight || v == Nine
 
 -- | Check if the list of tiles have the same tile type
 isSameTileType :: [Tile] -> Bool
