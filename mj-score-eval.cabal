@@ -44,7 +44,9 @@ test-suite mj-score-eval-test
   hs-source-dirs:      test
   main-is:             Tests.hs
   other-modules:       Game.Mahjong.Test.Class,
-                       Game.Mahjong.Test.Tile
+                       Game.Mahjong.Test.Tile,
+                       Game.Mahjong.Test.Meld,
+                       Game.Mahjong.Test.Score
   build-depends:       base,
                        mj-score-eval,
                        QuickCheck >= 2.8,

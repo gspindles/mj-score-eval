@@ -199,7 +199,7 @@ twoKongsEx :: Maybe Hand
 twoKongsEx = mkHand1
   [ mkKong' r c3
   , mkChow' c b2
-  , mkKong' r b9 >>= flip promotePung b9
+  , mkPung' r b9 >>= flip promotePung b9
   , mkEyes' c dg
   , mkChow' r k2
   ]
@@ -953,8 +953,8 @@ numberNeighborhoodEx = mkHand1
 
 -- | 10.0 Color Hands
 
-allGreenEx :: Maybe Hand
-allGreenEx = mkHand1
+allGreenEx1 :: Maybe Hand
+allGreenEx1 = mkHand1
   [ mkChow' r b2
   , mkChow' r b2
   , mkPung' r b6
@@ -962,6 +962,19 @@ allGreenEx = mkHand1
   , mkEyes' c b8
   ]
   [f2, s2]
+  Nothing
+
+allGreenEx2 :: Maybe Hand
+allGreenEx2 = mkHand1
+  [ mkEyes' c b2
+  , mkEyes' c b3
+  , mkEyes' c b4
+  , mkEyes' c b6
+  , mkEyes' c b8
+  , mkEyes' c dg
+  , mkEyes' r dg
+  ]
+  [f3]
   Nothing
 
 allRedEx :: Maybe Hand
@@ -990,8 +1003,8 @@ allBlueEx = mkHand1
 
 -- | 11.0 Irregular Hands
 
-thirteenOrphanImpureEx :: Maybe Hand
-thirteenOrphanImpureEx = mkSpecial1
+thirteenOrphansImpureEx :: Maybe Hand
+thirteenOrphansImpureEx = mkSpecial1
   [ c1, c1
   , b1, b9
   , k1, k9
@@ -1002,8 +1015,8 @@ thirteenOrphanImpureEx = mkSpecial1
   [f4]
   Nothing
 
-thirteenOrphanPureEx :: Maybe Hand
-thirteenOrphanPureEx = mkSpecial1
+thirteenOrphansPureEx :: Maybe Hand
+thirteenOrphansPureEx = mkSpecial1
   [ c1, c9
   , b1, b9
   , k1, k9
@@ -1018,32 +1031,32 @@ thirteenOrphanPureEx = mkSpecial1
 
 -- | 12.0 Incidental Bonuses
 finalDrawEx :: Maybe Hand
-finalDrawEx        = (flip addHandInfo OnSeabed) <$> chickenEx
+finalDrawEx        = (flip addHandInfo OnSeabed)          <$> chickenEx
 
 finalDiscardEx :: Maybe Hand
-finalDiscardEx     = (flip addHandInfo OnRiverbed) <$> chickenEx
+finalDiscardEx     = (flip addHandInfo OnRiverbed)        <$> chickenEx
 
 winOnKongEx :: Maybe Hand
-winOnKongEx        = (flip addHandInfo OnKongSupplement) <$> chickenEx
+winOnKongEx        = (flip addHandInfo OnKongSupplement)  <$> chickenEx
 
 winOnBonusTileEx :: Maybe Hand
 winOnBonusTileEx   = (flip addHandInfo OnBonusSupplement) <$> chickenEx
 
-robbingKongEx :: Maybe Hand
-robbingKongEx      = (flip addHandInfo OnKongRobbing) <$> chickenEx
+robbingAKongEx :: Maybe Hand
+robbingAKongEx     = (flip addHandInfo OnKongRobbing)     <$> chickenEx
 
 blessingOfHeavenEx :: Maybe Hand
-blessingOfHeavenEx = (flip addHandInfo OnFirstDraw) <$> chickenEx
+blessingOfHeavenEx = (flip addHandInfo OnFirstDraw)       <$> chickenEx
 
 blessingOfEarthEx :: Maybe Hand
-blessingOfEarthEx  = (flip addHandInfo OnFirstDiscard) <$> chickenEx
+blessingOfEarthEx  = (flip addHandInfo OnFirstDiscard)    <$> chickenEx
 
 
 
 -- | 13.0 Bonus Tiles
 
-bonusTile :: Maybe Hand
-bonusTile = mkHand1
+bonusTilesEx :: Maybe Hand
+bonusTilesEx = mkHand1
   [ mkChow' r c2
   , mkPung' r b2
   , mkChow' r b7
@@ -1075,8 +1088,8 @@ fourSeasonsEx = mkHand1
   [s1, s2, s3, s4]
   Nothing
 
-allBonusTileEx :: Maybe Hand
-allBonusTileEx = mkHand1
+allBonusTilesEx :: Maybe Hand
+allBonusTilesEx = mkHand1
   [ mkChow' r c7
   , mkPung' r b2
   , mkChow' r b7

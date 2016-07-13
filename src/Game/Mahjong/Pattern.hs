@@ -88,7 +88,7 @@ module Game.Mahjong.Pattern (
 
 
   -- * 10.0 Color Hands
-  allRed, allGreen,
+  allGreen, allRed,
 
 
   -- * 11.0 Irregular Hands

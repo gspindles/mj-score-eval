@@ -292,7 +292,7 @@ Example:&ensp;![b1]![b2]![b3]&ensp;![k1]![k1]![k1]&ensp;![k7]![k8]![k9]&ensp;![c
 #### 7.2.3 Mixed Greater Terminals : 混么九 : 100
 An `All Pungs` or `Seven Pairs` hand which consists entirely of terminal and honor tiles. 
 
-Note: not applicable to a `Thirteen Terminals` hand.
+Note: not applicable to a `Thirteen Orphans` hand.
 
 Example:&ensp;![b9]![b9]![b9]&ensp;![k1]![k1]![k1]&ensp;![ww]![ww]![ww]&ensp;![dg]![dg]![dg]&ensp;![c1]![c1]
 
@@ -449,7 +449,7 @@ Lucky bonuses for winning on rare opportunities.
 Winning on a discarded `riverbed` tile (the last discard by the player who has drawn the seabed tile).
 
 
-#### 12.2.1 Win on Kongs : 嶺上開花 : 10
+#### 12.2.1 Win on Kong : 嶺上開花 : 10
 `Self Drawn` win on a `supplement` tile after declaring a kong.
 
 Note: if the supplement tile is also the seabed tile, both patterns can be counted.

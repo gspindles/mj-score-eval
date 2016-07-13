@@ -143,14 +143,14 @@ instance Loop Meld where
 -- | Tries to make a Chow.
 mkChow :: Status -> [Tile] -> Maybe Meld
 mkChow s ts
-  | s /= Promoted && areSuitTiles && sequenceOf3 && inSequence
+  | s /= Promoted && sequenceOf3 && areSuitTiles && inSequence
       = Just $ Meld s Chow ordered
   | otherwise
       =  Nothing
   where
     ordered      = sort ts
-    areSuitTiles = all isSuit ts
     sequenceOf3  = length ts == 3
+    areSuitTiles = all isSuit ts
     inSequence   = next (ordered !! 0) == ordered !! 1
                 && next (ordered !! 1) == ordered !! 2
 

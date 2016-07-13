@@ -5,7 +5,7 @@
 --   and evaluate score
 module Game.Mahjong.Score (
     -- ** score functions
-    scoreHand, calculateScore, matchForPatterns
+    scoreHand, calculateScore, matchForPatterns, matchBonus
 ) where
 
 import Game.Mahjong.Hand
@@ -49,6 +49,7 @@ scoreHand (Just h) = calculateScore $ matchForPatterns h
 -- | Calculate the total results among the patterns
 calculateScore :: [Pattern] -> ScoreResults
 calculateScore ps
+  | elem illegalCall ps   = score &&& pure $ illegalCall
   | not (null limitHands) = (limitScore, limitHands)
   | otherwise             = (handScore, ps)
   where
@@ -65,12 +66,12 @@ calculateScore ps
 matchForPatterns :: Hand -> [Pattern]
 matchForPatterns hand =
   if null patterns
-  then pure chicken
+  then pure chicken            ++ bonusPats
   else sortPatterns $ patterns ++ bonusPats
   where
     stat      = (hand, handStat hand)
     patterns  | isSpecial hand = matchSpecial stat
-              | otherwise      = (<->>) matchers stat
+              | otherwise      = matchers <->> stat
     matchers  = [ matchTrivials         -- 1.  Trivival Patterns
                 , matchPungsAndKongs    -- 2.  Pungs & Kongs
                 , matchIdenticalSets    -- 3.  Identical Sets
@@ -102,10 +103,8 @@ containsMelds h = all (\m -> meldElem (getMelds h) m)
     meldElem xs x = any (\m -> meldTileMatch True x m) xs
 
 matchValuePattern :: [Tile] -> [Int] -> Bool
-matchValuePattern ts is =
-  if isSameTileType ts
-  then (sort . fmap tileValue $ ts) == is
-  else False
+matchValuePattern ts is = isSameTileType ts
+                       && (sort . fmap tileValue $ ts) == is
 
 permutingCons :: a -> [a] -> [[a]]
 permutingCons x xs = zipWith (\i t -> i ++ [x] ++ t) (inits xs) (tails xs)
@@ -114,9 +113,7 @@ count :: (a -> Bool) -> [a] -> Int
 count f = length . filter f
 
 histogram :: Ord a => [a] -> [(a, Int)]
-histogram = fmap bar . group . sort
-  where
-    bar x = (head x, length x)
+histogram = fmap (head &&& length) . group . sort
 
 commonElems :: (Eq a, Applicative f, Foldable t) => t (f [a]) -> f [a]
 commonElems = foldr1 (liftA2 intersect)
@@ -398,7 +395,6 @@ matchOneSuit (h, hs)
   | mixedCond            = pure mixedOneSuit
   | otherwise            = []
   where
-    melds      = getMelds h
     tiles      = getHandTiles h
     numCoins   = numOfCoins hs
     numBamboos = numOfBamboos hs
@@ -559,8 +555,8 @@ matchSevenPairs (h, hs)
 
 matchColors :: ScoreFunc
 matchColors (h, _)
-  | all isRed   . getHandTiles $ h = pure allRed
   | all isGreen . getHandTiles $ h = pure allGreen
+  | all isRed   . getHandTiles $ h = pure allRed
   | otherwise                      = []
 
 
