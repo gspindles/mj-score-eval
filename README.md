@@ -160,7 +160,7 @@ Note: the hand must contain exactly the three chows listed above.
 
 Example:&ensp;![k1]![k2]![k3]&ensp;![k4]![k5]![k6]&ensp;![k7]![k8]![k9]
 
-#### 5.1.3 Three Consecutive Chows Twice : 雙三連順 : 50
+#### 5.1.3 Three Consecutive Chows Twice : 雙三連順 : 60
 Two of `Three Consecutive Chows` in the same suit that either
 
     diverges at the start: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)
@@ -255,10 +255,10 @@ A pung / kong of 1s and 9s in the same suit.
 
 Example:&ensp;![k1]![k1]![k1]&ensp;![k9]![k9]![k9]
 
-#### 7.1.3 Two-Tailed Terminals : 老少么九 : 180 -> 200
+#### 7.1.3 Two-Tailed Terminals : 老少么九 : 100 -> 120
 The hand consists of the pattern `111 123 789 999` in a suit.
 
-Note: this always includes `Two-Tailed Terminal Chows` and `Two-Tailed Terminal Pungs`, so it scores at least 180+5+15=200 points.
+Note: this always includes `Two-Tailed Terminal Chows` and `Two-Tailed Terminal Pungs`, so it scores is 100 + 5 + 15 = 120
 
 Example:&ensp;![c1]![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]![c9]
 
@@ -375,10 +375,10 @@ Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cann
 
 Note: Four identical tiles can count as two pairs as long as kong is not declared.
 
-#### 9.1.1 Seven Pairs : 七對子 : 30
+#### 9.1.1 Seven Pairs : 七對子 : 40
 The hand consists of seven pairs.
 
-Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 30+5=35 points.
+Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 40+5=45 points.
 
 Example:&ensp;![k2]![k2]&ensp;![k6]![k6]&ensp;![c1]![c1]&ensp;![c7]![c7]&ensp;![dw]![dw]&ensp;![ww]![ww]&ensp;![wn]![wn]
 
@@ -427,10 +427,10 @@ Example:&ensp;![b1]![b2]![b1]&ensp;![b5]![b5]![b5]&ensp;![b7]![b7]![b7]&ensp;![b
 
 `Thirteen Orphans` hand does not count for `Concealed Hand`, `All Types`, nor `Mixed Greater Terminals`.
 
-#### 11.1 Thirteen Orphans : 十三么九 : 160
+#### 11.1 Thirteen Orphans : 十三么九 : 160 / 320 (13 waits)
 Among the 13 types of terminals and honors, the hand contains one pair of one type, and one tile each of the other 12 types.
 
-Note: although 13-way call is very rare, there is no distinction between the pure vs impure version scoring wise. 
+Note: the hand scores 320 instead if it is a 13 wait situation where the pair of eye is not initially complete.
 
 Example:&ensp;![c1]![b1]![b9]![k1]![k9]![we]![ws]![ws]![ww]![wn]![dr]![dg]![dw]&ensp;_=> wait for ![c9] to complete pattern_
 
@@ -483,17 +483,21 @@ Flowers tiles only provide bonus points, they do NOT contribute to having the mi
 #### 13.1 Bonus Flower / Bonus Season : 花季牌 : 2 per tile
 Each flower or season bonus tile is worth 2 points unless completing the set.
 
-#### 13.1.1 All Flowers : 齊四花 : 12 -> 20
+#### 13.1.1 All Flowers : 齊四花 : 15 -> 20
 A complete set of all 4 Flower tiles.
+
+Note: 15 -> 20 for flower kong.
 
 Pattern:&ensp;![f1]![f2]![f3]![f4]
 
 #### 13.1.2 All Seasons : 齊四季 : 12 -> 20
 A complete set of all 4 Season tiles.
 
+Note: 15 -> 20 for season kong.
+
 Pattern:&ensp;![s1]![s2]![s3]![s4]
 
-#### 13.1.3 All Bonus Tiles : 八仙過海 : 64 -> 80
+#### 13.1.3 All Bonus Tiles : 八仙過海 : 80
 A complete set of all 8 bonus tiles.
 
 Pattern:&ensp;![f1]![f2]![f3]![f4]&ensp;![s1]![s2]![s3]![s4]

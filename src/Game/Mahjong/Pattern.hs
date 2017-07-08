@@ -92,7 +92,7 @@ module Game.Mahjong.Pattern (
 
 
   -- * 11.0 Irregular Hands
-  thirteenOrphans,
+  thirteenOrphans, thirteenOrphansWaits
 
 
   -- * 12.0 Incidental bonuses
@@ -223,7 +223,7 @@ nineGates          = Pattern "Nine Gates" "九蓮寶燈" 480
 twoTailedTerminalChows, twoTailedTerminalPungs, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: Pattern
 twoTailedTerminalChows  = Pattern "Two-Tailed Terminal Chows" "老少配"   5
 twoTailedTerminalPungs  = Pattern "Two-Tailed Terminal Pungs" "老少副"   15
-twoTailedTerminals      = Pattern "Two-Tailed Terminals"      "老少么九" 180
+twoTailedTerminals      = Pattern "Two-Tailed Terminals"      "老少么九" 120
 littleBoundlessMountain = Pattern "Little Boundless Mountain" "小山滿"   320
 bigBoundlessMountain    = Pattern "Big Boundless Mountain"    "大山滿"   400
 
@@ -236,15 +236,17 @@ pureGreaterTerminals    = Pattern "Pure Greater Terminals"  "清么九"     400
 
 -- 8.0 Honor Tiles
 
-windPung, littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds :: Pattern
+windPung, dragonPung :: Pattern
 windPung           = Pattern "Wind Pung"          "風刻"   5
+dragonPung         = Pattern "Dragon Pung"        "箭刻"   10
+
+littleThreeWinds, bigThreeWinds, littleFourWinds, bigFourWinds :: Pattern
 littleThreeWinds   = Pattern "Little Three Winds" "小三風" 30
 bigThreeWinds      = Pattern "Big Three Winds"    "大三風" 120
 littleFourWinds    = Pattern "Little Four Winds"  "小四喜" 320
 bigFourWinds       = Pattern "Big Four Winds"     "大四喜" 400
 
 dragonPung, littleThreeDragons, bigThreeDragons :: Pattern
-dragonPung         = Pattern "Dragon Pung"          "箭刻"   10
 littleThreeDragons = Pattern "Little Three Dragons" "小三元" 40
 bigThreeDragons    = Pattern "Big Three Dragons"    "大三元" 130
 
@@ -256,7 +258,7 @@ allHonorPairs      = Pattern "All Honor Pairs" "大七星" 480
 -- 9.0 Seven Pairs
 
 sevenPairs :: Pattern
-sevenPairs         = Pattern "Seven Pairs" "七對子" 30
+sevenPairs         = Pattern "Seven Pairs" "七對子" 40
 
 sevenShiftedPairs, grandChariot, bambooForest, numberNeighborhood :: Pattern
 sevenShiftedPairs  = Pattern "Seven Shifted Pairs" "連七對" 320
@@ -275,8 +277,9 @@ allBlue  = Pattern "All Blue"  "藍一色" 320 -- not exported
 
 -- 11.0 Irregular Hands
 
-thirteenOrphans :: Pattern
-thirteenOrphans = Pattern "Thirteen Orphans (Impure)" "十三么九" 160
+thirteenOrphans, thirteenOrphansWaits :: Pattern
+thirteenOrphans      = Pattern "Thirteen Orphans"            "十三么九"        160
+thirteenOrphansWaits = Pattern "Thirteen Orphans (13 Waits)" "十三么九 十三面" 320
 
 
 -- 12.0 Incidental bonuses
@@ -303,8 +306,8 @@ bonusFlowerSeason :: Pattern
 bonusFlowerSeason = Pattern "Bonus Tiles" "花季牌" 2
 
 fourFlowers, fourSeasons :: Pattern
-fourFlowers       = Pattern "Four Flowers" "齊四花" 20
-fourSeasons       = Pattern "Four Seasons" "齊四季" 20
+fourFlowers       = Pattern "Four Flowers" "齊四花" 15
+fourSeasons       = Pattern "Four Seasons" "齊四季" 15
 
 allBonusTiles :: Pattern
 allBonusTiles     = Pattern "All Bonus Tiles" "八仙過海" 80
