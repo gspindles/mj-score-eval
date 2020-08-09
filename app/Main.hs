@@ -1,6 +1,6 @@
 module Main where
 
-import Game.Mahjong.Wall
+import Game.Mahjong.Tile
 
 main :: IO ()
 main = do
