@@ -13,10 +13,12 @@ import Game.Mahjong.Meld
 import Game.Mahjong.Class
 import Game.Mahjong.Tile
 import Game.Mahjong.Pattern
+import Game.Mahjong.Static.Tiles
+import Game.Mahjong.Static.Melds
 
 import Control.Arrow ((&&&))
 import Control.Applicative (liftA2)
-import Data.Foldable (foldr1, maximumBy)
+import Data.Foldable (maximumBy)
 import Data.List (group, groupBy, inits, intersect, nub, sort, sortBy, tails)
 import Data.Monoid (Any(..), Sum(..))
 import Data.Ord (comparing)
@@ -66,25 +68,25 @@ calculateScore ps
 matchForPatterns :: Hand -> [Pattern]
 matchForPatterns hand =
   if null patterns
-  then pure chicken            ++ bonusPats
+  then pure chickenHand        ++ bonusPats
   else sortPatterns $ patterns ++ bonusPats
   where
     stat      = (hand, handStat hand)
     patterns  | isSpecial hand = matchSpecial stat
               | otherwise      = matchers <->> stat
-    matchers  = [ matchTrivials         -- 1.  Trivival Patterns
-                , matchPungsAndKongs    -- 2.  Pungs & Kongs
-                , matchIdenticalSets    -- 3.  Identical Sets
-                , matchSimilarSets      -- 4.  Similar Sets
-                , matchConsecutiveSets  -- 5.  Consecutive Sets
-                , matchSuits            -- 6.  Suit Patterns
-                , matchTerminals        -- 7.  Terminal Tiles
-                , matchHonors           -- 8.  Honor Tiles
-                , matchSevenPairs       -- 9.  Seven Pairs
-                , matchColors           -- 10. Colors Hands
-                , matchIncidentals      -- 12. Incidental Bonuses
+    matchers  = [ matchTrivials            -- 1.  Trivival Patterns
+                , matchTripletsAndQuartets -- 2.  Triplets & Quartets
+                , matchIdenticalSets       -- 3.  Identical Sets
+                , matchSimilarSets         -- 4.  Similar Sets
+                , matchConsecutiveSets     -- 5.  Consecutive Sets
+                , matchSuits               -- 6.  Suit Patterns
+                , matchTerminals           -- 7.  Terminal Tiles
+                , matchHonors              -- 8.  Honor Tiles
+                , matchColors              -- 9. Colors Hands
+                , matchSevenPairs          -- 10. Irregular Hands - seven pairs
+                , matchIncidentals         -- 11. Incidental Bonuses
                 ]
-    bonusPats = matchBonus stat         -- 13. Bonus Tiles
+    bonusPats = matchBonus stat            -- 12. Bonus Tiles
 
 
 -- | mappend for score functions
@@ -107,13 +109,15 @@ matchValuePattern ts is = isSameTileType ts
                        && (sort . fmap tileValue $ ts) == is
 
 permutingCons :: a -> [a] -> [[a]]
+permutingCons _ [] = []
 permutingCons x xs = zipWith (\i t -> i ++ [x] ++ t) (inits xs) (tails xs)
 
 count :: (a -> Bool) -> [a] -> Int
 count f = length . filter f
 
 histogram :: Ord a => [a] -> [(a, Int)]
-histogram = fmap (head &&& length) . group . sort
+histogram [] = []
+histogram xs = fmap (head &&& length) . group . sort $ xs
 
 commonElems :: (Eq a, Applicative f, Foldable t) => t (f [a]) -> f [a]
 commonElems = foldr1 (liftA2 intersect)
@@ -133,16 +137,16 @@ filterAndGroupByTileType f = projected
 
 {- 1.0 Trivial Patterns -}
 
--- | check if the hand consists of all chows
-matchAllChows :: ScoreFunc
-matchAllChows (_, hs)
-  | numOfChows hs >= 4 = pure allChows
-  | otherwise          = []
+-- | check if the hand consists of all sequences
+matchAllSequences :: ScoreFunc
+matchAllSequences (_, hs)
+  | numOfSequences hs >= 4 = pure allSequences
+  | otherwise              = []
 
 -- | check for concealed hand
 matchConcealedHand :: ScoreFunc
 matchConcealedHand (h, _)
-  | all isConcealed onHandMelds = pure concealed
+  | all isConcealed onHandMelds = pure concealedHand
   | otherwise                   = []
   where
     onHandMelds = init $ getMelds h
@@ -173,7 +177,7 @@ matchAllTypes (_, hs)
     counts     = zipWith id countFuncs $ repeat hs
 
 matchTrivials :: ScoreFunc
-matchTrivials = (<->>) [ matchAllChows
+matchTrivials = (<->>) [ matchAllSequences
                        , matchConcealedHand
                        , matchSelfDrawn
                        , matchAllSimples
@@ -182,59 +186,59 @@ matchTrivials = (<->>) [ matchAllChows
 
 
 
-{- 2.0 Pungs and Kongs -}
+{- 2.0 Triplets and Quartets -}
 
--- 2.1 Pung
-matchPungs :: ScoreFunc
-matchPungs (_, hs)
-  | numOfPungs hs >= 4 = pure allPungs
-  | otherwise          = []
+-- 2.1 Triplet
+matchTriplets :: ScoreFunc
+matchTriplets (_, hs)
+  | numOfTriplets hs >= 4 = pure allTriplets
+  | otherwise             = []
 
--- 2.2 Concealed pungs
-matchConcealedPungs :: ScoreFunc
-matchConcealedPungs (h, _)
-  | counts == 4 = pure fourConcealedPungs
-  | counts == 3 = pure threeConcealedPungs
-  | counts == 2 = pure twoConcealedPungs
+-- 2.2 Concealed triplets
+matchConcealedTriplets :: ScoreFunc
+matchConcealedTriplets (h, _)
+  | counts == 4 = pure fourConcealedTriplets
+  | counts == 3 = pure threeConcealedTriplets
+  | counts == 2 = pure twoConcealedTriplets
   | otherwise  = []
   where
     melds  = getMelds h
-    counts = count (\m -> isPung m && isConcealed m) melds
+    counts = count (\m -> isTriplet m && isConcealed m) melds
 
--- 2.3 Kongs
-matchKongs :: ScoreFunc
-matchKongs (_, hs)
-  | numOfKongs hs == 4 = pure fourKongs
-  | numOfKongs hs == 3 = pure threeKongs
-  | numOfKongs hs == 2 = pure twoKongs
-  | numOfKongs hs == 1 = pure oneKong
-  | otherwise          = []
+-- 2.3 Quartets
+matchQuartets :: ScoreFunc
+matchQuartets (_, hs)
+  | numOfQuartets hs == 4 = pure fourQuartets
+  | numOfQuartets hs == 3 = pure threeQuartets
+  | numOfQuartets hs == 2 = pure twoQuartets
+  | numOfQuartets hs == 1 = pure oneQuartet
+  | otherwise             = []
 
-matchPungsAndKongs :: ScoreFunc
-matchPungsAndKongs = (<->>) [ matchPungs
-                            , matchConcealedPungs
-                            , matchKongs
-                            ]
+matchTripletsAndQuartets :: ScoreFunc
+matchTripletsAndQuartets = (<->>) [ matchTriplets
+                                  , matchConcealedTriplets
+                                  , matchQuartets
+                                  ]
 
 
 
 {- 3.0 Identical Sets -}
 
 -- 3.1 Identical sets
--- pungs and kongs shouldn't have value > 1 in groupings,
--- eyes at most 2, and chows up to 4,
--- but should check for isChow just in case.
+-- triplets and quartets shouldn't have value > 1 in groupings,
+-- eyes at most 2, and sequences up to 4,
+-- but should check for isSequence just in case.
 matchIdenticalSets :: ScoreFunc
 matchIdenticalSets (h, _)
-  | any (== 4) counts = pure fourIdenticalChows
-  | any (== 3) counts = pure threeIdenticalChows
-  | twoCount > 1      = pure twoIdenticalChowsTwice
-  | twoCount == 1     = pure twoIdenticalChows
+  | any (== 4) counts = pure fourIdenticalSequences
+  | any (== 3) counts = pure threeIdenticalSequences
+  | twoCount > 1      = pure twoIdenticalSequencesTwice
+  | twoCount == 1     = pure twoIdenticalSequences
   | otherwise         = []
   where
     sorted    = sortBy (comparing meldTiles) $ getMelds h
     groupings = groupBy (\m1 m2 -> meldTiles m1 == meldTiles m2) sorted
-    twoOrMore = filter (\g -> length g >= 2 && all isChow g) groupings
+    twoOrMore = filter (\g -> length g >= 2 && all isSequence g) groupings
 
     counts    = length <$> twoOrMore
     twoCount  = count (== 2) counts
@@ -243,32 +247,32 @@ matchIdenticalSets (h, _)
 
 {- 4.0 Similar Sets -}
 
--- 4.1 Similar chows
--- 4.2 Similar pungs
+-- 4.1 Similar sequences
+-- 4.2 Similar triplets
 matchSimilarSets :: ScoreFunc
 matchSimilarSets (h, _)
-  | similarCheck intersectionChow  = pure threeSimilarChows
-  | similarCheck intersectionPung  = pure threeSimilarPungs
-  | length eye == 1 && hasLTSP eye = pure littleThreeSimilarPungs
-  | otherwise                      = []
+  | similarCheck intersectionSequence  = pure threeSimilarSequences
+  | similarCheck intersectionTriplet   = pure threeSimilarTriplets
+  | length eye == 1 && hasLTSP eye     = pure littleThreeSimilarTriplets
+  | otherwise                          = []
   where
-    melds            = getMelds h
-    similarCheck     = getAny . foldMap (Any . not . null)
+    melds                = getMelds h
+    similarCheck         = getAny . foldMap (Any . not . null)
 
-    checkChow        = \m -> isChow m && isSuit m
-    projectedChow    = filterAndGroupByTileType checkChow melds
-    intersectionChow = if length projectedChow == 3
-                       then commonElems projectedChow
-                       else []
+    checkSequence        = \m -> isSequence m && isSuit m
+    projectedSequence    = filterAndGroupByTileType checkSequence melds
+    intersectionSequence = if length projectedSequence == 3
+                           then commonElems projectedSequence
+                           else []
 
-    checkPung        = \m -> isPung m && isSuit m
-    projectedPung    = filterAndGroupByTileType checkPung melds
-    intersectionPung = if length projectedPung == 3
-                       then commonElems projectedPung
-                       else []
+    checkTriplet         = \m -> isTriplet m && isSuit m
+    projectedTriplet     = filterAndGroupByTileType checkTriplet melds
+    intersectionTriplet  = if length projectedTriplet == 3
+                           then commonElems projectedTriplet
+                           else []
 
-    eye              = filter (\m -> isEyes m && isSuit m) melds
-    hasLTSP          = containsMelds h . getLTSP . head . meldTiles . head
+    eye                  = filter (\m -> isPair m && isSuit m) melds
+    hasLTSP              = containsMelds h . getLTSP . head . meldTiles . head
     getLTSP et
       | et == c1  = [ b111, k111 ]
       | et == c2  = [ b222, k222 ]
@@ -306,20 +310,20 @@ matchSimilarSets (h, _)
 
 {- 5.0 Consecutive Sets -}
 
--- 5.1 Consecutive chows
-matchConsecutiveChows :: ScoreFunc
-matchConsecutiveChows (h, _)
-  | length sorted == 4 && fourConsCCheck   = pure fourConsecutiveChows
-  | length sorted == 4 && threeConsCTCheck = pure threeConsecutiveChowsTwice
+-- 5.1 Consecutive sequences
+matchConsecutiveSequences :: ScoreFunc
+matchConsecutiveSequences (h, _)
+  | length sorted == 4 && fourConsCCheck   = pure fourConsecutiveSequences
+  | length sorted == 4 && threeConsCTCheck = pure threeConsecutiveSequencesTwice
   | length sorted >= 3 && nineTSCheck      = pure nineTileStraight
-  | length sorted >= 3 && threeConsCCheck  = pure threeConsecutiveChows
+  | length sorted >= 3 && threeConsCCheck  = pure threeConsecutiveSequences
   | otherwise                              = []
   where
     melds            = getMelds h
-    chows            = filter (\m -> isChow m && isSuit m) melds
-    sorted           = sortBy (comparing meldTiles) chows
-    fstChow          = head sorted
-    sndChow          = head $ tail sorted
+    sequences        = filter (\m -> isSequence m && isSuit m) melds
+    sorted           = sortBy (comparing meldTiles) sequences
+    fstSequence      = head sorted
+    sndSequence      = head $ tail sorted
 
     build4ConsC1     = take 4 . iterate next
     build4ConsC2     = take 4 . iterate (next . next)
@@ -336,52 +340,52 @@ matchConsecutiveChows (h, _)
     build3ConsC1     = take 3 . iterate next
     build3ConsC2     = take 3 . iterate (next . next)
     build3ConsC3     = take 3 . iterate (next . next . next)
-    chow123s m       = any (meldTileMatch True m) [ c123, b123, k123 ]
+    sequence123s m   = any (meldTileMatch True m) [ c123, b123, k123 ]
 
-    fourConsCCheck   = ( chow123s fstChow
-                    && containsMelds h (build4ConsC2 fstChow) )
-                    || containsMelds h (build4ConsC1 fstChow)
-    threeConsCTCheck = containsMelds h (build3ConsCT1 fstChow)
-                    || containsMelds h (build3ConsCT2 fstChow)
-    nineTSCheck      = ( chow123s fstChow
-                    && containsMelds h (build3ConsC3 fstChow) )
-                    || ( chow123s sndChow
-                    && containsMelds h (build3ConsC2 sndChow) )
-    threeConsCCheck  = containsMelds h (build3ConsC1 fstChow)
-                    || containsMelds h (build3ConsC2 fstChow)
-                    || containsMelds h (build3ConsC1 sndChow)
-                    || containsMelds h (build3ConsC2 sndChow)
+    fourConsCCheck   = ( sequence123s fstSequence
+                    && containsMelds h (build4ConsC2 fstSequence) )
+                    || containsMelds h (build4ConsC1 fstSequence)
+    threeConsCTCheck = containsMelds h (build3ConsCT1 fstSequence)
+                    || containsMelds h (build3ConsCT2 fstSequence)
+    nineTSCheck      = ( sequence123s fstSequence
+                    && containsMelds h (build3ConsC3 fstSequence) )
+                    || ( sequence123s sndSequence
+                    && containsMelds h (build3ConsC2 sndSequence) )
+    threeConsCCheck  = containsMelds h (build3ConsC1 fstSequence)
+                    || containsMelds h (build3ConsC2 fstSequence)
+                    || containsMelds h (build3ConsC1 sndSequence)
+                    || containsMelds h (build3ConsC2 sndSequence)
 
--- 5.2 Consecutive pungs
-matchConsecutivePungs :: ScoreFunc
-matchConsecutivePungs (h, _)
+-- 5.2 Consecutive triplets
+matchConsecutiveTriplets :: ScoreFunc
+matchConsecutiveTriplets (h, _)
   | length sorted == 3 && threeMCheck     = pure threeMothers
-  | length sorted == 4 && fourConsPCheck  = pure fourConsecutivePungs
-  | length sorted >= 3 && threeConsPCheck = pure threeConsecutivePungs
+  | length sorted == 4 && fourConsPCheck  = pure fourConsecutiveTriplets
+  | length sorted >= 3 && threeConsPCheck = pure threeConsecutiveTriplets
   | otherwise                             = []
   where
     melds           = getMelds h
-    pungs           = filter (\m -> isPung m && isSuit m) melds
-    sorted          = sortBy (comparing meldTiles) pungs
-    fstPung         = head sorted
-    sndPung         = head $ tail sorted
+    triplets        = filter (\m -> isTriplet m && isSuit m) melds
+    sorted          = sortBy (comparing meldTiles) triplets
+    fstTriplet      = head sorted
+    sndTriplet      = head $ tail sorted
     sonTiles        = fmap (head . meldTiles) sorted
 
     build3ConsP     = take 3 . iterate next
     build4ConsP     = take 4 . iterate next
-    sonChow         = mkChow Revealed sonTiles
+    sonSequence     = mkSequence Revealed sonTiles
     hasSon (Just c) = containsMelds h [c]
     hasSon Nothing  = False
 
-    threeMCheck     = containsMelds h (build3ConsP fstPung)
-                   && (hasSon $ sonChow)
-    fourConsPCheck  = containsMelds h (build4ConsP fstPung)
-    threeConsPCheck = containsMelds h (build3ConsP fstPung)
-                   || containsMelds h (build3ConsP sndPung)
+    threeMCheck     = containsMelds h (build3ConsP fstTriplet)
+                   && (hasSon $ sonSequence)
+    fourConsPCheck  = containsMelds h (build4ConsP fstTriplet)
+    threeConsPCheck = containsMelds h (build3ConsP fstTriplet)
+                   || containsMelds h (build3ConsP sndTriplet)
 
 matchConsecutiveSets :: ScoreFunc
-matchConsecutiveSets = (<->>) [ matchConsecutiveChows
-                              , matchConsecutivePungs
+matchConsecutiveSets = (<->>) [ matchConsecutiveSequences
+                              , matchConsecutiveTriplets
                               ]
 
 
@@ -426,7 +430,7 @@ matchSuits = (<->>) [ matchOneSuit ]
 
 {- 7.0 Terminal Tiles -}
 
--- 7.1 Chow and pungs
+-- 7.1 Sequence and triplets
 matchTerminals1 :: ScoreFunc
 matchTerminals1 (h, _)
   | isSameTileType tiles && matchBBM = acc ++ pure bigBoundlessMountain
@@ -447,26 +451,26 @@ matchTerminals1 (h, _)
                , [k111, k123, k789, k999]
                ]
 
-    patChows  = [ [c123, c789], [b123, b789], [k123, k789] ]
-    patPungs  = [ [c111, c999], [b111, b999], [k111, k999] ]
-    chowCount = count (== True) . fmap (containsMelds h) $ patChows
-    pungCount = count (== True) . fmap (containsMelds h) $ patPungs
-    accChows  = take chowCount $ repeat twoTailedTerminalChows
-    accPungs  = take pungCount $ repeat twoTailedTerminalPungs
-    acc       = accChows ++ accPungs
+    patSequences  = [ [c123, c789], [b123, b789], [k123, k789] ]
+    patTriplets   = [ [c111, c999], [b111, b999], [k111, k999] ]
+    sequenceCount = count (== True) . fmap (containsMelds h) $ patSequences
+    tripletCount  = count (== True) . fmap (containsMelds h) $ patTriplets
+    accSequences  = take sequenceCount $ repeat twoTailedTerminalSequences
+    accTriplets   = take tripletCount $ repeat twoTailedTerminalTriplets
+    acc           = accSequences ++ accTriplets
 
 -- 7.2 Mixed and pure
 matchTerminals2 :: ScoreFunc
 matchTerminals2 (h, hs)
-  | all isTerminal tiles             = pure pureGreaterTerminals
-  | all isEdge     tiles             = pure mixedGreaterTerminals
-  | all isTerminal melds && hasChows = pure pureLesserTerminals
-  | all isEdge     melds && hasChows = pure mixedLesserTerminals
-  | otherwise                        = []
+  | all isTerminal tiles                 = pure pureGreaterTerminals
+  | all isEdge     tiles                 = pure mixedGreaterTerminals
+  | all isTerminal melds && hasSequences = pure pureLesserTerminals
+  | all isEdge     melds && hasSequences = pure mixedLesserTerminals
+  | otherwise                            = []
   where
-    melds    = getMelds h
-    tiles    = getHandTiles h
-    hasChows = numOfChows hs > 0
+    melds        = getMelds h
+    tiles        = getHandTiles h
+    hasSequences = numOfSequences hs > 0
 
 matchTerminals :: ScoreFunc
 matchTerminals = (<->>) [ matchTerminals1
@@ -480,33 +484,33 @@ matchTerminals = (<->>) [ matchTerminals1
 -- 8.1 Winds
 matchWinds :: ScoreFunc
 matchWinds (h, _)
-  | numPungs == 4                 = acc ++ pure bigFourWinds
-  | numPungs == 3 && numEyes == 1 = acc ++ pure littleFourWinds
-  | numPungs == 3 && numEyes == 0 = acc ++ pure bigThreeWinds
-  | numPungs == 2 && numEyes == 1 = acc ++ pure littleThreeWinds
-  | otherwise                     = acc
+  | numTriplets == 4                  = acc ++ pure bigFourWinds
+  | numTriplets == 3 && numPairs == 1 = acc ++ pure littleFourWinds
+  | numTriplets == 3 && numPairs == 0 = acc ++ pure bigThreeWinds
+  | numTriplets == 2 && numPairs == 1 = acc ++ pure littleThreeWinds
+  | otherwise                         = acc
   where
-    windMelds = filter isWind $ getMelds h
-    numPungs  = count isPung windMelds
-    numEyes   = count isEyes windMelds
-    acc       = take numPungs $ repeat windPung
+    windMelds   = filter isWind $ getMelds h
+    numTriplets = count isTriplet windMelds
+    numPairs    = count isPair windMelds
+    acc         = take numTriplets $ repeat windTriplet
 
 -- 8.2 Dragons
 matchDragons :: ScoreFunc
 matchDragons (h, _)
-  | numPungs == 3                 = acc ++ pure bigThreeDragons
-  | numPungs == 2 && numEyes == 1 = acc ++ pure littleThreeDragons
-  | otherwise                     = acc
+  | numTriplets == 3                  = acc ++ pure bigThreeDragons
+  | numTriplets == 2 && numPairs == 1 = acc ++ pure littleThreeDragons
+  | otherwise                         = acc
   where
     dragonMelds = filter isDragon $ getMelds h
-    numPungs    = count isPung dragonMelds
-    numEyes     = count isEyes dragonMelds
-    acc         = take numPungs $ repeat dragonPung
+    numTriplets = count isTriplet dragonMelds
+    numPairs    = count isPair dragonMelds
+    acc         = take numTriplets $ repeat dragonTriplet
 
 -- 8.3 Pure honors
 matchPureHonors :: ScoreFunc
 matchPureHonors (h, _)
-  | all isEyes melds && match7Stars = pure allHonorPairs
+  | all isPair melds && match7Stars = pure allHonorPairs
   | all isHonor melds               = pure allHonors
   | otherwise                       = []
   where
@@ -523,18 +527,39 @@ matchHonors = (<->>) [ matchWinds
 
 
 
-{- 9.0 Seven Pairs -}
+{- 9.0 Color Hands -}
+
+matchColors :: ScoreFunc
+matchColors (h, _)
+  | all isGreen . getHandTiles $ h = pure allGreen
+  | all isRed   . getHandTiles $ h = pure allRed
+  | otherwise                      = []
+
+
+
+{- 10.0 Irregular Hands -}
+
+-- 10.1 Thirteen orphans
+
+matchIrregular :: ScoreFunc
+matchIrregular (h, _)
+  | isSpecial h && isThirteenOrphans = pure thirteenOrphans
+  | otherwise                        = []
+  where
+    isThirteenOrphans = (== edges) . sort . nub . getHandTiles $ h
+
+-- 10.2 Seven pairs
 
 matchSevenPairs :: ScoreFunc
 matchSevenPairs (h, hs)
   | isSevenPairs && gcCheck && matchSimple = pure grandChariot
   | isSevenPairs && bfCheck && matchSimple = pure bambooForest
-  | isSevenPairs && nnCheck && matchSimple = pure numberNeighborhood
+  | isSevenPairs && nnCheck && matchSimple = pure numerousNeighbors
   | isSevenPairs && matchEdge              = pure sevenShiftedPairs
   | isSevenPairs                           = pure sevenPairs
   | otherwise                              = []
   where
-    isSevenPairs = numOfEyes       hs == 7
+    isSevenPairs = numOfPairs      hs == 7
     gcCheck      = numOfCoins      hs == 7
     bfCheck      = numOfBamboos    hs == 7
     nnCheck      = numOfCharacters hs == 7
@@ -551,28 +576,7 @@ matchSevenPairs (h, hs)
 
 
 
-{- 10.0 Color Hands -}
-
-matchColors :: ScoreFunc
-matchColors (h, _)
-  | all isGreen . getHandTiles $ h = pure allGreen
-  | all isRed   . getHandTiles $ h = pure allRed
-  | otherwise                      = []
-
-
-
-{- 11.0 Irregular Hands -}
-
-matchIrregular :: ScoreFunc
-matchIrregular (h, _)
-  | isSpecial h && isThirteenOrphans = pure thirteenOrphans
-  | otherwise                        = []
-  where
-    isThirteenOrphans = (== edges) . sort . nub . getHandTiles $ h
-
-
-
-{- 12.0 Incidental bonuses -}
+{- 11.0 Incidental bonuses -}
 
 matchIncidentals :: ScoreFunc
 matchIncidentals (h, _) =
@@ -580,17 +584,17 @@ matchIncidentals (h, _) =
     Nothing -> []
     Just hi ->
       case hi of
-        OnFirstDraw       -> pure blessingOfHeaven
-        OnFirstDiscard    -> pure blessingOfEarth
-        OnSeabed          -> pure finalDraw
-        OnRiverbed        -> pure finalDiscard
-        OnKongSupplement  -> pure winOnKong
-        OnBonusSupplement -> pure winOnBonusTile
-        OnKongRobbing     -> pure robbingAKong
+        OnFirstDraw         -> pure blessingOfHeaven
+        OnFirstDiscard      -> pure blessingOfEarth
+        OnSeabed            -> pure finalDraw
+        OnRiverbed          -> pure finalDiscard
+        OnQuartetSupplement -> pure winOnQuartet
+        OnBonusSupplement   -> pure winOnBonusTile
+        OnQuartetRobbing    -> pure robbingAQuartet
 
 
 
-{- 13.0 Bonus Tiles -}
+{- 12.0 Bonus Tiles -}
 
 matchBonus :: ScoreFunc
 matchBonus (h, _)

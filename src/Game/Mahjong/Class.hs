@@ -4,8 +4,8 @@ module Game.Mahjong.Class (
   TilePred(..),
 
 
-  -- * Loop type class
-  Loop(..),
+  -- * Cycle type class
+  Cycle(..),
 
 
   -- * Pretty type class
@@ -44,22 +44,20 @@ class TilePred a where
   -- | Predicates for bonus
   isFlower    :: a -> Bool
   isSeason    :: a -> Bool
-  isAnimal    :: a -> Bool
 
   isBonus     :: a -> Bool
 
   -- | Predicates for color
   isRed       :: a -> Bool
   isGreen     :: a -> Bool
-  isBlue      :: a -> Bool
 
 
 -------------------------------------------------------------------------------
--- Loop typeclass
+-- Cycle typeclass
 -------------------------------------------------------------------------------
 
--- | Loop type class.
-class Loop a where
+-- | Cycle type class.
+class Cycle a where
   next :: a -> a
   prev :: a -> a
 

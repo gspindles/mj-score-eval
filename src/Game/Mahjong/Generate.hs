@@ -39,9 +39,6 @@ getFlower = helper flowers
 getSeason :: Int -> Tile
 getSeason = helper seasons
 
-getAnimal :: Int -> Tile
-getAnimal = helper animals
-
 getSimple :: Int -> Tile
 getSimple = helper simples
 
@@ -59,9 +56,6 @@ getEdge = helper edges
 
 getBonus :: Int -> Tile
 getBonus = helper bonuses
-
-getExtra :: Int -> Tile
-getExtra = helper bonuses
 
 getGreen :: Int -> Tile
 getGreen = helper greens
@@ -83,7 +77,6 @@ getTile WindTile      = getWind
 getTile DragonTile    = getDragon
 getTile FlowerTile    = getFlower
 getTile SeasonTile    = getSeason
-getTile AnimalTile    = getAnimal
 getTile SimpleTile    = getSimple
 getTile TerminalTile  = getTerminal
 getTile SuitTile      = getSuit
@@ -107,14 +100,13 @@ sample size ts = nub . map (\x -> ts !! mod x (length ts)) $ (unsafePerformIO (s
 {- Generate the Melds -}
 
 makeMeld :: MeldType -> Status -> AllTileType -> Int -> Either String Meld
-makeMeld Chow s t x = makeChow  s $ getTile t x
-makeMeld Pung s t x = makePung  s $ getTile t x
-makeMeld Kong s t x = makeKong  s $ getTile t x
-makeMeld Eye  s t x = makeEye   s $ getTile t x
+makeMeld Sequence s t x = makeSequence s $ getTile t x
+makeMeld Triplet  s t x = makeTriplet  s $ getTile t x
+makeMeld Quartet  s t x = makeQuartet  s $ getTile t x
+makeMeld Pair     s t x = makePair     s $ getTile t x
 
 genBonus :: Int -> [Tile]
 genBonus x = sample x bonuses
 
 genOnHand :: Int -> [Tile]
 genOnHand x = sample x regulars
-

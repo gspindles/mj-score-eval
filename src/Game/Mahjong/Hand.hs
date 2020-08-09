@@ -15,7 +15,7 @@ module Game.Mahjong.Hand (
   getMelds, getHandTiles, getBonus, getHandInfo, hasHandInfo,
 
   -- ** update functions
-  addBonus, addHandInfo,
+  addMeld, addBonus, addHandInfo,
 
 
   -- * Stats on a hand
@@ -48,9 +48,9 @@ data HandInfo
   | OnFirstDiscard
   | OnSeabed
   | OnRiverbed
-  | OnKongSupplement
+  | OnQuartetSupplement
   | OnBonusSupplement
-  | OnKongRobbing
+  | OnQuartetRobbing
     deriving (Eq, Ord, Show)
 
 -- | A completed hand when a player has won
@@ -172,21 +172,14 @@ data HandStat =
     , numOfDragons    :: Int   -- ^ The number of dragon melds
     , numOfSimples    :: Int   -- ^ The number of simple melds
     , numOfTerminals  :: Int   -- ^ The number of terminal melds
-    , numOfChows      :: Int   -- ^ The number of chows
-    , numOfPungs      :: Int   -- ^ The number of pungs
-    , numOfKongs      :: Int   -- ^ The number of kongs
-    , numOfEyes       :: Int   -- ^ The number of eyes
+    , numOfSequences  :: Int   -- ^ The number of sequences
+    , numOfTriplets   :: Int   -- ^ The number of triplets
+    , numOfQuartets   :: Int   -- ^ The number of quartets
+    , numOfPairs      :: Int   -- ^ The number of pairs of eyes
     } deriving Show
 
-instance Monoid HandStat where
-  mempty =
-    HandStat
-      0 0 0
-      0 0
-      0 0
-      0 0 0 0
-
-  mappend hs1 hs2 =
+instance Semigroup HandStat where
+  hs1 <> hs2 =
     HandStat
      (numOfCoins      hs1 + numOfCoins      hs2)
      (numOfBamboos    hs1 + numOfBamboos    hs2)
@@ -195,10 +188,18 @@ instance Monoid HandStat where
      (numOfDragons    hs1 + numOfDragons    hs2)
      (numOfSimples    hs1 + numOfSimples    hs2)
      (numOfTerminals  hs1 + numOfTerminals  hs2)
-     (numOfChows      hs1 + numOfChows      hs2)
-     (numOfPungs      hs1 + numOfPungs      hs2)
-     (numOfKongs      hs1 + numOfKongs      hs2)
-     (numOfEyes       hs1 + numOfEyes       hs2)
+     (numOfSequences  hs1 + numOfSequences  hs2)
+     (numOfTriplets   hs1 + numOfTriplets   hs2)
+     (numOfQuartets   hs1 + numOfQuartets   hs2)
+     (numOfPairs      hs1 + numOfPairs      hs2)
+
+instance Monoid HandStat where
+  mempty =
+    HandStat
+      0 0 0
+      0 0
+      0 0
+      0 0 0 0
 
 -- | number of Suits
 numOfSuits :: HandStat -> Int
@@ -210,9 +211,9 @@ numOfHonors = sumCond [numOfWinds, numOfDragons]
 numOfEdges :: HandStat -> Int
 numOfEdges = sumCond [numOfTerminals, numOfDragons, numOfWinds]
 
--- Avoids double counting a kong.
+-- Avoids double counting a quartet.
 numOfMelds :: HandStat -> Int
-numOfMelds = sumCond [numOfChows, numOfPungs, numOfEyes]
+numOfMelds = sumCond [numOfSequences, numOfTriplets, numOfPairs]
 
 handStatStep :: Meld -> HandStat -> HandStat
 handStatStep m hs = mappend hs step
@@ -227,10 +228,10 @@ handStatStep m hs = mappend hs step
         , numOfDragons    = binary . isDragon    $ m
         , numOfSimples    = binary . isSimple    $ m
         , numOfTerminals  = binary . isTerminal  $ m
-        , numOfChows      = binary . isChow      $ m
-        , numOfPungs      = binary . isPung      $ m
-        , numOfKongs      = binary . isKong      $ m
-        , numOfEyes       = binary . isEyes      $ m
+        , numOfSequences  = binary . isSequence  $ m
+        , numOfTriplets   = binary . isTriplet   $ m
+        , numOfQuartets   = binary . isQuartet   $ m
+        , numOfPairs      = binary . isPair      $ m
         }
 
     binary :: Bool -> Int
@@ -239,4 +240,3 @@ handStatStep m hs = mappend hs step
 
 handStat :: Hand -> HandStat
 handStat = foldr handStatStep mempty . getMelds
-
