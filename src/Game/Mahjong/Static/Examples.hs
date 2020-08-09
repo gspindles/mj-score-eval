@@ -609,50 +609,6 @@ twoTailedTerminalsEx4 = mkHand1
   [s1]
   Nothing
 
-littleBoundlessMountainEx1 :: Maybe Hand
-littleBoundlessMountainEx1 = mkHand1
-  [ mkSequence' r b1
-  , mkSequence' r b7
-  , mkSequence' c b1
-  , mkPair' c b1
-  , mkSequence' r b7
-  ]
-  [f1]
-  Nothing
-
-littleBoundlessMountainEx2 :: Maybe Hand
-littleBoundlessMountainEx2 = mkHand1
-  [ mkSequence' r k1
-  , mkSequence' r k1
-  , mkSequence' c k1
-  , mkPair' c k9
-  , mkSequence' r k7
-  ]
-  [f1]
-  Nothing
-
-bigBoundlessMountainEx1 :: Maybe Hand
-bigBoundlessMountainEx1 = mkHand1
-  [ mkTriplet' r k1
-  , mkSequence' c k1
-  , mkSequence' r k7
-  , mkPair' c k9
-  , mkSequence' r k7
-  ]
-  [s4]
-  Nothing
-
-bigBoundlessMountainEx2 :: Maybe Hand
-bigBoundlessMountainEx2 = mkHand1
-  [ mkSequence' r k1
-  , mkSequence' c k1
-  , mkSequence' r k7
-  , mkPair' c k1
-  , mkTriplet' r k9
-  ]
-  [f4]
-  Nothing
-
 
 mixedLesserTerminalsEx :: Maybe Hand
 mixedLesserTerminalsEx = mkHand1
@@ -722,6 +678,51 @@ pureGreaterTerminalsEx2 = mkHand1
   , mkPair' r k1
   ]
   []
+  Nothing
+
+
+littleMountainEx1 :: Maybe Hand
+littleMountainEx1 = mkHand1
+  [ mkSequence' r b1
+  , mkSequence' r b7
+  , mkSequence' c b1
+  , mkPair' c b1
+  , mkSequence' r b7
+  ]
+  [f1]
+  Nothing
+
+littleMountainEx2 :: Maybe Hand
+littleMountainEx2 = mkHand1
+  [ mkSequence' r k1
+  , mkSequence' r k1
+  , mkSequence' c k1
+  , mkPair' c k9
+  , mkSequence' r k7
+  ]
+  [f1]
+  Nothing
+
+bigMountainEx1 :: Maybe Hand
+bigMountainEx1 = mkHand1
+  [ mkTriplet' r k1
+  , mkSequence' c k1
+  , mkSequence' r k7
+  , mkPair' c k9
+  , mkSequence' r k7
+  ]
+  [s4]
+  Nothing
+
+bigMountainEx2 :: Maybe Hand
+bigMountainEx2 = mkHand1
+  [ mkSequence' r k1
+  , mkSequence' c k1
+  , mkSequence' r k7
+  , mkPair' c k1
+  , mkTriplet' r k9
+  ]
+  [f4]
   Nothing
 
 

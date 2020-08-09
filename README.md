@@ -7,9 +7,9 @@ A minor mahjong evaluation program for fun.
 
 The scoring is based on the [Zung Jung scoring system](http://www.zj-mahjong.info/), but includes hands that are not included in the Zung Jung scoring system as well.
 
-The patterns are split into 13 broad category. Within each category [0] are families [0.0] of patterns [0.0.0]. When scoring, you can match patterns across multiple families, but only one pattern match from each family, so pick the highest points pattern match from that family!  For example, suppose a hand satisfies `Self Drawn : 5` and `Three Kongs : 120`, then lesser patterns such as `One Kongs : 5` and `Two Kong : 20` from the same family in `Pungs and Kongs` category do not get counted, unless specifically noted otherwise.
+The patterns are split into 13 broad category. Within each category [0] are families [0.0] of patterns [0.0.0]. When scoring, you can match patterns across multiple families, but only one pattern match from each family, so pick the highest points pattern match from that family!  For example, suppose a hand satisfies `Self Drawn : 5` and `Three Quartets : 120`, then lesser patterns such as `One Quartets : 5` and `Two Quartet : 20` from the same family in `Triplets and Quartets` category do not get counted, unless specifically noted otherwise.
 
-Hands may satisfies patterns from multiple families, thus scoring the sum of points from each individual patterns.  However, this additive scoring caps at a maximum of 320 points limit. There are quite a few patterns, called `Limit Hands`, that rewards points at or beyond this 320 points limit.  However, they are their own cap - creating a hand that satisfies multiple limit patterns will simply score the highest point value among them.  For example, a hand satisfying `All Honor Pungs : 320` and `Big Four Winds : 400` will simply reward the higher value of 400 point.
+Hands may satisfies patterns from multiple families, thus scoring the sum of points from each individual patterns.  However, this additive scoring caps at a maximum of 320 points limit. There are quite a few patterns, called `Limit Hands`, that rewards points at or beyond this 320 points limit.  However, they are their own cap - creating a hand that satisfies multiple limit patterns will simply score the highest point value among them.  For example, a hand satisfying `All Honor Triplets : 320` and `Big Four Winds : 400` will simply reward the higher value of 400 point.
 
 ---
 
@@ -19,13 +19,13 @@ Hands may satisfies patterns from multiple families, thus scoring the sum of poi
 Basic minimal winning hand that doesn't satisfy any patterns other than having bonus tiles.
 
 
-#### 1.2 All Chows : 平和 : 5
-The hand contains 4 chows; no pungs / kongs.
+#### 1.2 All Sequences : 平和 : 5
+The hand contains 4 sequences; no triplets / quartets.
 
 Example:&ensp;![c1]![c2]![c3]&ensp;![b4]![b5]![b6]&ensp;![b6]![b7]![b8]&ensp;![k3]![k4]![k5]
 
 #### 1.3 Concealed Hand : 門前清 : 5
-A regular hand which is concealed, without melding any exposed sets before winning. Winning on discard is okay. Concealed kongs are okay.
+A regular hand which is concealed, without melding any exposed sets before winning. Winning on discard is okay. Concealed quartets are okay.
 
 
 #### 1.4 Self Drawn : 自摸 : 5
@@ -47,43 +47,43 @@ Declares mahjong accidentally when the hand is not ready.
 
 ---
 
-### 2.0 Pungs and Kongs
+### 2.0 Triplets and Quartets
 
-#### 2.1 All Pungs : 對對和 : 30
-A hand consisting of 4 set of pungs / kongs; no chows.
+#### 2.1 All Triplets : 對對和 : 30
+A hand consisting of 4 set of triplets / quartets; no sequences.
 
 Example:&ensp;![c2]![c2]![c2]&ensp;![b3]![b3]![b3]&ensp;![k8]![k8]![k8]![k8]&ensp;![we]![we]![we]
 
 
-#### 2.2.1 Two Concealed Pungs : 兩暗刻 : 5
-The hand contains two concealed pungs / concealed kongs.
+#### 2.2.1 Two Concealed Triplets : 兩暗刻 : 5
+The hand contains two concealed triplets / concealed quartets.
 
-#### 2.2.2 Three Concealed Pungs : 三暗刻 : 30
-The hand contains three concealed pungs / concealed kongs.
+#### 2.2.2 Three Concealed Triplets : 三暗刻 : 30
+The hand contains three concealed triplets / concealed quartets.
 
-#### 2.2.3 Four Concealed Pungs : 四暗刻 : 125
-The hand contains four concealed pungs / concealed kongs.
+#### 2.2.3 Four Concealed Triplets : 四暗刻 : 125
+The hand contains four concealed triplets / concealed quartets.
 
-Note: `Four Concealed Pungs` is always `Concealed Hand`, so it scores at least 125+5=130 points.
+Note: `Four Concealed Triplets` is always `Concealed Hand`, so it scores at least 125+5=130 points.
 
 
-#### 2.3.1 One Kong : 一槓 : 5
-The hand contains one kongs. (Irrespective of whether it is exposed or concealed; same below.)
+#### 2.3.1 One Quartet : 一槓 : 5
+The hand contains one quartets. (Irrespective of whether it is exposed or concealed; same below.)
 
 Example:&ensp;![c2]![c2]![c2]![c2]
 
-#### 2.3.2 Two Kongs : 兩槓 : 20
-The hand contains two kongs.
+#### 2.3.2 Two Quartets : 兩槓 : 20
+The hand contains two quartets.
 
 Example:&ensp;![c2]![c2]![c2]![c2]&ensp;![b3]![b3]![b3]![b3]
 
-#### 2.3.3 Three Kongs : 三槓 : 120
-The hand contains three kongs.
+#### 2.3.3 Three Quartets : 三槓 : 120
+The hand contains three quartets.
 
 Example:&ensp;![c2]![c2]![c2]![c2]&ensp;![b3]![b3]![b3]![b3]&ensp;![k8]![k8]![k8]![k8]
 
-#### 2.3.4 Four Kongs : 四槓 : 480
-The hand contains four kongs.
+#### 2.3.4 Four Quartets : 四槓 : 480
+The hand contains four quartets.
 
 Example:&ensp;![c2]![c2]![c2]![c2]&ensp;![b3]![b3]![b3]![b3]&ensp;![k8]![k8]![k8]![k8]&ensp;![we]![we]![we]![we]
 
@@ -91,25 +91,25 @@ Example:&ensp;![c2]![c2]![c2]![c2]&ensp;![b3]![b3]![b3]![b3]&ensp;![k8]![k8]![k8
 
 ### 3.0 Identical Sets
 
-Identical sets are sets in the same suit in the same numbers. Obviously, only chows can be identical.
+Identical sets are sets in the same suit in the same numbers. Obviously, only sequences can be identical.
 
-#### 3.1.1 Two Identical Chows : 一般高 : 10
-Two chows in the same suit in the same numbers.
+#### 3.1.1 Two Identical Sequences : 一般高 : 10
+Two sequences in the same suit in the same numbers.
 
 Example:&ensp;![c3]![c4]![c5]&ensp;![c3]![c4]![c5]
 
-#### 3.1.2 Two Identical Chows Twice : 兩般高 : 60
-The hand contains two groups of `Two Identical Chows`.
+#### 3.1.2 Two Identical Sequences Twice : 兩般高 : 60
+The hand contains two groups of `Two Identical Sequences`.
 
 Example:&ensp;![c3]![c4]![c5]&ensp;![c3]![c4]![c5]&ensp;![c7]![c8]![c9]&ensp;![c7]![c8]![c9]
 
-#### 3.1.3 Three Identical Chows : 一色三同順 : 120
-Three chows in the same suit in the same numbers.
+#### 3.1.3 Three Identical Sequences : 一色三同順 : 120
+Three sequences in the same suit in the same numbers.
 
 Example:&ensp;![c3]![c4]![c5]&ensp;![c3]![c4]![c5]&ensp;![c3]![c4]![c5]
 
-#### 3.1.4 Four Identical Chows : 一色四同順 : 480
-Four chows in the same suit in the same numbers.
+#### 3.1.4 Four Identical Sequences : 一色四同順 : 480
+Four sequences in the same suit in the same numbers.
 
 Example:&ensp;![c3]![c4]![c5]&ensp;![c3]![c4]![c5]&ensp;![c3]![c4]![c5]&ensp;![c3]![c4]![c5]
 
@@ -121,19 +121,19 @@ Similar Sets are sets in the same numbers across 3 different suits.
 
 Note: all 3 suits must be present; 2-suits patterns are not recognized.
 
-#### 4.1 Three Similar Chows : 三色同順 : 35
-Three chows in the same numbers across three different suits.
+#### 4.1 Three Similar Sequences : 三色同順 : 35
+Three sequences in the same numbers across three different suits.
 
 Example:&ensp;![c3]![c4]![c5]&ensp;![b3]![b4]![b5]&ensp;![k3]![k4]![k5]
 
 
-#### 4.2.1 Little Three Similar Pungs : 三色小同刻 : 30
-Two pungs / kongs in the same number in two different suits, and the eye pair in the same number in the third suit.
+#### 4.2.1 Little Three Similar Triplets : 三色小同刻 : 30
+Two triplets / quartets in the same number in two different suits, and the pair of eyes in the same number in the third suit.
 
 Example:&ensp;![c4]![c4]![c4]&ensp;![k4]![k4]![k4]&ensp;![b4]![b4]
 
-#### 4.2.2 Three Similar Pungs : 三色同刻 : 120
-Three pungs / kongs in the same number across three different suits.
+#### 4.2.2 Three Similar Triplets : 三色同刻 : 120
+Three triplets / quartets in the same number across three different suits.
 
 Example:&ensp;![c4]![c4]![c4]&ensp;![k4]![k4]![k4]&ensp;![b4]![b4]![b4]
 
@@ -143,8 +143,8 @@ Example:&ensp;![c4]![c4]![c4]&ensp;![k4]![k4]![k4]&ensp;![b4]![b4]![b4]
 
 Consecutive sets are sets in the same suit in consecutive numbers. The patterns here require three or more such sets.
 
-#### 5.1.1 Three Consecutive Chows : 三連順 : 30
-Three chows in consecutive number in the same suit with either
+#### 5.1.1 Three Consecutive Sequences : 三連順 : 30
+Three sequences in consecutive number in the same suit with either
 
     increment by 1 step: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)
     increment by 2 step: (n)(n+1)(n+2)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)
@@ -156,26 +156,26 @@ Example (2 step): ![k1]![k2]![k3]&ensp;![k3]![k4]![k5]&ensp;![k5]![k6]![k7]
 #### 5.1.2 Nine-Tile Straight : 一氣通貫 : 40
 A `123` sequence, a `456` sequence, and a `789` sequence, all in the same suit.
 
-Note: the hand must contain exactly the three chows listed above.
+Note: the hand must contain exactly the three sequences listed above.
 
 Example:&ensp;![k1]![k2]![k3]&ensp;![k4]![k5]![k6]&ensp;![k7]![k8]![k9]
 
-#### 5.1.3 Three Consecutive Chows Twice : 雙三連順 : 60
-Two of `Three Consecutive Chows` in the same suit that either
+#### 5.1.3 Three Consecutive Sequences Twice : 雙三連順 : 50
+Two of `Three Consecutive Sequences` in the same suit that either
 
     diverges at the start: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)
     converges at the end : (n)(n+1)(n+2)  (n+2)(n+3)(n+4)  (n+3)(n+4)(n+5)  (n+4)(n+5)(n+6)
 
-Note: this hand is always `All Chows`, so it scores at least 50+5=55 points.
+Note: this hand is always `All Sequences`, so it scores at least 50+5=55 points.
 
-Example:&ensp;![k1]![k2]![k3]&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k5]![k6]![k7]&ensp;_chows #1,2,3 and #1,3,4 makes 2 `Three Consecutive Chows`_
+Example:&ensp;![k1]![k2]![k3]&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k5]![k6]![k7]&ensp;_sequences #1,2,3 and #1,3,4 makes 2 `Three Consecutive Sequences`_
 
-Example:&ensp;![k1]![k2]![k3]&ensp;![k3]![k4]![k5]&ensp;![k4]![k5]![k6]&ensp;![k5]![k6]![k7]&ensp;_chows #1,2,4 and #2,3,4 makes 2 `Three Consecutive Chows`_
+Example:&ensp;![k1]![k2]![k3]&ensp;![k3]![k4]![k5]&ensp;![k4]![k5]![k6]&ensp;![k5]![k6]![k7]&ensp;_sequences #1,2,4 and #2,3,4 makes 2 `Three Consecutive Sequences`_
 
-#### 5.1.4 Four Consecutive Chows : 四連順 : 100
-Four chows in consecutive number in the same suit with either
+#### 5.1.4 Four Consecutive Sequences : 四連順 : 100
+Four sequences in consecutive number in the same suit with either
 
-Note: this hand is always `All Chows`, so it scores at least 100+5=105 points.
+Note: this hand is always `All Sequences`, so it scores at least 100+5=105 points.
 
     increment by 1 step: (n)(n+1)(n+2)  (n+1)(n+2)(n+3)  (n+2)(n+3)(n+4)  (n+3)(n+4)(n+5)
     increment by 2 step: (n)(n+1)(n+2)  (n+2)(n+3)(n+4)  (n+4)(n+5)(n+6)  (n+6)(n+7)(n+8)
@@ -185,20 +185,20 @@ Example:&ensp;![k1]![k2]![k3]&ensp;![k2]![k3]![k4]&ensp;![k3]![k4]![k5]&ensp;![k
 Example:&ensp;![k1]![k2]![k3]&ensp;![k3]![k4]![k5]&ensp;![k5]![k6]![k7]&ensp;![k7]![k8]![k9]
 
 
-#### 5.2.1 Three Consecutive Pungs : 三連刻 : 100
-Three pungs / kongs in consecutive numbers in the same suit.
+#### 5.2.1 Three Consecutive Triplets : 三連刻 : 100
+Three triplets / quartets in consecutive numbers in the same suit.
 
 Example:&ensp;![k4]![k4]![k4]&ensp;![k5]![k5]![k5]&ensp;![k6]![k6]![k6]
 
-#### 5.2.2 Four Consecutive Pungs : 四連刻 : 200
-Four pungs / kongs in consecutive numbers in the same suit.
+#### 5.2.2 Four Consecutive Triplets : 四連刻 : 200
+Four triplets / quartets in consecutive numbers in the same suit.
 
-Note: this hand is always `All Pungs`, so it scores at least 200+30=230 points.
+Note: this hand is always `All Triplets`, so it scores at least 200+30=230 points.
 
 Example:&ensp;![k4]![k4]![k4]&ensp;![k5]![k5]![k5]&ensp;![k6]![k6]![k6]&ensp;![k7]![k7]![k7]
 
 #### 5.2.3 Three Mothers : 三娘教子 : 400
-Hand consist of `Three Consecutive Pungs` with a chow of the same three remaining tiles.
+Hand consist of `Three Consecutive Triplets` with a sequence of the same three remaining tiles.
 
 Example:&ensp;![k5]![k5]![k5]&ensp;![k6]![k6]![k6]&ensp;![k7]![k7]![k7]&ensp;![k5]![k6]![k7]
 
@@ -243,40 +243,24 @@ Pattern:&ensp;![c1]![c1]![c1]![c2]![c3]![c4]![c5]![c6]![c7]![c8]![c9]![c9]![c9]
 
 ### 7.0 Terminal Tiles
 
-Terminals are the 1 and 9 numbered suit tiles.  The greater patterns only consider pungs of terminal tiles, while the lesser patterns also involve `123` and `789` chows.
+Terminals are the 1 and 9 numbered suit tiles.  The greater patterns only consider triplets of terminal tiles, while the lesser patterns also involve `123` and `789` sequences.
 
-#### 7.1.1 Two-Tailed Terminal Chows : 老少順 : 5 per set
+#### 7.1.1 Two-Tailed Terminal Sequences : 老少順 : 5 per set
 A sequece of 123 and 789 in the same suit.
 
 Example:&ensp;![b1]![b2]![b3]&ensp;![b7]![b8]![b9]
 
-#### 7.1.2 Two-Tailed Terminal Pungs : 老少刻 : 15 per set
-A pung / kong of 1s and 9s in the same suit.
+#### 7.1.2 Two-Tailed Terminal Triplets : 老少刻 : 10 per set
+A triplet / quartet of 1s and 9s in the same suit.
 
 Example:&ensp;![k1]![k1]![k1]&ensp;![k9]![k9]![k9]
 
-#### 7.1.3 Two-Tailed Terminals : 老少么九 : 100 -> 120
+#### 7.1.3 Two-Tailed Terminals : 老少么九 : 120
 The hand consists of the pattern `111 123 789 999` in a suit.
 
-Note: this always includes `Two-Tailed Terminal Chows` and `Two-Tailed Terminal Pungs`, so it scores is 100 + 5 + 15 = 120
+Note: this always includes `Two-Tailed Terminal Sequences` and `Two-Tailed Terminal Triplets`, so it scores is 100 + 5 + 15 = 120
 
 Example:&ensp;![c1]![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]![c9]
-
-#### 7.1.5 Little Mountain : 小山滿 : 320
-Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up exactly 6 terminal tiles of the suit.
-
-Example:&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c7]![c8]![c9]&ensp;![c1]![c1]
-
-Example:&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]
-
-#### 7.1.6 Big Mountain : 大山滿 : 400
-Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up all 8 terminal tiles of the suit.
-
-Note: only 2 possible patterns - `11 123 123 789 999` or `111 123 789 789 99`
-
-Example:&ensp;![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]![c9]
-
-Example:&ensp;![b1]![b1]![b1]&ensp;![b1]![b2]![b3]&ensp;![b7]![b8]![b9]&ensp;![b7]![b8]![b9]&ensp;![b9]![b9]
 
 
 #### 7.2.1 Mixed Lesser Terminals : 混全帶么九 : 40
@@ -290,7 +274,7 @@ Every of the 4 sets in the hand, as well as the pair of eyes, includes a termina
 Example:&ensp;![b1]![b2]![b3]&ensp;![k1]![k1]![k1]&ensp;![k7]![k8]![k9]&ensp;![c9]![c9]![c9]&ensp;![b1]![b1]
 
 #### 7.2.3 Mixed Greater Terminals : 混么九 : 100
-An `All Pungs` or `Seven Pairs` hand which consists entirely of terminal and honor tiles. 
+An `All Triplets` or `Seven Pairs` hand which consists entirely of terminal and honor tiles. 
 
 Note: not applicable to a `Thirteen Orphans` hand.
 
@@ -303,61 +287,78 @@ The hand consists entirely of terminal tiles.
 
 Example:&ensp;![c1]![c1]![c1]&ensp;![c9]![c9]![c9]&ensp;![b1]![b1]![b1]&ensp;![b9]![b9]![b9]&ensp;![k9]![k9]
 
+
+#### 7.3.1 Little Mountain : 小山滿 : 320
+Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up exactly 6 terminal tiles of the suit.
+
+Example:&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c7]![c8]![c9]&ensp;![c1]![c1]
+
+Example:&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]
+
+#### 7.3.2 Big Mountain : 大山滿 : 400
+Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up all 8 terminal tiles of the suit.
+
+Note: only 2 possible patterns - `11 123 123 789 999` or `111 123 789 789 99`
+
+Example:&ensp;![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]![c9]
+
+Example:&ensp;![b1]![b1]![b1]&ensp;![b1]![b2]![b3]&ensp;![b7]![b8]![b9]&ensp;![b7]![b8]![b9]&ensp;![b9]![b9]
+
 ---
 
 ### 8.0 Honor Tiles
 
 Honor tiles are the wind and dragon tiles.
 
-#### 8.1.1 Wind Pung : 風刻 : 5
-A pungs / kongs of a wind tile.
+#### 8.1.1 Wind Triplet : 風刻 : 5
+A triplets / quartets of a wind tile.
 
 Note: `Seat wind` and `Prevailing Wind` are not recognized.
 
 #### 8.1.2 Little Three Winds : 小三風 : 30 -> 40
-Two pungs / kongs of Winds, plus a pair of Winds as the eyes.
+Two triplets / quartets of Winds, plus a pair of Winds as the pair of eyes.
 
-Note: this hand always includes 2 `Wind Pung`s, so it scores at least 30+5+5=40 points.
+Note: this hand always includes 2 `Wind Triplet`s, so it scores at least 30+5+5=40 points.
 
 Example:&ensp;![ww]![ww]![ww]&ensp;![wn]![wn]![wn]&ensp;![we]![we]
 
 #### 8.1.3 Big Three Winds : 大三風 : 120 -> 135
-Three pungs / kongs of Winds.
+Three triplets / quartets of Winds.
 
-Note: this hand always includes 3 `Wind Pung`s, so it scores at least 120+5+5+5=135 points.
+Note: this hand always includes 3 `Wind Triplet`s, so it scores at least 120+5+5+5=135 points.
 
 Example:&ensp;![we]![we]![we]&ensp;![ws]![ws]![ws]&ensp;![wn]![wn]![wn]
 
 #### 8.1.4 Little Four Winds : 小四喜 : 320
-Three pungs / kongs of Winds, plus a pair of Winds as the eyes.
+Three triplets / quartets of Winds, plus a pair of Winds as the pair of eyes.
 
 Example:&ensp;![we]![we]![we]&ensp;![ww]![ww]![ww]&ensp;![wn]![wn]![wn]&ensp;![ws]![ws]
 
 #### 8.1.5 Big Four Winds : 大四喜 : 400
-Four pungs / kongs of Winds.
+Four triplets / quartets of Winds.
 
 Pattern:&ensp;![we]![we]![we]&ensp;![ws]![ws]![ws]&ensp;![ww]![ww]![ww]&ensp;![wn]![wn]![wn]
 
 
-#### 8.2.1 Dragon Pung : 箭刻 : 10 per set
-A pungs / kongs of a dragon tile.
+#### 8.2.1 Dragon Triplet : 箭刻 : 10 per set
+A triplets / quartets of a dragon tile.
 
 #### 8.2.2 Little Three Dragons : 小三元 : 40 -> 60
-Two pungs / kongs of Dragons, plus a pair of Dragons as the eyes.
+Two triplets / quartets of Dragons, plus a pair of Dragons as the pair of eyes.
 
-Note: this hand always includes two `Dragon Pung`s, so it scores at least 40+10+10=60 points.
+Note: this hand always includes two `Dragon Triplet`s, so it scores at least 40+10+10=60 points.
 
 Example:&ensp;![dw]![dw]![dw]&ensp;![dr]![dr]![dr]&ensp;![dg]![dg]
 
 #### 8.2.3 Big Three Dragons : 大三元 : 130 -> 160
-Three pungs / kongs of Dragons.
+Three triplets / quartets of Dragons.
 
-Note: this hand always includes three `Dragon Pung`s, so it scores at least 130+10+10+10=160 points.
+Note: this hand always includes three `Dragon Triplet`s, so it scores at least 130+10+10+10=160 points.
 
 Pattern:&ensp;![dw]![dw]![dw]&ensp;![dg]![dg]![dg]&ensp;![dr]![dr]![dr]
 
 
-#### 8.3.1 All Honor Pungs : 字一色 : 320
+#### 8.3.1 All Honor Triplets : 字一色 : 320
 The hand consists entirely of honor tiles.
 
 Example:&ensp;![we]![we]![we]&ensp;![wn]![wn]![wn]&ensp;![dr]![dr]![dr]&ensp;![dg]![dg]![dg]&ensp;![ws]![ws]
@@ -369,44 +370,9 @@ Pattern:&ensp;![we]![we]&ensp;![ws]![ws]&ensp;![ww]![ww]&ensp;![wn]![wn]&ensp;![
 
 ---
 
-### 9.0 Seven Pairs
+### 9.0 Color Hands
 
-Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cannot count those patterns which specifically require chows, pungs, or kongs, but it can count for other patterns without such requirements.
-
-Note: Four identical tiles can count as two pairs as long as kong is not declared.
-
-#### 9.1.1 Seven Pairs : 七對子 : 40
-The hand consists of seven pairs.
-
-Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 40+5=45 points.
-
-Example:&ensp;![k2]![k2]&ensp;![k6]![k6]&ensp;![c1]![c1]&ensp;![c7]![c7]&ensp;![dw]![dw]&ensp;![ww]![ww]&ensp;![wn]![wn]
-
-#### 9.1.2 Seven Shifted Pairs : 連七對 : 320
-The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
-
-Example:&ensp;![c1]![c1]&ensp;![c2]![c2]&ensp;![c3]![c3]&ensp;![c4]![c4]&ensp;![c5]![c5]&ensp;![c6]![c6]&ensp;![c7]![c7]
-
-#### 9.1.3 Grand Chariot : 大車輪 : 400
-Seven shifted pairs from 2 to 8 of the coin suit.
-
-Pattern:&ensp;![c2]![c2]&ensp;![c3]![c3]&ensp;![c4]![c4]&ensp;![c5]![c5]&ensp;![c6]![c6]&ensp;![c7]![c7]&ensp;![c8]![c8]
-
-#### 9.1.4 Bamboo Forest : 大竹林 : 400
-Seven shifted pairs from 2 to 8 of the bamboo suit.
-
-Pattern:&ensp;![b2]![b2]&ensp;![b3]![b3]&ensp;![b4]![b4]&ensp;![b5]![b5]&ensp;![b6]![b6]&ensp;![b7]![b7]&ensp;![b8]![b8]
-
-#### 9.1.5 Number Neighborhood : 大數隣 : 400
-Seven shifted pairs from 2 to 8 of the character suit.
-
-Pattern:&ensp;![k2]![k2]&ensp;![k3]![k3]&ensp;![k4]![k4]&ensp;![k5]![k5]&ensp;![k6]![k6]&ensp;![k7]![k7]&ensp;![k8]![k8]
-
----
-
-### 10.0 Color Hands
-
-#### 10.1 All Green : 緑一色 : 400
+#### 9.1 All Green : 緑一色 : 400
 The hand consists of tiles from the set 2, 3, 4, 6, 8 bamboo and the green dragon tile.
 
 Green Tiles: ![b2] ![b3] ![b4] ![b6] ![b8] ![dg]
@@ -414,7 +380,7 @@ Green Tiles: ![b2] ![b3] ![b4] ![b6] ![b8] ![dg]
 Example:&ensp;![b2]![b3]![b4]&ensp;![b3]![b3]![b3]&ensp;![b6]![b6]![b6]&ensp;![dg]![dg]![dg]&ensp;![b8]![b8]
 
 
-#### 10.2 All Red : 紅孔雀 : 480
+#### 9.2 All Red : 紅孔雀 : 480
 The hand consists of tiles from the set 1, 3, 5, 7 bamboo and the red dragon tile.
 
 Red Tiles: ![b1] ![b5] ![b7] ![b9] ![dr]
@@ -423,81 +389,111 @@ Example:&ensp;![b1]![b1]![b1]&ensp;![b5]![b5]![b5]&ensp;![b7]![b7]![b7]&ensp;![b
 
 ---
 
-### 11.0 Irregular Hands
+### 10.0 Irregular Hands
 
 `Thirteen Orphans` hand does not count for `Concealed Hand`, `All Types`, nor `Mixed Greater Terminals`.
 
-#### 11.1 Thirteen Orphans : 十三么九 : 160 / 320 (13 waits)
+#### 10.1 Thirteen Orphans : 十三么九 : 160 / 320 (十三面, 13 waits)
 Among the 13 types of terminals and honors, the hand contains one pair of one type, and one tile each of the other 12 types.
 
-Note: the hand scores 320 instead if it is a 13 wait situation where the pair of eye is not initially complete.
+Note: the hand scores 320 instead if it is a 13 wait situation where the pair of eyes is not initially complete.
 
 Example:&ensp;![c1]![b1]![b9]![k1]![k9]![we]![ws]![ws]![ww]![wn]![dr]![dg]![dw]&ensp;_=> wait for ![c9] to complete pattern_
 
 Example:&ensp;![c1]![c9]![b1]![b9]![k1]![k9]![we]![ws]![ww]![wn]![dr]![dg]![dw]&ensp;_=> 13 possible waits_
 
+
+Seven pairs hand are hands that consists of seven pairs. A Seven Pairs hand cannot count those patterns which specifically require sequences, triplets, or quartets, but it can count for other patterns without such requirements.
+
+Note: Four identical tiles can count as two pairs as long as quartet is not declared.
+
+#### 10.2.1 Seven Pairs : 七對子 : 30
+The hand consists of seven pairs.
+
+Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 30+5=35 points.
+
+Example:&ensp;![k2]![k2]&ensp;![k6]![k6]&ensp;![c1]![c1]&ensp;![c7]![c7]&ensp;![dw]![dw]&ensp;![ww]![ww]&ensp;![wn]![wn]
+
+#### 10.2.2 Seven Shifted Pairs : 連七對 : 320
+The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
+
+Example:&ensp;![c1]![c1]&ensp;![c2]![c2]&ensp;![c3]![c3]&ensp;![c4]![c4]&ensp;![c5]![c5]&ensp;![c6]![c6]&ensp;![c7]![c7]
+
+#### 10.2.3 Grand Chariot : 大車輪 : 400
+Seven shifted pairs from 2 to 8 of the coin suit.
+
+Pattern:&ensp;![c2]![c2]&ensp;![c3]![c3]&ensp;![c4]![c4]&ensp;![c5]![c5]&ensp;![c6]![c6]&ensp;![c7]![c7]&ensp;![c8]![c8]
+
+#### 10.2.4 Bamboo Forest : 大竹林 : 400
+Seven shifted pairs from 2 to 8 of the bamboo suit.
+
+Pattern:&ensp;![b2]![b2]&ensp;![b3]![b3]&ensp;![b4]![b4]&ensp;![b5]![b5]&ensp;![b6]![b6]&ensp;![b7]![b7]&ensp;![b8]![b8]
+
+#### 10.2.5 Numerous Neighbors : 大數隣 : 400
+Seven shifted pairs from 2 to 8 of the character suit.
+
+Pattern:&ensp;![k2]![k2]&ensp;![k3]![k3]&ensp;![k4]![k4]&ensp;![k5]![k5]&ensp;![k6]![k6]&ensp;![k7]![k7]&ensp;![k8]![k8]
+
 ---
 
-### 12.0 Incidental bonuses
+### 11.0 Incidental bonuses
 
 Lucky bonuses for winning on rare opportunities.
 
-#### 12.1.1 Final Draw : 海底撈月 : 10
+#### 11.1.1 Final Draw : 海底撈月 : 10
 `Self Drawn` win on the `seabed` tile (the last tile in the wall, excluding the king's tiles).
 
-#### 12.1.2 Final Discard : 河底撈魚 : 10
+#### 11.1.2 Final Discard : 河底撈魚 : 10
 Winning on a discarded `riverbed` tile (the last discard by the player who has drawn the seabed tile).
 
 
-#### 12.2.1 Win on Kong : 嶺上開花 : 10
-`Self Drawn` win on a `supplement` tile after declaring a kong.
+#### 11.2.1 Win on Quartet : 嶺上開花 : 10
+`Self Drawn` win on a `supplement` tile after declaring a quartet.
 
 Note: if the supplement tile is also the seabed tile, both patterns can be counted.
 
-#### 12.2.2 Win on Bonus Tile : 花上自摸 : 10
+#### 11.2.2 Win on Bonus Tile : 花上自摸 : 10
 `Self Drawn` win on a `supplement` tile after drawing a bonus tile.
 
 Note: if the supplement tile is also the seabed tile, both patterns can be counted.
 
 
-#### 12.3 Robbing a Kong : 搶槓 : 10
-Winning by robbing a kong promotion. As for concealed kong, only `Thirteen Orphans` hand can rob a concealed kong.
+#### 11.3 Robbing a Quartet : 搶槓 : 10
+Winning by robbing a quartet promotion. As for concealed quartet, only `Thirteen Orphans` hand can rob a concealed quartet.
 
 
-#### 12.4.1 Blessing of Heaven : 天和 : 155
+#### 11.4.1 Blessing of Heaven : 天和 : 155
 East winning with his initial 14-tile hand.
 
-Note: does not count if East has made a concealed kong.
+Note: does not count if East has made a concealed quartet.
 
-#### 12.4.2 Blessing of Earth : 地和 : 155
+#### 11.4.2 Blessing of Earth : 地和 : 155
 A non-East player calling with his initial 13-tile hand, and winning on East's very first discard.
 
-Note: does not count if East has made a concealed kong.
+Note: does not count if East has made a concealed quartet.
 
 ---
 
-### 13.0 Bonus Tiles
+### 12.0 Bonus Tiles
 
 Flowers tiles only provide bonus points, they do NOT contribute to having the minimum requirements to win.
 
-#### 13.1 Bonus Flower / Bonus Season : 花季牌 : 2 per tile
+#### 12.1 Bonus Flower / Bonus Season : 花季牌 : 2 per tile
 Each flower or season bonus tile is worth 2 points unless completing the set.
 
-#### 13.1.1 All Flowers : 齊四花 : 15 -> 20
+#### 12.1.1 Four Flowers : 齊四花 : 20
 A complete set of all 4 Flower tiles.
-
-Note: 15 -> 20 for flower kong.
 
 Pattern:&ensp;![f1]![f2]![f3]![f4]
 
-#### 13.1.2 All Seasons : 齊四季 : 12 -> 20
+#### 12.1.2 Four Seasons : 齊四季 : 20
 A complete set of all 4 Season tiles.
 
-Note: 15 -> 20 for season kong.
+Note: 15 -> 20 for season quartet.
 
 Pattern:&ensp;![s1]![s2]![s3]![s4]
 
-#### 13.1.3 All Bonus Tiles : 八仙過海 : 80
+#### 12.1.3 All Bonus Tiles : 八仙過海 : 40
 A complete set of all 8 bonus tiles.
 
 Pattern:&ensp;![f1]![f2]![f3]![f4]&ensp;![s1]![s2]![s3]![s4]
@@ -554,4 +550,3 @@ Pattern:&ensp;![f1]![f2]![f3]![f4]&ensp;![s1]![s2]![s3]![s4]
 [s4]: web/img/gif/s4.gif "S4"
 
 [bk]: web/img/gif/back.gif "Hidden"
-

@@ -433,31 +433,19 @@ matchSuits = (<->>) [ matchOneSuit ]
 -- 7.1 Sequence and triplets
 matchTerminals1 :: ScoreFunc
 matchTerminals1 (h, _)
-  | isSameTileType tiles && matchBBM = acc ++ pure bigBoundlessMountain
-  | isSameTileType tiles && matchLBM = acc ++ pure littleBoundlessMountain
-  | or $ (containsMelds h) <$> pat2  = acc ++ pure twoTailedTerminals
-  | otherwise                        = acc
+  | or $ (containsMelds h) <$> pat = pure twoTailedTerminals
+  | otherwise                      = accSequences ++ accTriplets
   where
-    melds    = getMelds h
-    tiles    = getHandTiles h
-    patBM1   = [1, 1, 1, 1, 2, 2, 3, 3, 7, 8, 9, 9, 9, 9]
-    patBM2   = [1, 1, 1, 1, 2, 3, 7, 7, 8, 8, 9, 9, 9, 9]
-    matchBBM = matchValuePattern tiles patBM1
-            || matchValuePattern tiles patBM2
-    matchLBM = all isTerminal melds
-
-    pat2     = [ [c111, c123, c789, c999]
-               , [b111, b123, b789, b999]
-               , [k111, k123, k789, k999]
-               ]
-
+    pat           = [ [c111, c123, c789, c999]
+                    , [b111, b123, b789, b999]
+                    , [k111, k123, k789, k999]
+                    ]
     patSequences  = [ [c123, c789], [b123, b789], [k123, k789] ]
     patTriplets   = [ [c111, c999], [b111, b999], [k111, k999] ]
     sequenceCount = count (== True) . fmap (containsMelds h) $ patSequences
     tripletCount  = count (== True) . fmap (containsMelds h) $ patTriplets
     accSequences  = take sequenceCount $ repeat twoTailedTerminalSequences
-    accTriplets   = take tripletCount $ repeat twoTailedTerminalTriplets
-    acc           = accSequences ++ accTriplets
+    accTriplets   = take tripletCount  $ repeat twoTailedTerminalTriplets
 
 -- 7.2 Mixed and pure
 matchTerminals2 :: ScoreFunc
@@ -472,9 +460,25 @@ matchTerminals2 (h, hs)
     tiles        = getHandTiles h
     hasSequences = numOfSequences hs > 0
 
+-- 7.3 Combination
+matchTerminals3 :: ScoreFunc
+matchTerminals3 (h, _)
+  | isSameTileType tiles && matchBM = pure bigMountain
+  | isSameTileType tiles && matchLM = pure littleMountain
+  | otherwise                       = []
+  where
+    tiles   = getHandTiles h
+    melds   = getMelds h
+    patBM1  = [1, 1, 1, 1, 2, 2, 3, 3, 7, 8, 9, 9, 9, 9]
+    patBM2  = [1, 1, 1, 1, 2, 3, 7, 7, 8, 8, 9, 9, 9, 9]
+    matchBM = matchValuePattern tiles patBM1
+           || matchValuePattern tiles patBM2
+    matchLM = all isTerminal melds
+
 matchTerminals :: ScoreFunc
 matchTerminals = (<->>) [ matchTerminals1
                         , matchTerminals2
+                        , matchTerminals3
                         ]
 
 

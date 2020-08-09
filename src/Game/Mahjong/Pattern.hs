@@ -60,10 +60,13 @@ module Game.Mahjong.Pattern (
   -- * 7.0 Terminal Tiles
 
   -- ** 7.1 Sequence and Triplet
-  twoTailedTerminalSequences, twoTailedTerminalTriplets, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain,
+  twoTailedTerminalSequences, twoTailedTerminalTriplets, twoTailedTerminals,
 
   -- ** 7.2 Mixed and Pure
   mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals,
+
+  -- ** 7.3 Combination
+  littleMountain, bigMountain,
 
 
   -- * 8.0 Honor Tiles
@@ -221,18 +224,20 @@ nineGates          = Pattern "Nine Gates"     "九蓮寶燈" 480
 
 -- 7.0 Terminal Tiles
 
-twoTailedTerminalSequences, twoTailedTerminalTriplets, twoTailedTerminals, littleBoundlessMountain, bigBoundlessMountain :: Pattern
+twoTailedTerminalSequences, twoTailedTerminalTriplets, twoTailedTerminals :: Pattern
 twoTailedTerminalSequences  = Pattern "Two-Tailed Terminal Sequences" "老少配"   5
 twoTailedTerminalTriplets   = Pattern "Two-Tailed Terminal Triplets"  "老少副"   10
 twoTailedTerminals          = Pattern "Two-Tailed Terminals"          "老少么九"  120
-littleBoundlessMountain     = Pattern "Little Boundless Mountain"     "小山滿"   320
-bigBoundlessMountain        = Pattern "Big Boundless Mountain"        "大山滿"   400
 
 mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals :: Pattern
 mixedLesserTerminals        = Pattern "Mixed Lesser Terminals"        "混全帶么九" 40
 pureLesserTerminals         = Pattern "Pure Lesser Terminals"         "純全帶么九" 50
 mixedGreaterTerminals       = Pattern "Mixed Greater Terminals"       "混么九"   100
 pureGreaterTerminals        = Pattern "Pure Greater Terminals"        "清么九"   400
+
+littleMountain, bigMountain :: Pattern
+littleMountain              = Pattern "Little Mountain"               "小山滿"   320
+bigMountain                 = Pattern "Big Mountain"                  "大山滿"   400
 
 
 -- 8.0 Honor Tiles
@@ -298,8 +303,8 @@ blessingOfEarth  = Pattern "Blessing of Earth"  "地和"   155
 
 bonusFlowerSeason, fourFlowers, fourSeasons, allBonusTiles :: Pattern
 bonusFlowerSeason = Pattern "Bonus Tiles"     "花季牌"  2
-fourFlowers       = Pattern "Four Flowers"    "齊四花"  15
-fourSeasons       = Pattern "Four Seasons"    "齊四季"  15
+fourFlowers       = Pattern "Four Flowers"    "齊四花"  20
+fourSeasons       = Pattern "Four Seasons"    "齊四季"  20
 allBonusTiles     = Pattern "All Bonus Tiles" "八仙過海" 40
 
 
