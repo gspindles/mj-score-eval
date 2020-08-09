@@ -419,7 +419,7 @@ The hand consists of tiles from the set 1, 3, 5, 7 bamboo and the red dragon til
 
 Red Tiles: ![b1] ![b5] ![b7] ![b9] ![dr]
 
-Example:&ensp;![b1]![b2]![b1]&ensp;![b5]![b5]![b5]&ensp;![b7]![b7]![b7]&ensp;![b9]![b9]![b9]&ensp;![dr]![dr]
+Example:&ensp;![b1]![b1]![b1]&ensp;![b5]![b5]![b5]&ensp;![b7]![b7]![b7]&ensp;![b9]![b9]![b9]&ensp;![dr]![dr]
 
 ---
 
