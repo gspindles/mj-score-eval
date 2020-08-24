@@ -240,3 +240,4 @@ handStatStep m hs = mappend hs step
 
 handStat :: Hand -> HandStat
 handStat = foldr handStatStep mempty . getMelds
+

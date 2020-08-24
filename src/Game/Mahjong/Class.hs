@@ -108,3 +108,4 @@ joinPP delim = intercalate delim . fmap pp
 
 showPP :: Pretty p => p -> IO ()
 showPP = putStrLn . pp
+

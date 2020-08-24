@@ -110,3 +110,4 @@ genBonus x = sample x bonuses
 
 genOnHand :: Int -> [Tile]
 genOnHand x = sample x regulars
+

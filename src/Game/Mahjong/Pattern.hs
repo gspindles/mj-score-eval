@@ -63,10 +63,7 @@ module Game.Mahjong.Pattern (
   twoTailedTerminalSequences, twoTailedTerminalTriplets, twoTailedTerminals,
 
   -- ** 7.2 Mixed and Pure
-  mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals,
-
-  -- ** 7.3 Combination
-  littleMountain, bigMountain,
+  mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureSuitTerminals, pureGreaterTerminals,
 
 
   -- * 8.0 Honor Tiles
@@ -92,11 +89,7 @@ module Game.Mahjong.Pattern (
 
   -- ** 10.2 Seven Pairs
 
-  -- ** 10.2.1 Basic seven pairs
-  sevenPairs,
-
-  -- ** 10.2.2 Specialized seven pairs
-  sevenShiftedPairs, grandChariot, bambooForest, numerousNeighbors,
+  sevenPairs, sevenShiftedPairs,
 
 
   -- * 11.0 Incidental bonuses
@@ -208,7 +201,7 @@ fourConsecutiveSequences       = Pattern "Four Consecutive Sequences"        "�
 threeConsecutiveTriplets, fourConsecutiveTriplets, threeMothers :: Pattern
 threeConsecutiveTriplets       = Pattern "Three Consecutive Triplets"        "三連刻"  100
 fourConsecutiveTriplets        = Pattern "Four Consecutive Triplets"         "四連刻"  200
-threeMothers                   = Pattern "Three Mothers"                     "三娘教子" 400
+threeMothers                   = Pattern "Three Mothers"                     "三娘教子" 320
 
 
 -- 6.0 Suit Patterns
@@ -225,19 +218,16 @@ nineGates          = Pattern "Nine Gates"     "九蓮寶燈" 480
 -- 7.0 Terminal Tiles
 
 twoTailedTerminalSequences, twoTailedTerminalTriplets, twoTailedTerminals :: Pattern
-twoTailedTerminalSequences  = Pattern "Two-Tailed Terminal Sequences" "老少配"   5
-twoTailedTerminalTriplets   = Pattern "Two-Tailed Terminal Triplets"  "老少副"   10
+twoTailedTerminalSequences  = Pattern "Two-Tailed Terminal Sequences" "老少順"   5
+twoTailedTerminalTriplets   = Pattern "Two-Tailed Terminal Triplets"  "老少刻"   10
 twoTailedTerminals          = Pattern "Two-Tailed Terminals"          "老少么九"  120
 
-mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureGreaterTerminals :: Pattern
-mixedLesserTerminals        = Pattern "Mixed Lesser Terminals"        "混全帶么九" 40
-pureLesserTerminals         = Pattern "Pure Lesser Terminals"         "純全帶么九" 50
-mixedGreaterTerminals       = Pattern "Mixed Greater Terminals"       "混么九"   100
-pureGreaterTerminals        = Pattern "Pure Greater Terminals"        "清么九"   400
-
-littleMountain, bigMountain :: Pattern
-littleMountain              = Pattern "Little Mountain"               "小山滿"   320
-bigMountain                 = Pattern "Big Mountain"                  "大山滿"   400
+mixedLesserTerminals, pureLesserTerminals, mixedGreaterTerminals, pureSuitTerminals, pureGreaterTerminals :: Pattern
+mixedLesserTerminals        = Pattern "Mixed Lesser Terminals"        "混全帶么九"  40
+pureLesserTerminals         = Pattern "Pure Lesser Terminals"         "純全帶么九"  50
+mixedGreaterTerminals       = Pattern "Mixed Greater Terminals"       "混么九"    100
+pureSuitTerminals           = Pattern "Pure Suit Terminals"           "一色全帶么九" 320
+pureGreaterTerminals        = Pattern "Pure Greater Terminals"        "清么九"    400
 
 
 -- 8.0 Honor Tiles
@@ -261,10 +251,9 @@ allHonorPairs      = Pattern "All Honor Pairs"      "大七星" 480
 
 -- 9.0 Color Hands
 
-allGreen, allRed, allBlue :: Pattern
+allGreen, allRed :: Pattern
 allGreen = Pattern "All Green" "緑一色" 400
 allRed   = Pattern "All Red"   "紅孔雀" 480
-allBlue  = Pattern "All Blue"  "藍一色" 320 -- not exported
 
 
 -- 10.0 Irregular Hands
@@ -273,12 +262,9 @@ thirteenOrphans, thirteenOrphansWaits :: Pattern
 thirteenOrphans      = Pattern "Thirteen Orphans"            "十三么九"      160
 thirteenOrphansWaits = Pattern "Thirteen Orphans (13 Waits)" "十三么九 十三面"  320
 
-sevenPairs, sevenShiftedPairs, grandChariot, bambooForest, numerousNeighbors :: Pattern
-sevenPairs           = Pattern "Seven Pairs" "七對子" 40
+sevenPairs, sevenShiftedPairs :: Pattern
+sevenPairs           = Pattern "Seven Pairs"                 "七對子"       40
 sevenShiftedPairs    = Pattern "Seven Shifted Pairs"         "連七對"       320
-grandChariot         = Pattern "Grand Chariot"               "大車輪"       400
-bambooForest         = Pattern "Bamboo Forest"               "大竹林"       400
-numerousNeighbors    = Pattern "Numerous Neighbors"          "大數隣"       400
 
 
 -- 11.0 Incidental bonuses
@@ -318,3 +304,4 @@ allBonusTiles     = Pattern "All Bonus Tiles" "八仙過海" 40
 --   similar sequences, bonus tiles, etc…
 updateScore :: Pattern -> Int -> Pattern
 updateScore (Pattern e c p) n = Pattern e c (p * n)
+

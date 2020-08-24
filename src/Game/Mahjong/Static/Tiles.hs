@@ -155,3 +155,4 @@ regulars = coins ++ bamboos ++ characters ++ winds ++ dragons
 -- | List containing all tiles
 allTiles :: [Tile]
 allTiles = regulars ++ bonuses
+

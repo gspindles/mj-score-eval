@@ -146,12 +146,12 @@ mkPair s ts
 
 -- | Tries to make a meld.
 mkMeld :: Status -> MeldType -> [Tile] -> Maybe Meld
-mkMeld s mt t =
+mkMeld s mt ts =
   case mt of
-    Sequence -> mkSequence s t
-    Triplet  -> mkTriplet s t
-    Quartet  -> mkQuartet s t
-    Pair     -> mkPair s t
+    Sequence -> mkSequence s ts
+    Triplet  -> mkTriplet s ts
+    Quartet  -> mkQuartet s ts
+    Pair     -> mkPair s ts
 
 -- | Tries to promote a Triplet to a Quartet.
 promoteTriplet :: Meld -> Tile -> Maybe Meld
@@ -223,3 +223,4 @@ meldTileMatch k m1 m2 =
     ignoreMeldTypeEq Triplet Quartet = True
     ignoreMeldTypeEq Quartet Triplet = True
     ignoreMeldTypeEq mt1     mt2     = mt1 == mt2
+

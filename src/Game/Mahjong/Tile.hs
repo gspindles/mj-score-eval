@@ -4,6 +4,7 @@
 {-# LANGUAGE GADTs              #-}
 {-# LANGUAGE PolyKinds          #-}
 {-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE TypeApplications   #-}
 {-# LANGUAGE TypeFamilies       #-}
 
 -- | Tile module contains data definitions and class instances for tile.
@@ -322,3 +323,4 @@ mkFlower    = Tile SF
 
 mkSeason :: Seasons -> Tile
 mkSeason    = Tile SS
+

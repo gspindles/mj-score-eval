@@ -1,5 +1,8 @@
 -- | Wall module contains functions relating to wall building.
 module Game.Mahjong.Wall (
+  -- ** Include bonus tile?
+  WithBonus(..),
+
   -- ** Wall building
   mjSet, getWall, randomWall
 ) where
@@ -16,19 +19,26 @@ import Game.Mahjong.Tile
 -- Wall building
 -------------------------------------------------------------------------------
 
+-- | Whether to include bonus tiles in the game
+data WithBonus
+  = Exclude
+  | Include
+  deriving (Eq, Show)
+
 -- | Set of mahjong tiles.
-mjSet :: [Tile]
-mjSet      = (regulars >>= take 4 . repeat) ++ bonuses
+mjSet :: WithBonus -> [Tile]
+mjSet Exclude = regulars >>= take 4 . repeat
+mjSet Include = mjSet Exclude ++ bonuses
 
 -- | Creates a wall
-getWall :: Int -> [Tile]
-getWall a  = fst $ fisherYates (mkStdGen a) mjSet
+getWall :: WithBonus -> Int -> [Tile]
+getWall wb a = fst . fisherYates (mkStdGen a) $ mjSet wb
 
 -- | Creates an random wall
-randomWall :: IO [Tile]
-randomWall = do
+randomWall :: WithBonus -> IO [Tile]
+randomWall wb = do
   r <- randNumber
-  return $ getWall r
+  return $ getWall wb r
 
 -- | gets a random number
 randNumber :: IO Int
@@ -51,3 +61,4 @@ fisherYatesStep :: RandomGen g => (Map Int a, g) -> (Int, a) -> (Map Int a, g)
 fisherYatesStep (m, gen) (i, x) = ((insert j x . insert i (m ! j)) m, gen')
   where
     (j, gen') = randomR (0, i) gen
+

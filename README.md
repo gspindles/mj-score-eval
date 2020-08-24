@@ -197,7 +197,7 @@ Note: this hand is always `All Triplets`, so it scores at least 200+30=230 point
 
 Example:&ensp;![k4]![k4]![k4]&ensp;![k5]![k5]![k5]&ensp;![k6]![k6]![k6]&ensp;![k7]![k7]![k7]
 
-#### 5.2.3 Three Mothers : 三娘教子 : 400
+#### 5.2.3 Three Mothers : 三娘教子 : 320
 Hand consist of `Three Consecutive Triplets` with a sequence of the same three remaining tiles.
 
 Example:&ensp;![k5]![k5]![k5]&ensp;![k6]![k6]![k6]&ensp;![k7]![k7]![k7]&ensp;![k5]![k6]![k7]
@@ -282,27 +282,28 @@ Example:&ensp;![b9]![b9]![b9]&ensp;![k1]![k1]![k1]&ensp;![ww]![ww]![ww]&ensp;![d
 
 Example:&ensp;![c1]![c1]&ensp;![b1]![b1]&ensp;![k1]![k1]&ensp;![k9]![k9]&ensp;![we]![we]&ensp;![wn]![wn]&ensp;![dw]![dw]
 
-#### 7.2.4 Pure Greater Terminals : 清么九 : 400
-The hand consists entirely of terminal tiles.
+#### 7.2.4 Pure Suit Terminals : 一色全帶么九 : 320
+Combination of `Pure One-Suit` and `Pure Lesser Terminals`.
 
-Example:&ensp;![c1]![c1]![c1]&ensp;![c9]![c9]![c9]&ensp;![b1]![b1]![b1]&ensp;![b9]![b9]![b9]&ensp;![k9]![k9]
-
-
-#### 7.3.1 Little Mountain : 小山滿 : 320
-Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up exactly 6 terminal tiles of the suit.
+Note: with `Two Identical Sequences Twice` - `11 123 123 789 789` or `123 123 789 798 99`
+  or with `Three Identical Sequences` - `11 123 789 789 789` or `123 123 123 789 99`
+  or using up all 8 terminal tiles of one suit - `11 123 123 789 999` or `111 123 789 789 99`
+  count `Four Identical Sequences` otherwise - `11 789 789 789 789` or `123 123 123 123 99`
 
 Example:&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c7]![c8]![c9]&ensp;![c1]![c1]
 
 Example:&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]
 
-#### 7.3.2 Big Mountain : 大山滿 : 400
-Combination of `Pure One-Suit` and `Pure Lesser Terminals`, using up all 8 terminal tiles of the suit.
+Example:&ensp;![b1]![b1]&ensp;![b1]![b2]![b3]&ensp;![b1]![b2]![b3]&ensp;![b7]![b8]![b9]&ensp;![b9]![b9]![b9]
 
-Note: only 2 possible patterns - `11 123 123 789 999` or `111 123 789 789 99`
+Example:&ensp;![k1]![k1]![k1]&ensp;![k1]![k2]![k3]&ensp;![k7]![k8]![k9]&ensp;![k7]![k8]![k9]&ensp;![k9]![k9]
 
-Example:&ensp;![c1]![c1]&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c9]![c9]![c9]
+#### 7.2.5 Pure Greater Terminals : 清么九 : 400
+The hand consists entirely of terminal tiles.
 
-Example:&ensp;![b1]![b1]![b1]&ensp;![b1]![b2]![b3]&ensp;![b7]![b8]![b9]&ensp;![b7]![b8]![b9]&ensp;![b9]![b9]
+Example:&ensp;![c1]![c1]![c1]&ensp;![c9]![c9]![c9]&ensp;![b1]![b1]![b1]&ensp;![b9]![b9]![b9]&ensp;![k9]![k9]
+
+Example:&ensp;![c1]![c1]&ensp;![c9]![c9]!&ensp;![b1]![b1]!&ensp;![b9]![b9]!&ensp;![k1]![k1]&ensp;![k9]![k9]&ensp;![b1]![b1]
 
 ---
 
@@ -415,24 +416,13 @@ Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 30+5=35 po
 Example:&ensp;![k2]![k2]&ensp;![k6]![k6]&ensp;![c1]![c1]&ensp;![c7]![c7]&ensp;![dw]![dw]&ensp;![ww]![ww]&ensp;![wn]![wn]
 
 #### 10.2.2 Seven Shifted Pairs : 連七對 : 320
-The hand consists of seven shifted pairs from 1 to 7 or 2 to 8.
+The hand consists of seven shifted pairs, from 1-7, 2-8, or 3-9.
 
 Example:&ensp;![c1]![c1]&ensp;![c2]![c2]&ensp;![c3]![c3]&ensp;![c4]![c4]&ensp;![c5]![c5]&ensp;![c6]![c6]&ensp;![c7]![c7]
 
-#### 10.2.3 Grand Chariot : 大車輪 : 400
-Seven shifted pairs from 2 to 8 of the coin suit.
-
-Pattern:&ensp;![c2]![c2]&ensp;![c3]![c3]&ensp;![c4]![c4]&ensp;![c5]![c5]&ensp;![c6]![c6]&ensp;![c7]![c7]&ensp;![c8]![c8]
-
-#### 10.2.4 Bamboo Forest : 大竹林 : 400
-Seven shifted pairs from 2 to 8 of the bamboo suit.
-
 Pattern:&ensp;![b2]![b2]&ensp;![b3]![b3]&ensp;![b4]![b4]&ensp;![b5]![b5]&ensp;![b6]![b6]&ensp;![b7]![b7]&ensp;![b8]![b8]
 
-#### 10.2.5 Numerous Neighbors : 大數隣 : 400
-Seven shifted pairs from 2 to 8 of the character suit.
-
-Pattern:&ensp;![k2]![k2]&ensp;![k3]![k3]&ensp;![k4]![k4]&ensp;![k5]![k5]&ensp;![k6]![k6]&ensp;![k7]![k7]&ensp;![k8]![k8]
+Pattern:&ensp;![k3]![k3]&ensp;![k4]![k4]&ensp;![k5]![k5]&ensp;![k6]![k6]&ensp;![k7]![k7]&ensp;![k8]![k8]&ensp;![k9]![k9]
 
 ---
 

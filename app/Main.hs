@@ -4,5 +4,5 @@ import Game.Mahjong.Wall
 
 main :: IO ()
 main = do
-  wall <- randomWall
+  wall <- randomWall Include
   print wall

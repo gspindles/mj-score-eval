@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE TypeApplications     #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 
 -- | Functions for scoring mahjong patterns
@@ -20,6 +21,7 @@ import Control.Arrow ((&&&))
 import Control.Applicative (liftA2)
 import Data.Foldable (maximumBy)
 import Data.List (group, groupBy, inits, intersect, nub, sort, sortBy, tails)
+import Data.Maybe (fromJust)
 import Data.Monoid (Any(..), Sum(..))
 import Data.Ord (comparing)
 
@@ -73,7 +75,7 @@ matchForPatterns hand =
   where
     stat      = (hand, handStat hand)
     patterns  | isSpecial hand = matchSpecial stat
-              | otherwise      = matchers <->> stat
+              | otherwise      = distribute matchers stat
     matchers  = [ matchTrivials            -- 1.  Trivival Patterns
                 , matchTripletsAndQuartets -- 2.  Triplets & Quartets
                 , matchIdenticalSets       -- 3.  Identical Sets
@@ -91,8 +93,8 @@ matchForPatterns hand =
 
 -- | mappend for score functions
 --   concats the resulting patterns from each matcher
-(<->>) :: [a -> [b]] -> a -> [b]
-(<->>) sfs = concat . zipWith id sfs . repeat
+distribute :: [a -> [b]] -> a -> [b]
+distribute sfs = concat . zipWith id sfs . repeat
 
 -- | sort the patterns by score
 sortPatterns :: [Pattern] -> [Pattern]
@@ -177,12 +179,8 @@ matchAllTypes (_, hs)
     counts     = zipWith id countFuncs $ repeat hs
 
 matchTrivials :: ScoreFunc
-matchTrivials = (<->>) [ matchAllSequences
-                       , matchConcealedHand
-                       , matchSelfDrawn
-                       , matchAllSimples
-                       , matchAllTypes
-                       ]
+matchTrivials = distribute
+  [ matchAllSequences , matchConcealedHand, matchSelfDrawn, matchAllSimples, matchAllTypes ]
 
 
 
@@ -208,17 +206,17 @@ matchConcealedTriplets (h, _)
 -- 2.3 Quartets
 matchQuartets :: ScoreFunc
 matchQuartets (_, hs)
-  | numOfQuartets hs == 4 = pure fourQuartets
-  | numOfQuartets hs == 3 = pure threeQuartets
-  | numOfQuartets hs == 2 = pure twoQuartets
-  | numOfQuartets hs == 1 = pure oneQuartet
-  | otherwise             = []
+  | p == 4    = pure fourQuartets
+  | p == 3    = pure threeQuartets
+  | p == 2    = pure twoQuartets
+  | p == 1    = pure oneQuartet
+  | otherwise = []
+  where
+    p = numOfQuartets hs
 
 matchTripletsAndQuartets :: ScoreFunc
-matchTripletsAndQuartets = (<->>) [ matchTriplets
-                                  , matchConcealedTriplets
-                                  , matchQuartets
-                                  ]
+matchTripletsAndQuartets = distribute
+  [ matchTriplets, matchConcealedTriplets, matchQuartets ]
 
 
 
@@ -253,7 +251,7 @@ matchSimilarSets :: ScoreFunc
 matchSimilarSets (h, _)
   | similarCheck intersectionSequence  = pure threeSimilarSequences
   | similarCheck intersectionTriplet   = pure threeSimilarTriplets
-  | length eye == 1 && hasLTSP eye     = pure littleThreeSimilarTriplets
+  | length eye == 1 && isLTSP          = pure littleThreeSimilarTriplets
   | otherwise                          = []
   where
     melds                = getMelds h
@@ -272,39 +270,16 @@ matchSimilarSets (h, _)
                            else []
 
     eye                  = filter (\m -> isPair m && isSuit m) melds
-    hasLTSP              = containsMelds h . getLTSP . head . meldTiles . head
-    getLTSP et
-      | et == c1  = [ b111, k111 ]
-      | et == c2  = [ b222, k222 ]
-      | et == c3  = [ b333, k333 ]
-      | et == c4  = [ b444, k444 ]
-      | et == c5  = [ b555, k555 ]
-      | et == c6  = [ b666, k666 ]
-      | et == c7  = [ b777, k777 ]
-      | et == c8  = [ b888, k888 ]
-      | et == c9  = [ b999, k999 ]
-
-      | et == b1  = [ c111, k111 ]
-      | et == b2  = [ c222, k222 ]
-      | et == b3  = [ c333, k333 ]
-      | et == b4  = [ c444, k444 ]
-      | et == b5  = [ c555, k555 ]
-      | et == b6  = [ c666, k666 ]
-      | et == b7  = [ c777, k777 ]
-      | et == b8  = [ c888, k888 ]
-      | et == b9  = [ c999, k999 ]
-
-      | et == k1  = [ c111, b111 ]
-      | et == k2  = [ c222, b222 ]
-      | et == k3  = [ c333, b333 ]
-      | et == k4  = [ c444, b444 ]
-      | et == k5  = [ c555, b555 ]
-      | et == k6  = [ c666, b666 ]
-      | et == k7  = [ c777, b777 ]
-      | et == k8  = [ c888, b888 ]
-      | et == k9  = [ c999, b999 ]
-
-      | otherwise = []  -- shouldn't get here
+    eyeTile              = head . meldTiles . head $ eye
+    eyeTileValue         = toEnum @Values $ (tileValue eyeTile) - 1
+    getOtherTileType tt
+      | tt == Coin       = [ mkBamboo, mkCharacter ]
+      | tt == Bamboo     = [ mkCoin  , mkCharacter ]
+      | tt == Character  = [ mkCoin  , mkBamboo    ]
+      | otherwise        = []  -- shouldn't get here due to length eye == 1 check above
+    otherTwoTiles        = fmap ($ eyeTileValue) . getOtherTileType $ tileType eyeTile
+    otherTwoTriplets     = fmap (fromJust . mkTriplet Concealed . take 3 . repeat) otherTwoTiles
+    isLTSP               = containsMelds h otherTwoTriplets
 
 
 
@@ -313,10 +288,10 @@ matchSimilarSets (h, _)
 -- 5.1 Consecutive sequences
 matchConsecutiveSequences :: ScoreFunc
 matchConsecutiveSequences (h, _)
-  | length sorted == 4 && fourConsCCheck   = pure fourConsecutiveSequences
-  | length sorted == 4 && threeConsCTCheck = pure threeConsecutiveSequencesTwice
+  | length sorted == 4 && fourConsSCheck   = pure fourConsecutiveSequences
+  | length sorted == 4 && threeConsSTCheck = pure threeConsecutiveSequencesTwice
   | length sorted >= 3 && nineTSCheck      = pure nineTileStraight
-  | length sorted >= 3 && threeConsCCheck  = pure threeConsecutiveSequences
+  | length sorted >= 3 && threeConsSCheck  = pure threeConsecutiveSequences
   | otherwise                              = []
   where
     melds            = getMelds h
@@ -325,43 +300,43 @@ matchConsecutiveSequences (h, _)
     fstSequence      = head sorted
     sndSequence      = head $ tail sorted
 
-    build4ConsC1     = take 4 . iterate next
-    build4ConsC2     = take 4 . iterate (next . next)
-    build3ConsCT1 m  = [ m
+    build4ConsS1     = take 4 . iterate next
+    build4ConsS2     = take 4 . iterate (next . next)
+    build3ConsST1 m  = [ m
                        , next m
                        , next (next m)
                        , next (next (next (next m)))
                        ]
-    build3ConsCT2 m  = [ m
+    build3ConsST2 m  = [ m
                        , next (next m)
                        , next (next (next m))
                        , next (next (next (next m)))
                        ]
-    build3ConsC1     = take 3 . iterate next
-    build3ConsC2     = take 3 . iterate (next . next)
-    build3ConsC3     = take 3 . iterate (next . next . next)
+    build3ConsS1     = take 3 . iterate next
+    build3ConsS2     = take 3 . iterate (next . next)
+    build3ConsS3     = take 3 . iterate (next . next . next)
     sequence123s m   = any (meldTileMatch True m) [ c123, b123, k123 ]
 
-    fourConsCCheck   = ( sequence123s fstSequence
-                    && containsMelds h (build4ConsC2 fstSequence) )
-                    || containsMelds h (build4ConsC1 fstSequence)
-    threeConsCTCheck = containsMelds h (build3ConsCT1 fstSequence)
-                    || containsMelds h (build3ConsCT2 fstSequence)
+    fourConsSCheck   = ( sequence123s fstSequence
+                    && containsMelds h (build4ConsS2 fstSequence) )
+                    || containsMelds h (build4ConsS1 fstSequence)
+    threeConsSTCheck = containsMelds h (build3ConsST1 fstSequence)
+                    || containsMelds h (build3ConsST2 fstSequence)
     nineTSCheck      = ( sequence123s fstSequence
-                    && containsMelds h (build3ConsC3 fstSequence) )
+                    && containsMelds h (build3ConsS3 fstSequence) )
                     || ( sequence123s sndSequence
-                    && containsMelds h (build3ConsC2 sndSequence) )
-    threeConsCCheck  = containsMelds h (build3ConsC1 fstSequence)
-                    || containsMelds h (build3ConsC2 fstSequence)
-                    || containsMelds h (build3ConsC1 sndSequence)
-                    || containsMelds h (build3ConsC2 sndSequence)
+                    && containsMelds h (build3ConsS2 sndSequence) )
+    threeConsSCheck  = containsMelds h (build3ConsS1 fstSequence)
+                    || containsMelds h (build3ConsS2 fstSequence)
+                    || containsMelds h (build3ConsS1 sndSequence)
+                    || containsMelds h (build3ConsS2 sndSequence)
 
 -- 5.2 Consecutive triplets
 matchConsecutiveTriplets :: ScoreFunc
 matchConsecutiveTriplets (h, _)
   | length sorted == 3 && threeMCheck     = pure threeMothers
-  | length sorted == 4 && fourConsPCheck  = pure fourConsecutiveTriplets
-  | length sorted >= 3 && threeConsPCheck = pure threeConsecutiveTriplets
+  | length sorted == 4 && fourConsTCheck  = pure fourConsecutiveTriplets
+  | length sorted >= 3 && threeConsTCheck = pure threeConsecutiveTriplets
   | otherwise                             = []
   where
     melds           = getMelds h
@@ -371,22 +346,21 @@ matchConsecutiveTriplets (h, _)
     sndTriplet      = head $ tail sorted
     sonTiles        = fmap (head . meldTiles) sorted
 
-    build3ConsP     = take 3 . iterate next
-    build4ConsP     = take 4 . iterate next
+    build3ConsT     = take 3 . iterate next
+    build4ConsT     = take 4 . iterate next
     sonSequence     = mkSequence Revealed sonTiles
     hasSon (Just c) = containsMelds h [c]
     hasSon Nothing  = False
 
-    threeMCheck     = containsMelds h (build3ConsP fstTriplet)
+    threeMCheck     = containsMelds h (build3ConsT fstTriplet)
                    && (hasSon $ sonSequence)
-    fourConsPCheck  = containsMelds h (build4ConsP fstTriplet)
-    threeConsPCheck = containsMelds h (build3ConsP fstTriplet)
-                   || containsMelds h (build3ConsP sndTriplet)
+    fourConsTCheck  = containsMelds h (build4ConsT fstTriplet)
+    threeConsTCheck = containsMelds h (build3ConsT fstTriplet)
+                   || containsMelds h (build3ConsT sndTriplet)
 
 matchConsecutiveSets :: ScoreFunc
-matchConsecutiveSets = (<->>) [ matchConsecutiveSequences
-                              , matchConsecutiveTriplets
-                              ]
+matchConsecutiveSets = distribute
+  [ matchConsecutiveSequences, matchConsecutiveTriplets ]
 
 
 
@@ -424,7 +398,7 @@ matchNineGates (h, _)
     pat          = [1, 1] ++ [1..9] ++ [9, 9]
 
 matchSuits :: ScoreFunc
-matchSuits = (<->>) [ matchOneSuit ]
+matchSuits = distribute [ matchOneSuit ]
 
 
 
@@ -432,7 +406,7 @@ matchSuits = (<->>) [ matchOneSuit ]
 
 -- 7.1 Sequence and triplets
 matchTerminals1 :: ScoreFunc
-matchTerminals1 (h, _)
+matchTerminals1 (h, hs)
   | or $ (containsMelds h) <$> pat = pure twoTailedTerminals
   | otherwise                      = accSequences ++ accTriplets
   where
@@ -444,42 +418,35 @@ matchTerminals1 (h, _)
     patTriplets   = [ [c111, c999], [b111, b999], [k111, k999] ]
     sequenceCount = count (== True) . fmap (containsMelds h) $ patSequences
     tripletCount  = count (== True) . fmap (containsMelds h) $ patTriplets
-    accSequences  = take sequenceCount $ repeat twoTailedTerminalSequences
+
+    patSeqRepeat  = [ 1, 2, 3, 7, 8, 9 ] >>= (\x -> [x, x])
+    nonEyes       = filter (not . isPair) $ getMelds h
+    nonEyesTiles  = sort . fmap tileValue $ nonEyes >>= meldTiles
+    isRepeated    = numOfSequences hs == 4
+                 && all isTerminal nonEyes
+                 && patSeqRepeat == nonEyesTiles
+    repeatCount   = if isRepeated then 1 else 0
+
+    accSequences  = take (sequenceCount + repeatCount) $ repeat twoTailedTerminalSequences
     accTriplets   = take tripletCount  $ repeat twoTailedTerminalTriplets
 
 -- 7.2 Mixed and pure
 matchTerminals2 :: ScoreFunc
 matchTerminals2 (h, hs)
-  | all isTerminal tiles                 = pure pureGreaterTerminals
-  | all isEdge     tiles                 = pure mixedGreaterTerminals
-  | all isTerminal melds && hasSequences = pure pureLesserTerminals
-  | all isEdge     melds && hasSequences = pure mixedLesserTerminals
-  | otherwise                            = []
+  | all isTerminal tiles                         = pure pureGreaterTerminals
+  | all isTerminal melds && isSameTileType tiles = pure pureSuitTerminals
+  | all isEdge     tiles                         = pure mixedGreaterTerminals
+  | all isTerminal melds && hasSequences         = pure pureLesserTerminals
+  | all isEdge     melds && hasSequences         = pure mixedLesserTerminals
+  | otherwise                                    = []
   where
     melds        = getMelds h
     tiles        = getHandTiles h
     hasSequences = numOfSequences hs > 0
 
--- 7.3 Combination
-matchTerminals3 :: ScoreFunc
-matchTerminals3 (h, _)
-  | isSameTileType tiles && matchBM = pure bigMountain
-  | isSameTileType tiles && matchLM = pure littleMountain
-  | otherwise                       = []
-  where
-    tiles   = getHandTiles h
-    melds   = getMelds h
-    patBM1  = [1, 1, 1, 1, 2, 2, 3, 3, 7, 8, 9, 9, 9, 9]
-    patBM2  = [1, 1, 1, 1, 2, 3, 7, 7, 8, 8, 9, 9, 9, 9]
-    matchBM = matchValuePattern tiles patBM1
-           || matchValuePattern tiles patBM2
-    matchLM = all isTerminal melds
-
 matchTerminals :: ScoreFunc
-matchTerminals = (<->>) [ matchTerminals1
-                        , matchTerminals2
-                        , matchTerminals3
-                        ]
+matchTerminals = distribute
+  [ matchTerminals1, matchTerminals2 ]
 
 
 
@@ -524,10 +491,8 @@ matchPureHonors (h, _)
     double      = \x -> [x, x]
 
 matchHonors :: ScoreFunc
-matchHonors = (<->>) [ matchWinds
-                     , matchDragons
-                     , matchPureHonors
-                     ]
+matchHonors = distribute
+  [ matchWinds, matchDragons, matchPureHonors ]
 
 
 
@@ -556,27 +521,19 @@ matchIrregular (h, _)
 
 matchSevenPairs :: ScoreFunc
 matchSevenPairs (h, hs)
-  | isSevenPairs && gcCheck && matchSimple = pure grandChariot
-  | isSevenPairs && bfCheck && matchSimple = pure bambooForest
-  | isSevenPairs && nnCheck && matchSimple = pure numerousNeighbors
-  | isSevenPairs && matchEdge              = pure sevenShiftedPairs
-  | isSevenPairs                           = pure sevenPairs
-  | otherwise                              = []
+  | isSevenPairs && isShiftedPairs = pure sevenShiftedPairs
+  | isSevenPairs                   = pure sevenPairs
+  | otherwise                      = []
   where
-    isSevenPairs = numOfPairs      hs == 7
-    gcCheck      = numOfCoins      hs == 7
-    bfCheck      = numOfBamboos    hs == 7
-    nnCheck      = numOfCharacters hs == 7
+    isSevenPairs   = numOfPairs hs == 7
 
-    handTiles    = getHandTiles h
-    matchSimple  = matchValuePattern handTiles pat2
-    matchEdge    = matchValuePattern handTiles pat1
-                || matchValuePattern handTiles pat3
+    patMatcher     = matchValuePattern $ getHandTiles h
+    isShiftedPairs = or . fmap patMatcher $ [pat1, pat2, pat3]
 
-    pat1   = [1..7] >>= double
-    pat2   = [2..8] >>= double
-    pat3   = [3..9] >>= double
-    double = \x -> [x, x]
+    pat1           = [1..7] >>= double
+    pat2           = [2..8] >>= double
+    pat3           = [3..9] >>= double
+    double         = \x -> [x, x]
 
 
 
@@ -617,6 +574,6 @@ matchBonus (h, _)
 {- Special hands -}
 
 matchSpecial :: ScoreFunc
-matchSpecial = (<->>) [ matchNineGates
-                      , matchIrregular
-                      ]
+matchSpecial = distribute
+  [ matchNineGates, matchIrregular ]
+

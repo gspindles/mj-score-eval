@@ -543,6 +543,17 @@ twoTailedTerminalSequencesEx2 = mkHand1
   [f2]
   Nothing
 
+twoTailedTerminalSequencesEx3 :: Maybe Hand
+twoTailedTerminalSequencesEx3 = mkHand1
+  [ mkSequence' r b1
+  , mkSequence' r b7
+  , mkSequence' c b1
+  , mkPair' c c3
+  , mkSequence' r b7
+  ]
+  [f2]
+  Nothing
+
 twoTailedTerminalTripletsEx1 :: Maybe Hand
 twoTailedTerminalTripletsEx1 = mkHand1
   [ mkTriplet' r b1
@@ -656,6 +667,50 @@ mixedGreaterTerminalsEx2 = mkHand1
   []
   Nothing
 
+pureSuitTerminalsEx1 :: Maybe Hand
+pureSuitTerminalsEx1 = mkHand1
+  [ mkSequence' r b1
+  , mkSequence' r b7
+  , mkSequence' c b1
+  , mkPair' c b1
+  , mkSequence' r b7
+  ]
+  [f1]
+  Nothing
+
+pureSuitTerminalsEx2 :: Maybe Hand
+pureSuitTerminalsEx2 = mkHand1
+  [ mkSequence' r k1
+  , mkSequence' r k1
+  , mkSequence' c k1
+  , mkPair' c k9
+  , mkSequence' r k7
+  ]
+  [f1]
+  Nothing
+
+pureSuitTerminalsEx3 :: Maybe Hand
+pureSuitTerminalsEx3 = mkHand1
+  [ mkTriplet' r k1
+  , mkSequence' c k1
+  , mkSequence' r k7
+  , mkPair' c k9
+  , mkSequence' r k7
+  ]
+  [s4]
+  Nothing
+
+pureSuitTerminalsEx4 :: Maybe Hand
+pureSuitTerminalsEx4 = mkHand1
+  [ mkSequence' r k1
+  , mkSequence' c k1
+  , mkSequence' r k7
+  , mkPair' c k1
+  , mkTriplet' r k9
+  ]
+  [f4]
+  Nothing
+
 pureGreaterTerminalsEx1 :: Maybe Hand
 pureGreaterTerminalsEx1 = mkHand1
   [ mkTriplet' r c1
@@ -678,51 +733,6 @@ pureGreaterTerminalsEx2 = mkHand1
   , mkPair' r k1
   ]
   []
-  Nothing
-
-
-littleMountainEx1 :: Maybe Hand
-littleMountainEx1 = mkHand1
-  [ mkSequence' r b1
-  , mkSequence' r b7
-  , mkSequence' c b1
-  , mkPair' c b1
-  , mkSequence' r b7
-  ]
-  [f1]
-  Nothing
-
-littleMountainEx2 :: Maybe Hand
-littleMountainEx2 = mkHand1
-  [ mkSequence' r k1
-  , mkSequence' r k1
-  , mkSequence' c k1
-  , mkPair' c k9
-  , mkSequence' r k7
-  ]
-  [f1]
-  Nothing
-
-bigMountainEx1 :: Maybe Hand
-bigMountainEx1 = mkHand1
-  [ mkTriplet' r k1
-  , mkSequence' c k1
-  , mkSequence' r k7
-  , mkPair' c k9
-  , mkSequence' r k7
-  ]
-  [s4]
-  Nothing
-
-bigMountainEx2 :: Maybe Hand
-bigMountainEx2 = mkHand1
-  [ mkSequence' r k1
-  , mkSequence' c k1
-  , mkSequence' r k7
-  , mkPair' c k1
-  , mkTriplet' r k9
-  ]
-  [f4]
   Nothing
 
 
@@ -1012,8 +1022,8 @@ bambooForestEx = mkHand1
   [f3]
   Nothing
 
-numberousNeighborsEx :: Maybe Hand
-numberousNeighborsEx = mkHand1
+numerousNeighborsEx :: Maybe Hand
+numerousNeighborsEx = mkHand1
   [ mkPair' c k2
   , mkPair' c k3
   , mkPair' c k4
