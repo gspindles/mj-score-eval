@@ -285,9 +285,9 @@ Example:&ensp;![c1]![c1]&ensp;![b1]![b1]&ensp;![k1]![k1]&ensp;![k9]![k9]&ensp;![
 #### 7.2.4 Pure Suit Terminals : 一色全帶么九 : 320
 Combination of `Pure One-Suit` and `Pure Lesser Terminals`.
 
-Note: with `Two Identical Sequences Twice` - `11 123 123 789 789` or `123 123 789 798 99`
-  or with `Three Identical Sequences` - `11 123 789 789 789` or `123 123 123 789 99`
-  or using up all 8 terminal tiles of one suit - `11 123 123 789 999` or `111 123 789 789 99`
+Note: with `Two Identical Sequences Twice` - `11 123 123 789 789` or `123 123 789 798 99`  
+  or with `Three Identical Sequences` - `11 123 789 789 789` or `123 123 123 789 99`  
+  or using up all 8 terminal tiles of one suit - `11 123 123 789 999` or `111 123 789 789 99`  
   count `Four Identical Sequences` otherwise - `11 789 789 789 789` or `123 123 123 123 99`
 
 Example:&ensp;![c1]![c2]![c3]&ensp;![c1]![c2]![c3]&ensp;![c7]![c8]![c9]&ensp;![c7]![c8]![c9]&ensp;![c1]![c1]
