@@ -415,8 +415,8 @@ Note: `Seven Pairs` is always `Concealed Hand`, so it scores at least 30+5=35 po
 
 Example:&ensp;![k2]![k2]&ensp;![k6]![k6]&ensp;![c1]![c1]&ensp;![c7]![c7]&ensp;![dw]![dw]&ensp;![ww]![ww]&ensp;![wn]![wn]
 
-#### 10.2.2 Seven Shifted Pairs : 連七對 : 320
-The hand consists of seven shifted pairs, from 1-7, 2-8, or 3-9.
+#### 10.2.2 Seven Consecutive Pairs : 連七對 : 320
+The hand consists of seven consecutive pairs, from 1-7, 2-8, or 3-9.
 
 Example:&ensp;![c1]![c1]&ensp;![c2]![c2]&ensp;![c3]![c3]&ensp;![c4]![c4]&ensp;![c5]![c5]&ensp;![c6]![c6]&ensp;![c7]![c7]
 

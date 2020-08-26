@@ -89,7 +89,7 @@ module Game.Mahjong.Pattern (
 
   -- ** 10.2 Seven Pairs
 
-  sevenPairs, sevenShiftedPairs,
+  sevenPairs, sevenConsecutivePairs,
 
 
   -- * 11.0 Incidental bonuses
@@ -259,12 +259,12 @@ allRed   = Pattern "All Red"   "紅孔雀" 480
 -- 10.0 Irregular Hands
 
 thirteenOrphans, thirteenOrphansWaits :: Pattern
-thirteenOrphans      = Pattern "Thirteen Orphans"            "十三么九"      160
-thirteenOrphansWaits = Pattern "Thirteen Orphans (13 Waits)" "十三么九 十三面"  320
+thirteenOrphans       = Pattern "Thirteen Orphans"            "十三么九"      160
+thirteenOrphansWaits  = Pattern "Thirteen Orphans (13 Waits)" "十三么九 十三面"  320
 
-sevenPairs, sevenShiftedPairs :: Pattern
-sevenPairs           = Pattern "Seven Pairs"                 "七對子"       40
-sevenShiftedPairs    = Pattern "Seven Shifted Pairs"         "連七對"       320
+sevenPairs, sevenConsecutivePairs :: Pattern
+sevenPairs            = Pattern "Seven Pairs"                 "七對子"       40
+sevenConsecutivePairs = Pattern "Seven Consecutive Pairs"     "連七對"       320
 
 
 -- 11.0 Incidental bonuses

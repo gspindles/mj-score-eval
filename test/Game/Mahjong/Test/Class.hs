@@ -21,3 +21,4 @@ qcPropertyTests = testGroup "QuickCheck property tests" [
       \list int -> (zipWith id (list :: [Integer -> Integer]) $ repeat (int :: Integer))
                 == (zipWith ($) list $ repeat int)
   ]
+

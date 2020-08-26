@@ -100,8 +100,8 @@ instance TilePred Meld where
 
   isBonus     = any isBonus . meldTiles
 
-  isRed       = all isRed   . meldTiles
   isGreen     = all isGreen . meldTiles
+  isRed       = all isRed   . meldTiles
 
 instance Cycle Meld where
   next (Meld s mt ts) = Meld s mt $ map next ts

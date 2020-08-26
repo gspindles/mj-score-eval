@@ -240,16 +240,15 @@ instance TilePred Tile where
 
   isBonus               = anyCond [isFlower, isSeason]
 
-  isRed                 = flip elem reds
-    where
-      reds :: [Tile]
-      reds = map (Tile SB) [One, Five, Seven, Nine] ++ [Tile SD Red]
-
   isGreen               = flip elem greens
     where
       greens :: [Tile]
       greens = map (Tile SB) [Two, Three, Four, Six, Eight] ++ [Tile SD Green]
 
+  isRed                 = flip elem reds
+    where
+      reds :: [Tile]
+      reds = map (Tile SB) [One, Five, Seven, Nine] ++ [Tile SD Red]
 
 instance Cycle Values where
   next = nextHelper

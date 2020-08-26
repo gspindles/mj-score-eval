@@ -1,6 +1,6 @@
 module Game.Mahjong.Test.Score ( tests ) where
 
-import Game.Mahjong.Examples
+import Game.Mahjong.Static.Examples
 import Game.Mahjong.Hand
 import Game.Mahjong.Score
 import Game.Mahjong.Pattern
@@ -25,14 +25,13 @@ unitTests = testGroup "Unit Tests" [scoreTests, functionTests]
 scoreTests :: TestTree
 scoreTests = testGroup "Meld creation tests" [
     trivialTests
-  , pungsAndKongsTests
+  , tripletsAndQuartetsTests
   , identicalSetsTests
   , similarSetsTests
   , consecutiveSetsTests
   , suitPatternsTests
   , terminalTests
   , honorTests
-  , sevenPairsTests
   , colorTests
   , irregularTests
   , incidentalTests
@@ -43,11 +42,11 @@ scoreTests = testGroup "Meld creation tests" [
 trivialTests :: TestTree
 trivialTests = testGroup "trival patterns test" [
     testCase "Chicken" $
-      containsPattern chickenEx chicken
-  , testCase "All Chows" $
-      containsPattern allChowsEx allChows
+      containsPattern chickenEx chickenHand
+  , testCase "All Sequences" $
+      containsPattern allSequencesEx allSequences
   , testCase "Concealed" $
-      containsPattern concealedEx concealed
+      containsPattern concealedEx concealedHand
   , testCase "Self Drawn" $
       containsPattern selfDrawnEx selfDrawn
   , testCase "All Simples" $
@@ -58,66 +57,66 @@ trivialTests = testGroup "trival patterns test" [
       containsPattern illegalCallEx illegalCall
   ]
 
--- 2.0 Pungs and Kongs
-pungsAndKongsTests :: TestTree
-pungsAndKongsTests = testGroup "Pungs and Kongs Patterns test" [
-    testCase "All Pungs" $
-      containsPattern allPungsEx allPungs
-  , testCase "Two Concealed Pungs" $
-      containsPattern twoConcealedPungsEx twoConcealedPungs
-  , testCase "Three Concealed Pungs" $
-      containsPattern threeConcealedPungsEx threeConcealedPungs
-  , testCase "Four Concealed Pungs" $
-      containPattern [fourConcealedPungsEx1, fourConcealedPungsEx2] fourConcealedPungs
-  , testCase "One Kong" $
-      containsPattern oneKongEx oneKong
-  , testCase "Two Kongs" $
-      containsPattern twoKongsEx twoKongs
-  , testCase "Three Kongs" $
-      containsPattern threeKongsEx threeKongs
-  , testCase "Four Kongs" $
-      containsPattern fourKongsEx fourKongs
+-- 2.0 Triplets and Quartets
+tripletsAndQuartetsTests :: TestTree
+tripletsAndQuartetsTests = testGroup "Triplets and Quartets Patterns test" [
+    testCase "All Triplets" $
+      containsPattern allTripletsEx allTriplets
+  , testCase "Two Concealed Triplets" $
+      containsPattern twoConcealedTripletsEx twoConcealedTriplets
+  , testCase "Three Concealed Triplets" $
+      containsPattern threeConcealedTripletsEx threeConcealedTriplets
+  , testCase "Four Concealed Triplets" $
+      containPattern [fourConcealedTripletsEx1, fourConcealedTripletsEx2] fourConcealedTriplets
+  , testCase "One Quartet" $
+      containsPattern oneQuartetEx oneQuartet
+  , testCase "Two Quartets" $
+      containsPattern twoQuartetsEx twoQuartets
+  , testCase "Three Quartets" $
+      containsPattern threeQuartetsEx threeQuartets
+  , testCase "Four Quartets" $
+      containsPattern fourQuartetsEx fourQuartets
   ]
 
 -- 3.0 Identical Sets
 identicalSetsTests :: TestTree
 identicalSetsTests = testGroup "Identical Sets test" [
-    testCase "Two Identical Chows" $
-      containsPattern twoIdenticalChowsEx twoIdenticalChows
-  , testCase "Two Identical Chows Twice" $
-      containsPattern twoIdenticalChowsTwiceEx twoIdenticalChowsTwice
-  , testCase "Three Identical Chows" $
-      containsPattern threeIdenticalChowsEx threeIdenticalChows
-  , testCase "Four Identical Chows" $
-      containsPattern fourIdenticalChowsEx fourIdenticalChows
+    testCase "Two Identical Sequences" $
+      containsPattern twoIdenticalSequencesEx twoIdenticalSequences
+  , testCase "Two Identical Sequences Twice" $
+      containsPattern twoIdenticalSequencesTwiceEx twoIdenticalSequencesTwice
+  , testCase "Three Identical Sequences" $
+      containsPattern threeIdenticalSequencesEx threeIdenticalSequences
+  , testCase "Four Identical Sequences" $
+      containsPattern fourIdenticalSequencesEx fourIdenticalSequences
   ]
 
 -- 4.0 Similar Sets
 similarSetsTests :: TestTree
 similarSetsTests = testGroup "Similar Sets test" [
-    testCase "Three Similar Chows" $
-      containsPattern threeSimilarChowsEx threeSimilarChows
-  , testCase "Little Three Similar Pungs" $
-      containsPattern littleThreeSimilarPungsEx littleThreeSimilarPungs
-  , testCase "Three Similar Pungs" $
-      containsPattern threeSimilarPungsEx threeSimilarPungs
+    testCase "Three Similar Sequences" $
+      containsPattern threeSimilarSequencesEx threeSimilarSequences
+  , testCase "Little Three Similar Triplets" $
+      containsPattern littleThreeSimilarTripletsEx littleThreeSimilarTriplets
+  , testCase "Three Similar Triplets" $
+      containsPattern threeSimilarTripletsEx threeSimilarTriplets
   ]
 
 -- 5.0 Consecutive Sets
 consecutiveSetsTests :: TestTree
 consecutiveSetsTests = testGroup "Consecutive Sets test" [
-    testCase "Three Consecutive Chows" $
-      containPattern [threeConsecutiveChowsEx1, threeConsecutiveChowsEx2] threeConsecutiveChows
+    testCase "Three Consecutive Sequences" $
+      containPattern [threeConsecutiveSequencesEx1, threeConsecutiveSequencesEx2] threeConsecutiveSequences
   , testCase "Nine Tile Straight" $
       containsPattern nineTileStraightEx nineTileStraight
-  , testCase "Three Consecutive Chows Twice" $
-      containPattern [threeConsecutiveChowsTwiceEx1, threeConsecutiveChowsTwiceEx2] threeConsecutiveChowsTwice
-  , testCase "Four Consecutive Chows" $
-      containPattern [fourConsecutiveChowsEx1, fourConsecutiveChowsEx2] fourConsecutiveChows
-  , testCase "Three Consecutive Pungs" $
-      containsPattern threeConsecutivePungsEx threeConsecutivePungs
-  , testCase "Four Consecutive Pungs" $
-      containPattern [fourConsecutivePungsEx1, fourConsecutivePungsEx2, fourConsecutivePungsEx3] fourConsecutivePungs
+  , testCase "Three Consecutive Sequences Twice" $
+      containPattern [threeConsecutiveSequencesTwiceEx1, threeConsecutiveSequencesTwiceEx2] threeConsecutiveSequencesTwice
+  , testCase "Four Consecutive Sequences" $
+      containPattern [fourConsecutiveSequencesEx1, fourConsecutiveSequencesEx2] fourConsecutiveSequences
+  , testCase "Three Consecutive Triplets" $
+      containsPattern threeConsecutiveTripletsEx threeConsecutiveTriplets
+  , testCase "Four Consecutive Triplets" $
+      containPattern [fourConsecutiveTripletsEx1, fourConsecutiveTripletsEx2, fourConsecutiveTripletsEx3] fourConsecutiveTriplets
   , testCase "Three Mothers" $
       containsPattern threeMothersEx threeMothers
   ]
@@ -136,22 +135,20 @@ suitPatternsTests = testGroup "Suit Patterns test" [
 -- 7.0 Terminal Tiles
 terminalTests :: TestTree
 terminalTests = testGroup "Terminal Hands test" [
-    testCase "Two Tailed Terminal Chows" $
-      containPattern [twoTailedTerminalChowsEx1, twoTailedTerminalChowsEx2] twoTailedTerminalChows
-  , testCase "Two Tailed Terminal Pungs" $
-      containPattern [twoTailedTerminalPungsEx1, twoTailedTerminalPungsEx2] twoTailedTerminalPungs
+    testCase "Two Tailed Terminal Sequences" $
+      containPattern [twoTailedTerminalSequencesEx1, twoTailedTerminalSequencesEx2, twoTailedTerminalSequencesEx3] twoTailedTerminalSequences
+  , testCase "Two Tailed Terminal Triplets" $
+      containPattern [twoTailedTerminalTripletsEx1, twoTailedTerminalTripletsEx2] twoTailedTerminalTriplets
   , testCase "Two Tailed Terminals" $
       containPattern [twoTailedTerminalsEx1, twoTailedTerminalsEx2, twoTailedTerminalsEx3, twoTailedTerminalsEx4] twoTailedTerminals
-  , testCase "Little Boundless Mountain" $
-      containPattern [littleBoundlessMountainEx1, littleBoundlessMountainEx2] littleBoundlessMountain
-  , testCase "Big Boundless Mountain" $
-      containPattern [bigBoundlessMountainEx1, bigBoundlessMountainEx2] bigBoundlessMountain
   , testCase "Mixed Lesser Terminals" $
       containsPattern mixedLesserTerminalsEx mixedLesserTerminals
   , testCase "Pure Lesser Terminals" $
       containsPattern pureLesserTerminalsEx pureLesserTerminals
   , testCase "Mixed Greater Terminals" $
       containPattern [mixedGreaterTerminalsEx1, mixedGreaterTerminalsEx2] mixedGreaterTerminals
+  , testCase "Pure Suit Terminals" $
+      containPattern [pureSuitTerminalsEx1, pureSuitTerminalsEx2, pureSuitTerminalsEx3, pureSuitTerminalsEx4] pureSuitTerminals
   , testCase "Pure Greater Terminals" $
       containPattern [pureGreaterTerminalsEx1, pureGreaterTerminalsEx2] pureGreaterTerminals
   ]
@@ -159,8 +156,8 @@ terminalTests = testGroup "Terminal Hands test" [
 -- 8.0 Honor Tiles
 honorTests :: TestTree
 honorTests = testGroup "Honor Hands test" [
-    testCase "Wind Pung" $
-      containsPattern windPungEx windPung
+    testCase "Wind Triplet" $
+      containsPattern windTripletEx windTriplet
   , testCase "Little Three Winds" $
       containsPattern littleThreeWindsEx littleThreeWinds
   , testCase "Big Three Winds" $
@@ -169,8 +166,8 @@ honorTests = testGroup "Honor Hands test" [
       containsPattern littleFourWindsEx littleFourWinds
   , testCase "Big Four Winds" $
       containsPattern bigFourWindsEx bigFourWinds
-  , testCase "Dragon Pung" $
-      containsPattern dragonPungEx dragonPung
+  , testCase "Dragon Triplet" $
+      containPattern [dragonTripletEx1, dragonTripletEx2] dragonTriplet
   , testCase "Little Three Dragons" $
       containsPattern littleThreeDragonsEx littleThreeDragons
   , testCase "Big Three Dragon" $
@@ -181,22 +178,7 @@ honorTests = testGroup "Honor Hands test" [
       containsPattern allHonorPairsEx allHonorPairs
   ]
 
--- 9.0 Seven Pairs
-sevenPairsTests :: TestTree
-sevenPairsTests = testGroup "Sever Pairs Hands test" [
-    testCase "Seven Pairs" $
-      containPattern [sevenPairsEx1, sevenPairsEx2] sevenPairs
-  , testCase "Seven Shifted Pairs" $
-      containPattern [sevenShiftedPairsEx1, sevenShiftedPairsEx2] sevenShiftedPairs
-  , testCase "Grand Chariot" $
-      containsPattern grandChariotEx grandChariot
-  , testCase "Bamboo Forest" $
-      containsPattern bambooForestEx bambooForest
-  , testCase "Number Neighborhood" $
-      containsPattern numberNeighborhoodEx numberNeighborhood
-  ]
-
--- 10.0 Color Hands
+-- 9.0 Color Hands
 colorTests :: TestTree
 colorTests = testGroup "Color Hands test" [
     testCase "All Green" $
@@ -205,33 +187,37 @@ colorTests = testGroup "Color Hands test" [
       containsPattern allRedEx allRed
   ]
 
--- 11.0 Irregular Hands
+-- 10.0 Irregular Hands
 irregularTests :: TestTree
 irregularTests = testGroup "Irregular Hands test" [
     testCase "Thirtheen Orphans" $
       containPattern [thirteenOrphansImpureEx, thirteenOrphansPureEx] thirteenOrphans
+  , testCase "Seven Pairs" $
+      containPattern [sevenPairsEx1, sevenPairsEx2] sevenPairs
+  , testCase "Seven Consecutive Pairs" $
+      containPattern [sevenConsecutivePairsEx1, sevenConsecutivePairsEx2, grandChariotEx, bambooForestEx, numerousNeighborsEx] sevenConsecutivePairs
   ]
 
--- 12.0 Incidental bonuses
+-- 11.0 Incidental bonuses
 incidentalTests :: TestTree
 incidentalTests = testGroup "Incidental Bonuses test" [
     testCase "Final Draw" $
       containsPattern finalDrawEx finalDraw
   , testCase "Final Discard" $
       containsPattern finalDiscardEx finalDiscard
-  , testCase "Win on Kong" $
-      containsPattern winOnKongEx winOnKong
+  , testCase "Win on Quartet" $
+      containsPattern winOnQuartetEx winOnQuartet
   , testCase "Win on Bonus Tile" $
       containsPattern winOnBonusTileEx winOnBonusTile
-  , testCase "Robbing a Kong" $
-      containsPattern robbingAKongEx robbingAKong
+  , testCase "Robbing a Quartet" $
+      containsPattern robbingAQuartetEx robbingAQuartet
   , testCase "Blessing of Heaven" $
       containsPattern blessingOfHeavenEx blessingOfHeaven
   , testCase "Blessing of Earth" $
       containsPattern blessingOfEarthEx blessingOfEarth
   ]
 
--- 13.0 Bonus Tiles
+-- 12.0 Bonus Tiles
 bonusTess :: TestTree
 bonusTess = testGroup "Bonus Tiles test" [
     testCase "Bonus Tile" $
@@ -257,7 +243,8 @@ functionTests = testGroup "Function tests" [
   ]
   where
     ic   = score &&& pure $ illegalCall
-    ps1  = [chicken, illegalCall]
-    ps2  = [littleThreeWinds, mixedOneSuit, allPungs]
-    ps3a = [allHonors, bigFourWinds, allPungs]
+    ps1  = [chickenHand, illegalCall]
+    ps2  = [littleThreeWinds, mixedOneSuit, allTriplets]
+    ps3a = [allHonors, bigFourWinds, allTriplets]
     ps3b = [allHonors, bigFourWinds]
+

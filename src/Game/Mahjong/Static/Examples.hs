@@ -795,13 +795,24 @@ bigFourWindsEx = mkHand1
   Nothing
 
 
-dragonTripletEx :: Maybe Hand
-dragonTripletEx = mkHand1
+dragonTripletEx1 :: Maybe Hand
+dragonTripletEx1 = mkHand1
   [ mkSequence' r c1
   , mkSequence' r k2
   , mkTriplet' r dr
   , mkPair' c dw
   , mkTriplet' r ww
+  ]
+  []
+  Nothing
+
+dragonTripletEx2 :: Maybe Hand
+dragonTripletEx2 = mkHand1
+  [ mkSequence' r c1
+  , mkSequence' r k2
+  , mkTriplet' r dr
+  , mkPair' c ww
+  , mkTriplet' r dg
   ]
   []
   Nothing
@@ -970,8 +981,8 @@ sevenPairsEx2 = mkHand1
   [s3]
   Nothing
 
-sevenShiftedPairsEx1 :: Maybe Hand
-sevenShiftedPairsEx1 = mkHand1
+sevenConsecutivePairsEx1 :: Maybe Hand
+sevenConsecutivePairsEx1 = mkHand1
   [ mkPair' c c1
   , mkPair' c c2
   , mkPair' c c3
@@ -983,8 +994,8 @@ sevenShiftedPairsEx1 = mkHand1
   [s3]
   Nothing
 
-sevenShiftedPairsEx2 :: Maybe Hand
-sevenShiftedPairsEx2 = mkHand1
+sevenConsecutivePairsEx2 :: Maybe Hand
+sevenConsecutivePairsEx2 = mkHand1
   [ mkPair' c b3
   , mkPair' c b4
   , mkPair' c b5
@@ -1038,6 +1049,7 @@ numerousNeighborsEx = mkHand1
 
 
 -- | 11.0 Incidental Bonuses
+
 finalDrawEx :: Maybe Hand
 finalDrawEx        = (flip addHandInfo OnSeabed)            <$> chickenEx
 
@@ -1106,3 +1118,4 @@ allBonusTilesEx = mkHand1
   ]
   [f1, f2, f3, f4, s1, s2, s3, s4]
   Nothing
+

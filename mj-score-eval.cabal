@@ -47,6 +47,7 @@ test-suite mj-score-eval-test
   main-is:             Tests.hs
   other-modules:       Game.Mahjong.Test.Class,
                        Game.Mahjong.Test.Tile,
+                       Game.Mahjong.Test.Static.Tiles,
                        Game.Mahjong.Test.Meld,
                        Game.Mahjong.Test.Score
   build-depends:       base,

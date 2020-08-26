@@ -48,8 +48,8 @@ class TilePred a where
   isBonus     :: a -> Bool
 
   -- | Predicates for color
-  isRed       :: a -> Bool
   isGreen     :: a -> Bool
+  isRed       :: a -> Bool
 
 
 -------------------------------------------------------------------------------

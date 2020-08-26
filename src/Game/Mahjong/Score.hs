@@ -257,13 +257,13 @@ matchSimilarSets (h, _)
     melds                = getMelds h
     similarCheck         = getAny . foldMap (Any . not . null)
 
-    checkSequence        = \m -> isSequence m && isSuit m
+    checkSequence m      = isSequence m && isSuit m
     projectedSequence    = filterAndGroupByTileType checkSequence melds
     intersectionSequence = if length projectedSequence == 3
                            then commonElems projectedSequence
                            else []
 
-    checkTriplet         = \m -> isTriplet m && isSuit m
+    checkTriplet m       = isTriplet m && isSuit m
     projectedTriplet     = filterAndGroupByTileType checkTriplet melds
     intersectionTriplet  = if length projectedTriplet == 3
                            then commonElems projectedTriplet
@@ -378,11 +378,9 @@ matchOneSuit (h, hs)
     numBamboos = numOfBamboos hs
     numChars   = numOfCharacters hs
     numHonors  = numOfWinds hs + numOfDragons hs
+    numSuits   = numCoins + numBamboos + numChars
     mixedCond  = numHonors >= 1
-             && ( (numCoins >= 1 && numBamboos == 0 && numChars == 0)
-               || (numCoins == 0 && numBamboos >= 1 && numChars == 0)
-               || (numCoins == 0 && numBamboos == 0 && numChars >= 1)
-                )
+             && any (== numSuits) [ numCoins, numBamboos, numChars ]
 
 -- 6.2 Nine Gates
 -- | only consider pure version
@@ -521,19 +519,19 @@ matchIrregular (h, _)
 
 matchSevenPairs :: ScoreFunc
 matchSevenPairs (h, hs)
-  | isSevenPairs && isShiftedPairs = pure sevenShiftedPairs
-  | isSevenPairs                   = pure sevenPairs
-  | otherwise                      = []
+  | isSevenPairs && isConsecutivePairs = pure sevenConsecutivePairs
+  | isSevenPairs                       = pure sevenPairs
+  | otherwise                          = []
   where
-    isSevenPairs   = numOfPairs hs == 7
+    isSevenPairs       = numOfPairs hs == 7
 
-    patMatcher     = matchValuePattern $ getHandTiles h
-    isShiftedPairs = or . fmap patMatcher $ [pat1, pat2, pat3]
+    patMatcher         = matchValuePattern $ getHandTiles h
+    isConsecutivePairs = or . fmap patMatcher $ [pat1, pat2, pat3]
 
-    pat1           = [1..7] >>= double
-    pat2           = [2..8] >>= double
-    pat3           = [3..9] >>= double
-    double         = \x -> [x, x]
+    pat1               = [1..7] >>= double
+    pat2               = [2..8] >>= double
+    pat3               = [3..9] >>= double
+    double             = \x -> [x, x]
 
 
 

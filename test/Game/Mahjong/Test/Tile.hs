@@ -1,6 +1,8 @@
 module Game.Mahjong.Test.Tile ( tests ) where
 
+import Game.Mahjong.Class
 import Game.Mahjong.Tile
+import Game.Mahjong.Static.Tiles
 
 import Test.QuickCheck
 import Test.Tasty
@@ -10,68 +12,127 @@ instance Arbitrary Tile where
   arbitrary = elements allTiles
 
 tests :: TestTree
-tests = testGroup "Game.Mahjong.Tile Tests" [unitTests]
-
-unitTests :: TestTree
-unitTests = testGroup "Unit Tests" [collectionsTests, tileTests]
-
-collectionsTests :: TestTree
-collectionsTests = testGroup "collections count tests" [
-    testCase "There are 9 coin tiles" $
-      length coins @?= 9
-  , testCase "There are 9 bamboo tiles" $
-      length bamboos @?= 9
-  , testCase "There are 9 character tiles" $
-      length characters @?= 9
-  , testCase "There are 4 wind tiles" $
-      length winds @?= 4
-  , testCase "There are 3 dragon tiles" $
-      length dragons @?= 3
-  , testCase "There are 4 flower tiles" $
-      length flowers @?= 4
-  , testCase "There are 4 season tiles" $
-      length seasons @?= 4
-  , testCase "There are 4 animal tiles" $
-      length animals @?= 4
-  , testCase "There are 21 simple tiles" $
-      length simples @?= 3 * (9 - 2)
-  , testCase "There are 6 terminal tiles" $
-      length terminals @?= 3 * 2
-  , testCase "There are 27 suit tiles" $
-      length suits @?= 3 * 9
-  , testCase "There are 7 honor tiles" $
-      length honors @?= 4 + 3
-  , testCase "There are 13 edge tiles" $
-      length edges @?= 6 + 7
-  , testCase "There are 8 bonus tiles" $
-      length bonuses @?= 4 + 4
-  , testCase "There are 12 extras tiles" $
-      length extras @?= 4 + 4 + 4
-  , testCase "There are 6 green tiles" $
-      length greens @?= 5 + 1
-  , testCase "There are 5 red tiles" $
-      length reds @?= 4 + 1
-  , testCase "There are 6 blue tiles" $
-      length blues @?= 1 + 4 + 1
-  , testCase "There are 34 regular tiles" $
-      length regulars @?= 3 * 9 + 4 + 3
-  , testCase "There are 42 all tiles" $
-      length allTiles @?= 3 * 9 + 4 + 3 + 4 * 2
-  , testCase "There are 144 tiles in a wall" $
-      length mjSet @?= 4 * (3 * 9 + 4 + 3) + 2 * 4
+tests = testGroup "Game.Mahjong.Tile Tests" [
+    classTests
+  , utilityTests
+  , constructionTests
   ]
 
-tileTests :: TestTree
-tileTests = testGroup "tile tests" [
-    testCase "tileType test" $
-      fmap tileType (allTiles ++ animals) @?= tileTypes
-  , testCase "tileValue test" $
-      fmap tileValue (allTiles ++ animals) @?= tileValues
+-- | Class tests
+
+classTests :: TestTree
+classTests = testGroup "Class Tests" [
+    showTests
+  , eqTests
+  , ordTests
+  , prettyTests
+  , tilePredTests
+  , cycleTests
   ]
-  where
-    tileTypes  = concatMap (replicate 9) [Coin, Bamboo, Character]
-              ++ replicate 4 Wind ++ replicate 3 Dragon
-              ++ concatMap (replicate 4) [Flower, Season, Animal]
-    tileValues = mconcat (replicate 3 [1..9])
-              ++ [1..4] ++ [1..3]
-              ++ mconcat (replicate 3 [1..4])
+
+showTests :: TestTree
+showTests = testGroup "Show Tests" [
+    testCase "Test Show Class" $
+      show c1 @?= "Tile Coin One"
+  ]
+
+eqTests :: TestTree
+eqTests = testGroup "Eq Tests" [
+    testCase "Test Eq Class" $
+      c1 @?= c1
+  ]
+
+ordTests :: TestTree
+ordTests = testGroup "Ord Tests" [
+    testCase "LT Test" $
+      compare c1 c2 @?= LT
+  , testCase "EQ Test" $
+      compare c1 c1 @?= EQ
+  , testCase "GT Test" $
+      compare b1 c1 @?= GT
+  ]
+
+prettyTests :: TestTree
+prettyTests = testGroup "Pretty Tests" [
+    testCase "Pretty Test" $
+      pp c1 @?= "C1"
+  ]
+
+tilePredTests :: TestTree
+tilePredTests = testGroup "TilePred Tests" [
+    testCase "TilePred isCoin Test" . true $
+      all isCoin coins
+  , testCase "TilePred isBamboo Test" . true $
+      all isBamboo bamboos
+  , testCase "TilePred isCharacter Test" . true $
+      all isCharacter characters
+  , testCase "TilePred isSimple Test" . true $
+      all isSimple simples
+  , testCase "TilePred isTeminal Test" . true $
+      all isTerminal terminals
+  , testCase "TilePred isSuit Test" . true $
+      all isSuit suits
+  , testCase "TilePred isWind Test" . true $
+      all isWind winds
+  , testCase "TilePred isDragon Test" . true $
+      all isDragon dragons
+  , testCase "TilePred isHonor Test" . true $
+      all isHonor honors
+  , testCase "TilePred isEdge Test" . true $
+      all isEdge edges
+  , testCase "TilePred isFlower Test" . true $
+      all isFlower flowers
+  , testCase "TilePred isSeason Test" . true $
+      all isSeason seasons
+  , testCase "TilePred isBonus Test" . true $
+      all isBonus bonuses
+  , testCase "TilePred isGreen Test" . true $
+      all isGreen greens
+  , testCase "TilePred isRed Test" . true $
+      all isRed reds
+  ]
+
+cycleTests :: TestTree
+cycleTests = testGroup "Cycle Tests" [
+    testCase "Test next" $
+      next c1 @?= c2
+  , testCase "Test previous" $
+      prev c1 @?= c9
+  ]
+
+
+-- Utility tests
+
+utilityTests :: TestTree
+utilityTests = testGroup "Utility Tests" [
+    testCase "Test tileType" $
+      tileType (mkCoin One) @?= Coin
+  , testCase "Test tileValue" $
+      tileValue (mkCoin One) @?= 1
+  , testCase "Test isSameTileType" . true $
+      all isSameTileType [coins, bamboos, characters, winds, dragons, flowers, seasons]
+  ]
+
+
+-- Construction tests
+
+constructionTests :: TestTree
+constructionTests = testGroup "Construction Tests" [
+    testCase "Test mkCoin" $
+      mkCoin One @?= c1
+  , testCase "Test mkBamboo" $
+      mkBamboo Two @?= b2
+  , testCase "Test mkCharacter" $
+      mkCharacter Three @?= k3
+  , testCase "Test mkWind" $
+      mkWind East @?= we
+  , testCase "Test mkDragon" $
+      mkDragon White @?= dw
+  , testCase "Test mkFlower" $
+      mkFlower BambooTree @?= f4
+  , testCase "Test mkSeason" $
+      mkSeason Winter @?= s4
+  ]
+
+true = (@=?) True
+
