@@ -130,7 +130,7 @@ mkSequence s ts
 mkTriplet :: Status -> [Tile] -> Maybe Meld
 mkTriplet s ts
   | s /= Promoted && length ts == 3 = meldHelper s Triplet ts
-  | otherwise                      = Nothing
+  | otherwise                       = Nothing
 
 -- | Tries to make a Quartet.
 mkQuartet :: Status -> [Tile] -> Maybe Meld
@@ -142,7 +142,7 @@ mkQuartet s ts
 mkPair :: Status -> [Tile] -> Maybe Meld
 mkPair s ts
   | s /= Promoted && length ts == 2 = meldHelper s Pair ts
-  | otherwise                      = Nothing
+  | otherwise                       = Nothing
 
 -- | Tries to make a meld.
 mkMeld :: Status -> MeldType -> [Tile] -> Maybe Meld
@@ -177,8 +177,9 @@ isConcealed :: Meld -> Bool
 isConcealed = (==) Concealed . status
 
 -- | Is the meld revealed?
+--   promoted quartet has to be revealed triplet first.
 isRevealed :: Meld -> Bool
-isRevealed  = (==) Revealed  . status
+isRevealed  = anyCond [(== Revealed), (==Promoted)] . status
 
 -- | Is the meld promoted to Quartet?
 isPromoted :: Meld -> Bool

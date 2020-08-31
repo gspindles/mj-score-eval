@@ -21,6 +21,7 @@ unitTests :: TestTree
 unitTests = testGroup "Unit Tests" [
      classTests
    , constructionTests
+   , predicateTests
    , utilityTests
    ]
 
@@ -32,7 +33,7 @@ classTests = testGroup "Class Tests" [
     showTests
   , eqTests
   , prettyTests
---, tilePredTests
+  , tilePredTests
   , cycleTests
   ]
 
@@ -58,43 +59,41 @@ prettyTests = testGroup "Pretty Tests" [
       pp k1111 @?= "+{K1 K1 K1 K1}"
   , testCase "Pretty print pairs" $
       pp dww @?= "+(DW DW)"
+  , testCase "Pretty print concealed" $
+      pp (fromJust $ mkMeld Concealed Sequence [c1, c2, c3]) @?= "-<C1 C2 C3>"
+  , testCase "Pretty print revealed" $
+      pp (fromJust $ mkMeld Revealed Triplet [wn, wn, wn]) @?= "+[WN WN WN]"
+  , testCase "Pretty print promoted" $
+      pp (fromJust $ mkMeld Promoted Quartet [dw, dw, dw, dw]) @?= "^{DW DW DW DW}"
   ]
 
-{-
 tilePredTests :: TestTree
 tilePredTests = testGroup "TilePred Tests" [
     testCase "TilePred isCoin Test" . true $
-      all isCoin coinSequences
+      all isCoin . concat $ [coinSequences, coinTriplets, coinQuartets, coinPairs]
   , testCase "TilePred isBamboo Test" . true $
-      all isBamboo bambooIslands
+      all isBamboo . concat $ [bambooSequences, bambooTriplets, bambooQuartets, bambooPairs]
   , testCase "TilePred isCharacter Test" . true $
-      all isCharacter characterTriplets
+      all isCharacter . concat $ [characterSequences, characterTriplets, characterQuartets, characterPairs]
   , testCase "TilePred isSimple Test" . true $
-      all isSimple simples
+      all isSimple [c234, b555, k6666, c88]
   , testCase "TilePred isTeminal Test" . true $
-      all isTerminal terminals
+      all isTerminal [c123, b111, k9999, b99]
   , testCase "TilePred isSuit Test" . true $
-      all isSuit suits
+      all isSuit . concat $ [coinSequences, bambooTriplets, characterQuartets, characterPairs]
   , testCase "TilePred isWind Test" . true $
-      all isWind winds
+      all isWind . concat $ [windTriplets, windQuartets, windPairs]
   , testCase "TilePred isDragon Test" . true $
-      all isDragon dragons
+      all isDragon . concat $ [dragonTriplets, dragonQuartets, dragonPairs]
   , testCase "TilePred isHonor Test" . true $
-      all isHonor honors
+      all isHonor . concat $ [windTriplets, dragonQuartets, windPairs]
   , testCase "TilePred isEdge Test" . true $
-      all isEdge edges
-  , testCase "TilePred isFlower Test" . true $
-      all isFlower flowers
-  , testCase "TilePred isSeason Test" . true $
-      all isSeason seasons
-  , testCase "TilePred isBonus Test" . true $
-      all isBonus bonuses
+      all isEdge . concat $ [[c123, b111, k1111, c11], windTriplets, dragonQuartets, dragonPairs]
   , testCase "TilePred isGreen Test" . true $
-      all isGreen greens
+      all isGreen [b234, b6666, b88, dgg, dggg, dgggg]
   , testCase "TilePred isRed Test" . true $
-      all isRed reds
+      all isRed [b111, b5555, b777, b99, drr, drrr, drrrr]
   ]
--}
 
 cycleTests :: TestTree
 cycleTests = testGroup "Cycle Tests" [
@@ -227,6 +226,68 @@ promotionTests = testGroup "Promotion tests" [
       (mkQuartet Revealed [b1, b1, b1, b1] >>= flip promoteTriplet b1) @?= Nothing
   , testCase "Promote Pair fails" $
       (mkPair Revealed [b1, b1] >>= flip promoteTriplet b1) @?= Nothing
+  ]
+
+
+-- predicate tests
+predicateTests :: TestTree
+predicateTests = testGroup "Predicate tests" $ [
+    testCase "isConcealed Test" . true $
+      isConcealed . fromJust $ mkSequence Concealed [c1, c2, c3]
+  , testCase "isConcealed Test" . false $
+      isConcealed . fromJust $ mkTriplet Revealed [ws, ws, ws]
+  , testCase "isConcealed Test" . false $
+      isConcealed . fromJust $ mkQuartet Promoted [dr, dr, dr, dr]
+  , testCase "isConcealed Test" . true $
+      isConcealed . fromJust $ mkPair Concealed [c1, c1]
+  , testCase "isRevealed Test" . false $
+      isRevealed . fromJust $ mkSequence Concealed [b1, b2, b3]
+  , testCase "isRevealed Test" . true $
+      isRevealed . fromJust $ mkTriplet Revealed [ww, ww, ww]
+  , testCase "isRevealed Test" . true $
+      isRevealed . fromJust $ mkQuartet Promoted [dw, dw, dw, dw]
+  , testCase "isRevealed Test" . false $
+      isRevealed . fromJust $ mkPair Concealed [b1, b1]
+  , testCase "isPromoted Test" . false $
+      isPromoted . fromJust $ mkSequence Concealed [k1, k2, k3]
+  , testCase "isPromoted Test" . false $
+      isPromoted . fromJust $ mkTriplet Revealed [we, we, we]
+  , testCase "isPromoted Test" . true $
+      isPromoted . fromJust $ mkQuartet Promoted [dg, dg, dg, dg]
+  , testCase "isPromoted Test" . false $
+      isPromoted . fromJust $ mkPair Revealed [k1, k1]
+  , testCase "isSequence Test" . true $
+      isSequence c123
+  , testCase "isSequence Test" . false $
+      isSequence $ wnnn
+  , testCase "isSequence Test" . false $
+      isSequence $ drrrr
+  , testCase "isSequence Test" . false $
+      isSequence $ c11
+  , testCase "isTriplet Test" . false $
+      isTriplet $ b123
+  , testCase "isTriplet Test" . true $
+      isTriplet weee
+  , testCase "isTriplet Test" . true $
+      isTriplet dgggg
+  , testCase "isTriplet Test" . false $
+      isTriplet $ b11
+  , testCase "isQuartet Test" . false $
+      isQuartet $ k123
+  , testCase "isQuartet Test" . false $
+      isQuartet $ wwww
+  , testCase "isQuartet Test" . true $
+      isQuartet dwwww
+  , testCase "isQuartet Test" . false $
+      isQuartet $ k11
+  , testCase "isPair Test" . false $
+      isPair $ k123
+  , testCase "isPair Test" . false $
+      isPair $ wsss
+  , testCase "isPair Test" . false $
+      isPair $ dwwww
+  , testCase "isPair Test" . true $
+      isPair k11
   ]
 
 

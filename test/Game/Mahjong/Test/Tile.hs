@@ -54,8 +54,20 @@ ordTests = testGroup "Ord Tests" [
 
 prettyTests :: TestTree
 prettyTests = testGroup "Pretty Tests" [
-    testCase "Pretty Test" $
+    testCase "Pretty Test coin" $
       pp c1 @?= "C1"
+  , testCase "Pretty Test bamboo" $
+      pp b2 @?= "B2"
+  , testCase "Pretty Test character" $
+      pp k9 @?= "K9"
+  , testCase "Pretty Test wind" $
+      pp we @?= "WE"
+  , testCase "Pretty Test dragon" $
+      pp dw @?= "DW"
+  , testCase "Pretty Test flower" $
+      pp f1 @?= "F1"
+  , testCase "Pretty Test season" $
+      pp s4 @?= "S4"
   ]
 
 tilePredTests :: TestTree

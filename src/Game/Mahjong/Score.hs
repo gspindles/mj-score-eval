@@ -402,7 +402,7 @@ matchSuits = distribute [ matchOneSuit ]
 
 {- 7.0 Terminal Tiles -}
 
--- 7.1 Sequence and triplets
+-- 7.1 Sequences and triplets
 matchTerminals1 :: ScoreFunc
 matchTerminals1 (h, hs)
   | or $ (containsMelds h) <$> pat = pure twoTailedTerminals

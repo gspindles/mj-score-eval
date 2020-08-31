@@ -51,7 +51,7 @@ data HandInfo
   | OnQuartetSupplement
   | OnBonusSupplement
   | OnQuartetRobbing
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Show)
 
 -- | A completed hand when a player has won
 data Hand
