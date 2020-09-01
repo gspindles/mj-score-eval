@@ -25,6 +25,10 @@ module Game.Mahjong.Static.Melds (
   coinTriplets, bambooTriplets, characterTriplets, terminalTriplets, windTriplets, dragonTriplets,
   coinQuartets, bambooQuartets, characterQuartets, terminalQuartets, windQuartets, dragonQuartets,
   coinPairs, bambooPairs, characterPairs, terminalPairs, windPairs, dragonPairs,
+
+  -- ** big collections
+  sequencesMelds, tripletsMelds, quartetsMelds, pairsMelds,
+  coinMelds, bambooMelds, characterMelds, windMelds, dragonMelds, suitMelds, honorMelds
 ) where
 
 import Game.Mahjong.Meld
@@ -284,4 +288,39 @@ windPairs = [wee, wss, www, wnn]
 
 dragonPairs :: [Meld]
 dragonPairs = [drr, dgg, dww]
+
+{- big collections -}
+
+sequencesMelds :: [Meld]
+sequencesMelds = concat [coinSequences, bambooSequences, characterSequences]
+
+tripletsMelds :: [Meld]
+tripletsMelds = concat [coinTriplets, bambooTriplets, characterTriplets, windTriplets, dragonTriplets]
+
+quartetsMelds :: [Meld]
+quartetsMelds = concat [coinQuartets, bambooQuartets, characterQuartets, windQuartets, dragonQuartets]
+
+pairsMelds :: [Meld]
+pairsMelds = concat [coinPairs, bambooPairs, characterPairs, windPairs, dragonPairs]
+
+coinMelds :: [Meld]
+coinMelds = concat [coinSequences, coinTriplets, coinQuartets, coinPairs]
+
+bambooMelds :: [Meld]
+bambooMelds = concat [bambooSequences, bambooTriplets, bambooQuartets, bambooPairs]
+
+characterMelds :: [Meld]
+characterMelds = concat [characterSequences, characterTriplets, characterQuartets, characterPairs]
+
+windMelds :: [Meld]
+windMelds = concat [windTriplets, windQuartets, windPairs]
+
+dragonMelds :: [Meld]
+dragonMelds = concat [dragonTriplets, dragonQuartets, dragonPairs]
+
+suitMelds :: [Meld]
+suitMelds = concat [coinMelds, bambooMelds, characterMelds]
+
+honorMelds :: [Meld]
+honorMelds = concat [windMelds, dragonMelds]
 

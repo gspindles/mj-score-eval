@@ -6,7 +6,6 @@ import Game.Mahjong.Score
 import Game.Mahjong.Pattern
 
 import Control.Arrow ((&&&))
-import Test.QuickCheck
 import Test.Tasty
 import Test.Tasty.HUnit
 

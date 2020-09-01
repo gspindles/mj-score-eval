@@ -9,9 +9,10 @@ module Game.Mahjong.Score (
     scoreHand, calculateScore, matchForPatterns, matchBonus
 ) where
 
-import Game.Mahjong.Hand
-import Game.Mahjong.Meld
 import Game.Mahjong.Class
+import Game.Mahjong.Hand
+import Game.Mahjong.HandStat
+import Game.Mahjong.Meld
 import Game.Mahjong.Tile
 import Game.Mahjong.Pattern
 import Game.Mahjong.Static.Tiles

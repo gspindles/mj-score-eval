@@ -3,12 +3,8 @@ module Game.Mahjong.Test.Static.Tiles ( tests ) where
 import Game.Mahjong.Tile
 import Game.Mahjong.Static.Tiles
 
-import Test.QuickCheck
 import Test.Tasty
 import Test.Tasty.HUnit
-
-instance Arbitrary Tile where
-  arbitrary = elements allTiles
 
 tests :: TestTree
 tests = testGroup "Game.Mahjong.Static.Tiles Tests" [unitTests]

@@ -9,9 +9,8 @@ import Game.Mahjong.Hand
 import Game.Mahjong.Static.Tiles
 
 import Data.Maybe (fromJust)
-import Test.QuickCheck
 import Test.Tasty
 import Test.Tasty.HUnit
 
 tests :: TestTree
-tests = testGroup "Game.Mahjong.Meld Tests" []
+tests = testGroup "Game.Mahjong.Hand Tests" []

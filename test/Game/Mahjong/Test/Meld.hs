@@ -70,29 +70,53 @@ prettyTests = testGroup "Pretty Tests" [
 tilePredTests :: TestTree
 tilePredTests = testGroup "TilePred Tests" [
     testCase "TilePred isCoin Test" . true $
-      all isCoin . concat $ [coinSequences, coinTriplets, coinQuartets, coinPairs]
+      all isCoin coinMelds
+  , testCase "TilePred not isCoin Test" . true $
+      all (not . isCoin) . concat $ [bambooMelds, characterMelds, honorMelds]
   , testCase "TilePred isBamboo Test" . true $
-      all isBamboo . concat $ [bambooSequences, bambooTriplets, bambooQuartets, bambooPairs]
+      all isBamboo bambooMelds
+  , testCase "TilePred not isBamboo Test" . true $
+      all (not . isBamboo) . concat $ [coinMelds, characterMelds, honorMelds]
   , testCase "TilePred isCharacter Test" . true $
-      all isCharacter . concat $ [characterSequences, characterTriplets, characterQuartets, characterPairs]
+      all isCharacter characterMelds
+  , testCase "TilePred not isCharacter Test" . true $
+      all (not . isCharacter) . concat $ [coinMelds, bambooMelds, honorMelds]
   , testCase "TilePred isSimple Test" . true $
       all isSimple [c234, b555, k6666, c88]
+  , testCase "TilePred not isSimple Test" . true $
+      all (not . isSimple) . concat $ [[c123, b111, k9999, b99], honorMelds]
   , testCase "TilePred isTeminal Test" . true $
       all isTerminal [c123, b111, k9999, b99]
+  , testCase "TilePred not isTeminal Test" . true $
+      all (not . isTerminal) . concat $ [[c234, b555, k6666, c88], honorMelds]
   , testCase "TilePred isSuit Test" . true $
-      all isSuit . concat $ [coinSequences, bambooTriplets, characterQuartets, characterPairs]
+      all isSuit suitMelds
+  , testCase "TilePred not isSuit Test" . true $
+      all (not . isSuit) honorMelds
   , testCase "TilePred isWind Test" . true $
-      all isWind . concat $ [windTriplets, windQuartets, windPairs]
+      all isWind windMelds
+  , testCase "TilePred not isWind Test" . true $
+      all (not . isWind) . concat $ [suitMelds, dragonMelds]
   , testCase "TilePred isDragon Test" . true $
-      all isDragon . concat $ [dragonTriplets, dragonQuartets, dragonPairs]
+      all isDragon dragonMelds
+  , testCase "TilePred not isDragon Test" . true $
+      all (not . isDragon) . concat $ [suitMelds, windMelds]
   , testCase "TilePred isHonor Test" . true $
-      all isHonor . concat $ [windTriplets, dragonQuartets, windPairs]
+      all isHonor honorMelds
+  , testCase "TilePred not isHonor Test" . true $
+      all (not . isHonor) suitMelds
   , testCase "TilePred isEdge Test" . true $
       all isEdge . concat $ [[c123, b111, k1111, c11], windTriplets, dragonQuartets, dragonPairs]
+  , testCase "TilePred not isEdge Test" . true $
+      all (not . isEdge) [c234, b555, k8888]
   , testCase "TilePred isGreen Test" . true $
       all isGreen [b234, b6666, b88, dgg, dggg, dgggg]
+  , testCase "TilePred not isGreen Test" . true $
+      all (not . isGreen) . concat $ [coinMelds, characterMelds, [b111, b5555, b777, b99, drr, drrr, dwwww], windMelds]
   , testCase "TilePred isRed Test" . true $
       all isRed [b111, b5555, b777, b99, drr, drrr, drrrr]
+  , testCase "TilePred not isRed Test" . true $
+      all (not . isRed) . concat $ [coinMelds, characterMelds, [b234, b6666, b88, dgg, dggg, dgggg], windMelds]
   ]
 
 cycleTests :: TestTree

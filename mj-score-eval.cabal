@@ -22,6 +22,7 @@ library
                        Game.Mahjong.Meld,
                        Game.Mahjong.Static.Melds,
                        Game.Mahjong.Hand,
+                       Game.Mahjong.HandStat,
                        Game.Mahjong.Pattern,
                        Game.Mahjong.Static.Examples,
                        Game.Mahjong.Score
@@ -49,6 +50,8 @@ test-suite mj-score-eval-test
                        Game.Mahjong.Test.Tile,
                        Game.Mahjong.Test.Static.Tiles,
                        Game.Mahjong.Test.Meld,
+                       Game.Mahjong.Test.Hand,
+                       Game.Mahjong.Test.HandStat,
                        Game.Mahjong.Test.Score
   build-depends:       base,
                        mj-score-eval,

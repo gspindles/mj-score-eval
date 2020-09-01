@@ -150,7 +150,7 @@ blues = [mkCoin Eight] ++ winds ++ [mkDragon White]
 
 -- | List of all regular tiles without bonus tiles.
 regulars :: [Tile]
-regulars = coins ++ bamboos ++ characters ++ winds ++ dragons
+regulars = concat [coins, bamboos, characters, winds, dragons]
 
 -- | List containing all tiles
 allTiles :: [Tile]
