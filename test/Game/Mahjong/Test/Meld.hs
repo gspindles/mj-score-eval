@@ -84,7 +84,7 @@ tilePredTests = testGroup "TilePred tests" [
   , testCase "TilePred not isSimple" . true $
       all (not . isSimple) . concat $ [[c123, b111, k9999, b99], honorMelds]
   , testCase "TilePred isTeminal" . true $
-      all isTerminal [c123, b111, k9999, b99]
+      all isTerminal terminalMelds
   , testCase "TilePred not isTeminal" . true $
       all (not . isTerminal) . concat $ [[c234, b555, k6666, c88], honorMelds]
   , testCase "TilePred isSuit" . true $
@@ -152,85 +152,85 @@ constructionTests = testGroup "Construction tests" [
 
 mkSequenceTests :: TestTree
 mkSequenceTests = testGroup "Sequence creation tests" [
-    testCase "Sequence fails with Promote status" $
+    testCase "mkSequence fails with Promote status" $
       mkSequence Promoted [c1, c2, c3] @?= Nothing
-  , testCase "Sequence fails with wrong sequence length" $
+  , testCase "mkSequence fails with wrong tiles count" $
       mkSequence Revealed [c1, b2, c3, c4] @?= Nothing
-  , testCase "Sequence fails with bonus tile" $
+  , testCase "mkSequence fails with bonus tile" $
       mkSequence Revealed [c1, c2, f4] @?= Nothing
-  , testCase "Sequence fails with honor tile" $
+  , testCase "mkSequence fails with honor tile" $
       mkSequence Revealed [c1, ww, dr] @?= Nothing
-  , testCase "Sequence fails with multiple suits" $
+  , testCase "mkSequence fails with multiple suits" $
       mkSequence Revealed [c1, b2, k3] @?= Nothing
-  , testCase "Sequence fails with tiles not in sequence" $
+  , testCase "mkSequence fails with tiles not in sequence" $
       mkSequence Revealed [c1, c2, c4] @?= Nothing
-  , testCase "Sequence passes" $
+  , testCase "mkSequence succeeds" $
       mkSequence Revealed [c1, c2, c3] @?= Just c123
   ]
 
 mkTripletTests :: TestTree
 mkTripletTests = testGroup "Triplet creation tests" [
-    testCase "Triplet fails with Promote status" $
+    testCase "mkTriplet fails with Promote status" $
       mkTriplet Promoted [c1, c1, c1] @?= Nothing
-  , testCase "Triplet fails with wrong sequence length" $
+  , testCase "mkTriplet fails with wrong tiles count" $
       mkTriplet Revealed [c1, c1, c1, c1] @?= Nothing
-  , testCase "Triplet fails with bonus tile" $
+  , testCase "mkTriplet fails with bonus tile" $
       mkTriplet Revealed [c1, c1, f1] @?= Nothing
-  , testCase "Triplet fails with multiple suits" $
+  , testCase "mkTriplet fails with multiple suits" $
       mkTriplet Revealed [c1, b1, k1] @?= Nothing
-  , testCase "Triplet fails with tiles not same" $
+  , testCase "mkTriplet fails with tiles not same" $
       mkTriplet Revealed [c1, c1, c2] @?= Nothing
-  , testCase "Triplet succeeds" $
+  , testCase "mkTriplet succeeds" $
       mkTriplet Revealed [c1, c1, c1] @?= Just c111
-  , testCase "Triplet succeeds" $
+  , testCase "mkTriplet succeeds" $
       mkTriplet Revealed [wn, wn, wn] @?= Just wnnn
   ]
 
 mkQuartetTests :: TestTree
 mkQuartetTests = testGroup "Quartet creation tests" [
-    testCase "Quartet passes with Promote status" $
+    testCase "mkQuartet passes with Promote status" $
       mkQuartet Promoted [c1, c1, c1, c1] @?= promoteTriplet c111 c1
-  , testCase "Quartet fails with wrong sequence length" $
+  , testCase "mkQuartet fails with wrong tiles count" $
       mkQuartet Revealed [c1, c1, c1] @?= Nothing
-  , testCase "Quartet fails with bonus tile" $
+  , testCase "mkQuartet fails with bonus tile" $
       mkQuartet Revealed [c1, c1, c1, f1] @?= Nothing
-  , testCase "Quartet fails with multiple suits" $
+  , testCase "mkQuartet fails with multiple suits" $
       mkQuartet Revealed [c1, c1, c1, k1] @?= Nothing
-  , testCase "Quartet fails with tiles not same" $
+  , testCase "mkQuartet fails with tiles not same" $
       mkQuartet Revealed [c1, c1, c1, c2] @?= Nothing
-  , testCase "Quartet succeeds" $
+  , testCase "mkQuartet succeeds" $
       mkQuartet Revealed [c1, c1, c1, c1] @?= Just c1111
-  , testCase "Quartet succeeds" $
+  , testCase "mkQuartet succeeds" $
       mkQuartet Revealed [wn, wn, wn, wn] @?= Just wnnnn
   ]
 
 mkPairTests :: TestTree
 mkPairTests = testGroup "Pair creation tests" [
-    testCase "Pair fails with Promote status" $
+    testCase "mkPair fails with Promote status" $
       mkPair Promoted [c1, c1] @?= Nothing
-  , testCase "Pair fails with wrong sequence length" $
+  , testCase "mkPair fails with wrong tiles count" $
       mkPair Revealed [c1, c1, c1] @?= Nothing
-  , testCase "Pair fails with bonus tile" $
+  , testCase "mkPair fails with bonus tile" $
       mkPair Revealed [c1, f1] @?= Nothing
-  , testCase "Pair fails with multiple suits" $
+  , testCase "mkPair fails with multiple suits" $
       mkPair Revealed [c1, b1] @?= Nothing
-  , testCase "Pair fails with tiles not same" $
+  , testCase "mkPair fails with tiles not same" $
       mkPair Revealed [c1, c2] @?= Nothing
-  , testCase "Pair succeeds" $
+  , testCase "mkPair succeeds" $
       mkPair Revealed [c1, c1] @?= Just c11
-  , testCase "Pair succeeds" $
+  , testCase "mkPair succeeds" $
       mkPair Revealed [wn, wn] @?= Just wnn
   ]
 
 mkMeldTests :: TestTree
 mkMeldTests = testGroup "Meld creation tests" [
-    testCase "Create Sequence meld" $
+    testCase "mkMeld creates a Sequence meld" $
       mkMeld Concealed Sequence [c1, c2, c3] @?= mkSequence Concealed [c1, c2, c3]
-  , testCase "Create Triplet meld" $
+  , testCase "mkMeld creates a Triplet meld" $
       mkMeld Revealed Triplet [dr, dr, dr] @?= mkTriplet Revealed [dr, dr, dr]
-  , testCase "Create Quartet meld" $
+  , testCase "mkMeld creates a Quartet meld" $
       mkMeld Revealed Quartet [ww, ww, ww, ww] @?= mkQuartet Revealed [ww, ww, ww, ww]
-  , testCase "Create Pair meld" $
+  , testCase "mkMeld creates a Pair meld" $
       mkMeld Concealed Pair [b1, b1] @?= mkPair Concealed [b1, b1]
   ]
 

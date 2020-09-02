@@ -51,8 +51,10 @@ test-suite mj-score-eval-test
                        Game.Mahjong.Test.Static.Tiles,
                        Game.Mahjong.Test.Wall,
                        Game.Mahjong.Test.Meld,
+                       Game.Mahjong.Test.Static.Melds,
                        Game.Mahjong.Test.Hand,
                        Game.Mahjong.Test.HandStat,
+                       Game.Mahjong.Test.Static.Examples,
                        Game.Mahjong.Test.Score
   build-depends:       base,
                        mj-score-eval,

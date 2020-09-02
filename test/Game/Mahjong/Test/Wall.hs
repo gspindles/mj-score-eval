@@ -32,3 +32,4 @@ countTests = testGroup "Wall count tests" [
   , testCase "There are 144 tiles in a wall with bonus" $
       length (getWall Include 1) @?= 144
   ]
+

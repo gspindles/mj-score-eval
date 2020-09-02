@@ -27,8 +27,8 @@ module Game.Mahjong.Static.Melds (
   coinPairs, bambooPairs, characterPairs, terminalPairs, windPairs, dragonPairs,
 
   -- ** big collections
-  sequencesMelds, tripletsMelds, quartetsMelds, pairsMelds,
-  coinMelds, bambooMelds, characterMelds, windMelds, dragonMelds, suitMelds, honorMelds
+  sequenceMelds, tripletMelds, quartetMelds, pairMelds,
+  coinMelds, bambooMelds, characterMelds, terminalMelds, windMelds, dragonMelds, suitMelds, honorMelds
 ) where
 
 import Game.Mahjong.Meld
@@ -291,17 +291,17 @@ dragonPairs = [drr, dgg, dww]
 
 {- big collections -}
 
-sequencesMelds :: [Meld]
-sequencesMelds = concat [coinSequences, bambooSequences, characterSequences]
+sequenceMelds :: [Meld]
+sequenceMelds = concat [coinSequences, bambooSequences, characterSequences]
 
-tripletsMelds :: [Meld]
-tripletsMelds = concat [coinTriplets, bambooTriplets, characterTriplets, windTriplets, dragonTriplets]
+tripletMelds :: [Meld]
+tripletMelds = concat [coinTriplets, bambooTriplets, characterTriplets, windTriplets, dragonTriplets]
 
-quartetsMelds :: [Meld]
-quartetsMelds = concat [coinQuartets, bambooQuartets, characterQuartets, windQuartets, dragonQuartets]
+quartetMelds :: [Meld]
+quartetMelds = concat [coinQuartets, bambooQuartets, characterQuartets, windQuartets, dragonQuartets]
 
-pairsMelds :: [Meld]
-pairsMelds = concat [coinPairs, bambooPairs, characterPairs, windPairs, dragonPairs]
+pairMelds :: [Meld]
+pairMelds = concat [coinPairs, bambooPairs, characterPairs, windPairs, dragonPairs]
 
 coinMelds :: [Meld]
 coinMelds = concat [coinSequences, coinTriplets, coinQuartets, coinPairs]
@@ -311,6 +311,9 @@ bambooMelds = concat [bambooSequences, bambooTriplets, bambooQuartets, bambooPai
 
 characterMelds :: [Meld]
 characterMelds = concat [characterSequences, characterTriplets, characterQuartets, characterPairs]
+
+terminalMelds :: [Meld]
+terminalMelds = concat [terminalSequences, terminalTriplets, terminalQuartets, terminalPairs]
 
 windMelds :: [Meld]
 windMelds = concat [windTriplets, windQuartets, windPairs]
