@@ -103,7 +103,7 @@ allTypesEx1 :: Maybe Hand
 allTypesEx1 = mkHand1
   [ mkSequence' r c7
   , mkTriplet' r ws
-  , mkTriplet' c k4
+  , mkQuartet' p k4
   , mkSequence' c b6
   , mkPair' r dw
   ]

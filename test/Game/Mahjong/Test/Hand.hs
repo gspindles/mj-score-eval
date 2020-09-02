@@ -8,9 +8,10 @@ import Game.Mahjong.Static.Melds
 import Game.Mahjong.Hand
 import Game.Mahjong.Static.Tiles
 
-import Data.Maybe (fromJust)
 import Test.Tasty
 import Test.Tasty.HUnit
+
+import Data.Maybe (fromJust)
 
 tests :: TestTree
 tests = testGroup "Game.Mahjong.Hand Tests" []

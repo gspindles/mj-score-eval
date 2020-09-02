@@ -7,13 +7,16 @@ import Test.Tasty
 import Test.Tasty.HUnit
 
 tests :: TestTree
-tests = testGroup "Game.Mahjong.Static.Tiles Tests" [unitTests]
+tests = testGroup "Game.Mahjong.Static.Tiles Tests" [
+    countTests
+  , tileTests
+  ]
 
-unitTests :: TestTree
-unitTests = testGroup "Unit Tests" [collectionsTests, tileTests]
 
-collectionsTests :: TestTree
-collectionsTests = testGroup "collections count tests" [
+-- | Count tests
+
+countTests :: TestTree
+countTests = testGroup "Collections count tests" [
     testCase "There are 9 coin tiles" $
       length coins @?= 9
   , testCase "There are 9 bamboo tiles" $
@@ -48,15 +51,16 @@ collectionsTests = testGroup "collections count tests" [
       length regulars @?= 3 * 9 + 4 + 3
   , testCase "There are 42 all tiles" $
       length allTiles @?= 3 * 9 + 4 + 3 + 4 * 2
---, testCase "There are 144 tiles in a wall" $
---    length mjSet @?= 4 * (3 * 9 + 4 + 3) + 2 * 4
   ]
 
+
+-- | Tile tests
+
 tileTests :: TestTree
-tileTests = testGroup "tile tests" [
-    testCase "tileType test" $
+tileTests = testGroup "Tile tests" [
+    testCase "tileType" $
       fmap tileType allTiles @?= tileTypes
-  , testCase "tileValue test" $
+  , testCase "tileValue" $
       fmap tileValue allTiles @?= tileValues
   ]
   where
@@ -65,5 +69,5 @@ tileTests = testGroup "tile tests" [
               ++ concatMap (replicate 4) [Flower, Season]
     tileValues = mconcat (replicate 3 [1..9])
               ++ [1..4] ++ [1..3]
-              ++ mconcat (replicate 3 [1..4])
+              ++ mconcat (replicate 2 [1..4])
 

@@ -18,10 +18,11 @@ tests = testGroup "Game.Mahjong.Tile Tests" [
   , constructionTests
   ]
 
+
 -- | Class tests
 
 classTests :: TestTree
-classTests = testGroup "Class Tests" [
+classTests = testGroup "Class tests" [
     showTests
   , eqTests
   , ordTests
@@ -31,148 +32,148 @@ classTests = testGroup "Class Tests" [
   ]
 
 showTests :: TestTree
-showTests = testGroup "Show Tests" [
-    testCase "Test Show Class" $
+showTests = testGroup "Show tests" [
+    testCase "Show show" $
       show c1 @?= "Tile Coin One"
   ]
 
 eqTests :: TestTree
-eqTests = testGroup "Eq Tests" [
-    testCase "Test Eq Class" $
+eqTests = testGroup "Eq tests" [
+    testCase "Eq equal" $
       c1 @?= c1
   ]
 
 ordTests :: TestTree
-ordTests = testGroup "Ord Tests" [
-    testCase "LT Test" $
+ordTests = testGroup "Ord tests" [
+    testCase "Ord LT" $
       compare c1 c2 @?= LT
-  , testCase "EQ Test" $
+  , testCase "Ord EQ" $
       compare c1 c1 @?= EQ
-  , testCase "GT Test" $
+  , testCase "Ord GT" $
       compare b1 c1 @?= GT
   ]
 
 prettyTests :: TestTree
-prettyTests = testGroup "Pretty Tests" [
-    testCase "Pretty Test coin" $
+prettyTests = testGroup "Pretty tests" [
+    testCase "Pretty coin tile" $
       pp c1 @?= "C1"
-  , testCase "Pretty Test bamboo" $
+  , testCase "Pretty bamboo tile" $
       pp b2 @?= "B2"
-  , testCase "Pretty Test character" $
+  , testCase "Pretty character tile" $
       pp k9 @?= "K9"
-  , testCase "Pretty Test wind" $
+  , testCase "Pretty wind tile" $
       pp we @?= "WE"
-  , testCase "Pretty Test dragon" $
+  , testCase "Pretty dragon tile" $
       pp dw @?= "DW"
-  , testCase "Pretty Test flower" $
+  , testCase "Pretty flower tile" $
       pp f1 @?= "F1"
-  , testCase "Pretty Test season" $
+  , testCase "Pretty season tile" $
       pp s4 @?= "S4"
   ]
 
 tilePredTests :: TestTree
-tilePredTests = testGroup "TilePred Tests" [
-    testCase "TilePred isCoin Test" . true $
+tilePredTests = testGroup "TilePred tests" [
+    testCase "TilePred isCoin" . true $
       all isCoin coins
-  , testCase "TilePred not isCoin Test" . true $
+  , testCase "TilePred not isCoin" . true $
       all (not . isCoin) . concat $ [bamboos, characters, honors, bonuses]
-  , testCase "TilePred isBamboo Test" . true $
+  , testCase "TilePred isBamboo" . true $
       all isBamboo bamboos
-  , testCase "TilePred not isBamboo Test" . true $
+  , testCase "TilePred not isBamboo" . true $
       all (not . isBamboo) . concat $ [coins, characters, honors, bonuses]
-  , testCase "TilePred isCharacter Test" . true $
+  , testCase "TilePred isCharacter" . true $
       all isCharacter characters
-  , testCase "TilePred not isCharacter Test" . true $
+  , testCase "TilePred not isCharacter" . true $
       all (not . isCharacter) . concat $ [coins, bamboos, honors, bonuses]
-  , testCase "TilePred isSimple Test" . true $
+  , testCase "TilePred isSimple" . true $
       all isSimple simples
-  , testCase "TilePred not isSimple Test" . true $
+  , testCase "TilePred not isSimple" . true $
       all (not . isSimple) . concat $ [terminals, honors, bonuses]
-  , testCase "TilePred isTeminal Test" . true $
+  , testCase "TilePred isTeminal" . true $
       all isTerminal terminals
-  , testCase "TilePred not isTeminal Test" . true $
+  , testCase "TilePred not isTeminal" . true $
       all (not . isTerminal) . concat $ [simples, honors, bonuses]
-  , testCase "TilePred isSuit Test" . true $
+  , testCase "TilePred isSuitTest" . true $
       all isSuit suits
-  , testCase "TilePred not isSuit Test" . true $
+  , testCase "TilePred not isSuit" . true $
       all (not . isSuit) . concat $ [honors, bonuses]
-  , testCase "TilePred isWind Test" . true $
+  , testCase "TilePred isWind" . true $
       all isWind winds
-  , testCase "TilePred not isWind Test" . true $
+  , testCase "TilePred not isWind" . true $
       all (not . isWind) . concat $ [suits, dragons, bonuses]
-  , testCase "TilePred isDragon Test" . true $
+  , testCase "TilePred isDragon" . true $
       all isDragon dragons
-  , testCase "TilePred not isDragon Test" . true $
+  , testCase "TilePred not isDragon" . true $
       all (not . isDragon) . concat $ [suits, winds, bonuses]
-  , testCase "TilePred isHonor Test" . true $
+  , testCase "TilePred isHonor" . true $
       all isHonor honors
-  , testCase "TilePred not isHonor Test" . true $
+  , testCase "TilePred not isHonor" . true $
       all (not . isHonor) . concat $ [suits, bonuses]
-  , testCase "TilePred isEdge Test" . true $
+  , testCase "TilePred isEdge" . true $
       all isEdge edges
-  , testCase "TilePred not isEdge Test" . true $
+  , testCase "TilePred not isEdge" . true $
       all (not . isEdge) . concat $ [simples, bonuses]
-  , testCase "TilePred isFlower Test" . true $
+  , testCase "TilePred isFlower" . true $
       all isFlower flowers
-  , testCase "TilePred not isFlower Test" . true $
+  , testCase "TilePred not isFlower" . true $
       all (not . isFlower) . concat $ [suits, honors, seasons]
-  , testCase "TilePred isSeason Test" . true $
+  , testCase "TilePred isSeason" . true $
       all isSeason seasons
-  , testCase "TilePred not isSeason Test" . true $
+  , testCase "TilePred not isSeason" . true $
       all (not . isSeason) . concat $ [suits, honors, flowers]
-  , testCase "TilePred isBonus Test" . true $
+  , testCase "TilePred isBonus" . true $
       all isBonus bonuses
-  , testCase "TilePred not isBonus Test" . true $
+  , testCase "TilePred not isBonus" . true $
       all (not . isBonus) . concat $ [suits, honors]
-  , testCase "TilePred isGreen Test" . true $
+  , testCase "TilePred isGreen" . true $
       all isGreen greens
-  , testCase "TilePred not isGreen Test" . true $
+  , testCase "TilePred not isGreen" . true $
       all (not . isGreen) . concat $ [coins, characters, [b1, b5, b7, b9], winds, [dr, dw], bonuses]
-  , testCase "TilePred isRed Test" . true $
+  , testCase "TilePred isRed" . true $
       all isRed reds
-  , testCase "TilePred not isRed Test" . true $
+  , testCase "TilePred not isRed" . true $
       all (not . isRed) . concat $ [coins, characters, [b2, b3, b4, b6, b8], winds, [dg], bonuses]
   ]
 
 cycleTests :: TestTree
-cycleTests = testGroup "Cycle Tests" [
-    testCase "Test next" $
+cycleTests = testGroup "Cycle tests" [
+    testCase "Cycle next" $
       next c1 @?= c2
-  , testCase "Test previous" $
+  , testCase "Cycle previous" $
       prev c1 @?= c9
   ]
 
 
--- Utility tests
+-- | Utility tests
 
 utilityTests :: TestTree
-utilityTests = testGroup "Utility Tests" [
-    testCase "Test tileType" $
+utilityTests = testGroup "Utility tests" [
+    testCase "tileType" $
       tileType (mkCoin One) @?= Coin
-  , testCase "Test tileValue" $
+  , testCase "tileValue" $
       tileValue (mkCoin One) @?= 1
-  , testCase "Test isSameTileType" . true $
+  , testCase "isSameTileType" . true $
       all isSameTileType [coins, bamboos, characters, winds, dragons, flowers, seasons]
   ]
 
 
--- Construction tests
+-- | Construction tests
 
 constructionTests :: TestTree
-constructionTests = testGroup "Construction Tests" [
-    testCase "Test mkCoin" $
+constructionTests = testGroup "Construction tests" [
+    testCase "mkCoin" $
       mkCoin One @?= c1
-  , testCase "Test mkBamboo" $
+  , testCase "mkBamboo" $
       mkBamboo Two @?= b2
-  , testCase "Test mkCharacter" $
+  , testCase "mkCharacter" $
       mkCharacter Three @?= k3
-  , testCase "Test mkWind" $
+  , testCase "mkWind" $
       mkWind East @?= we
-  , testCase "Test mkDragon" $
+  , testCase "mkDragon" $
       mkDragon White @?= dw
-  , testCase "Test mkFlower" $
+  , testCase "mkFlower" $
       mkFlower BambooTree @?= f4
-  , testCase "Test mkSeason" $
+  , testCase "mkSeason" $
       mkSeason Winter @?= s4
   ]
 

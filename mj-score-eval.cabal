@@ -49,6 +49,7 @@ test-suite mj-score-eval-test
   other-modules:       Game.Mahjong.Test.Class,
                        Game.Mahjong.Test.Tile,
                        Game.Mahjong.Test.Static.Tiles,
+                       Game.Mahjong.Test.Wall,
                        Game.Mahjong.Test.Meld,
                        Game.Mahjong.Test.Hand,
                        Game.Mahjong.Test.HandStat,

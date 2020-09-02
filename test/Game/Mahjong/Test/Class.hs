@@ -7,10 +7,10 @@ import Test.Tasty.QuickCheck as QC
 import Test.Tasty.SmallCheck as SC
 
 tests :: TestTree
-tests = testGroup "Game.Mahjong.Class Tests" [propertyTests]
+tests = testGroup "Game.Mahjong.Class Tests" [qcPropertyTests]
 
-propertyTests :: TestTree
-propertyTests = testGroup "Properties tests" [qcPropertyTests]
+
+-- | Property tests
 
 qcPropertyTests :: TestTree
 qcPropertyTests = testGroup "QuickCheck property tests" [

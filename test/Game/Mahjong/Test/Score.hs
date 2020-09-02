@@ -5,9 +5,10 @@ import Game.Mahjong.Hand
 import Game.Mahjong.Score
 import Game.Mahjong.Pattern
 
-import Control.Arrow ((&&&))
 import Test.Tasty
 import Test.Tasty.HUnit
+
+import Control.Arrow ((&&&))
 
 containsPattern :: Maybe Hand -> Pattern -> Assertion
 containsPattern h p = (@?= True) . elem p . snd . scoreHand $ h
@@ -16,10 +17,13 @@ containPattern :: [Maybe Hand] -> Pattern -> Assertion
 containPattern hs p = (@?= True) . all (elem p . snd . scoreHand) $ hs
 
 tests :: TestTree
-tests = testGroup "Game.Mahjong.Score Tests" [unitTests]
+tests = testGroup "Game.Mahjong.Score Tests" [
+    scoreTests
+  , functionTests
+  ]
 
-unitTests :: TestTree
-unitTests = testGroup "Unit Tests" [scoreTests, functionTests]
+
+-- | Score tests
 
 scoreTests :: TestTree
 scoreTests = testGroup "Meld creation tests" [
@@ -228,6 +232,9 @@ bonusTess = testGroup "Bonus Tiles test" [
   , testCase "All Bonus Tiles" $
       containsPattern allBonusTilesEx allBonusTiles
   ]
+
+
+-- | Function tests
 
 functionTests :: TestTree
 functionTests = testGroup "Function tests" [
